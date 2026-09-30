@@ -1,12 +1,12 @@
 /**
- * ADS Native `Badge`.
+ * SDS Native `Badge`.
  */
 
 import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
-import type { ADSColorToken } from "../tokens";
+import { useSDSTheme } from "../theme";
+import type { SDSColorToken } from "../tokens";
 
 export type BadgeTone = "neutral" | "info" | "success" | "warning" | "error" | "primary";
 
@@ -21,7 +21,7 @@ export type BadgeProps = {
     testID?: string;
 };
 
-const TONE_COLOR: Record<BadgeTone, ADSColorToken> = {
+const TONE_COLOR: Record<BadgeTone, SDSColorToken> = {
     neutral: "muted",
     info: "info",
     success: "success",
@@ -40,7 +40,7 @@ export function Badge(props: BadgeProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const toneColor = TONE_COLOR[tone];
     const accent = colors[toneColor];

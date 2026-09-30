@@ -89,7 +89,7 @@ const PictogramsModal = ({ selectedPicto }: { selectedPicto: { key: string } | n
             <div style={{ textAlign: "center" }}>
                 <Source
                     language="tsx"
-                    code={`import ${selectedPicto.key} from "@codegouvaor/react-ads/picto/${selectedPicto.key}";`}
+                    code={`import ${selectedPicto.key} from "@skygenesisenterprise/react-sds/picto/${selectedPicto.key}";`}
                 />
                 <div
                     style={{

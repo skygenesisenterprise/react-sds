@@ -4,13 +4,13 @@ import { sectionName } from "./sectionName";
 import { getStoryFactory } from "./getStory";
 import { Header } from "../dist/Header";
 import "./utils.css";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeGouvImgUrl from "../src/assets/sge-gouv.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { "LanguageSelect": Story },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Header/LanguageSelect.tsx)  
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Header/LanguageSelect.tsx)  
   
 
 
@@ -18,12 +18,12 @@ const { meta, getStory } = getStoryFactory({
 
 \`\`\`tsx  
 
-import { Header as AdsHeader } from "@codegouvaor/react-ads/Header";
+import { Header as SdsHeader } from "@skygenesisenterprise/react-sds/Header";
 import { LanguageSelect } from "./LanguageSelect";
 
 export function Header() {
     return (
-        <AdsHeader
+        <SdsHeader
             quickAccessItems={[
                 <LanguageSelect />
             ]}
@@ -40,7 +40,7 @@ export function Header() {
 import { 
     LanguageSelect as LanguageSelect_base, 
     addLanguageSelectTranslations 
-} from "@codegouvaor/react-ads/LanguageSelect";
+} from "@skygenesisenterprise/react-sds/LanguageSelect";
 import { useLang, languages } from "i18n"; // i18nifty
 
 type Props = {
@@ -97,14 +97,14 @@ export default meta;
 export const SimpleHeader = getStory({});
 
 const identity = {
-    imgUrl: astoriaGouvImgUrl,
-    alt: "République d'Astoria",
+    imgUrl: sgeGouvImgUrl,
+    alt: "République d'SGE",
     institution: "Gouvernement"
 };
 
 const homeLinkProps = {
     "href": "#",
-    "title": "Accueil - Gouvernement de la République d'Astoria"
+    "title": "Accueil - Gouvernement de la République d'SGE"
 };
 
 type Language = "fr" | "en";

@@ -1,14 +1,14 @@
 /**
- * ADS Native color tokens.
+ * SDS Native color tokens.
  *
- * Same semantic contract as the web ADS tokens (`src/ads/tokens.ts`) but with
+ * Same semantic contract as the web SDS tokens (`src/sds/tokens.ts`) but with
  * concrete hex values consumable by React Native style objects. The semantic
- * meaning of each token is the contract; values follow the current Astoria
+ * meaning of each token is the contract; values follow the current SGE
  * palette (provisional) and may be replaced by the official identity without
  * changing the structure.
  */
 
-export type ADSColorToken =
+export type SDSColorToken =
     | "background"
     | "foreground"
     | "surface"
@@ -33,9 +33,9 @@ export type ADSColorToken =
     | "text"
     | "textMuted";
 
-export type ADSColorTokens = Record<ADSColorToken, string>;
+export type SDSColorTokens = Record<SDSColorToken, string>;
 
-export const adsColors: ADSColorTokens = {
+export const sdsColors: SDSColorTokens = {
     background: "#ffffff",
     foreground: "#1c232b",
     surface: "#ffffff",
@@ -62,7 +62,7 @@ export const adsColors: ADSColorTokens = {
 };
 
 /** Dark scheme (preliminary) — same semantic tokens, darker surfaces. */
-export const adsDarkColors: ADSColorTokens = {
+export const sdsDarkColors: SDSColorTokens = {
     background: "#12161c",
     foreground: "#e8eaed",
     surface: "#1c222b",

@@ -1,9 +1,9 @@
 /**
- * Types partagés de l'intégration Discord ADS.
+ * Types partagés de l'intégration Discord SDS.
  */
 
 /** Types de notifications institutionnelles supportés par `notify()`. */
-export type ADSDiscordNotificationType =
+export type SDSDiscordNotificationType =
     | "publication"
     | "incident"
     | "maintenance"
@@ -11,42 +11,42 @@ export type ADSDiscordNotificationType =
     | "announcement"
     | "status";
 
-export type ADSDiscordField = {
+export type SDSDiscordField = {
     name: string;
     value: string;
     inline?: boolean;
 };
 
-export type ADSDiscordNotifyParams = {
-    type: ADSDiscordNotificationType;
+export type SDSDiscordNotifyParams = {
+    type: SDSDiscordNotificationType;
     /** Institution émettrice (ex. "Ministère de la Défense"). */
     organization?: string;
     title: string;
     description?: string;
     url?: string;
-    fields?: ADSDiscordField[];
+    fields?: SDSDiscordField[];
     /** Horodatage de l'événement (défaut: maintenant). */
     timestamp?: Date | string;
     /** Canal cible (webhook : surcharge le canal par défaut si fourni). */
     channelId?: string;
 };
 
-export type ADSDiscordClientOptions = {
+export type SDSDiscordClientOptions = {
     /** Token du bot gateway. Requis si `webhookUrl` est absent. */
     token?: string;
     /** URL de webhook — mode léger sans connexion gateway. */
     webhookUrl?: string;
     /** Canal par défaut utilisé en mode gateway. */
     defaultChannelId?: string;
-    /** Nom d'auteur par défaut des embeds (défaut: "République d'Astoria"). */
+    /** Nom d'auteur par défaut des embeds (défaut: "République d'SGE"). */
     defaultAuthor?: string;
     /** URL du logo/icône affichée sur les embeds. */
     avatarUrl?: string;
 };
 
-/** Couleurs des embeds par type (identité Astoria, en décimal pour discord.js). */
-export const ADSDiscordEmbedColor: Record<ADSDiscordNotificationType, number> = {
-    publication: 0x1e3a8a, // --ads-color-primary
+/** Couleurs des embeds par type (identité SGE, en décimal pour discord.js). */
+export const SDSDiscordEmbedColor: Record<SDSDiscordNotificationType, number> = {
+    publication: 0x1e3a8a, // --sds-color-primary
     incident: 0xb34000, // warning
     maintenance: 0x0063cb, // info
     event: 0x18753c, // success

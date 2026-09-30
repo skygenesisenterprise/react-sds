@@ -10,7 +10,7 @@ env:
 jobs:
     build_and_publish:
         name: Build and publish (npm + GitHub Packages)
-        if: github.repository == 'codegouvaor/react-ads'
+        if: github.repository == 'skygenesisenterprise/react-sds'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -64,16 +64,16 @@ jobs:
               with:
                   node-version: 22
                   registry-url: https://npm.pkg.github.com
-                  scope: "@codegouvaor"
+                  scope: "@skygenesisenterprise"
             - name: Publish on GitHub Packages
               run: |
                   VERSION="$(node -p "require('./package.json').version")"
                   # npm refuses to overwrite a version that already exists on GitHub
                   # Packages. Skip (instead of failing the run) when the tag was
                   # already published there, e.g. on a workflow re-run.
-                  if npm view "@codegouvaor/react-ads@${VERSION}" version \
+                  if npm view "@skygenesisenterprise/react-sds@${VERSION}" version \
                       --registry=https://npm.pkg.github.com >/dev/null 2>&1; then
-                      echo "react-ads@${VERSION} already published on GitHub Packages, skipping."
+                      echo "react-sds@${VERSION} already published on GitHub Packages, skipping."
                   else
                       npm publish
                   fi

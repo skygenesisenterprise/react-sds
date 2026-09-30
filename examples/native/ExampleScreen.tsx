@@ -1,41 +1,41 @@
 /**
- * Example — ADS Native consumption from an Expo application.
+ * Example — SDS Native consumption from an Expo application.
  *
  * This file is a *demonstration of consumption only*. It is not part of the
  * published package and contains no MyGouv business logic.
  *
  * ```tsx
  * import {
- *   ADSProvider,
+ *   SDSProvider,
  *   Button,
  *   Card,
  *   Heading,
  *   Text,
  *   Stack,
- * } from "@codegouvaor/react-ads/native";
+ * } from "@skygenesisenterprise/react-sds/native";
  * ```
  *
- * `@codegouvaor/react-ads/native` is the official React Native implementation of
- * the Astoria Design System (ADS Native Foundation, v1.0.7). It uses native
- * primitives (`View`, `Text`, `Pressable`, `TextInput`, …) and shares the ADS
+ * `@skygenesisenterprise/react-sds/native` is the official React Native implementation of
+ * the Sky Genesis Enterprise Design System (SDS Native Foundation, v1.0.7). It uses native
+ * primitives (`View`, `Text`, `Pressable`, `TextInput`, …) and shares the SDS
  * tokens and conventions with the web implementation.
  */
 
 import * as React from "react";
 import { ScrollView } from "react-native";
 import {
-    ADSProvider,
+    SDSProvider,
     Button,
     Card,
     Heading,
     Stack,
     Text,
     ServiceCard
-} from "@codegouvaor/react-ads/native";
+} from "@skygenesisenterprise/react-sds/native";
 
 export function ExampleScreen() {
     return (
-        <ADSProvider colorScheme="system">
+        <SDSProvider colorScheme="system">
             <ScrollView>
                 <Stack spacing="lg" style={{ padding: 16 }}>
                     <Heading level={1}>Mon espace MyGouv</Heading>
@@ -72,6 +72,6 @@ export function ExampleScreen() {
                     />
                 </Stack>
             </ScrollView>
-        </ADSProvider>
+        </SDSProvider>
     );
 }

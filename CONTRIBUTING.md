@@ -1,16 +1,16 @@
-# Contributing to ADS React (`@codegouvaor/react-ads`)
+# Contributing to SDS React (`@skygenesisenterprise/react-sds`)
 
 Hello friends 👋 — thank you for considering contributing to the official React
-implementation of the **Astoria Design System**.
+implementation of the **Sky Genesis Enterprise Design System**.
 
 Everything here is developed in the open, for the digital services of the Republic of
-Astoria. Before anything else:
+SGE. Before anything else:
 
 -   Read [AUDIT.md](AUDIT.md) — the state of the codebase and what is still inherited from the
     upstream French `react-dsfr` project. **Do not reintroduce French-government branding or
     dependencies** unless it is part of a documented migration step.
 -   Read [GOVERNANCE.md](GOVERNANCE.md) and [CODE_OF_CONDUCT-ish expectations](GOVERNANCE.md#code-of-conduct).
--   Check [the open issues](https://github.com/codegouvaor/react-ads/issues) and say what you
+-   Check [the open issues](https://github.com/skygenesisenterprise/react-sds/issues) and say what you
     are working on before opening a PR.
 
 ## Setting up the development environment
@@ -19,8 +19,8 @@ Requirements: Node ≥ 18, `pnpm` (the repository is managed with pnpm — see
 `pnpm-lock.yaml`).
 
 ```bash
-git clone https://github.com/codegouvaor/react-ads.git
-cd react-ads
+git clone https://github.com/skygenesisenterprise/react-sds.git
+cd react-sds
 pnpm install
 ```
 
@@ -41,12 +41,12 @@ Useful commands:
 
 | Path                                            | Content                                                                                                       |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `src/<Component>.tsx`                           | One module per component (subpath import: `@codegouvaor/react-ads/<Component>`)                               |
-| `src/ads/`                                      | ADS foundations: design token contracts (colors, typography, spacing, radius, elevation, motion, breakpoints) |
-| `src/fr/`                                       | Legacy token helpers + CSS-derived types (to be renamed with the ADS CSS layer — see MIGRATION.md)            |
+| `src/<Component>.tsx`                           | One module per component (subpath import: `@skygenesisenterprise/react-sds/<Component>`)                               |
+| `src/sds/`                                      | SDS foundations: design token contracts (colors, typography, spacing, radius, elevation, motion, breakpoints) |
+| `src/fr/`                                       | Legacy token helpers + CSS-derived types (to be renamed with the SDS CSS layer — see MIGRATION.md)            |
 | `src/next-app-router/`, `src/next-pagesdir.tsx` | Next.js integration helpers                                                                                   |
 | `src/mui/`                                      | Optional MUI adaptation layer                                                                                 |
-| `src/bin/`                                      | CLI tools (`react-ads optimize-css`, `copy-static-assets`, …)                                                 |
+| `src/bin/`                                      | CLI tools (`react-sds optimize-css`, `copy-static-assets`, …)                                                 |
 | `stories/<Component>.stories.tsx`               | Component documentation (Storybook)                                                                           |
 | `test/runtime/`                                 | Unit tests (vitest)                                                                                           |
 | `test/integration/`                             | Demo apps: CRA, Vite, Next.js Pages/App Router (dev only)                                                     |
@@ -65,7 +65,7 @@ Useful commands:
 -   ♿ **Accessibility is first class** (target WCAG 2.2 AA): keyboard navigation, visible
     focus, ARIA, labels. Document the a11y properties of the component in its story.
 -   🎨 **Never hard-code visual values in components**: colors, spacing, radii etc. must come
-    from the token system (CSS custom properties / `src/ads`). If a value is missing, extend
+    from the token system (CSS custom properties / `src/sds`). If a value is missing, extend
     the tokens — don't inline a color or a pixel value.
 -   🧹 Keep the code consistent with the existing style: 4-space indentation, Prettier
     (`pnpm format`), ESLint clean.
@@ -99,12 +99,12 @@ build, link and launch each app.)
 
 The CSS layer is still generated from `@gouvfr/dsfr` at build time (`scripts/build/`,
 `src/bin/`, `patches/`). If you need to change it, see [MIGRATION.md](MIGRATION.md) — the
-long-term direction is to replace it with ADS-generated stylesheets, not to patch DSFR
+long-term direction is to replace it with SDS-generated stylesheets, not to patch DSFR
 further.
 
 ## Reporting issues
 
--   Bugs, feature requests, component gaps: [issues](https://github.com/codegouvaor/react-ads/issues)
+-   Bugs, feature requests, component gaps: [issues](https://github.com/skygenesisenterprise/react-sds/issues)
     (use the templates).
 -   Security vulnerabilities: **do not** open a public issue — see [SECURITY.md](SECURITY.md).
 

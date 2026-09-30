@@ -1,10 +1,10 @@
 /**
- * ADSDiscordClient — le client haut niveau de l'intégration Discord ADS.
+ * SDSDiscordClient — le client haut niveau de l'intégration Discord SDS.
  *
  * Il encapsule `discord.js` (gateway ou webhook) derrière une API simple :
  *
  * ```ts
- * const discord = new ADSDiscordClient({ webhookUrl: process.env.DISCORD_WEBHOOK });
+ * const discord = new SDSDiscordClient({ webhookUrl: process.env.DISCORD_WEBHOOK });
  * await discord.notify({
  *     type: "publication",
  *     organization: "Ministère de la Défense",
@@ -19,19 +19,19 @@
 import { loadDiscordJS } from "./loader";
 import { buildNotificationEmbed } from "./embeds";
 import { sendNotificationToChannel } from "./notifications";
-import type { ADSDiscordClientOptions, ADSDiscordNotifyParams } from "./types";
+import type { SDSDiscordClientOptions, SDSDiscordNotifyParams } from "./types";
 
-export class ADSDiscordClient {
-    readonly options: ADSDiscordClientOptions;
+export class SDSDiscordClient {
+    readonly options: SDSDiscordClientOptions;
 
     private _client: any = null;
     private _webhook: any = null;
     private _loginPromise: Promise<any> | null = null;
 
-    constructor(options: ADSDiscordClientOptions) {
+    constructor(options: SDSDiscordClientOptions) {
         if (options.webhookUrl === undefined && options.token === undefined) {
             throw new Error(
-                "[react-ads/discord] ADSDiscordClient nécessite `webhookUrl` ou `token`."
+                "[react-sds/discord] SDSDiscordClient nécessite `webhookUrl` ou `token`."
             );
         }
 
@@ -52,7 +52,7 @@ export class ADSDiscordClient {
     async getRawClient(): Promise<any> {
         if (this.options.token === undefined) {
             throw new Error(
-                "[react-ads/discord] getRawClient() requiert un `token` (mode gateway)."
+                "[react-sds/discord] getRawClient() requiert un `token` (mode gateway)."
             );
         }
 
@@ -76,10 +76,10 @@ export class ADSDiscordClient {
     }
 
     /**
-     * Envoie une notification institutionnelle (embed conforme à l'identité Astoria).
+     * Envoie une notification institutionnelle (embed conforme à l'identité SGE).
      * Utilise le webhook s'il est configuré, sinon le canal par défaut (gateway).
      */
-    async notify(params: ADSDiscordNotifyParams): Promise<unknown> {
+    async notify(params: SDSDiscordNotifyParams): Promise<unknown> {
         const { webhookUrl, token, defaultChannelId } = this.options;
 
         if (webhookUrl !== undefined) {
@@ -91,7 +91,7 @@ export class ADSDiscordClient {
 
             if (channelId === undefined) {
                 throw new Error(
-                    "[react-ads/discord] notify() en mode gateway requiert `channelId` (ou `defaultChannelId`)."
+                    "[react-sds/discord] notify() en mode gateway requiert `channelId` (ou `defaultChannelId`)."
                 );
             }
 
@@ -99,10 +99,10 @@ export class ADSDiscordClient {
             return sendNotificationToChannel(client, channelId, params);
         }
 
-        throw new Error("[react-ads/discord] ADSDiscordClient non configuré.");
+        throw new Error("[react-sds/discord] SDSDiscordClient non configuré.");
     }
 
-    private async sendViaWebhook(params: ADSDiscordNotifyParams): Promise<unknown> {
+    private async sendViaWebhook(params: SDSDiscordNotifyParams): Promise<unknown> {
         const { webhookUrl, defaultAuthor, avatarUrl } = this.options;
 
         if (this._webhook === null) {
@@ -132,7 +132,7 @@ export class ADSDiscordClient {
             const targetChannelId = channelId ?? defaultChannelId;
 
             if (targetChannelId === undefined) {
-                throw new Error("[react-ads/discord] sendMessage() requiert un canal.");
+                throw new Error("[react-sds/discord] sendMessage() requiert un canal.");
             }
 
             const client = await this.getRawClient();
@@ -140,7 +140,7 @@ export class ADSDiscordClient {
             return channel.send(content);
         }
 
-        throw new Error("[react-ads/discord] ADSDiscordClient non configuré.");
+        throw new Error("[react-sds/discord] SDSDiscordClient non configuré.");
     }
 
     /**

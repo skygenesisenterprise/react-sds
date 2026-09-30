@@ -1,11 +1,11 @@
 /**
- * ADS Native `Progress` (progress bar).
+ * SDS Native `Progress` (progress bar).
  */
 
 import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type ProgressProps = {
     /** Progress 0..100. */
@@ -29,7 +29,7 @@ export function Progress(props: ProgressProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const clamped = Math.max(0, Math.min(100, value));
     const height = size === "sm" ? 6 : 10;

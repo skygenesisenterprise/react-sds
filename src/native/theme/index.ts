@@ -1,5 +1,5 @@
-export { ADSProvider } from "./ADSProvider";
-export type { ADSProviderProps } from "./ADSProvider";
-export { useADSTheme, defaultADSTokens } from "./useADSTheme";
-export { ADSThemeContext } from "./context";
-export type { ADSTheme, ADSColorScheme } from "./context";
+export { SDSProvider } from "./SDSProvider";
+export type { SDSProviderProps } from "./SDSProvider";
+export { useSDSTheme, defaultSDSTokens } from "./useSDSTheme";
+export { SDSThemeContext } from "./context";
+export type { SDSTheme, SDSColorScheme } from "./context";

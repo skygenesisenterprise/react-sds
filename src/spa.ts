@@ -28,15 +28,15 @@ export function startReactDsfr(params: {
      *
      * For example:
      * ```txt
-     * With a policy name of "react-ads":
+     * With a policy name of "react-sds":
      * Content-Security-Policy:
      *  require-trusted-types-for 'script';
-     *  trusted-types react-ads react-ads-asap nextjs nextjs#bundler;
+     *  trusted-types react-sds react-sds-asap nextjs nextjs#bundler;
      * ```
      *
      * @see https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/trusted-types
      * @see {@link DEFAULT_TRUSTED_TYPES_POLICY_NAME}
-     * @default "react-ads"
+     * @default "react-sds"
      */
     trustedTypesPolicyName?: string;
 }) {
@@ -46,7 +46,7 @@ export function startReactDsfr(params: {
         Link,
         useLang,
         nonce,
-        trustedTypesPolicyName = "react-ads"
+        trustedTypesPolicyName = "react-sds"
     } = params;
 
     if (Link !== undefined) {

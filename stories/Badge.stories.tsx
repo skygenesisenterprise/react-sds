@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Badge },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Badge.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Badge.tsx)`,
     "argTypes": {
         "severity": {
             "options": (() => {

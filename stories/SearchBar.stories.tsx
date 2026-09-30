@@ -9,7 +9,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { SearchBar },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/SearchBar/SearchBar.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/SearchBar/SearchBar.tsx)`,
     "argTypes": {
         "big": {
             "description": "Use the big variant if you have space to spare",
@@ -51,7 +51,7 @@ If you you do not plan to provide any realtime hinting to the user as he types t
 callback that will be called when the user click on the search button or press enter.
 
 \`\`\`tsx
-import { SearchBar } from "@codegouvaor/react-ads/SearchBar";
+import { SearchBar } from "@skygenesisenterprise/react-sds/SearchBar";
 
 <SearchBar
     ...
@@ -108,7 +108,7 @@ export const WithControlledInput = getStory(
         "description": ` 
 
 \`\`\`tsx
-import { SearchBar } from "@codegouvaor/react-ads/SearchBar";
+import { SearchBar } from "@skygenesisenterprise/react-sds/SearchBar";
         
 function Root(){
         
@@ -169,12 +169,12 @@ make sure you provide an overlay with the search results in the the \`renderSear
 As, to this day, no component is provided to help you with that, you are on your own for implementing the overlay.  
 You can achieve great result by using [MUI's autocomplete](https://mui.com/material-ui/react-autocomplete/) component.  
 [Implementation example](https://github.com/mui/material-ui/issues/37838).  
-If you go with MUI make sure to use the [\`<MuiDsfrProvider />\`](https://codegouvaor.github.io/react-ads/mui).  
+If you go with MUI make sure to use the [\`<MuiDsfrProvider />\`](https://skygenesisenterprise.github.io/react-sds/mui).  
         
 \`\`\`tsx
         
 import Autocomplete from "@mui/material/Autocomplete";
-import { cx } from "@codegouvaor/react-ads/tools/cx";
+import { cx } from "@skygenesisenterprise/react-sds/tools/cx";
         
 type MySearchInputProps = {
     className?: string;

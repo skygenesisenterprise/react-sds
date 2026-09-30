@@ -9,16 +9,16 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Select },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Select.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Select.tsx)
 
 > 🗣️ This implementation of the <Select /> component is headless. It matched very closely the behavior of a native select input.  
-> Try out [\`SelectNext\`](https://codegouvaor.github.io/react-ads/?path=/docs/components-selectnext--default) if you want a smarter component with better type inference.  
+> Try out [\`SelectNext\`](https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-selectnext--default) if you want a smarter component with better type inference.  
 
 ## Controlled
 
 \`\`\`tsx
 import { useState } from "react";
-import { Select } from "@codegouvaor/react-ads/Select";
+import { Select } from "@skygenesisenterprise/react-sds/Select";
 
 function MyComponent(){
 
@@ -47,7 +47,7 @@ function MyComponent(){
 
 \`\`\`tsx
 import { useState } from "react";
-import { Select } from "@codegouvaor/react-ads/Select";
+import { Select } from "@skygenesisenterprise/react-sds/Select";
 
 function MyComponent(){
 

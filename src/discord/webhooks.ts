@@ -4,17 +4,17 @@
  */
 import { loadDiscordJS } from "./loader";
 import { buildNotificationEmbed } from "./embeds";
-import type { ADSDiscordNotifyParams } from "./types";
+import type { SDSDiscordNotifyParams } from "./types";
 
-export type ADSWebhookHandle = {
-    sendNotification(params: ADSDiscordNotifyParams): Promise<unknown>;
+export type SDSWebhookHandle = {
+    sendNotification(params: SDSDiscordNotifyParams): Promise<unknown>;
     sendMessage(content: string): Promise<unknown>;
 };
 
 /**
  * Crée un gestionnaire de webhook à partir d'une URL.
  */
-export async function createWebhook(webhookUrl: string): Promise<ADSWebhookHandle> {
+export async function createWebhook(webhookUrl: string): Promise<SDSWebhookHandle> {
     const { WebhookClient } = await loadDiscordJS();
     const webhook = new WebhookClient({ url: webhookUrl });
 

@@ -1,19 +1,19 @@
-import { Alert } from "@codegouvaor/react-ads/Alert";
-import { Button } from "@codegouvaor/react-ads/Button";
-import { ButtonsGroup } from "@codegouvaor/react-ads/ButtonsGroup";
-import { Highlight } from "@codegouvaor/react-ads/Highlight";
+import { Alert } from "@skygenesisenterprise/react-sds/Alert";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
+import { ButtonsGroup } from "@skygenesisenterprise/react-sds/ButtonsGroup";
+import { Highlight } from "@skygenesisenterprise/react-sds/Highlight";
 
-import { Input } from "@codegouvaor/react-ads/Input";
-import { Select } from "@codegouvaor/react-ads/SelectNext";
+import { Input } from "@skygenesisenterprise/react-sds/Input";
+import { Select } from "@skygenesisenterprise/react-sds/SelectNext";
 
-import { fr } from "@codegouvaor/react-ads";
-import { useIsDark } from "@codegouvaor/react-ads/useIsDark";
+import { fr } from "@skygenesisenterprise/react-sds";
+import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
 import { useState } from "react";
-import { Table } from "@codegouvaor/react-ads/Table";
-import { Tile } from "@codegouvaor/react-ads/Tile";
+import { Table } from "@skygenesisenterprise/react-sds/Table";
+import { Tile } from "@skygenesisenterprise/react-sds/Tile";
 
-import { Accordion } from "@codegouvaor/react-ads/Accordion";
-import { Book, Money, Police, Sun, LocationFrance } from '@codegouvaor/react-ads/picto';
+import { Accordion } from "@skygenesisenterprise/react-sds/Accordion";
+import { Book, Money, Police, Sun, LocationFrance } from '@skygenesisenterprise/react-sds/picto';
 import CityHall from './assets/city-hall.svg';
 
 export function Home() {

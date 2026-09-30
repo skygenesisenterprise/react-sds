@@ -1,11 +1,11 @@
 /**
- * ADS Native `Section` (page section with title and content).
+ * SDS Native `Section` (page section with title and content).
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Heading } from "../primitives";
 
 export type SectionProps = {
@@ -29,7 +29,7 @@ export function Section(props: SectionProps) {
         testID
     } = props;
 
-    const { tokens } = useADSTheme();
+    const { tokens } = useSDSTheme();
 
     return (
         <View

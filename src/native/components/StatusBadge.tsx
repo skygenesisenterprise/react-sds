@@ -1,5 +1,5 @@
 /**
- * ADS Native `StatusBadge` — a badge conveying a procedural/service status.
+ * SDS Native `StatusBadge` — a badge conveying a procedural/service status.
  *
  * Generic across government apps: the tone maps a status key to a color.
  */

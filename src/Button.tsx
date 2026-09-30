@@ -77,7 +77,7 @@ export namespace ButtonProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-button> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-button> */
 export const Button = memo(
     forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((props, ref) => {
         const {

@@ -28,7 +28,7 @@ export type GaugeChartBaseProps = {
 
 export type GaugeChartProps = GaugeChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-gaugechart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-gaugechart> */
 export const GaugeChart = chartWrapper(
     (props: GaugeChartBaseProps) => <gauge-chart {...stringifyObjectValue(props)} />,
     "gauge-chart"

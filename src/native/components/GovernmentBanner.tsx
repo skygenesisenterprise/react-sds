@@ -1,5 +1,5 @@
 /**
- * ADS Native `GovernmentBanner` — institutional banner of the Republic of Astoria.
+ * SDS Native `GovernmentBanner` — institutional banner of the Sky Genesis Enterprise.
  *
  * Renders the government identity as a graphical banner. Content is provided by
  * the host app (no hard-coded ministry logic).
@@ -9,12 +9,12 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle, ImageSourcePropType, ImageStyle } from "react-native";
 import { Image } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type GovernmentBannerProps = {
     /** Flag/emblem lockup image source. */
     image?: ImageSourcePropType;
-    /** Institution name, e.g. "Gouvernement" or "République d'Astoria". */
+    /** Institution name, e.g. "Gouvernement" or "République d'SGE". */
     institution: string;
     /** Sub-label, e.g. "Liberté · Égalité · Prospérité". */
     tagline?: string;
@@ -35,7 +35,7 @@ export function GovernmentBanner(props: GovernmentBannerProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <View

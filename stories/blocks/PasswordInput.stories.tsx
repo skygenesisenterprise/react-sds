@@ -5,9 +5,9 @@ import { sectionName } from "./sectionName";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { PasswordInput },
-    "description": `\`import { PasswordInput } from "@codegouvaor/react-ads/blocks/PasswordInput"\`
+    "description": `\`import { PasswordInput } from "@skygenesisenterprise/react-sds/blocks/PasswordInput"\`
 
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/blocks/PasswordInput.tsx)  `,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/blocks/PasswordInput.tsx)  `,
     "argTypes": {
         "disabled": {
             "control": { "type": "boolean" }

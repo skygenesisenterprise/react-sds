@@ -6,7 +6,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Pagination },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Pagination.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Pagination.tsx)`,
     "disabledProps": ["lang"]
 });
 

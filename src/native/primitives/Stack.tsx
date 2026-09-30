@@ -1,11 +1,11 @@
 /**
- * ADS Native `Stack` layout primitive (flex column/row with consistent gaps).
+ * SDS Native `Stack` layout primitive (flex column/row with consistent gaps).
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { ViewProps, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type StackProps = ViewProps & {
     /** Default "vertical". */
@@ -34,7 +34,7 @@ export function Stack(props: StackProps) {
         ...rest
     } = props;
 
-    const { tokens } = useADSTheme();
+    const { tokens } = useSDSTheme();
 
     const gap = tokens.spacing[spacing];
 

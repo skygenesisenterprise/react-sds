@@ -1,11 +1,11 @@
 import { create } from "@storybook/theming";
 
-// NOTE: The Astoria official visual identity (colors, logo, fonts) is not defined yet.
+// NOTE: The SGE official visual identity (colors, logo, fonts) is not defined yet.
 // Storybook chrome below uses neutral placeholders so the branding can be centralized
 // later without touching components. See the "Design tokens" section of the README.
 const brandImage = "logo.png";
-const brandTitle = "Astoria Design System — React";
-const brandUrl = "https://github.com/codegouvaor/react-ads";
+const brandTitle = "Sky Genesis Enterprise Design System — React";
+const brandUrl = "https://github.com/skygenesisenterprise/react-sds";
 const fontBase = '"Segoe UI", arial, sans-serif';
 const fontCode = "monospace";
 

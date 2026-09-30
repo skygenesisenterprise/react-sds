@@ -1,8 +1,8 @@
 /**
- * ADS table — common table primitives.
+ * SDS table — common table primitives.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`.
  *
  * The library ships a <Table /> component (styled by the component layer). For
  * hand-written tables, wrap the table in a `.gov-table` container (or add the
@@ -13,7 +13,7 @@
  * ```html
  * <div class="gov-table">
  *     <table>
- *         <caption class="ads-sr-only">…</caption>
+ *         <caption class="sds-sr-only">…</caption>
  *         <thead>…</thead>
  *         <tbody>…</tbody>
  *     </table>
@@ -32,26 +32,26 @@
 .gov-table table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--ads-font-size-sm);
-    line-height: var(--ads-line-height-normal);
+    font-size: var(--sds-font-size-sm);
+    line-height: var(--sds-line-height-normal);
 }
 
 /* ---- Header ---------------------------------------------------------------- */
 
 .gov-table :where(th) {
     text-align: left;
-    padding: var(--ads-space-3) var(--ads-space-4);
-    font-weight: var(--ads-font-weight-bold);
-    color: var(--ads-color-text);
-    border-bottom: 2px solid var(--ads-color-border);
+    padding: var(--sds-space-3) var(--sds-space-4);
+    font-weight: var(--sds-font-weight-bold);
+    color: var(--sds-color-text);
+    border-bottom: 2px solid var(--sds-color-border);
     white-space: nowrap;
 }
 
 /* ---- Cells ----------------------------------------------------------------- */
 
 .gov-table :where(td) {
-    padding: var(--ads-space-3) var(--ads-space-4);
-    border-bottom: 1px solid var(--ads-color-border);
+    padding: var(--sds-space-3) var(--sds-space-4);
+    border-bottom: 1px solid var(--sds-color-border);
     vertical-align: top;
 }
 
@@ -69,21 +69,21 @@
 /* ---- Hover / stripes ------------------------------------------------------- */
 
 .gov-table--hover :where(tbody tr:hover) {
-    background-color: var(--ads-color-surface-muted);
+    background-color: var(--sds-color-surface-muted);
 }
 
 /* ---- Density --------------------------------------------------------------- */
 
 .gov-table--dense :where(th, td) {
-    padding: var(--ads-space-2) var(--ads-space-3);
+    padding: var(--sds-space-2) var(--sds-space-3);
 }
 
 /* ---- Caption --------------------------------------------------------------- */
 
 .gov-table :where(caption) {
     caption-side: bottom;
-    padding-top: var(--ads-space-3);
+    padding-top: var(--sds-space-3);
     text-align: left;
-    font-size: var(--ads-font-size-sm);
-    color: var(--ads-color-text-muted);
+    font-size: var(--sds-font-size-sm);
+    color: var(--sds-color-text-muted);
 }

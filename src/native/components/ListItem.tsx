@@ -1,11 +1,11 @@
 /**
- * ADS Native `ListItem` (a row within a `List`).
+ * SDS Native `ListItem` (a row within a `List`).
  */
 
 import * as React from "react";
 import { View, Pressable } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text } from "../primitives";
 import { Icon } from "../primitives";
 
@@ -44,7 +44,7 @@ export function ListItem(props: ListItemProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled === true;
 

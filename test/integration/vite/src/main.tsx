@@ -3,20 +3,20 @@ import ReactDOM from "react-dom/client";
 import { Home } from "./Home";
 import { Mui } from "./Mui";
 import { Picto } from "./Picto";
-import { startReactDsfr } from "@codegouvaor/react-ads/spa";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
+import { startReactDsfr } from "@skygenesisenterprise/react-sds/spa";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
-import { headerFooterDisplayItem } from "@codegouvaor/react-ads/Display";
-import { fr } from "@codegouvaor/react-ads";
+import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
+import { fr } from "@skygenesisenterprise/react-sds";
 import { ConsentBannerAndConsentManagement, FooterConsentManagementItem, FooterPersonalDataPolicyItem } from "./consentManagement";
-import { createDsfrCustomBrandingProvider } from "@codegouvaor/react-ads/mui";
+import { createDsfrCustomBrandingProvider } from "@skygenesisenterprise/react-sds/mui";
 import { createTheme } from "@mui/material/styles";
 
 startReactDsfr({ "defaultColorScheme": "system", Link });
 
-declare module "@codegouvaor/react-ads/spa" {
+declare module "@skygenesisenterprise/react-sds/spa" {
     interface RegisterLink {
         Link: typeof Link;
     }
@@ -61,14 +61,14 @@ function Root() {
             <div style={{ "minHeight": "100vh", "display": "flex", "flexDirection": "column" }}>
                 <Header
                     identity={{
-                        imgUrl: "/astoria-gouv.png",
-                        alt: "République d'Astoria",
+                        imgUrl: "/sge-gouv.png",
+                        alt: "République d'SGE",
                         institution: "Gouvernement"
                     }}
                     serviceTitle="Nom du site / service"
                     homeLinkProps={{
                         "to": "/",
-                        "title": "Accueil - République d'Astoria"
+                        "title": "Accueil - République d'SGE"
                     }}
                     quickAccessItems={[
                         headerFooterDisplayItem,

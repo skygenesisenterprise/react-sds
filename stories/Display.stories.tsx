@@ -5,7 +5,7 @@ import { Footer } from "../dist/Footer";
 import { headerFooterDisplayItem } from "../dist/Display";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "./getStory";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeGouvImgUrl from "../src/assets/sge-gouv.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
@@ -13,17 +13,17 @@ const { meta, getStory } = getStoryFactory({
     "description": `
 A button that opens a dialog to enable the user to select light or dark mode.  
 
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Display/Display.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Display/Display.tsx)
 
-Optionally, you can also use \`import { useIsDark } from "@codegouvaor/react-ads"\` to manually monitor and controls 
+Optionally, you can also use \`import { useIsDark } from "@skygenesisenterprise/react-sds"\` to manually monitor and controls 
 the theme state.
 
 ## Usage example 
 
 \`\`\`tsx
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
-import { headerFooterDisplayItem } from "@codegouvaor/react-ads/Display";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { Footer } from "@skygenesisenterprise/react-sds/Footer";
+import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
 
 function App(){
 
@@ -56,14 +56,14 @@ function App(){
 export default meta;
 
 const identity = {
-    imgUrl: astoriaGouvImgUrl,
-    alt: "République d'Astoria",
+    imgUrl: sgeGouvImgUrl,
+    alt: "République d'SGE",
     institution: "Gouvernement"
 };
 
 const homeLinkProps = {
     "href": "#",
-    "title": "Accueil - Gouvernement de la République d'Astoria"
+    "title": "Accueil - Gouvernement de la République d'SGE"
 };
 
 function Story() {

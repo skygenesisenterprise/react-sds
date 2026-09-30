@@ -4,24 +4,24 @@ import { Badge } from "../dist/Badge";
 import { MainNavigation } from "../dist/MainNavigation";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "./getStory";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeGouvImgUrl from "../src/assets/sge-gouv.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Header },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Header/Header.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Header/Header.tsx)
 
-The Header is the **institutional signature of the Republic of Astoria**. It is built around
+The Header is the **institutional signature of the Sky Genesis Enterprise**. It is built around
 three levels of identity that every citizen must recognize on any public service website:
 
 \`\`\`text
 Drapeau (emblem / lockup)      ← identity.imgUrl (includes the name of the Republic)
-République d'Astoria
+République d'SGE
     Gouvernement                ← identity.institution
 \`\`\`
 
-- the **national identity** (flag/emblem of Astoria, with the name of the Republic) is passed
+- the **national identity** (flag/emblem of SGE, with the name of the Republic) is passed
   as an image (\`identity.imgUrl\` + \`identity.alt\`);
 - the **administrative authority** the site belongs to (\`Gouvernement\`, \`Ministère de l'Économie\`,
   …) is displayed as a text line under the identity: \`identity.institution\`;
@@ -33,16 +33,16 @@ One component covers every level of the State hierarchy: no separate
 \`GovernmentHeader\` / \`MinistryHeader\` variants are needed.
 
 \`\`\`tsx
-import { Header } from "@codegouvaor/react-ads/Header";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
 
 <Header
     identity={{
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Gouvernement"
     }}
     serviceTitle="Portail d'information"
-    homeLinkProps={{ href: "/", title: "Accueil - Gouvernement de la République d'Astoria" }}
+    homeLinkProps={{ href: "/", title: "Accueil - Gouvernement de la République d'SGE" }}
     navigation={navigation}
     quickAccessItems={quickAccessItems}
 />
@@ -53,7 +53,7 @@ purpose-built menu (open it with the burger button). You can watch if the menu m
 or not with the \`useIsHeaderMenuModalOpen\` hook:
 
 \`\`\`tsx
-import { useIsHeaderMenuModalOpen } from "@codegouvaor/react-ads/Header/useIsHeaderMenuModalOpen";
+import { useIsHeaderMenuModalOpen } from "@skygenesisenterprise/react-sds/Header/useIsHeaderMenuModalOpen";
 
 const isOpen = useIsHeaderMenuModalOpen();
 \`\`\`
@@ -63,18 +63,18 @@ const isOpen = useIsHeaderMenuModalOpen();
 > link on large screens), the focus is visible, colors come from the theme tokens (sufficient
 > contrast) and no animation is used, so \`prefers-reduced-motion\` is respected by design.
 
-> **Note on the flag asset** — the examples below use the official Astoria Government lockup
-> shipped in this repository (\`src/assets/astoria-gouv.png\`). Prefer a web-optimized version
+> **Note on the flag asset** — the examples below use the official SGE Government lockup
+> shipped in this repository (\`src/assets/sge-gouv.png\`). Prefer a web-optimized version
 > (SVG ideally) in production, cropped to the actual emblem + wordmark.
 
-See also [\\\\<MainNavigation \\\\/\\\\>](https://codegouvaor.github.io/react-ads/?path=/docs/components-mainnavigation) for the navigation prop.
+See also [\\\\<MainNavigation \\\\/\\\\>](https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-mainnavigation) for the navigation prop.
 
 `,
     "argTypes": {
         "identity": {
             "control": { "type": null },
             "description": `The institutional identity of the site, made of:
-- \\`imgUrl\\`: URL of the official Astoria flag/emblem lockup (SVG preferred),
+- \\`imgUrl\\`: URL of the official SGE flag/emblem lockup (SVG preferred),
 - \\`alt\\`: accessible alternative of the image, the name of the Republic must appear,
 - \\`institution\\`: the administrative authority, e.g. "Gouvernement" or "Ministère de l'Économie".`
         },
@@ -89,7 +89,7 @@ See also [\\\\<MainNavigation \\\\/\\\\>](https://codegouvaor.github.io/react-ad
         },
         "quickAccessItems": {
             "description":
-                "To integrate the Dark mode switch head over to the documentation of the [Display component](https://codegouvaor.github.io/react-ads/?path=/docs/components-display)"
+                "To integrate the Dark mode switch head over to the documentation of the [Display component](https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-display)"
         },
         "onSearchButtonClick": {
             "description":
@@ -144,44 +144,44 @@ const directLinks = [
     }
 ];
 
-/** Site directly attached to the Government of the Republic of Astoria (e.g. info.gov.aor). */
+/** Site directly attached to the Government of the Sky Genesis Enterprise (e.g. info.gov.aor). */
 export const GovernmentSite = getStory({
     "identity": {
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Gouvernement"
     },
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Gouvernement de la République d'Astoria"
+        "title": "Accueil - Gouvernement de la République d'SGE"
     },
     "navigation": directLinks
 });
 
 export const GovernmentSiteWithServiceTitleAndTagline = getStory({
     "identity": {
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Gouvernement"
     },
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Gouvernement de la République d'Astoria"
+        "title": "Accueil - Gouvernement de la République d'SGE"
     },
     "serviceTitle": "Portail d'information",
-    "serviceTagline": "Les services et démarches de la République d'Astoria",
+    "serviceTagline": "Les services et démarches de la République d'SGE",
     "navigation": directLinks
 });
 
 export const GovernmentSiteWithServiceTitleAndBetaBadge = getStory({
     "identity": {
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Gouvernement"
     },
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Gouvernement de la République d'Astoria"
+        "title": "Accueil - Gouvernement de la République d'SGE"
     },
     "serviceTitle": (
         <>
@@ -197,13 +197,13 @@ export const GovernmentSiteWithServiceTitleAndBetaBadge = getStory({
 export const MinistryOfEconomy = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Ministère de l'Économie"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Ministère de l'Économie de la République d'Astoria"
+            "title": "Accueil - Ministère de l'Économie de la République d'SGE"
         },
         "serviceTitle": "Guichet des entreprises",
         "serviceTagline": "Création, gestion et développement de votre entreprise",
@@ -211,11 +211,11 @@ export const MinistryOfEconomy = getStory(
     },
     {
         "description": `The same component represents any institution of the Republic. The second level of the
-identity ("République d'Astoria", inside the lockup) stays constant, only the \`institution\`
+identity ("République d'SGE", inside the lockup) stays constant, only the \`institution\`
 line changes:
 
 \`\`\`text
-🇦🇴 République d'Astoria      ← identity.imgUrl (flag/emblem + name)
+🇦🇴 République d'SGE      ← identity.imgUrl (flag/emblem + name)
     Ministère de l'Économie   ← identity.institution
 \`\`\`
 
@@ -225,13 +225,13 @@ The header remains readable even when the institution name is relatively long.`
 
 export const MinistryOfHealth = getStory({
     "identity": {
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Ministère de la Santé"
     },
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Ministère de la Santé de la République d'Astoria"
+        "title": "Accueil - Ministère de la Santé de la République d'SGE"
     },
     "serviceTitle": "Prévention et soins",
     "navigation": directLinks
@@ -240,13 +240,13 @@ export const MinistryOfHealth = getStory({
 export const WithQuickAccessItemsNavigationAndSearch = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Gouvernement"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Gouvernement de la République d'Astoria"
+            "title": "Accueil - Gouvernement de la République d'SGE"
         },
         "serviceTitle": "Portail d'information",
         "quickAccessItems": [
@@ -295,13 +295,13 @@ See below how to build dynamic quick access items (authentication buttons for in
 export const HeaderQuickAccessItemsExample = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Ministère de l'Économie"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Ministère de l'Économie de la République d'Astoria"
+            "title": "Accueil - Ministère de l'Économie de la République d'SGE"
         },
         "serviceTitle": "Guichet des entreprises",
         "quickAccessItems": [
@@ -330,7 +330,7 @@ export const HeaderQuickAccessItemsExample = getStory(
 \`src/AuthButton.tsx\`
 
 \`\`\`tsx
-import { HeaderQuickAccessItem } from "@codegouvaor/react-ads/Header";
+import { HeaderQuickAccessItem } from "@skygenesisenterprise/react-sds/Header";
 import { declareComponentKeys, useTranslation } from "i18n"; // i18nifty
 import { useOidc } from "oidc"; // oidc-spa
 
@@ -415,13 +415,13 @@ export type I18n = typeof i18n;
 export const WithUncontrolledSearchBar = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Gouvernement"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Gouvernement de la République d'Astoria"
+            "title": "Accueil - Gouvernement de la République d'SGE"
         },
         "serviceTitle": "Portail d'information",
         "onSearchButtonClick": text => alert(`TODO: implement search with text: ${text}`),
@@ -493,13 +493,13 @@ function MySearchInput(props: MySearchInputProps) {
 export const WithControlledSearchBar = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Gouvernement"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Gouvernement de la République d'Astoria"
+            "title": "Accueil - Gouvernement de la République d'SGE"
         },
         "serviceTitle": "Portail d'information",
         "renderSearchInput": ({ className, id, placeholder, type }) => (
@@ -542,13 +542,13 @@ function Root() {
 export const NavigationAsCustomNode = getStory(
     {
         "identity": {
-            imgUrl: astoriaGouvImgUrl,
-            alt: "République d'Astoria",
+            imgUrl: sgeGouvImgUrl,
+            alt: "République d'SGE",
             institution: "Gouvernement"
         },
         "homeLinkProps": {
             "href": "/",
-            "title": "Accueil - Gouvernement de la République d'Astoria"
+            "title": "Accueil - Gouvernement de la République d'SGE"
         },
         "navigation": (
             <MainNavigation
@@ -591,7 +591,7 @@ export const NavigationAsCustomNode = getStory(
 It is useful to keep the Header as a server component in Next 13 AppDir.
 
 \`\`\`tsx
-import { MainNavigation } from "@codegouvaor/react-ads/MainNavigation";
+import { MainNavigation } from "@skygenesisenterprise/react-sds/MainNavigation";
 
 <Header
     identity={identity}

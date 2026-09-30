@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 /**
  * Helpers for the "Foundations" Storybook page (stories/foundations.stories.mdx).
- * The galleries read the `--ads-*` custom properties from the live stylesheet
+ * The galleries read the `--sds-*` custom properties from the live stylesheet
  * (`../dist/main.css` is imported by the page), so the shown values always match
  * the tokens actually loaded — light or dark scheme.
  */
@@ -74,7 +74,7 @@ export function FoundationsSection(params: { title: string; description?: ReactN
         <section style={{ "marginBlock": "3rem" }}>
             <h2
                 id={title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
-                style={{ "borderBottom": "1px solid var(--ads-color-border)", "paddingBottom": "0.5rem" }}
+                style={{ "borderBottom": "1px solid var(--sds-color-border)", "paddingBottom": "0.5rem" }}
             >
                 {title}
             </h2>
@@ -105,8 +105,8 @@ export function FoundationsSwatch(params: { variable: string; style?: React.CSSP
     return (
         <div
             style={{
-                "border": "1px solid var(--ads-color-border)",
-                "borderRadius": "var(--ads-radius-md)",
+                "border": "1px solid var(--sds-color-border)",
+                "borderRadius": "var(--sds-radius-md)",
                 "overflow": "hidden",
                 ...style
             }}
@@ -119,7 +119,7 @@ export function FoundationsSwatch(params: { variable: string; style?: React.CSSP
             />
             <div style={{ "padding": "0.75rem", "fontSize": "0.8rem" }}>
                 <div style={{ "fontWeight": 600 }}>{variable}</div>
-                <div style={{ "color": "var(--ads-color-text-muted)", "wordBreak": "break-all" }}>{value}</div>
+                <div style={{ "color": "var(--sds-color-text-muted)", "wordBreak": "break-all" }}>{value}</div>
                 {children}
             </div>
         </div>
@@ -130,7 +130,7 @@ export function ColorTokens() {
     return (
         <FoundationsSwatchGrid>
             {cssVariableNames.colors.map(variable => (
-                <FoundationsSwatch key={variable} variable={`--ads-color-${variable}`} />
+                <FoundationsSwatch key={variable} variable={`--sds-color-${variable}`} />
             ))}
         </FoundationsSwatchGrid>
     );
@@ -140,15 +140,15 @@ export function TypographyTokens() {
     return (
         <div>
             {fontFamilyVariableNames.map(variable => {
-                const cssVariable = `--ads-${variable}`;
+                const cssVariable = `--sds-${variable}`;
 
                 return (
                     <div key={variable} style={{ "marginBlock": "1rem" }}>
-                        <div style={{ "fontSize": "0.8rem", "color": "var(--ads-color-text-muted)" }}>
+                        <div style={{ "fontSize": "0.8rem", "color": "var(--sds-color-text-muted)" }}>
                             {cssVariable} — {getCssVariable(cssVariable)}
                         </div>
                         <div style={{ "fontFamily": `var(${cssVariable})`, "fontSize": "1.25rem" }}>
-                            La République d'Astoria — ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
+                            La République d'SGE — ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
                         </div>
                     </div>
                 );
@@ -164,7 +164,7 @@ export function TypographyTokens() {
                 </thead>
                 <tbody>
                     {fontSizeVariableNames.map(variable => {
-                        const cssVariable = `--ads-font-size-${variable}`;
+                        const cssVariable = `--sds-font-size-${variable}`;
 
                         return (
                             <tr key={variable}>
@@ -175,7 +175,7 @@ export function TypographyTokens() {
                         );
                     })}
                     {fontWeightVariableNames.map(variable => {
-                        const cssVariable = `--ads-font-weight-${variable}`;
+                        const cssVariable = `--sds-font-weight-${variable}`;
 
                         return (
                             <tr key={variable}>
@@ -186,7 +186,7 @@ export function TypographyTokens() {
                         );
                     })}
                     {lineHeightVariableNames.map(variable => {
-                        const cssVariable = `--ads-line-height-${variable}`;
+                        const cssVariable = `--sds-line-height-${variable}`;
 
                         return (
                             <tr key={variable}>
@@ -207,12 +207,12 @@ export function TypographyTokens() {
 const thStyle: React.CSSProperties = {
     "textAlign": "left",
     "padding": "0.5rem 1rem 0.5rem 0",
-    "borderBottom": "2px solid var(--ads-color-border)"
+    "borderBottom": "2px solid var(--sds-color-border)"
 };
 
 const tdStyle: React.CSSProperties = {
     "padding": "0.5rem 1rem 0.5rem 0",
-    "borderBottom": "1px solid var(--ads-color-border)",
+    "borderBottom": "1px solid var(--sds-color-border)",
     "fontSize": "0.85rem"
 };
 
@@ -220,17 +220,17 @@ export function SpacingTokens() {
     return (
         <div>
             {cssVariableNames.spacing.map(step => {
-                const cssVariable = `--ads-space-${step}`;
+                const cssVariable = `--sds-space-${step}`;
 
                 return (
                     <div key={step} style={{ "display": "flex", "alignItems": "center", "gap": "1rem", "marginBlock": "0.5rem" }}>
-                        <div style={{ "width": "10rem", "fontSize": "0.8rem", "color": "var(--ads-color-text-muted)" }}>
+                        <div style={{ "width": "10rem", "fontSize": "0.8rem", "color": "var(--sds-color-text-muted)" }}>
                             {cssVariable}
                             <br />
                             {getCssVariable(cssVariable)}
                         </div>
                         <div style={{ "flex": 1, "display": "flex", "alignItems": "center", "gap": "0.5rem" }}>
-                            <div style={{ "width": `var(${cssVariable})`, "maxWidth": "100%", "height": "1.5rem", "background": "var(--ads-color-primary)" }} />
+                            <div style={{ "width": `var(${cssVariable})`, "maxWidth": "100%", "height": "1.5rem", "background": "var(--sds-color-primary)" }} />
                         </div>
                     </div>
                 );
@@ -249,14 +249,14 @@ export function RadiusTokens() {
                             "width": "6rem",
                             "height": "6rem",
                             "margin": "0 auto 0.5rem",
-                            "border": "1px solid var(--ads-color-border)",
-                            "background": "var(--ads-color-surface-muted)",
-                            "borderRadius": `var(--ads-radius-${variable})`
+                            "border": "1px solid var(--sds-color-border)",
+                            "background": "var(--sds-color-surface-muted)",
+                            "borderRadius": `var(--sds-radius-${variable})`
                         }}
                     />
-                    <div style={{ "fontSize": "0.8rem", "fontWeight": 600 }}>--ads-radius-{variable}</div>
-                    <div style={{ "fontSize": "0.8rem", "color": "var(--ads-color-text-muted)" }}>
-                        {getCssVariable(`--ads-radius-${variable}`)}
+                    <div style={{ "fontSize": "0.8rem", "fontWeight": 600 }}>--sds-radius-{variable}</div>
+                    <div style={{ "fontSize": "0.8rem", "color": "var(--sds-color-text-muted)" }}>
+                        {getCssVariable(`--sds-radius-${variable}`)}
                     </div>
                 </div>
             ))}
@@ -272,14 +272,14 @@ export function ElevationTokens() {
                     <div
                         style={{
                             "height": "6rem",
-                            "background": "var(--ads-color-background)",
-                            "border": "1px solid var(--ads-color-border)",
-                            "borderRadius": "var(--ads-radius-md)",
-                            "boxShadow": `var(--ads-elevation-${variable})`
+                            "background": "var(--sds-color-background)",
+                            "border": "1px solid var(--sds-color-border)",
+                            "borderRadius": "var(--sds-radius-md)",
+                            "boxShadow": `var(--sds-elevation-${variable})`
                         }}
                     />
                     <div style={{ "padding": "0.75rem 0", "fontSize": "0.8rem", "fontWeight": 600 }}>
-                        --ads-elevation-{variable}
+                        --sds-elevation-{variable}
                     </div>
                 </div>
             ))}
@@ -303,8 +303,8 @@ function MotionSample(params: { cssVariable: string }) {
                 style={{
                     "width": "4rem",
                     "height": "0.5rem",
-                    "background": "var(--ads-color-primary)",
-                    "borderRadius": "var(--ads-radius-full)",
+                    "background": "var(--sds-color-primary)",
+                    "borderRadius": "var(--sds-radius-full)",
                     "transform": isMoved ? "translateX(2rem)" : undefined,
                     "transition": `transform var(${cssVariable})`
                 }}
@@ -325,7 +325,7 @@ export function MotionTokens() {
             </thead>
             <tbody>
                 {cssVariableNames.motion.map(variable => {
-                    const cssVariable = `--ads-${variable}`;
+                    const cssVariable = `--sds-${variable}`;
 
                     return (
                         <tr key={variable}>

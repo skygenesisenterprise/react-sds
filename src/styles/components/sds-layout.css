@@ -1,0 +1,336 @@
+/**
+ * SDS layout primitives — the government page shell as components.
+ *
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css` and by each layout component. These classes are
+ * emitted by <SDSPage />, <SDSMain />, <SDSContainer />, <SDSSection />, <SDSStack />,
+ * <SDSGrid /> and <SDSColumns /> so an application never needs to write CSS for its
+ * standard page structure.
+ *
+ * Responsive behaviour is driven by `data-*` attributes the components set from their
+ * props: `data-size` (container width), `data-gap` (spacing step), `data-align`
+ * (stack alignment), `data-cols-sm/md/lg` (grid column counts) and `data-tone`
+ * (section background). Values map to the `--sds-*` tokens.
+ */
+
+/* ---- SDSPage : full-height flex column shell ------------------------------- */
+
+.sds-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ---- SDSMain : grows to push the footer down ------------------------------ */
+
+.sds-main {
+    flex: 1 0 auto;
+}
+
+/* ---- SDSContainer : centered, width-capped column ------------------------- */
+
+.sds-container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--sds-space-4);
+}
+
+.sds-container[data-size="default"] {
+    max-width: var(--sds-breakpoint-xl); /* 75rem */
+}
+
+.sds-container[data-size="wide"] {
+    max-width: 80rem;
+}
+
+.sds-container[data-size="narrow"] {
+    max-width: 52rem;
+}
+
+@media (min-width: 48rem) {
+    .sds-container {
+        padding-inline: var(--sds-space-6);
+    }
+}
+
+/* ---- SDSSection : vertical rhythm, optional subtle background ------------- */
+
+.sds-section {
+    padding-block: var(--sds-space-6);
+}
+
+.sds-section[data-tone="subtle"] {
+    background-color: var(--sds-color-surface-muted);
+}
+
+@media (min-width: 48rem) {
+    .sds-section {
+        padding-block: var(--sds-space-8);
+    }
+}
+
+.sds-section__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sds-space-4) var(--sds-space-6);
+    margin-bottom: var(--sds-space-5);
+}
+
+.sds-section__title {
+    margin: 0;
+    font-size: clamp(1.375rem, 3vw, 1.75rem);
+    line-height: var(--sds-line-height-heading);
+    font-weight: var(--sds-font-weight-bold);
+    color: var(--sds-color-text);
+}
+
+.sds-section__subtitle {
+    margin: 0.25rem 0 0;
+    font-size: var(--sds-font-size-md);
+    line-height: var(--sds-line-height-normal);
+    color: var(--sds-color-text-muted);
+}
+
+/* ---- SDSStack : vertical flex with a spacing gap -------------------------- */
+
+.sds-stack {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sds-stack[data-align="start"] {
+    align-items: flex-start;
+}
+.sds-stack[data-align="center"] {
+    align-items: center;
+}
+.sds-stack[data-align="end"] {
+    align-items: flex-end;
+}
+.sds-stack[data-align="stretch"] {
+    align-items: stretch;
+}
+
+/* ---- SDSGrid : responsive CSS grid ---------------------------------------- */
+
+.sds-grid {
+    display: grid;
+    width: 100%;
+}
+
+/* Gap steps (spacing tokens) shared by stack & grid. */
+.sds-stack[data-gap="1"],
+.sds-grid[data-gap="1"] {
+    gap: var(--sds-space-1);
+}
+.sds-stack[data-gap="2"],
+.sds-grid[data-gap="2"] {
+    gap: var(--sds-space-2);
+}
+.sds-stack[data-gap="3"],
+.sds-grid[data-gap="3"] {
+    gap: var(--sds-space-3);
+}
+.sds-stack[data-gap="4"],
+.sds-grid[data-gap="4"] {
+    gap: var(--sds-space-4);
+}
+.sds-stack[data-gap="5"],
+.sds-grid[data-gap="5"] {
+    gap: var(--sds-space-5);
+}
+.sds-stack[data-gap="6"],
+.sds-grid[data-gap="6"] {
+    gap: var(--sds-space-6);
+}
+.sds-stack[data-gap="7"],
+.sds-grid[data-gap="7"] {
+    gap: var(--sds-space-7);
+}
+.sds-stack[data-gap="8"],
+.sds-grid[data-gap="8"] {
+    gap: var(--sds-space-8);
+}
+.sds-stack[data-gap="9"],
+.sds-grid[data-gap="9"] {
+    gap: var(--sds-space-9);
+}
+.sds-stack[data-gap="10"],
+.sds-grid[data-gap="10"] {
+    gap: var(--sds-space-10);
+}
+.sds-stack[data-gap="11"],
+.sds-grid[data-gap="11"] {
+    gap: var(--sds-space-11);
+}
+.sds-stack[data-gap="12"],
+.sds-grid[data-gap="12"] {
+    gap: var(--sds-space-12);
+}
+
+/* Column counts, mobile first (defaults to 1). */
+.sds-grid[data-cols-sm="1"] {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="5"] {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="6"] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="7"] {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="8"] {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="9"] {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="10"] {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="11"] {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.sds-grid[data-cols-sm="12"] {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+@media (min-width: 36rem) {
+    .sds-grid[data-cols-md="1"] {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="5"] {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="6"] {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="7"] {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="8"] {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="9"] {
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="10"] {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="11"] {
+        grid-template-columns: repeat(11, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-md="12"] {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 62rem) {
+    .sds-grid[data-cols-lg="1"] {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="2"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="4"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="5"] {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="6"] {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="7"] {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="8"] {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="9"] {
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="10"] {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="11"] {
+        grid-template-columns: repeat(11, minmax(0, 1fr));
+    }
+    .sds-grid[data-cols-lg="12"] {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+}
+
+/* ---- SDSColumns : flexible multi-column row ------------------------------- */
+
+.sds-columns {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.sds-columns[data-gap="2"] {
+    gap: var(--sds-space-2);
+}
+.sds-columns[data-gap="3"] {
+    gap: var(--sds-space-3);
+}
+.sds-columns[data-gap="4"] {
+    gap: var(--sds-space-4);
+}
+.sds-columns[data-gap="5"] {
+    gap: var(--sds-space-5);
+}
+.sds-columns[data-gap="6"] {
+    gap: var(--sds-space-6);
+}
+.sds-columns[data-gap="8"] {
+    gap: var(--sds-space-8);
+}
+.sds-columns[data-gap="10"] {
+    gap: var(--sds-space-10);
+}
+.sds-columns[data-gap="12"] {
+    gap: var(--sds-space-12);
+}
+
+.sds-columns__item {
+    flex: 1 1 16rem;
+    min-width: 0;
+}
+
+.sds-columns[data-cols="2"] .sds-columns__item {
+    flex-basis: calc(50% - var(--sds-space-4));
+}
+.sds-columns[data-cols="3"] .sds-columns__item {
+    flex-basis: calc(33.333% - var(--sds-space-4));
+}
+.sds-columns[data-cols="4"] .sds-columns__item {
+    flex-basis: calc(25% - var(--sds-space-4));
+}

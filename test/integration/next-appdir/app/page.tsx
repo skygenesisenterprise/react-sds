@@ -1,13 +1,13 @@
 import { ClientComponent } from "#/ui/ClientComponent";
-import { Alert } from "@codegouvaor/react-ads/Alert";
-import { Range } from "@codegouvaor/react-ads/Range";
-import { SegmentedControl } from "@codegouvaor/react-ads/SegmentedControl";
-import { Tabs } from "@codegouvaor/react-ads/Tabs";
-import { Table } from "@codegouvaor/react-ads/Table";
-import { Summary } from "@codegouvaor/react-ads/Summary";
-import { Button } from "@codegouvaor/react-ads/Button";
-import { createModal } from "@codegouvaor/react-ads/Modal";
-import { SideMenu } from "@codegouvaor/react-ads/SideMenu";
+import { Alert } from "@skygenesisenterprise/react-sds/Alert";
+import { Range } from "@skygenesisenterprise/react-sds/Range";
+import { SegmentedControl } from "@skygenesisenterprise/react-sds/SegmentedControl";
+import { Tabs } from "@skygenesisenterprise/react-sds/Tabs";
+import { Table } from "@skygenesisenterprise/react-sds/Table";
+import { Summary } from "@skygenesisenterprise/react-sds/Summary";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
+import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+import { SideMenu } from "@skygenesisenterprise/react-sds/SideMenu";
 
 const modal = createModal({
     "id": "simple-modal",

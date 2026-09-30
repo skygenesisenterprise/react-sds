@@ -72,7 +72,7 @@ const getPaginationParts = ({ count, defaultPage }: { count: number; defaultPage
     ];
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-pagination> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-pagination> */
 export const Pagination = memo(
     forwardRef<HTMLDivElement, PaginationProps>((props, ref) => {
         const {

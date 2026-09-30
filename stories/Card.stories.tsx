@@ -16,7 +16,7 @@ const { meta, getStory } = getStoryFactory({
     defaultContainerWidth: 360,
     "wrappedComponent": { Card },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Card.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Card.tsx)`,
     "argTypes": {
         "title": { "description": `Required.` },
         "titleAs": {

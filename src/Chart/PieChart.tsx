@@ -31,7 +31,7 @@ export type PieChartBaseProps = {
 
 export type PieChartProps = PieChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-piechart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-piechart> */
 export const PieChart = chartWrapper(
     (props: PieChartBaseProps) => <pie-chart {...stringifyObjectValue(props)} />,
     "pie-chart"

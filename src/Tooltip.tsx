@@ -29,7 +29,7 @@ export namespace TooltipProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-tooltip> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-tooltip> */
 export const Tooltip = memo(
     forwardRef<HTMLSpanElement, TooltipProps>((props, ref) => {
         const { id: id_prop, className, title, kind, style, children, ...rest } = props;

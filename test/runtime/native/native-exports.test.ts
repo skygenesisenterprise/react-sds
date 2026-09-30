@@ -8,8 +8,8 @@ import * as native from "../../../src/native";
 
 const projectRootDirPath = process.cwd();
 
-describe("ADS Native public API (exports)", () => {
-    it("provides the @codegouvaor/react-ads/native entry source", () => {
+describe("SDS Native public API (exports)", () => {
+    it("provides the @skygenesisenterprise/react-sds/native entry source", () => {
         // The subpath entry compiles to dist/native (published at the package
         // root as native/index.js); its source lives in src/native/index.ts.
         const indexPath = pathJoin(projectRootDirPath, "src", "native", "index.ts");
@@ -76,9 +76,9 @@ describe("ADS Native public API (exports)", () => {
     });
 
     it("exposes the theme provider and tokens", () => {
-        expect(native.ADSProvider).toBeDefined();
-        expect(native.useADSTheme).toBeDefined();
-        expect(native.adsTokens).toBeDefined();
-        expect(native.defaultADSTokens).toBeDefined();
+        expect(native.SDSProvider).toBeDefined();
+        expect(native.useSDSTheme).toBeDefined();
+        expect(native.sdsTokens).toBeDefined();
+        expect(native.defaultSDSTokens).toBeDefined();
     });
 });

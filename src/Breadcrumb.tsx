@@ -22,7 +22,7 @@ export type BreadcrumbProps = {
     style?: CSSProperties;
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-breadcrumb> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-breadcrumb> */
 export const Breadcrumb = memo(
     forwardRef<HTMLDivElement, BreadcrumbProps>((props, ref) => {
         const {

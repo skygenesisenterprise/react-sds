@@ -84,7 +84,7 @@ export namespace SelectProps {
 }
 
 /**
- * @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-select>
+ * @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-select>
  * */
 function NonMemoizedNonForwardedSelect<T extends SelectProps.Option[]>(
     props: SelectProps<T>,

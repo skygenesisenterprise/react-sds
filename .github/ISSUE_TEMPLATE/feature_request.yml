@@ -1,10 +1,10 @@
 name: Feature request
-description: Propose a new component or improvement for the Astoria Design System React library
+description: Propose a new component or improvement for the Sky Genesis Enterprise Design System React library
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
-      value: "Thanks for proposing an improvement! For new components, please also check the [component inventory](https://github.com/codegouvaor/react-ads/blob/main/AUDIT.md) first."
+      value: "Thanks for proposing an improvement! For new components, please also check the [component inventory](https://github.com/skygenesisenterprise/react-sds/blob/main/AUDIT.md) first."
   - type: textarea
     id: problem
     attributes:

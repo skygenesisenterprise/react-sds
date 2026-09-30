@@ -1,5 +1,5 @@
 /**
- * ADS Native `List` (vertical list of rows).
+ * SDS Native `List` (vertical list of rows).
  *
  * A thin, theme-aware wrapper over `FlatList` with an optional section header.
  */
@@ -7,7 +7,7 @@
 import * as React from "react";
 import { FlatList, View, Text } from "react-native";
 import type { FlatListProps, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Divider } from "../primitives";
 
 export type ListProps<T> = Omit<
@@ -25,7 +25,7 @@ export type ListProps<T> = Omit<
 export function List<T>(props: ListProps<T>) {
     const { title, divided = true, style, contentContainerStyle, ...rest } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <View style={[{ width: "100%" }, style]}>

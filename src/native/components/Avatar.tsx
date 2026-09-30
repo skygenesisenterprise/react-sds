@@ -1,11 +1,11 @@
 /**
- * ADS Native `Avatar`.
+ * SDS Native `Avatar`.
  */
 
 import * as React from "react";
 import { View, Image, Text } from "react-native";
 import type { StyleProp, ViewStyle, ImageSourcePropType, ImageStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type AvatarSize = "sm" | "md" | "lg" | "xl";
 
@@ -40,7 +40,7 @@ export function Avatar(props: AvatarProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const px = SIZE[size];
 

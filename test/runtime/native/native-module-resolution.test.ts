@@ -6,7 +6,7 @@ const projectRootDirPath = process.cwd();
 
 /**
  * These tests validate the native/web module isolation and the published
- * subpath resolution (`@codegouvaor/react-ads/native` → `native/index.js`).
+ * subpath resolution (`@skygenesisenterprise/react-sds/native` → `native/index.js`).
  * They run against the compiled `dist/` (produced by `pnpm build`).
  */
 
@@ -30,7 +30,7 @@ const readRecursive = (dirPath: string, acc: string[] = []): string[] => {
 
 const distExists = fs.existsSync(pathJoin(projectRootDirPath, "dist", "index.js"));
 
-describe("ADS Native module resolution & isolation", () => {
+describe("SDS Native module resolution & isolation", () => {
     it("compiles the native subpath to dist/native (post-build)", () => {
         if (!distExists) {
             // Build not run — nothing to assert.
@@ -46,7 +46,7 @@ describe("ADS Native module resolution & isolation", () => {
         ).toBe(true);
     });
 
-    it("resolves @codegouvaor/react-ads/native to dist/native/index.js", () => {
+    it("resolves @skygenesisenterprise/react-sds/native to dist/native/index.js", () => {
         if (!distExists) {
             return;
         }

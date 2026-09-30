@@ -93,7 +93,7 @@ export namespace TileProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-tile> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-tile> */
 export const Tile = memo(
     forwardRef<HTMLDivElement, TileProps>((props, ref) => {
         const {

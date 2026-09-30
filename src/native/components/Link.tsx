@@ -1,15 +1,15 @@
 /**
- * ADS Native `Link`.
+ * SDS Native `Link`.
  *
  * A tappable text styled as a link. The actual navigation is delegated to the
- * host application via `onPress` (ADS provides the graphical primitive, not a
+ * host application via `onPress` (SDS provides the graphical primitive, not a
  * router). Use `Linking.openURL` or your router in `onPress`.
  */
 
 import * as React from "react";
 import { Pressable } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text } from "../primitives";
 
 export type LinkProps = {
@@ -33,7 +33,7 @@ export function Link(props: LinkProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const label: string = typeof children === "string" ? children : accessibilityLabel ?? "";
 

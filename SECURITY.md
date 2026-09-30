@@ -1,7 +1,7 @@
 # Security Policy
 
-`@codegouvaor/react-ads` is an official library of the digital ecosystem of the Republic of
-Astoria: supply-chain and code security matter.
+`@skygenesisenterprise/react-sds` is an official library of the digital ecosystem of the Republic of
+SGE: supply-chain and code security matter.
 
 ## Reporting a vulnerability
 
@@ -9,9 +9,9 @@ Astoria: supply-chain and code security matter.
 maintainers:
 
 -   Open a private advisory on GitHub:
-    https://github.com/codegouvaor/react-ads/security/advisories/new
+    https://github.com/skygenesisenterprise/react-sds/security/advisories/new
 -   If the issue is critical and GitHub is not suitable, contact the maintainers through the
-    `codegouvaor` organization.
+    `skygenesisenterprise` organization.
 
 You should receive an acknowledgment within 72 hours. We ask that you do not disclose the
 issue publicly until a fix is released (or until 90 days have passed without a response).

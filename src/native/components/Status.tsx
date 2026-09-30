@@ -1,12 +1,12 @@
 /**
- * ADS Native `Status` (dot + label indicator).
+ * SDS Native `Status` (dot + label indicator).
  */
 
 import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
-import type { ADSColorToken } from "../tokens";
+import { useSDSTheme } from "../theme";
+import type { SDSColorToken } from "../tokens";
 
 export type StatusTone = "neutral" | "info" | "success" | "warning" | "error";
 
@@ -19,7 +19,7 @@ export type StatusProps = {
     testID?: string;
 };
 
-const TONE_COLOR: Record<StatusTone, ADSColorToken> = {
+const TONE_COLOR: Record<StatusTone, SDSColorToken> = {
     neutral: "muted",
     info: "info",
     success: "success",
@@ -36,7 +36,7 @@ export function Status(props: StatusProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const dotColor = colors[TONE_COLOR[tone]];
 

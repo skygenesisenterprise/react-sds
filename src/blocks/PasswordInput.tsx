@@ -44,7 +44,7 @@ export namespace PasswordInputProps {
 }
 
 /**
- * @see <https://codegouvaor.github.io/react-ads/?path=/docs/blocks-passwordinput
+ * @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/blocks-passwordinput
  * */
 export const PasswordInput = memo(
     forwardRef<HTMLDivElement, PasswordInputProps>((props, ref) => {

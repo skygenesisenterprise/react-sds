@@ -24,7 +24,7 @@ export type RadarChartBaseProps = MultiChartProps;
 
 export type RadarChartProps = RadarChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-radarchart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-radarchart> */
 export const RadarChart = chartWrapper(
     (props: RadarChartBaseProps) => <radar-chart {...stringifyObjectValue(props)} />,
     "radar-chart"

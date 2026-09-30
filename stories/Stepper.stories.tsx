@@ -6,7 +6,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Stepper },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Stepper.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Stepper.tsx)`,
     "argTypes": {
         "progressText": {
             "description":

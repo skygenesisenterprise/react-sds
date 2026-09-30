@@ -6,7 +6,7 @@ const { meta, getStory } = getStoryFactory<SkipLinksProps>({
     sectionName,
     wrappedComponent: { SkipLinks },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/SkipLinks.tsx)`
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/SkipLinks.tsx)`
 });
 
 export default meta;

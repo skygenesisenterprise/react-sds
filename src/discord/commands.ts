@@ -1,11 +1,11 @@
 /**
  * Commandes — petite aide pour enregistrer des commandes slash cohérentes avec
- * l'identité Astoria. Reste un surcouche fine : le consommateur garde l'accès aux
+ * l'identité SGE. Reste un surcouche fine : le consommateur garde l'accès aux
  * objets discord.js bruts.
  */
 import { loadDiscordJS } from "./loader";
 
-export type ADSSlashCommandDefinition = {
+export type SDSSlashCommandDefinition = {
     name: string;
     description: string;
     options?: {
@@ -23,7 +23,7 @@ export type ADSSlashCommandDefinition = {
 export async function registerSlashCommands(
     applicationId: string,
     token: string,
-    commands: ADSSlashCommandDefinition[]
+    commands: SDSSlashCommandDefinition[]
 ): Promise<void> {
     const { REST, Routes } = await loadDiscordJS();
 

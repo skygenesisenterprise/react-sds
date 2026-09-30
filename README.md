@@ -1,35 +1,35 @@
 <p align="center">
-    <i>Astoria Design System — React</i>
+    <i>Sky Genesis Enterprise Design System — React</i>
     <br>
-    <b>ADS React</b>
+    <b>SDS React</b>
     <br>
     <br>
-    <a href="https://github.com/codegouvaor/react-ads/actions">
-      <img src="https://github.com/codegouvaor/react-ads/actions/workflows/ci.yaml/badge.svg">
+    <a href="https://github.com/skygenesisenterprise/react-sds/actions">
+      <img src="https://github.com/skygenesisenterprise/react-sds/actions/workflows/ci.yaml/badge.svg">
     </a>
-    <a href="https://www.npmjs.com/package/@codegouvaor/react-ads">
-      <img src="https://img.shields.io/npm/v/@codegouvaor/react-ads?logo=npm">
+    <a href="https://www.npmjs.com/package/@skygenesisenterprise/react-sds">
+      <img src="https://img.shields.io/npm/v/@skygenesisenterprise/react-sds?logo=npm">
     </a>
-    <a href="https://bundlephobia.com/package/@codegouvaor/react-ads">
-      <img src="https://img.shields.io/bundlephobia/minzip/@codegouvaor/react-ads">
+    <a href="https://bundlephobia.com/package/@skygenesisenterprise/react-sds">
+      <img src="https://img.shields.io/bundlephobia/minzip/@skygenesisenterprise/react-sds">
     </a>
-    <a href="https://github.com/codegouvaor/react-ads/blob/main/LICENSE">
-      <img src="https://img.shields.io/npm/l/@codegouvaor/react-ads">
+    <a href="https://github.com/skygenesisenterprise/react-sds/blob/main/LICENSE">
+      <img src="https://img.shields.io/npm/l/@skygenesisenterprise/react-sds">
     </a>
 </p>
 
-> **ADS is the official design system for the digital ecosystem of the Republic of Astoria.**
+> **SDS is the official design system for the digital ecosystem of the Sky Genesis Enterprise.**
 
-`@codegouvaor/react-ads` is its official React implementation: accessible, typed,
+`@skygenesisenterprise/react-sds` is its official React implementation: accessible, typed,
 tree-shakable React components **and the official CSS foundation** for the web
-services, portals and applications of the Astoria government.
+services, portals and applications of the SGE government.
 
-> **Status: `1.0.7`.** Since 1.0.6 the package ships the official Astoria Design System
-> CSS foundation (`@codegouvaor/react-ads/main.css`): tokens, reset, base, typography,
+> **Status: `1.0.7`.** Since 1.0.6 the package ships the official Sky Genesis Enterprise Design System
+> CSS foundation (`@skygenesisenterprise/react-sds/main.css`): tokens, reset, base, typography,
 > themes (light/dark/system), accessibility, government layout primitives, editorial
-> content and utilities. **Since 1.0.7 it also ships the ADS Native Foundation
-> (`@codegouvaor/react-ads/native`):** the first official React Native / Expo layer of
-> ADS, sharing the same tokens and conventions with the web implementation without
+> content and utilities. **Since 1.0.7 it also ships the SDS Native Foundation
+> (`@skygenesisenterprise/react-sds/native`):** the first official React Native / Expo layer of
+> SDS, sharing the same tokens and conventions with the web implementation without
 > depending on the DOM/CSS stack. A government application imports the foundation once
 > and no longer maintains a government-wide `globals.css` of its own — the application
 > only keeps its business CSS. The project is a fork of the French `react-dsfr` library
@@ -39,7 +39,7 @@ services, portals and applications of the Astoria government.
 
 ## Table of contents
 
--   [What is ADS?](#what-is-ads)
+-   [What is SDS?](#what-is-sds)
 -   [Installation](#installation)
 -   [Quick start](#quick-start)
 -   [CSS foundation](#css-foundation)
@@ -59,14 +59,14 @@ services, portals and applications of the Astoria government.
 
 ---
 
-## What is ADS?
+## What is SDS?
 
-The **Astoria Design System** (ADS) is the reference design system for the digital
-public services of the Republic of Astoria. It defines the visual identity,
-components, **CSS foundations**, tokens and accessibility rules that make Astorian
+The **Sky Genesis Enterprise Design System** (SDS) is the reference design system for the digital
+public services of the Sky Genesis Enterprise. It defines the visual identity,
+components, **CSS foundations**, tokens and accessibility rules that make SGE
 government websites recognizable, consistent and accessible.
 
-**ADS React** (`@codegouvaor/react-ads`) is the official React implementation of that
+**SDS React** (`@skygenesisenterprise/react-sds`) is the official React implementation of that
 system. It is designed for the modern React ecosystem:
 
 -   **Next.js** — Pages Router and App Router, with full SSR support.
@@ -85,9 +85,9 @@ an optional MUI adaptation layer, i18n, and opt-in CSS/asset optimization tools.
 ## Installation
 
 ```bash
-npm install @codegouvaor/react-ads
+npm install @skygenesisenterprise/react-sds
 # or
-pnpm add @codegouvaor/react-ads
+pnpm add @skygenesisenterprise/react-sds
 ```
 
 Peer requirements: `react` ≥ 18 (and `react-dom` for the DOM entry points). No other
@@ -97,60 +97,60 @@ runtime dependency is required for the core components.
 
 ```tsx
 // 1. The official CSS foundation — once, from your app entry point.
-import "@codegouvaor/react-ads/main.css";
+import "@skygenesisenterprise/react-sds/main.css";
 
 // 2. The components — subpath imports keep your bundle minimal.
-import { Button } from "@codegouvaor/react-ads/Button";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 ```
 
 ```tsx
 export function Example() {
     return (
-        <Button iconId="ri-add-line" onClick={() => alert("Hello Astoria!")}>
+        <Button iconId="ri-add-line" onClick={() => alert("Hello SGE!")}>
             New record
         </Button>
     );
 }
 ```
 
-See the [interactive documentation](https://codegouvaor.github.io/react-ads) (Storybook)
+See the [interactive documentation](https://skygenesisenterprise.github.io/react-sds) (Storybook)
 for every component, its variants, states and code samples — and the **Foundations**
 pages for the CSS foundation.
 
 > Components can also be imported from the package root
-> (`import { Button } from "@codegouvaor/react-ads"`): the root re-exports the generic
-> components and the `fr`/`ads` token helpers. Subpath imports remain the granular,
+> (`import { Button } from "@skygenesisenterprise/react-sds"`): the root re-exports the generic
+> components and the `fr`/`sds` token helpers. Subpath imports remain the granular,
 > recommended path.
 >
 > **Legacy:** until the coordinated breaking release (see [MIGRATION.md](MIGRATION.md)),
 > the component styles come from the legacy DSFR layer bundled in the package. The old
-> explicit import `import "@codegouvaor/react-ads/dsfr/dsfr.min.css"` is superseded by
+> explicit import `import "@skygenesisenterprise/react-sds/dsfr/dsfr.min.css"` is superseded by
 > `main.css` (which loads it) and kept for compatibility.
 
 ## CSS foundation
 
-`@codegouvaor/react-ads/main.css` is **the official CSS entry of the Astoria Design
+`@skygenesisenterprise/react-sds/main.css` is **the official CSS entry of the SGE Design
 System**. A government application should only keep its *business* CSS — everything
-that concerns the global visual behavior of a government application belongs to ADS.
+that concerns the global visual behavior of a government application belongs to SDS.
 
 It loads, in order:
 
-1. **tokens** — `--ads-*` custom properties (colors, typography, spacing, radius,
+1. **tokens** — `--sds-*` custom properties (colors, typography, spacing, radius,
    elevation, motion, breakpoints);
 2. **reset** — modern, minimal browser normalization;
 3. **base** — `html`/`body` defaults, links, text selection;
 4. **typography** — the base element scale (`h1`–`h6`, `p`, `blockquote`, `code`,
    `pre`, lists…);
 5. **themes** — dark scheme (`.dark` and `[data-fr-theme="dark"]`);
-6. **accessibility** — `:focus-visible`, `.ads-sr-only`, reduced motion, contrast;
+6. **accessibility** — `:focus-visible`, `.sds-sr-only`, reduced motion, contrast;
 7. **layout** — `.gov-page`, `.gov-main`, `.gov-container`, `.gov-section`…;
 8. **component styles** — header shell, forms, tables, editorial `.gov-prose`,
-   `.ads-back-to-top`;
+   `.sds-back-to-top`;
 9. **utilities** — the handful of system-wide helpers;
 10. then the **legacy DSFR layer** that styles the `fr-*` component classes (it will
-    be replaced by `ads-*` styles in the single coordinated breaking release, without
+    be replaced by `sds-*` styles in the single coordinated breaking release, without
     changing this import).
 
 The foundation is **plain standalone CSS**: it does not depend on Tailwind or on the
@@ -158,8 +158,8 @@ application build. Applications remain free to use Tailwind (or anything else) f
 their business layouts on top of the foundation.
 
 ```text
-src/styles/           # the foundation (published as @codegouvaor/react-ads/styles/*)
-├── tokens.css        # design tokens (light scheme, --ads-*)
+src/styles/           # the foundation (published as @skygenesisenterprise/react-sds/styles/*)
+├── tokens.css        # design tokens (light scheme, --sds-*)
 ├── reset.css
 ├── base.css
 ├── typography.css
@@ -195,25 +195,25 @@ components (`Chart/*`, optional `@gouvfr/dsfr-chart` peer).
 
 ## Native — React Native / Expo
 
-**`@codegouvaor/react-ads/native` is the official native support of ADS** (the
-**ADS Native Foundation**, introduced in 1.0.7). It lets React Native / Expo
-applications of the Astorian government (MyGouv Mobile, Économie Mobile,
-Éducation Mobile, …) use ADS as their shared native UI layer:
+**`@skygenesisenterprise/react-sds/native` is the official native support of SDS** (the
+**SDS Native Foundation**, introduced in 1.0.7). It lets React Native / Expo
+applications of the SGE government (MyGouv Mobile, Économie Mobile,
+Éducation Mobile, …) use SDS as their shared native UI layer:
 
 ```text
-               Astoria Design System
+               Sky Genesis Enterprise Design System
                         │
          ┌──────────────┴──────────────┐
          │                             │
      Web / React                 Native / React Native
          │                             │
-@codegouvaor/               @codegouvaor/
-  react-ads                   react-ads/native
+@skygenesisenterprise/               @skygenesisenterprise/
+  react-sds                   react-sds/native
          │                             │
       Browser                      iOS / Android
 ```
 
-The native layer shares the **ADS tokens and conventions** with the web
+The native layer shares the **SDS tokens and conventions** with the web
 implementation but is **not a port of the DOM/CSS components**: it is built on
 React Native primitives (`View`, `Text`, `Pressable`, `TextInput`, `Modal`,
 `FlatList`, …). It never imports the web/DOM stack, and the web bundle never
@@ -222,7 +222,7 @@ imports the native layer.
 ### Installation
 
 ```bash
-npm install @codegouvaor/react-ads react-native
+npm install @skygenesisenterprise/react-sds react-native
 ```
 
 `react-native` is an optional peer dependency of the package (required only by
@@ -236,7 +236,7 @@ import {
   Card,
   Heading,
   Text,
-} from "@codegouvaor/react-ads/native";
+} from "@skygenesisenterprise/react-sds/native";
 
 export function ExampleScreen() {
   return (
@@ -251,10 +251,10 @@ export function ExampleScreen() {
 }
 ```
 
-Metro resolves `@codegouvaor/react-ads/native` directly to the compiled native
+Metro resolves `@skygenesisenterprise/react-sds/native` directly to the compiled native
 entry — no web code is pulled into an Expo bundle.
 
-### Components (ADS Native Foundation)
+### Components (SDS Native Foundation)
 
 -   **Foundations** — `Text`, `Heading`, `Icon`, `Divider`, `Stack`, `Container`.
 -   **Actions** — `Button`, `IconButton`, `Link`.
@@ -262,7 +262,7 @@ entry — no web code is pulled into an Expo bundle.
 -   **Feedback** — `Alert`, `Badge`, `Status`, `Progress`, `Loading`.
 -   **Layout / content** — `Card`, `List`, `ListItem`, `Section`, `Avatar`.
 -   **Navigation primitives (graphical only)** — `Header`, `TabBar`, `NavItem`.
-    ADS provides the graphics, **not a router**: routing stays in Expo Router or
+    SDS provides the graphics, **not a router**: routing stays in Expo Router or
     React Navigation.
 -   **Government components** — `ServiceCard`, `ProcedureCard`, `DocumentCard`,
     `NotificationCard`, `IdentityBadge`, `StatusBadge`, `GovernmentBanner`.
@@ -270,26 +270,26 @@ entry — no web code is pulled into an Expo bundle.
 
 ### Tokens & theme
 
-Native tokens mirror the web ADS token contract (colors, typography, spacing,
+Native tokens mirror the web SDS token contract (colors, typography, spacing,
 radius, elevation, dimensions, motion) with concrete values consumable by React
 Native styles:
 
 ```tsx
-import { adsTokens } from "@codegouvaor/react-ads/native";
+import { sdsTokens } from "@skygenesisenterprise/react-sds/native";
 
-adsTokens.spacing.md; // 16
-adsTokens.dimensions.touchTarget; // 44
+sdsTokens.spacing.md; // 16
+sdsTokens.dimensions.touchTarget; // 44
 ```
 
-Components are themed through the provider (defaults to the Astoria palette and
+Components are themed through the provider (defaults to the SGE palette and
 to the system color scheme when no provider is present):
 
 ```tsx
-import { ADSProvider } from "@codegouvaor/react-ads/native";
+import { SDSProvider } from "@skygenesisenterprise/react-sds/native";
 
-<ADSProvider colorScheme="system">
+<SDSProvider colorScheme="system">
   <App />
-</ADSProvider>
+</SDSProvider>
 ```
 
 ### Accessibility & touch
@@ -310,9 +310,9 @@ modules.
 
 ```tsx
 // app/layout.tsx
-import "@codegouvaor/react-ads/main.css"; // ← the whole ADS CSS foundation
-import { DsfrHead } from "@codegouvaor/react-ads/next-app-router/DsfrHead";
-import { DsfrProvider } from "@codegouvaor/react-ads/next-app-router/DsfrProvider";
+import "@skygenesisenterprise/react-sds/main.css"; // ← the whole SDS CSS foundation
+import { DsfrHead } from "@skygenesisenterprise/react-sds/next-app-router/DsfrHead";
+import { DsfrProvider } from "@skygenesisenterprise/react-sds/next-app-router/DsfrProvider";
 ```
 
 `DsfrProvider` renders the runtime for client components and `DsfrHead` handles fonts,
@@ -322,7 +322,7 @@ favicon and color-scheme on the server without white flash on hydration. See the
 ### Next.js Pages Router
 
 ```tsx
-import { createNextDsfrIntegrationApi } from "@codegouvaor/react-ads/next-pagesdir";
+import { createNextDsfrIntegrationApi } from "@skygenesisenterprise/react-sds/next-pagesdir";
 ```
 
 See `test/integration/next-pagesdir`.
@@ -335,17 +335,17 @@ Most components are server-component safe. Components that need browser APIs are
 
 ## Design tokens
 
-ADS tokens are the single source of truth for the look of the system. They are exposed
-as CSS custom properties (`--ads-*`) and as typed constants (`src/ads/tokens.ts`,
-`import { adsTokens } from "@codegouvaor/react-ads/ads"`).
+SDS tokens are the single source of truth for the look of the system. They are exposed
+as CSS custom properties (`--sds-*`) and as typed constants (`src/sds/tokens.ts`,
+`import { sdsTokens } from "@skygenesisenterprise/react-sds/sds"`).
 
 ```css
 :root {
-    --ads-color-primary: …;
-    --ads-color-background: …;
-    --ads-radius-medium: …;
-    --ads-space-4: …;
-    --ads-font-family-base: …;
+    --sds-color-primary: …;
+    --sds-color-background: …;
+    --sds-radius-medium: …;
+    --sds-space-4: …;
+    --sds-font-family-base: …;
 }
 ```
 
@@ -353,16 +353,16 @@ Token families: **colors** (`background`, `foreground`, `surface`, `surface-mute
 `primary`, `secondary`, `accent`, `success`, `warning`, `danger`, `info`, `border`,
 `input`, `ring`, `link`, `link-hover`, `text`, `text-muted`, `focus`, `disabled`,
 `on-primary`), **typography** (fonts, sizes `xs`–`3xl`, weights, line-heights),
-**spacing** (`--ads-space-1`…`12`, 4px base), **radius**, **elevation**, **motion**
-(durations, easings, ready-made `--ads-transition-*`) and **breakpoints**.
+**spacing** (`--sds-space-1`…`12`, 4px base), **radius**, **elevation**, **motion**
+(durations, easings, ready-made `--sds-transition-*`) and **breakpoints**.
 
 Components and stylesheets consume tokens — never hard-coded values — so updating the
-identity never requires rewriting a component. Overriding `--ads-*` custom properties
+identity never requires rewriting a component. Overriding `--sds-*` custom properties
 from your application `:root` is the supported theming mechanism.
 
-> The token values follow the **Astoria palette** used by the reference government
+> The token values follow the **SGE palette** used by the reference government
 > application. The exact official identity (colors, fonts, icons) is decided by the
-> Astoria brand/design owners and will replace the values without changing the
+> SGE brand/design owners and will replace the values without changing the
 > property names — see [MIGRATION.md](MIGRATION.md).
 
 ## Layout primitives
@@ -395,7 +395,7 @@ application has to restyle its shell:
 | ----------------------------- | ----------------------------------------------------------- |
 | `.gov-page`                   | full-height flex column (`min-height: 100vh`)               |
 | `.gov-main`                   | grows to fill the space (sticky footer)                     |
-| `.gov-container`              | centered column, max-width coherent with ADS (`75rem`)      |
+| `.gov-container`              | centered column, max-width coherent with SDS (`75rem`)      |
 | `.gov-section` (+ `--subtle`) | vertical rhythm of the page sections                        |
 | `.gov-section__container`     | wide internal centered column of a section                  |
 | `.gov-section__header/title`  | section heading with optional action on the right           |
@@ -422,7 +422,7 @@ component layer shipped with the package.
 
 Three mechanisms, all token-driven:
 
--   **CSS variables** — override `--ads-*` custom properties from your application to
+-   **CSS variables** — override `--sds-*` custom properties from your application to
     restyle globally without touching components.
 -   **Dark mode** — semantic tokens switch automatically. Both conventions are honored:
 
@@ -445,8 +445,8 @@ Accessibility is a first-class requirement (target: WCAG 2.2 AA):
 -   keyboard navigation, visible focus, ARIA patterns, form errors, skip links;
 -   reduced motion support (durations collapse to 1 ms under
     `prefers-reduced-motion: reduce`);
--   centralized rules in `accessibility.css`: `:focus-visible`, `.ads-sr-only`,
-    `.ads-focus-ring`, `.ads-touch-target`, `prefers-contrast: more`;
+-   centralized rules in `accessibility.css`: `:focus-visible`, `.sds-sr-only`,
+    `.sds-focus-ring`, `.sds-touch-target`, `prefers-contrast: more`;
 -   every component story documents its accessibility properties;
 -   the Storybook runs with the `@storybook/addon-a11y` checks.
 
@@ -462,8 +462,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) — and [AUDIT.md](AUDIT.md) if you want 
 the codebase before making structural changes.
 
 ```bash
-git clone https://github.com/codegouvaor/react-ads.git
-cd react-ads
+git clone https://github.com/skygenesisenterprise/react-sds.git
+cd react-sds
 pnpm install
 ```
 
@@ -482,33 +482,33 @@ pnpm install
 
 ```text
 src/
-├── styles/            # the ADS CSS foundation (tokens, themes, layout, utilities,
+├── styles/            # the SDS CSS foundation (tokens, themes, layout, utilities,
 │   │                  #  components/…) — published and loaded by main.css
 ├── assets/            # static assets shipped with the package
-├── ads/               # ADS foundations: token contracts (colors, type, space, …)
-├── native/            # ADS Native Foundation (React Native / Expo) — published as
-│   │                  #  @codegouvaor/react-ads/native, no DOM/CSS dependency
+├── sds/               # SDS foundations: token contracts (colors, type, space, …)
+├── native/            # SDS Native Foundation (React Native / Expo) — published as
+│   │                  #  @skygenesisenterprise/react-sds/native, no DOM/CSS dependency
 ├── fr/                # token helpers (legacy namespace, renamed with the CSS layer)
 ├── BackToTop.tsx      # floating "back to top" button (styles in styles/components/)
 ├── <Component>.tsx    # one module per component — subpath imports, tree-shakable
 ├── next-app-router/   # Next.js App Router helpers (server + client)
 ├── next-pagesdir.tsx  # Next.js Pages Router helpers
 ├── mui/               # optional MUI adaptation layer
-└── bin/               # CLI tools (react-ads optimize-css, copy-static-assets, …)
+└── bin/               # CLI tools (react-sds optimize-css, copy-static-assets, …)
 ```
 
-Component usage follows `import { X } from "@codegouvaor/react-ads/X"` — bundlers then
+Component usage follows `import { X } from "@skygenesisenterprise/react-sds/X"` — bundlers then
 only include the modules you import. The CSS foundation is importable as a whole
-(`@codegouvaor/react-ads/main.css`) or file by file
-(`@codegouvaor/react-ads/styles/layout.css`, `@codegouvaor/react-ads/styles/themes.css`,
-`@codegouvaor/react-ads/assets/ads/tokens.css`, …).
+(`@skygenesisenterprise/react-sds/main.css`) or file by file
+(`@skygenesisenterprise/react-sds/styles/layout.css`, `@skygenesisenterprise/react-sds/styles/themes.css`,
+`@skygenesisenterprise/react-sds/assets/sds/tokens.css`, …).
 
 ## Provenance & licensing
 
 This project started as a fork of [`codegouvfr/react-dsfr`](https://github.com/codegouvfr/react-dsfr)
 (MIT), itself the React integration of the French government's DSFR. The fork retains the
 upstream Git history. It is being transformed — step by step, without rewriting what is
-technically sound — into the official React library of the **Astoria Design System**.
+technically sound — into the official React library of the **Sky Genesis Enterprise Design System**.
 
 Read [PROVENANCE.md](PROVENANCE.md) for the honest account of this lineage and the
 attribution obligations that follow. The code is MIT licensed (see [LICENSE](LICENSE)).
@@ -516,7 +516,7 @@ attribution obligations that follow. The code is MIT licensed (see [LICENSE](LIC
 ## Governance
 
 This module is developed and maintained in the open by the digital services of the Republic
-of Astoria, under the governance described in [GOVERNANCE.md](GOVERNANCE.md). Security
+of SGE, under the governance described in [GOVERNANCE.md](GOVERNANCE.md). Security
 matters: see [SECURITY.md](SECURITY.md).
 
 ## Releases & versioning

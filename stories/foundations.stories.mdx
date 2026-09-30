@@ -24,15 +24,15 @@ import {
     }}
 />
 
-# Foundations — le socle CSS de l'Astoria Design System
+# Foundations — le socle CSS de l'Sky Genesis Enterprise Design System
 
-Depuis **v1.0.6**, `@codegouvaor/react-ads` fournit la **fondation CSS officielle** du
+Depuis **v1.0.6**, `@skygenesisenterprise/react-sds` fournit la **fondation CSS officielle** du
 système gouvernemental. Une application n'a plus besoin d'un `globals.css` pour ses
 règles communes :
 
 ```tsx
 // app/layout.tsx — l'import unique de la fondation
-import "@codegouvaor/react-ads/main.css";
+import "@skygenesisenterprise/react-sds/main.css";
 ```
 
 `main.css` charge, dans l'ordre : **tokens → reset → base → typographie → thèmes →
@@ -61,7 +61,7 @@ elles suivent le thème actif (clair / sombre).
 
 <FoundationsSection title="Spacing">
     Échelle d'espacement sur une base de `0.25rem` (4px). Utilisez
-    `var(--ads-space-N)` partout plutôt que des valeurs arbitraires.
+    `var(--sds-space-N)` partout plutôt que des valeurs arbitraires.
 
     <SpacingTokens />
 </FoundationsSection>
@@ -104,7 +104,7 @@ elles suivent le thème actif (clair / sombre).
     ```css
     .dark,
     [data-fr-theme="dark"] {
-        --ads-color-background: oklch(0.2002 0 0);
+        --sds-color-background: oklch(0.2002 0 0);
         /* … */
     }
     ```
@@ -116,31 +116,31 @@ elles suivent le thème actif (clair / sombre).
 
     - `.gov-page` — colonne pleine hauteur (`min-height: 100vh`),
     - `.gov-main` — prend l'espace disponible (footer collé en bas),
-    - `.gov-container` — colonne centrée (largeur max cohérente avec ADS),
+    - `.gov-container` — colonne centrée (largeur max cohérente avec SDS),
     - `.gov-section` (+ `--subtle`, `__header`, `__title`, `__subtitle`) — rythme
       vertical des sections,
     - `.gov-page-header` / `.gov-page-title` / `.gov-page-description`,
     - `.gov-content`, `.gov-lead`, `.gov-kicker`.
 
-    <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-md)", "overflow": "hidden" }}>
-        <div style={{ "background": "var(--ads-color-surface-muted)", "padding": "0.5rem 1rem", "fontSize": "0.8rem", "color": "var(--ads-color-text-muted)" }}>
+    <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-md)", "overflow": "hidden" }}>
+        <div style={{ "background": "var(--sds-color-surface-muted)", "padding": "0.5rem 1rem", "fontSize": "0.8rem", "color": "var(--sds-color-text-muted)" }}>
             Schéma — `.gov-page` &gt; `.gov-header-sticky` + `.gov-main` &gt; `.gov-container` + footer
         </div>
         <div style={{ "padding": "1rem" }}>
-            <div style={{ "border": "2px dashed var(--ads-color-primary)", "borderRadius": "var(--ads-radius-sm)", "padding": "1rem" }}>
-                <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-sm)", "padding": "0.5rem 1rem", "marginBottom": "1rem", "fontSize": "0.85rem", "color": "var(--ads-color-text-muted)" }}>
+            <div style={{ "border": "2px dashed var(--sds-color-primary)", "borderRadius": "var(--sds-radius-sm)", "padding": "1rem" }}>
+                <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-sm)", "padding": "0.5rem 1rem", "marginBottom": "1rem", "fontSize": "0.85rem", "color": "var(--sds-color-text-muted)" }}>
                     &lt;header&gt; — .gov-header-sticky (sticky, z-index 750)
                 </div>
-                <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-sm)", "padding": "1rem" }}>
+                <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-sm)", "padding": "1rem" }}>
                     &lt;main class="gov-main"&gt;
-                    <div style={{ "border": "1px dashed var(--ads-color-border)", "borderRadius": "var(--ads-radius-sm)", "padding": "0.75rem 1rem", "margin": "0.75rem 0" }}>
+                    <div style={{ "border": "1px dashed var(--sds-color-border)", "borderRadius": "var(--sds-radius-sm)", "padding": "0.75rem 1rem", "margin": "0.75rem 0" }}>
                         &lt;div class="gov-container"&gt; — max-width 75rem, centré
                     </div>
-                    <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-sm)", "padding": "0.75rem 1rem", "margin": "0.75rem 0" }}>
+                    <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-sm)", "padding": "0.75rem 1rem", "margin": "0.75rem 0" }}>
                         &lt;section class="gov-section"&gt;…&lt;/section&gt;
                     </div>
                 </div>
-                <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-sm)", "padding": "0.5rem 1rem", "marginTop": "1rem", "fontSize": "0.85rem", "color": "var(--ads-color-text-muted)" }}>
+                <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-sm)", "padding": "0.5rem 1rem", "marginTop": "1rem", "fontSize": "0.85rem", "color": "var(--sds-color-text-muted)" }}>
                     &lt;footer&gt;
                 </div>
             </div>
@@ -152,17 +152,17 @@ elles suivent le thème actif (clair / sombre).
     Règles communes centralisées (`accessibility.css`) :
 
     - `:focus-visible` — anneau de focus toujours visible au clavier ;
-    - `.ads-sr-only` — masque visuellement tout en gardant le contenu pour les
+    - `.sds-sr-only` — masque visuellement tout en gardant le contenu pour les
       lecteurs d'écran ;
-    - `.ads-focus-ring`, `.ads-touch-target` — utilitaires ciblés ;
+    - `.sds-focus-ring`, `.sds-touch-target` — utilitaires ciblés ;
     - `prefers-reduced-motion` — animations neutralisées, durées à `1ms` ;
     - `prefers-contrast: more` — focus renforcé ;
     - états `:disabled` / `[aria-disabled="true"]` cohérents via les tokens.
 
-    <div style={{ "border": "1px solid var(--ads-color-border)", "borderRadius": "var(--ads-radius-md)", "padding": "1rem" }}>
+    <div style={{ "border": "1px solid var(--sds-color-border)", "borderRadius": "var(--sds-radius-md)", "padding": "1rem" }}>
         <p style={{ "margin": 0 }}>
             Le texte qui suit est invisible à l'écran mais annoncé par les lecteurs
-            d'écran : <span className="ads-sr-only">« Ceci est un contenu
+            d'écran : <span className="sds-sr-only">« Ceci est un contenu
             visuellement masqué, réservé aux technologies d'assistance. »</span>
         </p>
     </div>

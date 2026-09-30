@@ -1,6 +1,6 @@
 "use client";
 
-import { MainNavigation } from "@codegouvaor/react-ads/MainNavigation";
+import { MainNavigation } from "@skygenesisenterprise/react-sds/MainNavigation";
 import { useSelectedLayoutSegment } from "next/navigation";
 
 export function Navigation() {

@@ -12,11 +12,11 @@ import { Alert } from "../../../src/native/components/Alert";
 
 const render = (element: React.ReactElement) => renderToStaticMarkup(element);
 
-describe("ADS Native component smoke tests (react-native mocked)", () => {
+describe("SDS Native component smoke tests (react-native mocked)", () => {
     it("Text renders its children", () => {
-        const html = render(createElement(Text, undefined, "Hello ADS"));
+        const html = render(createElement(Text, undefined, "Hello SDS"));
 
-        expect(html).toContain("Hello ADS");
+        expect(html).toContain("Hello SDS");
     });
 
     it("Heading exposes accessibilityRole=header", () => {

@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory<FollowProps>({
     sectionName,
     wrappedComponent: { Follow },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Follow.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Follow.tsx)`,
     argTypes: {
         classes: {
             control: { type: null },

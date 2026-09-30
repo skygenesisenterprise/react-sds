@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory<NoticeProps>({
     sectionName,
     "wrappedComponent": { Notice },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Notice.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Notice.tsx)`,
     "argTypes": {
         "title": {
             "description":

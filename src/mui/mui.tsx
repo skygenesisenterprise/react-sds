@@ -196,7 +196,7 @@ export function getMuiDsfrThemeOptions(params: {
                         "margin": "unset"
                     },
                     "selectLabel": {
-                        //Fixes: https://github.com/codegouvaor/react-ads/assets/6702424/678a7f69-d4e8-4897-85f0-65c605b46900
+                        //Fixes: https://github.com/skygenesisenterprise/react-sds/assets/6702424/678a7f69-d4e8-4897-85f0-65c605b46900
                         "margin": "unset"
                     }
                 }

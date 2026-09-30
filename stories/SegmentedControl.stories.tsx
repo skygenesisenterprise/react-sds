@@ -6,7 +6,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     wrappedComponent: { SegmentedControl },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/SegmentedControl.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/SegmentedControl.tsx)`,
     argTypes: {
         small: {
             control: { type: "boolean" }

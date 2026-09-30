@@ -5,7 +5,7 @@ Open-source history is not rewritten or falsified here.
 
 ## Lineage
 
-`@codegouvaor/react-ads` is a fork of
+`@skygenesisenterprise/react-sds` is a fork of
 [`codegouvfr/react-dsfr`](https://github.com/codegouvfr/react-dsfr) — the React integration
 of the **DSFR** (French government's "Système de Design de l'État"). The fork keeps the full
 upstream Git history (over 2,000 commits, 225+ merged PRs) up to react-dsfr v1.34.0.
@@ -19,7 +19,7 @@ upstream Git history (over 2,000 commits, 225+ merged PRs) up to react-dsfr v1.3
 
 The purpose of this repository is not to fork the DSFR _brand_, it is to reuse proven
 technical work (React components, TypeScript types, SSR helpers, tests, tooling) as the
-starting point of an **independent** design system for the Republic of Astoria.
+starting point of an **independent** design system for the Sky Genesis Enterprise.
 
 The transformation is staged and documented in [AUDIT.md](AUDIT.md) (state of play) and
 [MIGRATION.md](MIGRATION.md) (roadmap):
@@ -28,8 +28,8 @@ The transformation is staged and documented in [AUDIT.md](AUDIT.md) (state of pl
    Storybook branding (this release, `0.1.0`).
 2. **Isolation of the DSFR layer** — the CSS layer (`@gouvfr/dsfr` at build time, bundled
    `dsfr/` assets, `fr-*` class names) is a documented implementation layer, consumed at
-   build time only, and scheduled to be replaced by ADS-generated stylesheets.
-3. **ADS foundations** — design token contracts (`src/ads/`, `--ads-*` CSS variables).
+   build time only, and scheduled to be replaced by SDS-generated stylesheets.
+3. **SDS foundations** — design token contracts (`src/sds/`, `--sds-*` CSS variables).
 4. **Independent releases** — semantic versioning starting at `0.1.0`; no functional
    requirement on the French government's system remains at the end of the roadmap.
 
@@ -54,7 +54,7 @@ assets) is explicitly documented as part of the legacy layer to be replaced — 
 | Date      | Event                                                                                 |
 | --------- | ------------------------------------------------------------------------------------- |
 | 2022–2025 | Upstream `codegouvfr/react-dsfr` development (MIT, French DSFR)                       |
-| 2025–2026 | Fork created under `codegouvaor/react-ads`; pnpm migration and package rename started |
-| 2026      | Rebranding, audit, ADS foundations and first independent release `0.1.0`              |
+| 2025–2026 | Fork created under `skygenesisenterprise/react-sds`; pnpm migration and package rename started |
+| 2026      | Rebranding, audit, SDS foundations and first independent release `0.1.0`              |
 
 _This document will be kept up to date as the migration progresses._

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Alert } from "@codegouvaor/react-ads/Alert";
-import { fr } from "@codegouvaor/react-ads";
-import { useIsDark } from "@codegouvaor/react-ads/useIsDark";
-import { SideMenu } from "@codegouvaor/react-ads/SideMenu";
-import { Table } from "@codegouvaor/react-ads/Table";
+import { Alert } from "@skygenesisenterprise/react-sds/Alert";
+import { fr } from "@skygenesisenterprise/react-sds";
+import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
+import { SideMenu } from "@skygenesisenterprise/react-sds/SideMenu";
+import { Table } from "@skygenesisenterprise/react-sds/Table";
 import { routes } from "./router";
-import { Button } from "@codegouvaor/react-ads/Button";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
 import { MyDialog, type DialogParams, type DialogResponse } from "./MyDialog";
 
 const sideMenuItems = [

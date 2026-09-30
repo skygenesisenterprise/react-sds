@@ -5,28 +5,28 @@ import { DefaultTrustedPolicy } from "../DefaultTrustedPolicy";
 
 // Chart cannot be render on server, you nee to use lazy loading
 // https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#with-no-ssr
-const BarChart = dynamic(() => import("@codegouvaor/react-ads/Chart/BarChart"), {
+const BarChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/BarChart"), {
     ssr: false
 });
-const BarLineChart = dynamic(() => import("@codegouvaor/react-ads/Chart/BarLineChart"), {
+const BarLineChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/BarLineChart"), {
     ssr: false
 });
-const GaugeChart = dynamic(() => import("@codegouvaor/react-ads/Chart/GaugeChart"), {
+const GaugeChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/GaugeChart"), {
     ssr: false
 });
-const LineChart = dynamic(() => import("@codegouvaor/react-ads/Chart/LineChart"), {
+const LineChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/LineChart"), {
     ssr: false
 });
-const MultiLineChart = dynamic(() => import("@codegouvaor/react-ads/Chart/MultiLineChart"), {
+const MultiLineChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/MultiLineChart"), {
     ssr: false
 });
-const PieChart = dynamic(() => import("@codegouvaor/react-ads/Chart/PieChart"), {
+const PieChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/PieChart"), {
     ssr: false
 });
-const RadarChart = dynamic(() => import("@codegouvaor/react-ads/Chart/RadarChart"), {
+const RadarChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/RadarChart"), {
     ssr: false
 });
-const ScatterChart = dynamic(() => import("@codegouvaor/react-ads/Chart/ScatterChart"), {
+const ScatterChart = dynamic(() => import("@skygenesisenterprise/react-sds/Chart/ScatterChart"), {
     ssr: false
 });
 

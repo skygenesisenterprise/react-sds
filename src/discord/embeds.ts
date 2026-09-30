@@ -1,26 +1,26 @@
 /**
- * Embeds ADS — mise en forme des notifications Discord selon l'identité numérique
- * de la République d'Astoria. Les embeds sont construits comme des objets simples,
+ * Embeds SDS — mise en forme des notifications Discord selon l'identité numérique
+ * de la République d'SGE. Les embeds sont construits comme des objets simples,
  * sérialisables, transmis à discord.js par le client.
  */
-import { ADSDiscordEmbedColor } from "./types";
+import { SDSDiscordEmbedColor } from "./types";
 import type {
-    ADSDiscordNotifyParams,
-    ADSDiscordNotificationType,
-    ADSDiscordField
+    SDSDiscordNotifyParams,
+    SDSDiscordNotificationType,
+    SDSDiscordField
 } from "./types";
 
-export type ADSDiscordEmbed = {
+export type SDSDiscordEmbed = {
     title: string;
     description?: string;
     url?: string;
     color: number;
     author?: { name: string; icon_url?: string };
-    fields?: ADSDiscordField[];
+    fields?: SDSDiscordField[];
     timestamp: string;
 };
 
-const TYPE_EMOJI: Record<ADSDiscordNotificationType, string> = {
+const TYPE_EMOJI: Record<SDSDiscordNotificationType, string> = {
     publication: "📄",
     incident: "🚨",
     maintenance: "🛠️",
@@ -30,7 +30,7 @@ const TYPE_EMOJI: Record<ADSDiscordNotificationType, string> = {
 };
 
 /** Libellé lisible du type de notification. */
-export function adsDiscordTypeLabel(type: ADSDiscordNotificationType): string {
+export function sdsDiscordTypeLabel(type: SDSDiscordNotificationType): string {
     switch (type) {
         case "publication":
             return "Nouvelle publication";
@@ -48,20 +48,20 @@ export function adsDiscordTypeLabel(type: ADSDiscordNotificationType): string {
 }
 
 /**
- * Construit l'embed d'une notification conforme à l'identité Astoria.
+ * Construit l'embed d'une notification conforme à l'identité SGE.
  */
 export function buildNotificationEmbed(
-    params: ADSDiscordNotifyParams,
-    defaultAuthor = "République d'Astoria",
+    params: SDSDiscordNotifyParams,
+    defaultAuthor = "République d'SGE",
     avatarUrl?: string
-): ADSDiscordEmbed {
+): SDSDiscordEmbed {
     const { type, organization, title, description, url, fields, timestamp } = params;
 
     return {
         title: `${TYPE_EMOJI[type]} ${title}`,
         description,
         url,
-        color: ADSDiscordEmbedColor[type],
+        color: SDSDiscordEmbedColor[type],
         author: {
             name: organization ?? defaultAuthor,
             ...(avatarUrl ? { icon_url: avatarUrl } : {})

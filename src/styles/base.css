@@ -1,27 +1,27 @@
 /**
- * ADS base — coherent defaults for the page.
+ * SDS base — coherent defaults for the page.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. Everything is token-driven (`var(--ads-*)`,
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`. Everything is token-driven (`var(--sds-*)`,
  * see `tokens.css` / `themes.css`) so a government application does not need to
  * restyle `html`, `body`, links or text selection itself.
  */
 
 html {
-    background-color: var(--ads-color-background);
-    color: var(--ads-color-foreground);
+    background-color: var(--sds-color-background);
+    color: var(--sds-color-foreground);
     /* `color-scheme` is declared in tokens.css (:root) and themes.css (dark). */
 }
 
 body {
     min-height: 100vh;
     margin: 0;
-    font-family: var(--ads-font-family-base);
-    font-size: var(--ads-font-size-md);
-    font-weight: var(--ads-font-weight-regular);
-    line-height: var(--ads-line-height-body);
-    color: var(--ads-color-text);
-    background-color: var(--ads-color-background);
+    font-family: var(--sds-font-family-base);
+    font-size: var(--sds-font-size-md);
+    font-weight: var(--sds-font-weight-regular);
+    line-height: var(--sds-line-height-body);
+    color: var(--sds-color-text);
+    background-color: var(--sds-color-background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -35,31 +35,31 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--ads-font-family-heading);
-    color: var(--ads-color-text);
+    font-family: var(--sds-font-family-heading);
+    color: var(--sds-color-text);
 }
 
 /* Links. */
 a {
-    color: var(--ads-color-link);
+    color: var(--sds-color-link);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.15em;
-    border-radius: var(--ads-radius-small);
+    border-radius: var(--sds-radius-small);
 }
 
 a:hover {
-    color: var(--ads-color-link-hover);
+    color: var(--sds-color-link-hover);
 }
 
 /* Text selection — readable on both schemes. */
 ::selection {
-    background-color: var(--ads-color-primary);
-    color: var(--ads-color-on-primary);
+    background-color: var(--sds-color-primary);
+    color: var(--sds-color-on-primary);
 }
 
 hr {
     border: 0;
-    border-top: 1px solid var(--ads-color-border);
-    margin-block: var(--ads-space-6);
+    border-top: 1px solid var(--sds-color-border);
+    margin-block: var(--sds-space-6);
 }

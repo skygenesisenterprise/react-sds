@@ -1,24 +1,24 @@
 /**
- * ADS back-to-top.
+ * SDS back-to-top.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. Styles the floating "back to top" bubble used
- * by the <BackToTop /> component (`.ads-back-to-top`) and, as an alias, the
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`. Styles the floating "back to top" bubble used
+ * by the <BackToTop /> component (`.sds-back-to-top`) and, as an alias, the
  * historical `.gov-back-to-top` class — so applications that already use that
  * markup get the official styling as soon as they remove their own rules.
  *
  * Behavior handled here: fixed position bottom-right, fade/scale in once the page
  * is scrolled (the component toggles `.is-visible`), hover, keyboard focus, theme
  * (light/dark through the tokens) and reduced motion (duration tokens collapse to
- * 1ms). Z-index sits above the page content yet below the ADS overlays
+ * 1ms). Z-index sits above the page content yet below the SDS overlays
  * (modals start at ground + 2000).
  */
 
-.ads-back-to-top,
+.sds-back-to-top,
 .gov-back-to-top {
     position: fixed;
-    right: var(--ads-space-4);
-    bottom: var(--ads-space-4);
+    right: var(--sds-space-4);
+    bottom: var(--sds-space-4);
     z-index: 1000;
     display: inline-flex;
     align-items: center;
@@ -26,52 +26,52 @@
     width: 3rem;
     height: 3rem;
     padding: 0;
-    border: 1px solid var(--ads-color-border);
-    border-radius: var(--ads-radius-full);
-    background-color: var(--ads-color-background);
-    color: var(--ads-color-foreground);
+    border: 1px solid var(--sds-color-border);
+    border-radius: var(--sds-radius-full);
+    background-color: var(--sds-color-background);
+    color: var(--sds-color-foreground);
     cursor: pointer;
-    box-shadow: var(--ads-elevation-medium);
+    box-shadow: var(--sds-elevation-medium);
     opacity: 0;
     transform: scale(0.9);
     pointer-events: none;
     transition:
-        opacity var(--ads-duration-normal) var(--ads-easing-standard),
-        transform var(--ads-duration-normal) var(--ads-easing-standard),
-        background-color var(--ads-duration-normal) var(--ads-easing-standard),
-        box-shadow var(--ads-duration-normal) var(--ads-easing-standard);
+        opacity var(--sds-duration-normal) var(--sds-easing-standard),
+        transform var(--sds-duration-normal) var(--sds-easing-standard),
+        background-color var(--sds-duration-normal) var(--sds-easing-standard),
+        box-shadow var(--sds-duration-normal) var(--sds-easing-standard);
 }
 
-.ads-back-to-top.is-visible,
+.sds-back-to-top.is-visible,
 .gov-back-to-top.is-visible {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
 }
 
-.ads-back-to-top:hover,
+.sds-back-to-top:hover,
 .gov-back-to-top:hover {
-    background-color: var(--ads-color-surface-muted);
-    box-shadow: var(--ads-elevation-large);
+    background-color: var(--sds-color-surface-muted);
+    box-shadow: var(--sds-elevation-large);
 }
 
-.ads-back-to-top:focus-visible,
+.sds-back-to-top:focus-visible,
 .gov-back-to-top:focus-visible {
-    outline: 2px solid var(--ads-color-focus);
+    outline: 2px solid var(--sds-color-focus);
     outline-offset: 2px;
 }
 
-.ads-back-to-top i,
+.sds-back-to-top i,
 .gov-back-to-top i {
-    font-size: var(--ads-font-size-xl);
+    font-size: var(--sds-font-size-xl);
     line-height: 1;
 }
 
 /* Slightly larger target on big-enough screens. */
 @media (min-width: 40rem) {
-    .ads-back-to-top,
+    .sds-back-to-top,
     .gov-back-to-top {
-        right: var(--ads-space-5);
+        right: var(--sds-space-5);
         width: 3.25rem;
         height: 3.25rem;
     }

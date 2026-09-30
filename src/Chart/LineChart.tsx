@@ -26,7 +26,7 @@ export type LineChartBaseProps = ChartProps & ChartLineProps;
 
 export type LineChartProps = LineChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-linechart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-linechart> */
 export const LineChart = chartWrapper(
     (props: LineChartBaseProps) => <line-chart {...stringifyObjectValue(props)} />,
     "line-chart"

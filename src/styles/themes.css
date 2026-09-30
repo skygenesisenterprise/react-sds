@@ -1,14 +1,14 @@
 /**
- * ADS themes — color scheme handling.
+ * SDS themes — color scheme handling.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. Semantic `--ads-*` tokens switch automatically
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`. Semantic `--sds-*` tokens switch automatically
  * with the active theme.
  *
  * Supported conventions (both are equivalent and both are honored):
  *
  *   - `.dark` class on `<html>` (next-themes / Tailwind dark-variant convention),
- *   - `[data-fr-theme="dark"]` attribute on `<html>` (set by the ADS runtime — the
+ *   - `[data-fr-theme="dark"]` attribute on `<html>` (set by the SDS runtime — the
  *     `Display` dialog exposes light / dark / system through it).
  *
  * ```html
@@ -27,25 +27,25 @@
     color-scheme: dark;
 
     /* Colors — dark scheme */
-    --ads-color-primary: oklch(0.6686 0.1641 281);
-    --ads-color-secondary: oklch(0.235 0 0);
-    --ads-color-accent: oklch(0.235 0 0);
-    --ads-color-success: #2f9e63;
-    --ads-color-warning: #e57b00;
-    --ads-color-danger: oklch(0.682 0.1922 23);
-    --ads-color-info: #5b9bf5;
-    --ads-color-background: oklch(0.2002 0 0);
-    --ads-color-foreground: oklch(0.8514 0 0);
-    --ads-color-surface: oklch(0.235 0 0);
-    --ads-color-surface-muted: oklch(0.235 0 0);
-    --ads-color-text: oklch(0.8514 0 0);
-    --ads-color-text-muted: oklch(0.66 0 0);
-    --ads-color-border: oklch(0.329 0 0);
-    --ads-color-input: oklch(0.329 0 0);
-    --ads-color-ring: oklch(0.6686 0.1641 281);
-    --ads-color-focus: oklch(0.6686 0.1641 281);
-    --ads-color-link: oklch(0.6686 0.1641 281);
-    --ads-color-link-hover: oklch(0.78 0.12 264);
-    --ads-color-on-primary: oklch(0.2002 0 0);
-    --ads-color-disabled: oklch(0.45 0 0);
+    --sds-color-primary: oklch(0.6686 0.1641 281);
+    --sds-color-secondary: oklch(0.235 0 0);
+    --sds-color-accent: oklch(0.235 0 0);
+    --sds-color-success: #2f9e63;
+    --sds-color-warning: #e57b00;
+    --sds-color-danger: oklch(0.682 0.1922 23);
+    --sds-color-info: #5b9bf5;
+    --sds-color-background: oklch(0.2002 0 0);
+    --sds-color-foreground: oklch(0.8514 0 0);
+    --sds-color-surface: oklch(0.235 0 0);
+    --sds-color-surface-muted: oklch(0.235 0 0);
+    --sds-color-text: oklch(0.8514 0 0);
+    --sds-color-text-muted: oklch(0.66 0 0);
+    --sds-color-border: oklch(0.329 0 0);
+    --sds-color-input: oklch(0.329 0 0);
+    --sds-color-ring: oklch(0.6686 0.1641 281);
+    --sds-color-focus: oklch(0.6686 0.1641 281);
+    --sds-color-link: oklch(0.6686 0.1641 281);
+    --sds-color-link-hover: oklch(0.78 0.12 264);
+    --sds-color-on-primary: oklch(0.2002 0 0);
+    --sds-color-disabled: oklch(0.45 0 0);
 }

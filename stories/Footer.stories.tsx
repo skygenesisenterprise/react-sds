@@ -6,18 +6,18 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import placeholder_9x16ImgUrl from "./assets/placeholder.9x16.png";
 import placeholder_16x9ImgUrl from "./assets/placeholder.16x9.png";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeGouvImgUrl from "../src/assets/sge-gouv.png";
 import { setIdentityAndHomeLinkProps } from "../dist/zz_internal/identityAndHomeLinkProps";
 
 setIdentityAndHomeLinkProps({
     "identity": {
-        imgUrl: astoriaGouvImgUrl,
-        alt: "République d'Astoria",
+        imgUrl: sgeGouvImgUrl,
+        alt: "République d'SGE",
         institution: "Gouvernement"
     },
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Gouvernement de la République d'Astoria"
+        "title": "Accueil - Gouvernement de la République d'SGE"
     }
 });
 
@@ -25,7 +25,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Footer },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Footer.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Footer.tsx)`,
     "argTypes": {
         "accessibility": {
             "options": (() => {
@@ -52,7 +52,7 @@ const { meta, getStory } = getStoryFactory({
         },
         "bottomItems": {
             "description":
-                "To integrate the Dark mode switch head over to the documentation of the [Display component](https://codegouvaor.github.io/react-ads/?path=/docs/components-display)"
+                "To integrate the Dark mode switch head over to the documentation of the [Display component](https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-display)"
         },
         "license": {
             "description":
@@ -63,7 +63,7 @@ const { meta, getStory } = getStoryFactory({
         },
         "identity": {
             "control": { "type": null },
-            "description": `The institutional identity (flag/emblem lockup + institution) of the Republic of Astoria.
+            "description": `The institutional identity (flag/emblem lockup + institution) of the Sky Genesis Enterprise.
 If you are using the \`<Header />\` component of this library (as you should) this prop is optional, 
 the \`identity\` of the \`<Header />\` will be used.`
         },
@@ -143,7 +143,7 @@ export const WithCustomLicense = getStory({
     "license": (
         <>
             Unless stated otherwise all content of this website are under{" "}
-            <a href="https://github.com/codegouvaor/react-ads/blob/main/LICENSE" target="_blank">
+            <a href="https://github.com/skygenesisenterprise/react-sds/blob/main/LICENSE" target="_blank">
                 licence MIT
             </a>{" "}
         </>

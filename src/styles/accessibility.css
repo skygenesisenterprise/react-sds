@@ -1,8 +1,8 @@
 /**
- * ADS accessibility — the common rules every government application needs.
+ * SDS accessibility — the common rules every government application needs.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`.
  *
  * Components ship their own (often stronger) focus styles through the component
  * layer — the rules here are the safety net for everything else.
@@ -12,26 +12,26 @@
 
 /* Keyboard-only focus: never removed for mouse, always visible for keyboards. */
 :focus-visible {
-    outline: 2px solid var(--ads-color-focus);
+    outline: 2px solid var(--sds-color-focus);
     outline-offset: 2px;
 }
 
 /* Opt-in stronger ring for custom interactive elements:
-       <a class="ads-focus-ring" href="…">…</a>                              */
-.ads-focus-ring:focus-visible {
-    outline: 2px solid var(--ads-color-focus);
+       <a class="sds-focus-ring" href="…">…</a>                              */
+.sds-focus-ring:focus-visible {
+    outline: 2px solid var(--sds-color-focus);
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ads-color-focus) 25%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--sds-color-focus) 25%, transparent);
 }
 
 /* ---- Visually hidden ------------------------------------------------------- */
 
 /*
- * .ads-sr-only — hide an element visually while keeping it available to assistive
+ * .sds-sr-only — hide an element visually while keeping it available to assistive
  * technologies (screen readers, find-in-page, …). Use for skip links, form
  * legends rendered off-screen, decorative duplicates…
  */
-.ads-sr-only {
+.sds-sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -44,7 +44,7 @@
 }
 
 /* Re-show a visually-hidden element on focus (skip links pattern). */
-.ads-sr-only:focus-visible {
+.sds-sr-only:focus-visible {
     position: static;
     width: auto;
     height: auto;
@@ -58,7 +58,7 @@
 
 /* Ensure interactive zones stay large enough (WCAG 2.5.8 target size is
    satisfied at 44×44 CSS px on pointers; 40px+ is a common pragmatic floor). */
-.ads-touch-target {
+.sds-touch-target {
     min-width: 2.5rem;
     min-height: 2.5rem;
 }
@@ -68,7 +68,7 @@
 /* Consistent, readable disabled states (components may refine). */
 :disabled,
 [aria-disabled="true"] {
-    color: var(--ads-color-disabled);
+    color: var(--sds-color-disabled);
 }
 
 /* ---- Selection ------------------------------------------------------------- */
@@ -78,7 +78,7 @@
 /* ---- Reduced motion -------------------------------------------------------- */
 
 /* Users who ask for less motion get it: shorten every animation regardless of
-   whether it consumed an ADS duration token. Transitions keep running but with
+   whether it consumed an SDS duration token. Transitions keep running but with
    the 1ms duration tokens from tokens.css. */
 @media (prefers-reduced-motion: reduce) {
     *,

@@ -1,13 +1,13 @@
 # Governance
 
-This document describes how `@codegouvaor/react-ads` is run. It is a living document: as
-the Astoria digital services structure the official governance of the Astoria Design System,
+This document describes how `@skygenesisenterprise/react-sds` is run. It is a living document: as
+the SGE digital services structure the official governance of the Sky Genesis Enterprise Design System,
 this page will be updated to match.
 
 ## Vision
 
-ADS React is the official React implementation of the Astoria Design System — the reference
-design system for the digital ecosystem of the Republic of Astoria. It is:
+SDS React is the official React implementation of the Sky Genesis Enterprise Design System — the reference
+design system for the digital ecosystem of the Sky Genesis Enterprise. It is:
 
 -   **open source** (MIT) and developed in the open;
 -   **independent** — progressively decoupled from its react-dsfr origins
@@ -18,12 +18,12 @@ design system for the digital ecosystem of the Republic of Astoria. It is:
 ## Roles
 
 -   **Project maintainers** — the people with write access to
-    `github.com/codegouvaor/react-ads`. They review and merge pull requests, cut releases and
-    steward the roadmap. Today the maintainers are the members of the `codegouvaor`
+    `github.com/skygenesisenterprise/react-sds`. They review and merge pull requests, cut releases and
+    steward the roadmap. Today the maintainers are the members of the `skygenesisenterprise`
     organization; the list will be published here as the project formalizes.
 -   **Contributors** — anyone opening issues or pull requests. See
     [CONTRIBUTING.md](CONTRIBUTING.md).
--   **Design owners (Astoria)** — the brand/design authority of the Republic of Astoria.
+-   **Design owners (SGE)** — the brand/design authority of the Sky Genesis Enterprise.
     They own the official tokens and identity assets; the codebase must never invent or
     freeze identity values without them (see MIGRATION.md Stage 4).
 

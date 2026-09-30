@@ -1,14 +1,14 @@
 /**
- * ADS Native `Switch` (toggle).
+ * SDS Native `Switch` (toggle).
  *
- * Wraps the native React Native `Switch` with ADS theming and a guaranteed touch
+ * Wraps the native React Native `Switch` with SDS theming and a guaranteed touch
  * target for accessibility.
  */
 
 import * as React from "react";
 import { Pressable, Switch as RNSwitch, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type SwitchProps = {
     value: boolean;
@@ -33,7 +33,7 @@ export function Switch(props: SwitchProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled === true;
 

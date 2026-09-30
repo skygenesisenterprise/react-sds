@@ -1,14 +1,14 @@
 import { NextAppDirEmotionCacheProvider } from "tss-react/next";
-import { DsfrHead } from "@codegouvaor/react-ads/next-appdir/DsfrHead";
-import { DsfrProvider } from "@codegouvaor/react-ads/next-appdir/DsfrProvider";
-import { getHtmlAttributes } from "@codegouvaor/react-ads/next-appdir/getHtmlAttributes";
+import { DsfrHead } from "@skygenesisenterprise/react-sds/next-appdir/DsfrHead";
+import { DsfrProvider } from "@skygenesisenterprise/react-sds/next-appdir/DsfrProvider";
+import { getHtmlAttributes } from "@skygenesisenterprise/react-sds/next-appdir/getHtmlAttributes";
 import { StartDsfr } from "./StartDsfr";
 import { defaultColorScheme } from "./defaultColorScheme";
-import MuiDsfrThemeProvider from "@codegouvaor/react-ads/mui";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
-import { headerFooterDisplayItem, addDisplayTranslations } from "@codegouvaor/react-ads/Display";
-import { fr } from "@codegouvaor/react-ads";
+import MuiDsfrThemeProvider from "@skygenesisenterprise/react-sds/mui";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { Footer } from "@skygenesisenterprise/react-sds/Footer";
+import { headerFooterDisplayItem, addDisplayTranslations } from "@skygenesisenterprise/react-sds/Display";
+import { fr } from "@skygenesisenterprise/react-sds";
 import { Navigation } from "./Navigation";
 import Link from "next/link";
 import {
@@ -21,7 +21,7 @@ import { ClientHeaderQuickAccessItem } from "../ui/ClientHeaderQuickAccessItem";
 import { headers } from "next/headers";
 import { getScriptNonceFromHeader } from "next/dist/server/app-render/get-script-nonce-from-header"; // or use your own implementation
 import style from "./main.module.css";
-import { cx } from "@codegouvaor/react-ads/tools/cx";
+import { cx } from "@skygenesisenterprise/react-sds/tools/cx";
 import { Follow } from "./Follow";
 
 export default function RootLayout({ children }: { children: JSX.Element }) {
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
     return (
         <html {...getHtmlAttributes({ defaultColorScheme, lang })}>
             <head>
-                <title>Next 13 AppDir demo — ADS React</title>
+                <title>Next 13 AppDir demo — SDS React</title>
                 <StartDsfr />
                 <DsfrHead
                     Link={Link}
@@ -66,14 +66,14 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
                         <MuiDsfrThemeProvider>
                             <Header
                                 identity={{
-                                    imgUrl: "/astoria-gouv.png",
-                                    alt: "République d'Astoria",
+                                    imgUrl: "/sge-gouv.png",
+                                    alt: "République d'SGE",
                                     institution: "Gouvernement"
                                 }}
                                 serviceTitle="Nom du site / service"
                                 homeLinkProps={{
                                     "href": "/",
-                                    "title": "Accueil - République d'Astoria"
+                                    "title": "Accueil - République d'SGE"
                                 }}
                                 quickAccessItems={[
                                     headerFooterDisplayItem,

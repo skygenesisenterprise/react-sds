@@ -113,7 +113,7 @@ export namespace CardProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-card> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-card> */
 export const Card = memo(
     forwardRef<HTMLDivElement, CardProps>((props, ref) => {
         const {

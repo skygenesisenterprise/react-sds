@@ -1,8 +1,8 @@
 /**
- * ADS form — common form primitives.
+ * SDS form — common form primitives.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`.
  *
  * The library's <Input />, <Select />, <Checkbox /> … components are styled by the
  * component layer shipped with the package. This file provides the plain-CSS
@@ -19,7 +19,7 @@
 }
 
 .gov-form-field {
-    margin: 0 0 var(--ads-space-5);
+    margin: 0 0 var(--sds-space-5);
 }
 
 .gov-form-field:last-child {
@@ -30,16 +30,16 @@
 
 .gov-form :where(.gov-form-label, label) {
     display: inline-block;
-    margin-bottom: var(--ads-space-2);
-    font-weight: var(--ads-font-weight-medium);
-    line-height: var(--ads-line-height-normal);
+    margin-bottom: var(--sds-space-2);
+    font-weight: var(--sds-font-weight-medium);
+    line-height: var(--sds-line-height-normal);
 }
 
 /* Required marker — put a <span class="gov-form-required">…</span> in the label
    or rely on the `[aria-required="true"]` hint below. */
 .gov-form .gov-form-required {
-    color: var(--ads-color-danger);
-    font-weight: var(--ads-font-weight-semibold);
+    color: var(--sds-color-danger);
+    font-weight: var(--sds-font-weight-semibold);
 }
 
 /* ---- Inputs ---------------------------------------------------------------- */
@@ -47,15 +47,15 @@
 .gov-form :where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
     width: 100%;
     min-height: 2.5rem;
-    padding: var(--ads-space-2) var(--ads-space-3);
+    padding: var(--sds-space-2) var(--sds-space-3);
     font: inherit;
-    color: var(--ads-color-text);
-    background-color: var(--ads-color-background);
-    border: 1px solid var(--ads-color-input);
-    border-radius: var(--ads-radius-medium);
+    color: var(--sds-color-text);
+    background-color: var(--sds-color-background);
+    border: 1px solid var(--sds-color-input);
+    border-radius: var(--sds-radius-medium);
     transition:
-        border-color var(--ads-duration-fast) var(--ads-easing-standard),
-        box-shadow var(--ads-duration-fast) var(--ads-easing-standard);
+        border-color var(--sds-duration-fast) var(--sds-easing-standard),
+        box-shadow var(--sds-duration-fast) var(--sds-easing-standard);
 }
 
 .gov-form :where(textarea) {
@@ -63,7 +63,7 @@
 }
 
 .gov-form ::placeholder {
-    color: var(--ads-color-text-muted);
+    color: var(--sds-color-text-muted);
     opacity: 1;
 }
 
@@ -71,58 +71,58 @@
 
 .gov-form :where(input, textarea, select):focus-visible {
     outline: none;
-    border-color: var(--ads-color-focus);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ads-color-focus) 25%, transparent);
+    border-color: var(--sds-color-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sds-color-focus) 25%, transparent);
 }
 
 /* ---- Disabled -------------------------------------------------------------- */
 
 .gov-form :where(input, textarea, select):disabled,
 .gov-form :where(input, textarea, select)[aria-disabled="true"] {
-    background-color: var(--ads-color-surface-muted);
-    color: var(--ads-color-disabled);
-    border-color: var(--ads-color-border);
+    background-color: var(--sds-color-surface-muted);
+    color: var(--sds-color-disabled);
+    border-color: var(--sds-color-border);
     cursor: not-allowed;
 }
 
 /* ---- Validation / errors --------------------------------------------------- */
 
 .gov-form :where(input, textarea, select)[aria-invalid="true"] {
-    border-color: var(--ads-color-danger);
+    border-color: var(--sds-color-danger);
 }
 
 .gov-form :where(input, textarea, select)[aria-invalid="true"]:focus-visible {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ads-color-danger) 20%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sds-color-danger) 20%, transparent);
 }
 
 .gov-form-help,
 .gov-form-error {
-    margin-top: var(--ads-space-2);
-    font-size: var(--ads-font-size-sm);
-    line-height: var(--ads-line-height-normal);
+    margin-top: var(--sds-space-2);
+    font-size: var(--sds-font-size-sm);
+    line-height: var(--sds-line-height-normal);
 }
 
 .gov-form-help {
-    color: var(--ads-color-text-muted);
+    color: var(--sds-color-text-muted);
 }
 
 .gov-form-error {
-    color: var(--ads-color-danger);
-    font-weight: var(--ads-font-weight-medium);
+    color: var(--sds-color-danger);
+    font-weight: var(--sds-font-weight-medium);
 }
 
 /* ---- Fieldset / legend ----------------------------------------------------- */
 
 .gov-form :where(fieldset) {
     min-width: 0;
-    margin: 0 0 var(--ads-space-5);
+    margin: 0 0 var(--sds-space-5);
     padding: 0;
     border: 0;
 }
 
 .gov-form :where(legend) {
-    margin-bottom: var(--ads-space-3);
+    margin-bottom: var(--sds-space-3);
     padding: 0;
-    font-weight: var(--ads-font-weight-semibold);
-    line-height: var(--ads-line-height-normal);
+    font-weight: var(--sds-font-weight-semibold);
+    line-height: var(--sds-line-height-normal);
 }

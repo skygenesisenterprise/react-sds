@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Table },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Table.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Table.tsx)`,
     "disabledProps": ["lang"],
     "argTypes": {
         "caption": {

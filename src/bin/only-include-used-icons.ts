@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * This script is ran with `npx react-ads include-used-icons`
+ * This script is ran with `npx react-sds include-used-icons`
  * It scans your codebase to find which icons are used and only include those in the final build.
- * Do do that it patches the node_modules/@codegouvaor/react-ads/dist/utility/icons/icons.css file
+ * Do do that it patches the node_modules/@skygenesisenterprise/react-sds/dist/utility/icons/icons.css file
  * and the public/dsfr/utility/icons/icons.css file (if applicable, not in Next.js for example).
  * The script can figure out where your node_modules and public directories are.
  *
@@ -349,7 +349,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
                         for (const packageName of [
                             CODEGOUV_REACT_DSFR,
                             "@gouvfr/dsfr",
-                            "@dataesr/react-ads"
+                            "@dataesr/react-sds"
                         ]) {
                             if (
                                 Object.keys({

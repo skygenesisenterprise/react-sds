@@ -1,7 +1,7 @@
-import { fr } from "@codegouvaor/react-ads";
+import { fr } from "@skygenesisenterprise/react-sds";
 
-import * as Pictogrammes from '@codegouvaor/react-ads/picto';
-import { type PictoProps } from '@codegouvaor/react-ads/picto/utils/PictoWrapper';
+import * as Pictogrammes from '@skygenesisenterprise/react-sds/picto';
+import { type PictoProps } from '@skygenesisenterprise/react-sds/picto/utils/PictoWrapper';
 
 const iconColors: PictoProps.Color[] = ["green-tilleul-verveine", "green-bourgeon", "green-emeraude", "green-menthe", "green-archipel", "blue-ecume", "blue-cumulus", "purple-glycine", "pink-macaron", "pink-tuile", "yellow-tournesol", "yellow-moutarde", "orange-terre-battue", "brown-cafe-creme", "brown-caramel", "brown-opera", "beige-gris-galet"];;
 

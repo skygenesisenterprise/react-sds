@@ -1,8 +1,8 @@
 /**
- * ADS reset — modern and minimal.
+ * SDS reset — modern and minimal.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`.
  *
  * This reset deliberately stays soft: it normalizes the inconsistencies that have a
  * real cost (box-sizing, form typography, media sizing) without imposing opinions
@@ -17,7 +17,7 @@
 }
 
 html {
-    /* Keep the root at the browser default (16px) — DSFR and ADS use `rem`. */
+    /* Keep the root at the browser default (16px) — DSFR and SDS use `rem`. */
     font-size: 100%;
     -webkit-text-size-adjust: 100%;
     /* Native form controls and scrollbars follow the active scheme (set in tokens/themes). */

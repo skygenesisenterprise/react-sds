@@ -1,23 +1,23 @@
 /**
- * Root entry of @codegouvaor/react-ads.
+ * Root entry of @skygenesisenterprise/react-sds.
  *
  * The library is tree-shakable: importing a component from the root entry only pulls the
  * modules you actually use. For maximum granularity (and smallest bundles) you can also
  * import any component from its dedicated subpath, e.g.
  *
- *     import { Button } from "@codegouvaor/react-ads/Button";
+ *     import { Button } from "@skygenesisenterprise/react-sds/Button";
  *
  * Modules that require optional dependencies (MUI layer, charts backed by
  * @gouvfr/dsfr-chart, Next.js integration helpers…) are intentionally NOT re-exported
  * here so that importing the root entry never pulls an optional dependency.
  */
 
-// Design tokens and helpers (fr namespace is the legacy layer, renamed with the ADS CSS).
+// Design tokens and helpers (fr namespace is the legacy layer, renamed with the SDS CSS).
 export * from "./fr";
 
-// ADS foundations (Astoria Design System tokens) and component families
+// SDS foundations (Sky Genesis Enterprise Design System tokens) and component families
 // (layout primitives, typography, government portal and content).
-export * from "./ads";
+export * from "./sds";
 
 // Components — one module per component.
 export { Accordion } from "./Accordion";

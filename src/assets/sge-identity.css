@@ -1,0 +1,58 @@
+/* SDS — institutional identity of the Sky Genesis Enterprise.
+   Companion stylesheet of the <Header /> and <Footer /> brand blocks.
+   It renders the national lockup (flag/emblem + name of the Republic) and the
+   institution line in place of the legacy DSFR state brand (fr-logo tricolor
+   block). Provisional until the SDS stylesheet lands (see MIGRATION.md stage 4):
+   the fr-* classes still come from the framework stylesheet, this file only
+   tunes the brand zone. */
+
+.sds-identity__link,
+.sds-identity__footer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* The legacy stylesheet removes the outline of the links in the brand zone
+   (it relies on the "enlarge-link" overlay). Restore a visible focus ring for
+   the configurations where the identity link is not enlarged. */
+.sds-identity__link:focus-visible {
+    outline-offset: 2px;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: #0a76f6;
+}
+
+.sds-identity__img {
+    display: block;
+    height: 3rem;
+    width: auto;
+    max-width: 100%;
+}
+
+.sds-identity__institution {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    color: var(--text-title-grey, #161616);
+}
+
+/* Header brand, on large screens the header grows, so does the lockup */
+@media (min-width: 62rem) {
+    .fr-header__logo .sds-identity__img {
+        height: 4rem;
+    }
+}
+
+/* Footer brand */
+.fr-footer__brand .sds-identity__img {
+    height: 4.5rem;
+}
+
+.fr-footer__brand .sds-identity__footer {
+    align-self: flex-end;
+}

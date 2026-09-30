@@ -1,10 +1,10 @@
 /**
- * ADS Native spacing tokens (points).
+ * SDS Native spacing tokens (points).
  *
  * Semantic aliases map to the numeric scale so components stay readable.
  */
 
-export type ADSSpacingTokens = {
+export type SDSSpacingTokens = {
     none: number;
     xs: number;
     sm: number;
@@ -16,7 +16,7 @@ export type ADSSpacingTokens = {
     "4xl": number;
 };
 
-export const adsSpacing: ADSSpacingTokens = {
+export const sdsSpacing: SDSSpacingTokens = {
     none: 0,
     xs: 4,
     sm: 8,

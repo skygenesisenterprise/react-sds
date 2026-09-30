@@ -1,14 +1,14 @@
 /**
- * ADS Native `Icon` primitive.
+ * SDS Native `Icon` primitive.
  *
  * ```tsx
- * import { Icon } from "@codegouvaor/react-ads/native";
+ * import { Icon } from "@skygenesisenterprise/react-sds/native";
  *
  * <Icon name="check" size={24} color={colors.success} />
  * ```
  *
  * The icon is rendered through the host application's icon system when the app
- * provides a `renderIcon` to `<ADSProvider>`. This is the recommended way to plug
+ * provides a `renderIcon` to `<SDSProvider>`. This is the recommended way to plug
  * a real icon font (e.g. `@expo/vector-icons`). Without a provider, or when the
  * provider does not set `renderIcon`, a small built-in set of semantic glyphs is
  * used so components always render.
@@ -19,7 +19,7 @@
 import * as React from "react";
 import { Text } from "react-native";
 import type { TextProps, TextStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 const BUILTIN_GLYPHS: Record<string, string> = {
     arrowLeft: "←",
@@ -56,7 +56,7 @@ const BUILTIN_GLYPHS: Record<string, string> = {
 };
 
 export type IconProps = Omit<TextProps, "children"> & {
-    /** ADS icon name. */
+    /** SDS icon name. */
     name: string;
     /** Glyph size. Default "md" dimension step, or explicit number. */
     size?: number;
@@ -70,7 +70,7 @@ export type IconProps = Omit<TextProps, "children"> & {
 export function Icon(props: IconProps) {
     const { name, size, color, accessibilityLabel, style, accessible, ...rest } = props;
 
-    const { colors, tokens, renderIcon } = useADSTheme();
+    const { colors, tokens, renderIcon } = useSDSTheme();
 
     const iconSize = size ?? tokens.dimensions.iconMd;
 

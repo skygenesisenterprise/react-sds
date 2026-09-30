@@ -1,11 +1,11 @@
 /**
- * ADS Native `ProcedureCard` — a generic government procedure entry.
+ * SDS Native `ProcedureCard` — a generic government procedure entry.
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text, Icon } from "../primitives";
 import { Card } from "./Card";
 import { StatusBadge, type StatusKey } from "./StatusBadge";
@@ -40,7 +40,7 @@ export function ProcedureCard(props: ProcedureCardProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <Card

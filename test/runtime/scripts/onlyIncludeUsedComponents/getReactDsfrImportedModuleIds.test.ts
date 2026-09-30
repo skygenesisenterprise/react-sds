@@ -7,8 +7,8 @@ import {
 describe("getReactDsfrImportedModuleIds", () => {
     it("detects default and named imports from a component subpath", () => {
         const rawFileContent = `
-            import { Button } from "@codegouvaor/react-ads/Button";
-            import Badge from "@codegouvaor/react-ads/Badge";
+            import { Button } from "@skygenesisenterprise/react-sds/Button";
+            import Badge from "@skygenesisenterprise/react-sds/Badge";
         `;
 
         expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
@@ -19,10 +19,10 @@ describe("getReactDsfrImportedModuleIds", () => {
 
     it("flags imports of the package root (main entry), whatever the import form", () => {
         const rawFileContent = `
-            import { fr } from "@codegouvaor/react-ads";
-            import { Button, Alert } from "@codegouvaor/react-ads";
-            const { Card } = await import("@codegouvaor/react-ads");
-            const { Header } = require("@codegouvaor/react-ads");
+            import { fr } from "@skygenesisenterprise/react-sds";
+            import { Button, Alert } from "@skygenesisenterprise/react-sds";
+            const { Card } = await import("@skygenesisenterprise/react-sds");
+            const { Header } = require("@skygenesisenterprise/react-sds");
         `;
 
         // A root import can pull any component: it must be reported (so that the caller
@@ -34,10 +34,10 @@ describe("getReactDsfrImportedModuleIds", () => {
 
     it("detects deep imports and normalizes them to their module", () => {
         const rawFileContent = `
-            import { useIsModalOpen } from "@codegouvaor/react-ads/Modal/useIsModalOpen";
-            import { createModal } from "@codegouvaor/react-ads/Modal";
-            const { Header } = await import("@codegouvaor/react-ads/Header/index");
-            const x = require("@codegouvaor/react-ads/Tabs.js");
+            import { useIsModalOpen } from "@skygenesisenterprise/react-sds/Modal/useIsModalOpen";
+            import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+            const { Header } = await import("@skygenesisenterprise/react-sds/Header/index");
+            const x = require("@skygenesisenterprise/react-sds/Tabs.js");
         `;
 
         expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
@@ -49,9 +49,9 @@ describe("getReactDsfrImportedModuleIds", () => {
 
     it("keeps two segments for blocks and three for dsfr asset paths", () => {
         const rawFileContent = `
-            import { PasswordInput } from "@codegouvaor/react-ads/blocks/PasswordInput";
-            import "@codegouvaor/react-ads/dsfr/component/table/table.min.css";
-            import "@codegouvaor/react-ads/dsfr/utility/colors/colors.min.css";
+            import { PasswordInput } from "@skygenesisenterprise/react-sds/blocks/PasswordInput";
+            import "@skygenesisenterprise/react-sds/dsfr/component/table/table.min.css";
+            import "@skygenesisenterprise/react-sds/dsfr/utility/colors/colors.min.css";
         `;
 
         expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
@@ -61,7 +61,7 @@ describe("getReactDsfrImportedModuleIds", () => {
         ]);
     });
 
-    it("returns no module for files that do not use react-ads", () => {
+    it("returns no module for files that do not use react-sds", () => {
         const rawFileContent = `
             import { useState } from "react";
             import { z } from "zod";
@@ -74,9 +74,9 @@ describe("getReactDsfrImportedModuleIds", () => {
 describe("getReactDsfrImportedModuleIds, non import occurrences", () => {
     it("ignores urls and comments that merely mention the package", () => {
         const rawFileContent = `
-            // see https://www.npmjs.com/package/@codegouvaor/react-ads/v/1.32.5
-            <link rel="stylesheet" href="https://unpkg.com/@codegouvaor/react-ads/dist/dsfr/dsfr.min.css" />
-            /* @codegouvaor/react-ads/Header is not imported here */
+            // see https://www.npmjs.com/package/@skygenesisenterprise/react-sds/v/1.32.5
+            <link rel="stylesheet" href="https://unpkg.com/@skygenesisenterprise/react-sds/dist/dsfr/dsfr.min.css" />
+            /* @skygenesisenterprise/react-sds/Header is not imported here */
         `;
 
         expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual([]);
@@ -84,8 +84,8 @@ describe("getReactDsfrImportedModuleIds, non import occurrences", () => {
 
     it("still detects the import when it sits next to a mention", () => {
         const rawFileContent = `
-            // https://www.npmjs.com/package/@codegouvaor/react-ads/v/1.32.5
-            import { Button } from "@codegouvaor/react-ads/Button";
+            // https://www.npmjs.com/package/@skygenesisenterprise/react-sds/v/1.32.5
+            import { Button } from "@skygenesisenterprise/react-sds/Button";
         `;
 
         expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual(["Button"]);
@@ -94,7 +94,7 @@ describe("getReactDsfrImportedModuleIds, non import occurrences", () => {
     it("detects @import of a stylesheet", () => {
         expect(
             getReactDsfrImportedModuleIds({
-                "rawFileContent": `@import "@codegouvaor/react-ads/dsfr/component/table/table.min.css";`
+                "rawFileContent": `@import "@skygenesisenterprise/react-sds/dsfr/component/table/table.min.css";`
             })
         ).toStrictEqual(["dsfr/component/table"]);
     });

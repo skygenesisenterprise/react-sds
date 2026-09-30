@@ -36,7 +36,7 @@ export type BarLineChartBaseProps = {
 
 export type BarLineChartProps = BarLineChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-barlinechart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-barlinechart> */
 export const BarLineChart = chartWrapper((props: BarLineChartBaseProps) => {
     return <bar-line-chart {...stringifyObjectValue(props)} />;
 }, "bar-line-chart");

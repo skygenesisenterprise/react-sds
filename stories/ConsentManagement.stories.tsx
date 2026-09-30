@@ -7,7 +7,7 @@ import { Placeholder } from "../dist/consentManagement/Placeholder";
 import { Footer } from "../dist/Footer";
 import { Button } from "../dist/Button";
 import { fr } from "../dist/fr";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeGouvImgUrl from "../src/assets/sge-gouv.png";
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
@@ -15,20 +15,20 @@ const { meta, getStory } = getStoryFactory({
         "consentManagement": Story
     },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/consentManagement)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/consentManagement)
 
 \`src/consentManagement.tsx\` (This is a file you should create in your project)  
 
-Refer to [this section of the Guides](https://codegouvaor.github.io/react-ads/analytics) to see how to setup the the 
+Refer to [this section of the Guides](https://skygenesisenterprise.github.io/react-sds/analytics) to see how to setup the the 
 mandated solution for analytics in your project.  
   
-You can find a complete example setup in [the Demo repo for Next.js App Router](https://github.com/garronej/react-ads-next-appdir-demo/blob/main/ui/consentManagement.tsx) 
+You can find a complete example setup in [the Demo repo for Next.js App Router](https://github.com/garronej/react-sds-next-appdir-demo/blob/main/ui/consentManagement.tsx) 
 which is live [here](https://stackblitz.com/edit/nextjs-j2wba3?file=pages/index.tsx). You should be able to easily adapt it to other meta frameworks (Vite, Next Pages Router, CRA).
   
 \`\`\`tsx
 "use client";
 
-import { createConsentManagement } from "@codegouvaor/react-ads/consentManagement";
+import { createConsentManagement } from "@skygenesisenterprise/react-sds/consentManagement";
 
 export const { 
     ConsentBannerAndConsentManagement, 
@@ -163,7 +163,7 @@ Placeholders are also provided to help you display content conditionally based o
 
 \`\`\`tsx
 import { useConsent } from "./consentManagement";
-import { Placeholder } from "@codegouvaor/react-ads/consentManagement/Placeholder";
+import { Placeholder } from "@skygenesisenterprise/react-sds/consentManagement/Placeholder";
 
 export function MyComponent(){
 
@@ -188,7 +188,7 @@ You can also register a \`consentCallback\` in a component.
 
 \`\`\`tsx
 import { useConsent } from "./consentManagement";
-import { Placeholder } from "@codegouvaor/react-ads/consentManagement/Placeholder";
+import { Placeholder } from "@skygenesisenterprise/react-sds/consentManagement/Placeholder";
 
 export function MyComponent(){
 
@@ -314,13 +314,13 @@ function Story() {
                 à la gestion et au développement de votre entreprise.
             `}
                 identity={{
-                    imgUrl: astoriaGouvImgUrl,
-                    alt: "République d'Astoria",
+                    imgUrl: sgeGouvImgUrl,
+                    alt: "République d'SGE",
                     institution: "Gouvernement"
                 }}
                 homeLinkProps={{
                     "href": "/",
-                    "title": "Accueil - Gouvernement de la République d'Astoria"
+                    "title": "Accueil - Gouvernement de la République d'SGE"
                 }}
                 bottomItems={[<FooterPersonalDataPolicyItem />, <FooterConsentManagementItem />]}
             />

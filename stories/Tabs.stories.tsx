@@ -6,7 +6,7 @@ import { getStoryFactory, logCallbacks } from "./getStory";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Tabs },
-    "description": `- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Tabs.tsx)  
+    "description": `- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Tabs.tsx)  
 
 ## Uncontrolled
 

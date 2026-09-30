@@ -3,8 +3,8 @@
 # More info at https://github.com/publiccodeyml/publiccode.yml
 
 publiccodeYmlVersion: "0"
-name: "react-ads"
-url: "https://github.com/codegouvaor/react-ads"
+name: "react-sds"
+url: "https://github.com/skygenesisenterprise/react-sds"
 releaseDate: "2026-09-03"
 platforms:
   - web
@@ -18,9 +18,9 @@ legal:
 maintenance:
   type: community
   contacts:
-    - name: codegouvaor organization (Astoria Design System)
-      email: codegouvaor@users.noreply.github.com
-      affiliation: Republic of Astoria
+    - name: skygenesisenterprise organization (Sky Genesis Enterprise Design System)
+      email: skygenesisenterprise@users.noreply.github.com
+      affiliation: Sky Genesis Enterprise
 localisation:
   localisationReady: true
   availableLanguages:
@@ -28,15 +28,15 @@ localisation:
     - fr
 description:
   en:
-    shortDescription: Official React implementation of the Astoria Design System
+    shortDescription: Official React implementation of the Sky Genesis Enterprise Design System
     features:
       - Accessible, typed and tree-shakable React components
       - SSR helpers for Next.js (Pages Router and App Router)
       - Design tokens exposed as CSS custom properties
       - Interactive component documentation (Storybook)
     longDescription: |
-      ADS React is the official React implementation of the Astoria Design System (ADS),
-      the design system for the digital ecosystem of the Republic of Astoria.
+      SDS React is the official React implementation of the Sky Genesis Enterprise Design System (SDS),
+      the design system for the digital ecosystem of the Sky Genesis Enterprise.
 
       It provides accessible, fully typed and tree-shakable React components (Button,
       Alert, Card, Header, Footer, Modal, Tabs, Tables, forms…), integration helpers for

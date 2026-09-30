@@ -1,0 +1,187 @@
+/**
+ * SDS typography primitives.
+ *
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css` and by each typography component. These classes
+ * are emitted by <SDSHeading />, <SDSText />, <SDSLead /> and <SDSLink /> so an
+ * application never has to write font-size / line-height / weight / margin / color
+ * for standard government editorial type.
+ *
+ * `data-*` attributes drive the variations: `data-size` (heading scale / text size),
+ * `data-weight`, `data-color`, `data-margin`, `data-align`, `data-variant` (link).
+ */
+
+/* ---- SDSHeading ----------------------------------------------------------- */
+
+.sds-heading {
+    margin: 0;
+    font-family: var(--sds-font-family-heading);
+    color: var(--sds-color-text);
+    line-height: var(--sds-line-height-heading);
+    font-weight: var(--sds-font-weight-bold);
+}
+
+/* Heading scale follows the element level by default, overridable with data-size. */
+.sds-heading[data-size="1"],
+.sds-heading[data-level="1"] {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+.sds-heading[data-size="2"],
+.sds-heading[data-level="2"] {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+}
+.sds-heading[data-size="3"],
+.sds-heading[data-level="3"] {
+    font-size: clamp(1.375rem, 3vw, 1.625rem);
+}
+.sds-heading[data-size="4"],
+.sds-heading[data-level="4"] {
+    font-size: var(--sds-font-size-xl);
+}
+.sds-heading[data-size="5"],
+.sds-heading[data-level="5"] {
+    font-size: var(--sds-font-size-lg);
+}
+.sds-heading[data-size="6"],
+.sds-heading[data-level="6"] {
+    font-size: var(--sds-font-size-md);
+}
+
+/* ---- SDSText -------------------------------------------------------------- */
+
+.sds-text {
+    margin: 0;
+    font-family: var(--sds-font-family-base);
+    font-size: var(--sds-font-size-md);
+    line-height: var(--sds-line-height-body);
+    color: var(--sds-color-text);
+}
+
+.sds-text[data-size="xs"] {
+    font-size: var(--sds-font-size-xs);
+}
+.sds-text[data-size="sm"] {
+    font-size: var(--sds-font-size-sm);
+}
+.sds-text[data-size="md"] {
+    font-size: var(--sds-font-size-md);
+}
+.sds-text[data-size="lg"] {
+    font-size: var(--sds-font-size-lg);
+}
+.sds-text[data-size="xl"] {
+    font-size: var(--sds-font-size-xl);
+}
+
+.sds-text[data-weight="regular"] {
+    font-weight: var(--sds-font-weight-regular);
+}
+.sds-text[data-weight="medium"] {
+    font-weight: var(--sds-font-weight-medium);
+}
+.sds-text[data-weight="semibold"] {
+    font-weight: var(--sds-font-weight-semibold);
+}
+.sds-text[data-weight="bold"] {
+    font-weight: var(--sds-font-weight-bold);
+}
+
+.sds-text[data-color="default"] {
+    color: var(--sds-color-text);
+}
+.sds-text[data-color="muted"] {
+    color: var(--sds-color-text-muted);
+}
+.sds-text[data-color="primary"] {
+    color: var(--sds-color-primary);
+}
+
+.sds-text[data-margin="none"] {
+    margin: 0;
+}
+.sds-text[data-margin="top"] {
+    margin-top: var(--sds-space-3);
+}
+.sds-text[data-margin="bottom"] {
+    margin-bottom: var(--sds-space-3);
+}
+.sds-text[data-margin="both"] {
+    margin-block: var(--sds-space-3);
+}
+
+.sds-text[data-align="start"] {
+    text-align: start;
+}
+.sds-text[data-align="center"] {
+    text-align: center;
+}
+.sds-text[data-align="end"] {
+    text-align: end;
+}
+
+/* ---- SDSLead -------------------------------------------------------------- */
+
+.sds-lead {
+    margin: 0 0 var(--sds-space-5);
+    max-width: 52rem;
+    font-family: var(--sds-font-family-base);
+    font-size: var(--sds-font-size-lg);
+    line-height: var(--sds-line-height-relaxed);
+    font-weight: var(--sds-font-weight-regular);
+    color: var(--sds-color-text-muted);
+}
+
+/* ---- SDSLink -------------------------------------------------------------- */
+
+.sds-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sds-space-2);
+    font-family: var(--sds-font-family-base);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    color: var(--sds-color-link);
+    transition: color var(--sds-duration-normal) var(--sds-easing-standard);
+}
+
+.sds-link:hover {
+    color: var(--sds-color-link-hover);
+    text-decoration-thickness: 0.1em;
+}
+
+.sds-link:focus-visible {
+    outline: 2px solid var(--sds-color-focus);
+    outline-offset: 2px;
+    border-radius: var(--sds-radius-sm);
+}
+
+.sds-link[data-variant="muted"] {
+    color: var(--sds-color-text-muted);
+    text-decoration: none;
+}
+.sds-link[data-variant="muted"]:hover {
+    color: var(--sds-color-text);
+    text-decoration: underline;
+}
+
+/* Standalone call-to-action link (icon + arrow), used by content teasers. */
+.sds-link--action {
+    font-weight: var(--sds-font-weight-semibold);
+}
+
+.sds-link--action i {
+    font-size: 0.9em;
+    transition: transform var(--sds-duration-normal) var(--sds-easing-standard);
+}
+
+.sds-link--action:hover i {
+    transform: translateX(0.2em);
+}
+
+/* Disabled state. */
+.sds-link[aria-disabled="true"] {
+    color: var(--sds-color-disabled);
+    pointer-events: none;
+    text-decoration: none;
+}

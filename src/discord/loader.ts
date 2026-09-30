@@ -4,10 +4,10 @@
  * `createRequire` charge `discord.js` au moment où une opération Discord est
  * réellement déclenchée — jamais statiquement — ce qui :
  *  - garantit que `discord.js` n'est jamais embarqué dans un bundle navigateur ;
- *  - permet au module `@codegouvaor/react-ads/discord` de compiler sans que
+ *  - permet au module `@skygenesisenterprise/react-sds/discord` de compiler sans que
  *    `discord.js` soit installé (résolution typée en `any`).
  *
- * Le module `@codegouvaor/react-ads/discord` n'est pas exporté depuis l'entrée
+ * Le module `@skygenesisenterprise/react-sds/discord` n'est pas exporté depuis l'entrée
  * racine de la librairie : un consommateur web ne le charge jamais.
  */
 
@@ -27,7 +27,7 @@ export async function loadDiscordJS(): Promise<any> {
         process.versions?.node === undefined
     ) {
         throw new Error(
-            "[react-ads/discord] L'intégration Discord est réservée au serveur (Node.js). " +
+            "[react-sds/discord] L'intégration Discord est réservée au serveur (Node.js). " +
                 "Ne l'importez jamais depuis un bundle navigateur."
         );
     }
@@ -38,7 +38,7 @@ export async function loadDiscordJS(): Promise<any> {
         return cached;
     } catch {
         throw new Error(
-            "[react-ads/discord] La dépendance optionnelle `discord.js` est requise. " +
+            "[react-sds/discord] La dépendance optionnelle `discord.js` est requise. " +
                 "Installez-la : `pnpm add discord.js`."
         );
     }

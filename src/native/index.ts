@@ -1,49 +1,49 @@
 /**
- * ADS Native — official React Native implementation of the Astoria Design System.
+ * SDS Native — official React Native implementation of the Sky Genesis Enterprise Design System.
  *
  * ```ts
- * import { Button, Card, Heading, Text } from "@codegouvaor/react-ads/native";
+ * import { Button, Card, Heading, Text } from "@skygenesisenterprise/react-sds/native";
  * ```
  *
- * This entry is React Native / Expo only. It shares the ADS semantic tokens and
- * conventions with the web implementation (`@codegouvaor/react-ads`) but uses
+ * This entry is React Native / Expo only. It shares the SDS semantic tokens and
+ * conventions with the web implementation (`@skygenesisenterprise/react-sds`) but uses
  * native primitives (`View`, `Text`, `Pressable`, `TextInput`, …). It never
  * imports the web/DOM layer, and the web bundle never imports this entry.
  *
- * This is the **ADS Native Foundation** (1.0.7): the first official layer of
+ * This is the **SDS Native Foundation** (1.0.7): the first official layer of
  * native support. Components are graphical primitives; routing, data and
  * business logic stay in the host application.
  */
 
 // Tokens
 export {
-    adsTokens,
-    adsColors,
-    adsDarkColors,
-    adsTypography,
-    adsSpacing,
-    adsRadius,
-    adsElevation,
-    adsDimensions,
-    adsMotion
+    sdsTokens,
+    sdsColors,
+    sdsDarkColors,
+    sdsTypography,
+    sdsSpacing,
+    sdsRadius,
+    sdsElevation,
+    sdsDimensions,
+    sdsMotion
 } from "./tokens";
 export type {
-    ADSTokens,
-    ADSColorTokens,
-    ADSColorToken,
-    ADSTypographyTokens,
-    ADSFontWeight,
-    ADSSpacingTokens,
-    ADSRadiusTokens,
-    ADSElevation,
-    ADSElevationTokens,
-    ADSDimensionTokens,
-    ADSMotionTokens
+    SDSTokens,
+    SDSColorTokens,
+    SDSColorToken,
+    SDSTypographyTokens,
+    SDSFontWeight,
+    SDSSpacingTokens,
+    SDSRadiusTokens,
+    SDSElevation,
+    SDSElevationTokens,
+    SDSDimensionTokens,
+    SDSMotionTokens
 } from "./tokens";
 
 // Theme
-export { ADSProvider, useADSTheme, defaultADSTokens, ADSThemeContext } from "./theme";
-export type { ADSTheme, ADSColorScheme, ADSProviderProps } from "./theme";
+export { SDSProvider, useSDSTheme, defaultSDSTokens, SDSThemeContext } from "./theme";
+export type { SDSTheme, SDSColorScheme, SDSProviderProps } from "./theme";
 
 // Primitives
 export {
@@ -66,8 +66,8 @@ export type {
 } from "./primitives";
 
 // Hooks
-export { useADSTheme as useADS } from "./hooks";
-export type { ADSTheme as ADS } from "./hooks";
+export { useSDSTheme as useSDS } from "./hooks";
+export type { SDSTheme as SDS } from "./hooks";
 
 // Components — foundations & layout
 export { Card, List, ListItem, Section, Avatar } from "./components";

@@ -43,7 +43,7 @@ export namespace ToggleSwitchProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-toggleswitch> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-toggleswitch> */
 export const ToggleSwitch = memo(
     forwardRef<HTMLDivElement, ToggleSwitchProps>((props, ref) => {
         const {

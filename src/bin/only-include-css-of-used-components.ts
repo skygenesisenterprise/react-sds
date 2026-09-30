@@ -1,8 +1,8 @@
 /**
- * This processing stage is run by `npx react-ads optimize-css`, after the icon CSS
+ * This processing stage is run by `npx react-sds optimize-css`, after the icon CSS
  * has been optimized.
- * It scans your codebase to find which react-ads components are used and rebuilds
- * the node_modules/@codegouvaor/react-ads/dsfr/dsfr.css and dsfr.min.css files
+ * It scans your codebase to find which react-sds components are used and rebuilds
+ * the node_modules/@skygenesisenterprise/react-sds/dsfr/dsfr.css and dsfr.min.css files
  * with only the CSS of those components (plus the core, which is always included).
  * The public/dsfr/dsfr.min.css file is patched as well if applicable (not in Next.js for example).
  *
@@ -12,7 +12,7 @@
  * classes and attributes dynamically added by the DSFR JavaScript (data-fr-js-*).
  *
  * Usage of a component is detected by:
- * - Imports of `@codegouvaor/react-ads/<Component>` in your sources.
+ * - Imports of `@skygenesisenterprise/react-sds/<Component>` in your sources.
  * - Usage of the component's CSS class names (e.g. "fr-table") in your sources,
  *   for when you use raw DSFR classes without the React component.
  *
@@ -21,10 +21,10 @@
  *
  * You can force the inclusion of components that the detection would miss by adding
  * to your package.json:
- * "react-ads": {
+ * "react-sds": {
  *     "additionalComponents": ["table", "Range"]
  * }
- * (values are DSFR CSS component names or react-ads component names)
+ * (values are DSFR CSS component names or react-sds component names)
  *
  * There are three optional arguments that you can use:
  * - `--projectDir <path>` to specify the project directory. Default to the current working directory.
@@ -113,7 +113,7 @@ export const DSFR_COMPONENTS_CASCADE_ORDER = [
 export type DsfrComponentName = (typeof DSFR_COMPONENTS_CASCADE_ORDER)[number];
 
 /**
- * Map from react-ads module (the `@codegouvaor/react-ads/<moduleId>` import subpath)
+ * Map from react-sds module (the `@skygenesisenterprise/react-sds/<moduleId>` import subpath)
  * to the DSFR CSS components its markup depends on, transitive dependencies included
  * (e.g. the Header renders a navigation, a search bar and a modal on mobile).
  * When in doubt a dependency is included: too much CSS is only a size cost,
@@ -260,18 +260,18 @@ export const DSFR_COMPONENT_DETECTION_CLASS_PREFIXES: Record<DsfrComponentName, 
 };
 
 /**
- * react-ads modules that are known not to render any DSFR component markup
+ * react-sds modules that are known not to render any DSFR component markup
  * (hooks, utilities, integration helpers, assets...).
  */
 const NON_COMPONENT_MODULE_IDS = new Set<string>([
-    // ADS foundations (design tokens, BackToTop bubble): no DSFR component markup
+    // SDS foundations (design tokens, BackToTop bubble): no DSFR component markup
     // (BackToTop only uses an icon glyph from the always-included icon font).
-    "ads",
+    "sds",
     "BackToTop",
-    // ADS CSS foundation stylesheets (styles/*): the ADS layer replaces DSFR,
+    // SDS CSS foundation stylesheets (styles/*): the SDS layer replaces DSFR,
     // it never renders DSFR component markup.
     "styles",
-    // ADS Native (native/*): React Native implementation — no DSFR markup, and
+    // SDS Native (native/*): React Native implementation — no DSFR markup, and
     // must never be pulled into the web CSS optimizer.
     "native",
     "fr",
@@ -295,15 +295,15 @@ const NON_COMPONENT_MODULE_IDS = new Set<string>([
     "useIsDark",
     "getHtmlAttributes",
     "zz_internal",
-    // ADS Discord integration (discord/*): server-only, never rendered as web
+    // SDS Discord integration (discord/*): server-only, never rendered as web
     // markup — must never be pulled into the web CSS optimizer.
     "discord"
 ]);
 
 /**
  * Regexes matching the specifier of an actual import statement.
- * Matching any textual occurrence of "@codegouvaor/react-ads/..." instead would
- * pick up urls and comments (a link to https://www.npmjs.com/package/@codegouvaor/react-ads/v/1.32.5
+ * Matching any textual occurrence of "@skygenesisenterprise/react-sds/..." instead would
+ * pick up urls and comments (a link to https://www.npmjs.com/package/@skygenesisenterprise/react-sds/v/1.32.5
  * would resolve to the unknown module "v" and trigger the include-everything fail-safe).
  */
 const IMPORT_SPECIFIER_REGEXES = [
@@ -317,10 +317,10 @@ const IMPORT_SPECIFIER_REGEXES = [
     /@import\s+(?:url\(\s*)?["'`]([^"'`\n]+)["'`]/g
 ];
 
-const REACT_DSFR_PACKAGE_NAME = "@codegouvaor/react-ads";
+const REACT_DSFR_PACKAGE_NAME = "@skygenesisenterprise/react-sds";
 
 /**
- * Module id produced when a file imports the package root (`@codegouvaor/react-ads`,
+ * Module id produced when a file imports the package root (`@skygenesisenterprise/react-sds`,
  * no subpath). The root entry re-exports every generic component, so a root import does
  * not tell which components are used: the caller falls back to including every component.
  */
@@ -427,7 +427,7 @@ export function resolveModuleIdToDsfrComponents(params: {
         return [];
     }
 
-    // A component this script does not know about (newer react-ads version?),
+    // A component this script does not know about (newer react-sds version?),
     // or a new non-component module missing from NON_COMPONENT_MODULE_IDS.
     return undefined;
 }
@@ -604,7 +604,7 @@ export function generateDsfrCssCode(params: {
     );
 
     return [
-        `/*! DSFR stylesheet rebuilt by react-ads optimize-css, components: ${sortedDsfrComponents.join(
+        `/*! DSFR stylesheet rebuilt by react-sds optimize-css, components: ${sortedDsfrComponents.join(
             ", "
         )} */`,
         ...cssChunks.map(({ dirRelativePath, rawCssCode }) => {
@@ -811,7 +811,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                         }
 
                         if (parsedPackageJson["name"] === CODEGOUV_REACT_DSFR) {
-                            // Scanning react-ads's own sources would mark every component as used.
+                            // Scanning react-sds's own sources would mark every component as used.
                             return false;
                         }
 
@@ -830,7 +830,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                         for (const packageName of [
                             CODEGOUV_REACT_DSFR,
                             "@gouvfr/dsfr",
-                            "@dataesr/react-ads"
+                            "@dataesr/react-sds"
                         ]) {
                             if (
                                 Object.keys({
@@ -869,7 +869,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                 // NOTE: Stylesheets are deliberately not scanned: detectDsfrComponentsFromClassNames()
                 // does substring matching, so a single compiled bundle (a leftover out/, a
                 // dependency shipping the DSFR) would mark every component as used.
-                // Use "react-ads"."additionalComponents" in your package.json for the
+                // Use "react-sds"."additionalComponents" in your package.json for the
                 // components you only reference from a stylesheet.
                 ["tsx", "jsx", "js", "ts", "mdx", "html", "htm", "svelte", "vue"].find(ext =>
                     filePath.endsWith(`.${ext}`)
@@ -945,7 +945,7 @@ export async function main(args: string[]) {
                 if (moduleId === ROOT_IMPORT_MODULE_ID) {
                     console.warn(
                         [
-                            `[react-ads] "${moduleId}" (no subpath) is imported in`,
+                            `[react-sds] "${moduleId}" (no subpath) is imported in`,
                             `${pathRelative(process.cwd(), srcFilePath)}:`,
                             `a root import does not tell which components are used, so no CSS`,
                             `is trimmed at all for this run. Prefer importing components from`,
@@ -966,10 +966,10 @@ export async function main(args: string[]) {
                     // the fact that the optimization has been disabled for this run.
                     console.warn(
                         [
-                            `[react-ads] Unknown react-ads module "${moduleId}" imported in`,
+                            `[react-sds] Unknown react-sds module "${moduleId}" imported in`,
                             `${pathRelative(process.cwd(), srcFilePath)}:`,
                             `no CSS is trimmed at all for this run, every component is included.`,
-                            `Please report it: https://github.com/codegouvaor/react-ads/issues`
+                            `Please report it: https://github.com/skygenesisenterprise/react-sds/issues`
                         ].join(" ")
                     );
 
@@ -1013,7 +1013,7 @@ export async function main(args: string[]) {
 
         const reactDsfrConfig: unknown = JSON.parse(
             (await readFile(packageJsonFilePath)).toString("utf8")
-        )["react-ads"];
+        )["react-sds"];
 
         const additionalComponents: unknown =
             reactDsfrConfig === null || typeof reactDsfrConfig !== "object"
@@ -1025,7 +1025,7 @@ export async function main(args: string[]) {
                 // A typo in the key would otherwise silently disable the escape hatch.
                 console.warn(
                     [
-                        `[react-ads] The "react-ads" entry of your package.json has no`,
+                        `[react-sds] The "react-sds" entry of your package.json has no`,
                         `"additionalComponents" key, is it a typo? Found:`,
                         `${Object.keys(reactDsfrConfig as Record<string, unknown>).join(", ")}`
                     ].join(" ")
@@ -1038,7 +1038,7 @@ export async function main(args: string[]) {
         assert(
             Array.isArray(additionalComponents) &&
                 additionalComponents.every((value): value is string => typeof value === "string"),
-            'Malformed "react-ads"."additionalComponents" in package.json, expected an array of strings'
+            'Malformed "react-sds"."additionalComponents" in package.json, expected an array of strings'
         );
 
         for (const additionalComponent of additionalComponents) {
@@ -1051,8 +1051,8 @@ export async function main(args: string[]) {
             if (dsfrComponents === undefined) {
                 console.warn(
                     [
-                        `[react-ads] Unknown component "${additionalComponent}" in`,
-                        `"react-ads"."additionalComponents" of your package.json:`,
+                        `[react-sds] Unknown component "${additionalComponent}" in`,
+                        `"react-sds"."additionalComponents" of your package.json:`,
                         `no CSS is trimmed at all for this run, every component is included.`
                     ].join(" ")
                 );
@@ -1067,8 +1067,8 @@ export async function main(args: string[]) {
                 // and this escape hatch is precisely what one reaches for when something is unstyled.
                 console.warn(
                     [
-                        `[react-ads] "${additionalComponent}" of`,
-                        `"react-ads"."additionalComponents" maps to no DSFR stylesheet,`,
+                        `[react-sds] "${additionalComponent}" of`,
+                        `"react-sds"."additionalComponents" maps to no DSFR stylesheet,`,
                         `nothing was added.`,
                         ...(additionalComponent === "Chart"
                             ? [`The Chart CSS comes from the @gouvfr/dsfr-chart package.`]
@@ -1088,10 +1088,10 @@ export async function main(args: string[]) {
     if (doIncludeAllComponents && commandContext.isStrict) {
         console.error(
             [
-                `[react-ads] Aborting because of --strict:`,
+                `[react-sds] Aborting because of --strict:`,
                 `something could not be resolved (see the warning(s) above),`,
                 `so this run would have shipped the untrimmed dsfr.min.css.`,
-                `Fix the cause or add the component to "react-ads"."additionalComponents"`,
+                `Fix the cause or add the component to "react-sds"."additionalComponents"`,
                 `in your package.json.`
             ].join(" ")
         );

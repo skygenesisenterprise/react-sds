@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "only-include-used-icons": "node node_modules/@codegouvaor/react-ads/bin/only-include-used-icons.js",
+        "only-include-used-icons": "node node_modules/@skygenesisenterprise/react-sds/bin/only-include-used-icons.js",
         "predev": "yarn only-include-used-icons",
         "prebuild": "yarn only-include-used-icons"
     },
@@ -26,7 +26,7 @@
         "dayjs": "^1.11.7",
         "@mui/x-data-grid": "^6.18.2",
         "@gouvfr/dsfr-chart": "^1.0.0",
-        "@codegouvaor/react-ads": "file:../../../dist"
+        "@skygenesisenterprise/react-sds": "file:../../../dist"
     },
     "devDependencies": {
         "@types/node": "^18.8.2",

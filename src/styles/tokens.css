@@ -1,23 +1,23 @@
 /**
- * ADS design tokens — CSS custom properties (light scheme).
+ * SDS design tokens — CSS custom properties (light scheme).
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. The tokens are available to any stylesheet
- * (plain CSS, CSS-in-JS, Tailwind…) through `var(--ads-*)`, e.g.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`. The tokens are available to any stylesheet
+ * (plain CSS, CSS-in-JS, Tailwind…) through `var(--sds-*)`, e.g.
  *
  *     .my-action {
- *         background-color: var(--ads-color-primary);
- *         border-radius: var(--ads-radius-medium);
+ *         background-color: var(--sds-color-primary);
+ *         border-radius: var(--sds-radius-medium);
  *     }
  *
- * ⚠️ Values — Astoria palette (provisional). The color values below follow the
- * Astoria palette used by the reference government application. The official
- * Astoria identity is decided by the Astoria brand/design owners and will override
+ * ⚠️ Values — SGE palette (provisional). The color values below follow the
+ * SGE palette used by the reference government application. The official
+ * SGE identity is decided by the SGE brand/design owners and will override
  * this file without changing the property names. Overriding them from your
  * application is the supported theming mechanism, e.g.
  *
  *     :root {
- *         --ads-color-primary: #yourcolor;
+ *         --sds-color-primary: #yourcolor;
  *     }
  *
  * The dark scheme lives in `themes.css` (`.dark` / `[data-fr-theme="dark"]`).
@@ -27,111 +27,111 @@
     color-scheme: light;
 
     /* Colors — light scheme */
-    --ads-color-primary: oklch(0.2968 0.2057 264);
-    --ads-color-secondary: oklch(0.9731 0 0);
-    --ads-color-accent: oklch(0.9731 0 0);
-    --ads-color-success: #18753c;
-    --ads-color-warning: #b34000;
-    --ads-color-danger: oklch(0.5342 0.206 27);
-    --ads-color-info: #0063cb;
-    --ads-color-background: oklch(1 0 0);
-    --ads-color-foreground: oklch(0.3485 0 0);
-    --ads-color-surface: oklch(1 0 0);
-    --ads-color-surface-muted: oklch(0.9731 0 0);
-    --ads-color-text: oklch(0.3485 0 0);
-    --ads-color-text-muted: oklch(0.5103 0 0);
-    --ads-color-border: oklch(0.8975 0 0);
-    --ads-color-input: oklch(0.8975 0 0);
-    --ads-color-ring: oklch(0.2968 0.2057 264);
-    --ads-color-focus: oklch(0.2968 0.2057 264);
-    --ads-color-link: oklch(0.2968 0.2057 264);
-    --ads-color-link-hover: oklch(0.22 0.18 264);
-    --ads-color-on-primary: oklch(1 0 0);
-    --ads-color-disabled: oklch(0.7 0 0);
+    --sds-color-primary: oklch(0.2968 0.2057 264);
+    --sds-color-secondary: oklch(0.9731 0 0);
+    --sds-color-accent: oklch(0.9731 0 0);
+    --sds-color-success: #18753c;
+    --sds-color-warning: #b34000;
+    --sds-color-danger: oklch(0.5342 0.206 27);
+    --sds-color-info: #0063cb;
+    --sds-color-background: oklch(1 0 0);
+    --sds-color-foreground: oklch(0.3485 0 0);
+    --sds-color-surface: oklch(1 0 0);
+    --sds-color-surface-muted: oklch(0.9731 0 0);
+    --sds-color-text: oklch(0.3485 0 0);
+    --sds-color-text-muted: oklch(0.5103 0 0);
+    --sds-color-border: oklch(0.8975 0 0);
+    --sds-color-input: oklch(0.8975 0 0);
+    --sds-color-ring: oklch(0.2968 0.2057 264);
+    --sds-color-focus: oklch(0.2968 0.2057 264);
+    --sds-color-link: oklch(0.2968 0.2057 264);
+    --sds-color-link-hover: oklch(0.22 0.18 264);
+    --sds-color-on-primary: oklch(1 0 0);
+    --sds-color-disabled: oklch(0.7 0 0);
 
     /* Typography */
-    --ads-font-family-base: "Marianne", "Public Sans", system-ui, -apple-system,
+    --sds-font-family-base: "Marianne", "Public Sans", system-ui, -apple-system,
         "Segoe UI", sans-serif;
-    --ads-font-family-heading: "Marianne", "Public Sans", system-ui, -apple-system,
+    --sds-font-family-heading: "Marianne", "Public Sans", system-ui, -apple-system,
         "Segoe UI", sans-serif;
-    --ads-font-family-sans: "Marianne", "Public Sans", system-ui, -apple-system,
+    --sds-font-family-sans: "Marianne", "Public Sans", system-ui, -apple-system,
         "Segoe UI", sans-serif;
-    --ads-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    --sds-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
-    --ads-font-size-xs: 0.75rem;
-    --ads-font-size-sm: 0.875rem;
-    --ads-font-size-md: 1rem;
-    --ads-font-size-lg: 1.25rem;
-    --ads-font-size-xl: 1.5rem;
-    --ads-font-size-2xl: 1.75rem;
-    --ads-font-size-3xl: 2.25rem;
-    --ads-font-weight-regular: 400;
-    --ads-font-weight-medium: 500;
-    --ads-font-weight-semibold: 600;
-    --ads-font-weight-bold: 700;
-    --ads-line-height-body: 1.6;
-    --ads-line-height-heading: 1.2;
-    --ads-line-height-tight: 1.2;
-    --ads-line-height-normal: 1.5;
-    --ads-line-height-relaxed: 1.7;
+    --sds-font-size-xs: 0.75rem;
+    --sds-font-size-sm: 0.875rem;
+    --sds-font-size-md: 1rem;
+    --sds-font-size-lg: 1.25rem;
+    --sds-font-size-xl: 1.5rem;
+    --sds-font-size-2xl: 1.75rem;
+    --sds-font-size-3xl: 2.25rem;
+    --sds-font-weight-regular: 400;
+    --sds-font-weight-medium: 500;
+    --sds-font-weight-semibold: 600;
+    --sds-font-weight-bold: 700;
+    --sds-line-height-body: 1.6;
+    --sds-line-height-heading: 1.2;
+    --sds-line-height-tight: 1.2;
+    --sds-line-height-normal: 1.5;
+    --sds-line-height-relaxed: 1.7;
 
     /* Spacing (4px base unit) */
-    --ads-space-base: 0.25rem;
-    --ads-space-1: 0.25rem;
-    --ads-space-2: 0.5rem;
-    --ads-space-3: 0.75rem;
-    --ads-space-4: 1rem;
-    --ads-space-5: 1.5rem;
-    --ads-space-6: 2rem;
-    --ads-space-7: 2.5rem;
-    --ads-space-8: 3rem;
-    --ads-space-9: 4rem;
-    --ads-space-10: 5rem;
-    --ads-space-11: 6rem;
-    --ads-space-12: 8rem;
+    --sds-space-base: 0.25rem;
+    --sds-space-1: 0.25rem;
+    --sds-space-2: 0.5rem;
+    --sds-space-3: 0.75rem;
+    --sds-space-4: 1rem;
+    --sds-space-5: 1.5rem;
+    --sds-space-6: 2rem;
+    --sds-space-7: 2.5rem;
+    --sds-space-8: 3rem;
+    --sds-space-9: 4rem;
+    --sds-space-10: 5rem;
+    --sds-space-11: 6rem;
+    --sds-space-12: 8rem;
 
     /* Radius */
-    --ads-radius-none: 0;
-    --ads-radius-small: 0.375rem;
-    --ads-radius-medium: 0.5rem;
-    --ads-radius-large: 0.625rem;
-    --ads-radius-full: 9999px;
-    --ads-radius-sm: 0.375rem;
-    --ads-radius-md: 0.5rem;
-    --ads-radius-lg: 0.625rem;
-    --ads-radius-xl: 0.875rem;
+    --sds-radius-none: 0;
+    --sds-radius-small: 0.375rem;
+    --sds-radius-medium: 0.5rem;
+    --sds-radius-large: 0.625rem;
+    --sds-radius-full: 9999px;
+    --sds-radius-sm: 0.375rem;
+    --sds-radius-md: 0.5rem;
+    --sds-radius-lg: 0.625rem;
+    --sds-radius-xl: 0.875rem;
 
     /* Elevation */
-    --ads-elevation-none: none;
-    --ads-elevation-small: 0 1px 2px rgba(28, 35, 43, 0.08);
-    --ads-elevation-medium: 0 4px 12px rgba(28, 35, 43, 0.12);
-    --ads-elevation-large: 0 12px 32px rgba(28, 35, 43, 0.18);
+    --sds-elevation-none: none;
+    --sds-elevation-small: 0 1px 2px rgba(28, 35, 43, 0.08);
+    --sds-elevation-medium: 0 4px 12px rgba(28, 35, 43, 0.12);
+    --sds-elevation-large: 0 12px 32px rgba(28, 35, 43, 0.18);
 
     /* Motion */
-    --ads-duration-fast: 120ms;
-    --ads-duration-normal: 200ms;
-    --ads-duration-slow: 350ms;
-    --ads-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-    --ads-easing-entrance: cubic-bezier(0, 0, 0.2, 1);
-    --ads-easing-exit: cubic-bezier(0.4, 0, 1, 1);
-    --ads-transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
-    --ads-transition-normal: 200ms cubic-bezier(0.2, 0, 0, 1);
-    --ads-transition-slow: 350ms cubic-bezier(0.2, 0, 0, 1);
+    --sds-duration-fast: 120ms;
+    --sds-duration-normal: 200ms;
+    --sds-duration-slow: 350ms;
+    --sds-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+    --sds-easing-entrance: cubic-bezier(0, 0, 0.2, 1);
+    --sds-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+    --sds-transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
+    --sds-transition-normal: 200ms cubic-bezier(0.2, 0, 0, 1);
+    --sds-transition-slow: 350ms cubic-bezier(0.2, 0, 0, 1);
 
     /* Breakpoints (usable in property values; media queries use the raw lengths) */
-    --ads-breakpoint-xs: 0rem;
-    --ads-breakpoint-sm: 36rem;
-    --ads-breakpoint-md: 48rem;
-    --ads-breakpoint-lg: 62rem;
-    --ads-breakpoint-xl: 75rem;
+    --sds-breakpoint-xs: 0rem;
+    --sds-breakpoint-sm: 36rem;
+    --sds-breakpoint-md: 48rem;
+    --sds-breakpoint-lg: 62rem;
+    --sds-breakpoint-xl: 75rem;
 }
 
 /* Respect users who prefer reduced motion: collapse the duration tokens so any
    transition/ animation consuming them becomes (almost) instant. */
 @media (prefers-reduced-motion: reduce) {
     :root {
-        --ads-duration-fast: 1ms;
-        --ads-duration-normal: 1ms;
-        --ads-duration-slow: 1ms;
+        --sds-duration-fast: 1ms;
+        --sds-duration-normal: 1ms;
+        --sds-duration-slow: 1ms;
     }
 }

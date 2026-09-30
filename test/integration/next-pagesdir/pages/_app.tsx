@@ -1,15 +1,15 @@
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { createNextDsfrIntegrationApi } from "@codegouvaor/react-ads/next-pagesdir";
-import { headerFooterDisplayItem } from "@codegouvaor/react-ads/Display";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
+import { createNextDsfrIntegrationApi } from "@skygenesisenterprise/react-sds/next-pagesdir";
+import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 import { createEmotionSsrAdvancedApproach } from "tss-react/next/pagesDir";
 import { useStyles } from "tss-react/dsfr";
-import { fr } from "@codegouvaor/react-ads";
+import { fr } from "@skygenesisenterprise/react-sds";
 import Link from "next/link";
 
-declare module "@codegouvaor/react-ads/next-pagesdir" {
+declare module "@skygenesisenterprise/react-sds/next-pagesdir" {
     interface RegisterLink {
         Link: typeof Link;
     }
@@ -58,14 +58,14 @@ function App({ Component, pageProps }: AppProps) {
             >
                 <Header
                     identity={{
-                        imgUrl: "/astoria-gouv.png",
-                        alt: "République d'Astoria",
+                        imgUrl: "/sge-gouv.png",
+                        alt: "République d'SGE",
                         institution: "Gouvernement"
                     }}
                     serviceTitle="Nom du site / service"
                     homeLinkProps={{
                         "href": "/",
-                        "title": "Accueil - République d'Astoria"
+                        "title": "Accueil - République d'SGE"
                     }}
                     navigation={[
                         {

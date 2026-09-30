@@ -9,9 +9,9 @@ import { Equals } from "tsafe";
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { "Modal": Template },
-    "description": `\`import { createModal } from "@codegouvaor/react-ads/Modal";\` (Click **show code** for usage details)
+    "description": `\`import { createModal } from "@skygenesisenterprise/react-sds/Modal";\` (Click **show code** for usage details)
 
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Modal/Modal.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Modal/Modal.tsx)
 
 \`\`\`tsx
 "use client"; 
@@ -19,9 +19,9 @@ const { meta, getStory } = getStoryFactory({
 // modal.buttonProps instead of modal.open() the Modal component can be used as a 
 // server component (you can remove "use client";) 
 
-import { createModal } from "@codegouvaor/react-ads/Modal";
-import { useIsModalOpen } from "@codegouvaor/react-ads/Modal/useIsModalOpen";
-import { Button } from "@codegouvaor/react-ads/Button";
+import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+import { useIsModalOpen } from "@skygenesisenterprise/react-sds/Modal/useIsModalOpen";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
 
 const modal = createModal({
     id: "foo-modal", 
@@ -95,8 +95,8 @@ function MyModalWithCustomButton() {
 
 
 To create a Dialog component, something that you would use to ask the user a question, like "Do you want to proceed?", you can implement this pattern:  
-- [Component](https://github.com/codegouvaor/react-ads/blob/main/test/integration/cra/src/MyDialog.tsx), 
-- [Usage](https://github.com/codegouvaor/react-ads/blob/d5c0f304ed3416c8d10bba83e7a075a304d2caa0/test/integration/cra/src/Home.tsx#L117-L132). 
+- [Component](https://github.com/skygenesisenterprise/react-sds/blob/main/test/integration/cra/src/MyDialog.tsx), 
+- [Usage](https://github.com/skygenesisenterprise/react-sds/blob/d5c0f304ed3416c8d10bba83e7a075a304d2caa0/test/integration/cra/src/Home.tsx#L117-L132). 
 
 `,
     "argTypes": {
@@ -195,8 +195,8 @@ Default.parameters = {
     "docs": {
         "source": {
             "code": `
-import { createModal } from "@codegouvaor/react-ads/Modal";
-import { Button } from "@codegouvaor/react-ads/Button";
+import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
 
 const modal = createModal({
     name: "terms-modal",

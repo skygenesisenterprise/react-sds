@@ -1,14 +1,14 @@
 /**
- * ADS Native `Select`.
+ * SDS Native `Select`.
  *
- * React Native has no native `<select>`. ADS provides a dependency-light,
+ * React Native has no native `<select>`. SDS provides a dependency-light,
  * accessible picker built on the native `Modal` + list primitives.
  */
 
 import * as React from "react";
 import { Pressable, View, Text, Modal, FlatList, TouchableOpacity } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Icon } from "../primitives";
 
 export type SelectOption = {
@@ -44,7 +44,7 @@ export function Select(props: SelectProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const [open, setOpen] = React.useState(false);
 

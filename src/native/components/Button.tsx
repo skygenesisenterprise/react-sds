@@ -1,11 +1,11 @@
 /**
- * ADS Native `Button`.
+ * SDS Native `Button`.
  */
 
 import * as React from "react";
 import { Pressable, ActivityIndicator, View } from "react-native";
 import type { StyleProp, ViewStyle, TextStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text, Icon } from "../primitives";
 
 export type ButtonPriority = "primary" | "secondary" | "tertiary";
@@ -47,7 +47,7 @@ export function Button(props: ButtonProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled || loading;
 

@@ -21,7 +21,7 @@ import type { MainNavigationProps } from "../MainNavigation";
 import { MainNavigation } from "../MainNavigation";
 import { Display } from "../Display/Display";
 import { setIdentityAndHomeLinkProps } from "../zz_internal/identityAndHomeLinkProps";
-import "../assets/astoria-identity.css";
+import "../assets/sge-identity.css";
 import { typeGuard } from "tsafe/typeGuard";
 import { SearchButton } from "../SearchBar/SearchButton";
 import { useTranslation as useSearchBarTranslation } from "../SearchBar/SearchBar";
@@ -30,11 +30,11 @@ export type HeaderProps = {
     className?: string;
     id?: string;
     /**
-     * The institutional signature of the site: the national mark of the Republic of Astoria
+     * The institutional signature of the site: the national mark of the Sky Genesis Enterprise
      * (official flag/emblem lockup) and the administrative authority the site belongs to.
      *
      * ```txt
-     *  🇦🇴  République d'Astoria        ← identity.imgUrl (the lockup includes the name of the Republic)
+     *  🇦🇴  République d'SGE        ← identity.imgUrl (the lockup includes the name of the Republic)
      *      Gouvernement                ← identity.institution
      * ```
      */
@@ -93,13 +93,13 @@ export type HeaderProps = {
 export namespace HeaderProps {
     export type Identity = {
         /**
-         * URL of the official Astoria mark. It must feature the national flag/emblem and the
-         * "République d'Astoria" wordmark (SVG preferred, no emoji flag).
+         * URL of the official SGE mark. It must feature the national flag/emblem and the
+         * "République d'SGE" wordmark (SVG preferred, no emoji flag).
          */
         imgUrl: string;
         /**
          * Accessible alternative of the image. As the image contains the name of the Republic,
-         * the alt text should name it (e.g. "République d'Astoria").
+         * the alt text should name it (e.g. "République d'SGE").
          */
         alt: string;
         /**
@@ -132,7 +132,7 @@ export namespace HeaderProps {
 
 export const headerMenuModalIdPrefix = "header-menu-modal";
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-header> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-header> */
 export const Header = memo(
     forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
         const {
@@ -242,13 +242,13 @@ export const Header = memo(
                                             <Link
                                                 {...homeLinkProps}
                                                 className={cx(
-                                                    "ads-identity__link",
+                                                    "sds-identity__link",
                                                     classes.identity
                                                 )}
                                             >
                                                 <img
                                                     className={cx(
-                                                        "ads-identity__img",
+                                                        "sds-identity__img",
                                                         classes.identityImg
                                                     )}
                                                     src={identity.imgUrl}
@@ -256,7 +256,7 @@ export const Header = memo(
                                                 />
                                                 <span
                                                     className={cx(
-                                                        "ads-identity__institution",
+                                                        "sds-identity__institution",
                                                         classes.institution
                                                     )}
                                                 >

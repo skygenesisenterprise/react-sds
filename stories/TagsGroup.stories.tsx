@@ -7,7 +7,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { TagsGroup },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/TagsGroup.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/TagsGroup.tsx)`,
     "argTypes": {
         "smallTags": {
             "description": ` 

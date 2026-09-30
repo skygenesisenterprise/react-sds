@@ -1,20 +1,20 @@
 # Changelog
 
-All notable changes to `@codegouvaor/react-ads` are documented in this file.
+All notable changes to `@skygenesisenterprise/react-sds` are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this
 project adheres to [Semantic Versioning](https://semver.org).
 
 > Note: the Git history before this release line belongs to the upstream
 > `codegouvfr/react-dsfr` project (see [PROVENANCE.md](PROVENANCE.md)). From `0.1.0`
-> onwards this changelog tracks the independent Astoria Design System release line.
+> onwards this changelog tracks the independent Sky Genesis Enterprise Design System release line.
 
 ## [1.0.10] - 2026-09-15
 
 ### Fixed
 
 - **Subpath imports no longer fail with `TS2307 Cannot find module`.** Consumers (e.g.
-  `codegouvaor/education`) importing `@codegouvaor/react-ads/Header`,
+  `skygenesisenterprise/education`) importing `@skygenesisenterprise/react-sds/Header`,
   `/SkipLinks`, `/MainNavigation`, `/MainNavigation/MegaMenu` or `/Display` got a
   module-not-found error because the `package.json` `exports` map relied on a single
   `"./*"` wildcard:
@@ -27,7 +27,7 @@ project adheres to [Semantic Versioning](https://semver.org).
     `pnpm build`. Every declared target is a file that actually exists after the build.
   - The map covers every emitted module (root entry, flat components, directory
     components with an index, deep subpaths such as `MainNavigation/MegaMenu`, the
-    `native`/`ads`/`fr` namespaces, CSS/asset entries, the Discord isolation subpaths and
+    `native`/`sds`/`fr` namespaces, CSS/asset entries, the Discord isolation subpaths and
     the legacy `dsfr/*` tree), so the previously working imports keep working and the
     reported ones now resolve under `moduleResolution: node`, `node16` and `bundler`.
 
@@ -37,7 +37,7 @@ project adheres to [Semantic Versioning](https://semver.org).
   built package exactly as a consumer resolves it:
   - the committed `exports` map matches what the build generates from `dist/`;
   - every target referenced by `exports` exists;
-  - a consumer layout (`node_modules/@codegouvaor/react-ads`) type-checks the public
+  - a consumer layout (`node_modules/@skygenesisenterprise/react-sds`) type-checks the public
     root and subpath imports with no `TS2307`, under `node`, `node16` and (when a
     TypeScript ≥ 5 is installed) `bundler` resolution;
   - Node.js runtime resolution of the same subpaths.
@@ -55,16 +55,16 @@ project adheres to [Semantic Versioning](https://semver.org).
 
 ### Added
 
-- **ADS Native Foundation — official React Native / Expo support.** New public
-  entry `@codegouvaor/react-ads/native` (`src/native/`) implementing the Astoria
+- **SDS Native Foundation — official React Native / Expo support.** New public
+  entry `@skygenesisenterprise/react-sds/native` (`src/native/`) implementing the SGE
   Design System on React Native primitives (`View`, `Text`, `Pressable`,
-  `TextInput`, `Modal`, `FlatList`, …). The native layer shares the ADS tokens
+  `TextInput`, `Modal`, `FlatList`, …). The native layer shares the SDS tokens
   and conventions with the web implementation, never imports the DOM/CSS stack,
   and is never pulled into the web bundle.
   - **Native tokens** — colors (light + dark), typography, spacing (`xs`–`xl`),
     radius (`sm`–`lg`/`full`), elevation (iOS shadow + Android elevation),
     dimensions (touch targets ≥ 44 pt, control heights, gutters), motion.
-  - **Theme** — `ADSProvider`, `useADSTheme` with `light`/`dark`/`system` color
+  - **Theme** — `SDSProvider`, `useSDSTheme` with `light`/`dark`/`system` color
     scheme, token overrides and an overridable icon renderer.
   - **Primitives** — `Text`, `Heading`, `Icon`, `Divider`, `Stack`, `Container`.
   - **Actions** — `Button`, `IconButton`, `Link`.
@@ -94,7 +94,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 - The component CSS optimizer module map now treats `native` and `styles` as
   non-DSFR modules (neither renders DSFR component markup).
 - **Breaking — `Header` reworked into the institutional header of the Republic of
-  Astoria.** The `brandTop` and `operatorLogo` props are replaced by a single `identity`
+  SGE.** The `brandTop` and `operatorLogo` props are replaced by a single `identity`
   prop describing the national identity (official flag/emblem lockup as an image, with
   `alt`) and the administrative authority hosting the site (`institution`, e.g.
   `"Gouvernement"` or `"Ministère de l'Économie"`). The identity block links to the home
@@ -105,30 +105,30 @@ project adheres to [Semantic Versioning](https://semver.org).
   replaced by an optional `identity` prop that falls back to the one of the `<Header />`
   when the Footer is rendered after it.
 - The Header/Footer brand zone no longer renders the legacy DSFR tricolor block
-  (`.fr-logo`): it displays the Astoria lockup via the new companion stylesheet
-  `src/assets/astoria-identity.css` (provisional until the ADS stylesheet lands —
+  (`.fr-logo`): it displays the SGE lockup via the new companion stylesheet
+  `src/assets/sge-identity.css` (provisional until the SDS stylesheet lands —
   [MIGRATION.md](MIGRATION.md)).
-- Rebranded the package as `@codegouvaor/react-ads` (Astoria Design System — React),
+- Rebranded the package as `@skygenesisenterprise/react-sds` (Sky Genesis Enterprise Design System — React),
   with its own version line starting at `0.1.0`.
 - New root entry: generic components (`Button`, `Alert`, `Card`, …) can now be imported
   from the package root; per-component subpath imports remain available and recommended
   for granular bundles.
-- CLI renamed: `react-dsfr` → `react-ads` (`react-ads optimize-css`, …).
+- CLI renamed: `react-dsfr` → `react-sds` (`react-sds optimize-css`, …).
 - Repository migrated from Yarn to pnpm (`pnpm-lock.yaml`).
 - Documentation (README, Storybook, publiccode.yml, contribution and governance docs)
-  rewritten for the Astoria Design System.
+  rewritten for the Sky Genesis Enterprise Design System.
 
 ### Added
 
-- `src/assets/astoria-gouv.png` — official Government of Astoria identity lockup (flag/
-  emblem + "République d'Astoria"), used by the Header/Footer stories and demo apps. A
+- `src/assets/sge-gouv.png` — official Government of SGE identity lockup (flag/
+  emblem + "République d'SGE"), used by the Header/Footer stories and demo apps. A
   web-optimized SVG should eventually replace the raster in production.
-- `src/assets/astoria-identity.css` — companion stylesheet of the Header and Footer
+- `src/assets/sge-identity.css` — companion stylesheet of the Header and Footer
   institutional brand zone.
 - `src/global.d.ts` now declares `*.css` modules (side-effect stylesheet imports).
-- `src/ads/` — ADS design-token contracts (colors, typography, spacing, radius, elevation,
+- `src/sds/` — SDS design-token contracts (colors, typography, spacing, radius, elevation,
   motion, breakpoints) exposed as typed constants and CSS custom properties
-  (`--ads-*`). Values are placeholders pending the official Astoria identity.
+  (`--sds-*`). Values are placeholders pending the official SGE identity.
 - Security policy, governance, provenance and migration documentation.
 - CI: pnpm-based pipeline with lint, typecheck (build), tests, package validation,
   dependency auditing and provenance-ready publishing.
@@ -138,7 +138,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 - France-specific components and modules (MIGRATION Stage 2): `FranceConnectButton`,
   `AgentConnectButton`, `ProConnectButton`, `MonCompteProButton`, `eulerianAnalytics`, their
   dedicated assets (`agentconnect*`, `proconnect-btn.css`, `moncomptepro.css`) and their
-  Storybook stories. The `react-ads optimize-css` module map and the Storybook navigation
+  Storybook stories. The `react-sds optimize-css` module map and the Storybook navigation
   were updated accordingly.
 
 ### Changed

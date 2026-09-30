@@ -1,5 +1,5 @@
 /**
- * ADS Native `Radio` (single option).
+ * SDS Native `Radio` (single option).
  *
  * Prefer `<RadioGroup>` for managing a set of options; `Radio` is the building
  * block and can be used standalone with `selected`/`onSelect`.
@@ -8,7 +8,7 @@
 import * as React from "react";
 import { Pressable, View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type RadioProps = {
     selected: boolean;
@@ -33,7 +33,7 @@ export function Radio(props: RadioProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled === true;
 

@@ -1,27 +1,27 @@
 /**
- * ADS utilities — a handful of system-wide helpers.
+ * SDS utilities — a handful of system-wide helpers.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
+ * Part of the official Sky Genesis Enterprise Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css`.
  *
- * ADS deliberately does NOT re-implement a utility framework (Tailwind already
+ * SDS deliberately does NOT re-implement a utility framework (Tailwind already
  * covers layout utilities in the applications that use it). Only the helpers that
  * carry a real system justification live here:
  *
- *   - `.ads-sr-only` / `.ads-focus-ring` / `.ads-touch-target` are in
+ *   - `.sds-sr-only` / `.sds-focus-ring` / `.sds-touch-target` are in
  *     `accessibility.css` (they are accessibility rules);
  *   - the text helpers below map to semantic tokens so muted/centered text never
  *     depends on a hard-coded value.
  */
 
-.ads-text-muted {
-    color: var(--ads-color-text-muted);
+.sds-text-muted {
+    color: var(--sds-color-text-muted);
 }
 
-.ads-text-center {
+.sds-text-center {
     text-align: center;
 }
 
-.ads-text-bold {
-    font-weight: var(--ads-font-weight-bold);
+.sds-text-bold {
+    font-weight: var(--sds-font-weight-bold);
 }

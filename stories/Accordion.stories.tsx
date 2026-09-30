@@ -22,14 +22,14 @@ const { meta, getStory } = getStoryFactory({
             "control": { "type": "boolean" }
         }
     },
-    "description": `- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Accordion.tsx)  
+    "description": `- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Accordion.tsx)  
 
 ## Accordion group 
 
 If you want to use a group of accordion, you just have to wrap your accordion in a div with a class \`fr-accordions-group\` as bellow :
 
 \`\`\`tsx
-import { fr } from "@codegouvaor/react-ads";
+import { fr } from "@skygenesisenterprise/react-sds";
 
 <div className={fr.cx("fr-accordions-group")}>
     <Accordion label="Name of the Accordion 1">Content of the Accordion 1</Accordion>

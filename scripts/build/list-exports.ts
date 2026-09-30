@@ -6,9 +6,9 @@ import { join as pathJoin, relative as pathRelative } from "path";
  * `dist/`, so that every declared target is guaranteed to exist after `pnpm build`.
  *
  * The previous approach relied on a single `"./*"` wildcard mapping to `"./dist/*"`.
- * That never resolves: for a subpath like `@codegouvaor/react-ads/Header` the target
+ * That never resolves: for a subpath like `@skygenesisenterprise/react-sds/Header` the target
  * becomes `./dist/Header`, which is a directory (Node.js does not fall back to
- * `index.js`) and for `@codegouvaor/react-ads/SkipLinks` it becomes the extension-less
+ * `index.js`) and for `@skygenesisenterprise/react-sds/SkipLinks` it becomes the extension-less
  * `./dist/SkipLinks` (Node.js does not append `.js`). This is exactly the `TS2307`
  * / `MODULE_NOT_FOUND` seen in consumer projects.
  *

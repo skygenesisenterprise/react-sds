@@ -1,5 +1,5 @@
 "use client";
-import { FooterBottomItem } from "@codegouvaor/react-ads/Footer";
+import { FooterBottomItem } from "@skygenesisenterprise/react-sds/Footer";
 
 export function ClientFooterItem() {
     return (

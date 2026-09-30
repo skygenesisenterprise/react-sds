@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 /**
- * @codegouvaor/react-ads/main.css — the official CSS entry of the Astoria Design
+ * @skygenesisenterprise/react-sds/main.css — the official CSS entry of the SGE Design
  * System. Import it once from your application entry point:
  *
- *     import "@codegouvaor/react-ads/main.css";
+ *     import "@skygenesisenterprise/react-sds/main.css";
  *
  * It loads, in order:
  *
- *   1. tokens          — `--ads-*` custom properties (light scheme)
+ *   1. tokens          — `--sds-*` custom properties (light scheme)
  *   2. reset           — modern, minimal browser normalization
  *   3. base            — html/body defaults, links, selection
  *   4. typography      — the base element scale (headings, code, lists…)
@@ -16,11 +16,11 @@
  *   6. accessibility   — focus, visually-hidden, reduced motion, contrast
  *   7. layout          — `.gov-page`, `.gov-main`, `.gov-container`, `.gov-section`…
  *   8. component styles— header shell, forms, tables, editorial prose, back-to-top
- *   9. utilities       — the few system-wide helpers (`.ads-text-muted`, …)
+ *   9. utilities       — the few system-wide helpers (`.sds-text-muted`, …)
  *
  * then the legacy DSFR stylesheet that styles the `fr-*` classes emitted by the
  * components (Header, Footer, Button, Table…) — see MIGRATION.md stage 4: this
- * layer will be replaced by `ads-*` component styles in a single coordinated
+ * layer will be replaced by `sds-*` component styles in a single coordinated
  * breaking release, without changing this import.
  *
  * The foundation is plain, standalone CSS: it does not require Tailwind (or any
@@ -30,6 +30,7 @@
 
 /* 1. Design tokens (light scheme) */
 @import url(./styles/tokens.css);
+
 
 /* 2. Reset */
 @import url(./styles/reset.css);
@@ -56,12 +57,12 @@
 @import url(./styles/components/prose.css);
 @import url(./styles/components/back-to-top.css);
 
-/* ADS component families (layout, typography, portal, content). */
-@import url(./styles/components/ads-layout.css);
-@import url(./styles/components/ads-typography.css);
-@import url(./styles/components/ads-card.css);
-@import url(./styles/components/ads-portal.css);
-@import url(./styles/components/ads-search.css);
+/* SDS component families (layout, typography, portal, content). */
+@import url(./styles/components/sds-layout.css);
+@import url(./styles/components/sds-typography.css);
+@import url(./styles/components/sds-card.css);
+@import url(./styles/components/sds-portal.css);
+@import url(./styles/components/sds-search.css);
 
 /* 9. Utilities */
 @import url(./styles/utilities.css);

@@ -2,10 +2,22 @@ name: publish-on-tag
 on:
     push:
         tags:
-            - "v*"
+            # A tag like v1.2.3 (or v1.2.3-beta.1) publishes the library.
+            # GitHub tag filters only support * / ** wildcards (no regex classes).
+            - "v*.*.*"
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version to publish (X.Y.Z). Defaults to the version in package.json."
+                required: false
+                type: string
 
 env:
     PNPM_VERSION: 11.21.0
+
+concurrency:
+    group: publish-${{ github.ref }}
+    cancel-in-progress: false
 
 jobs:
     build_and_publish:
@@ -28,32 +40,42 @@ jobs:
                   cache: pnpm
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
-            - name: Align package.json version with tag
+            - name: Resolve and validate the version
+              id: version
+              env:
+                  INPUT_VERSION: ${{ inputs.version }}
               run: |
-                  VERSION="${GITHUB_REF_NAME#v}"
+                  if [ "${{ github.event_name }}" = "push" ]; then
+                    VERSION="${GITHUB_REF_NAME#v}"
+                  elif [ -n "$INPUT_VERSION" ]; then
+                    VERSION="$INPUT_VERSION"
+                  else
+                    VERSION="$(node -p "require('./package.json').version")"
+                  fi
+                  VERSION="${VERSION#v}"
                   if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
-                    echo "Tag $GITHUB_REF_NAME does not look like a valid vX.Y.Z version." >&2
+                    echo "::error::$VERSION does not look like a valid version (expected X.Y.Z)."
                     exit 1
                   fi
-                  node -e "const fs=require('fs'); const p='package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); pkg.version=process.argv[1]; fs.writeFileSync(p, JSON.stringify(pkg, null, 4) + '\n');" "$VERSION"
-                  echo "Publishing version $VERSION (from tag $GITHUB_REF_NAME)"
+                  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                  case "$VERSION" in
+                    *-*) echo "dist_tag=next" >> "$GITHUB_OUTPUT" ;;
+                    *) echo "dist_tag=latest" >> "$GITHUB_OUTPUT" ;;
+                  esac
+                  echo "Publishing @skygenesisenterprise/react-sds@$VERSION"
+            - name: Align package.json version with the release
+              run: |
+                  node -e "const fs=require('fs'); const p='package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); pkg.version=process.argv[1]; fs.writeFileSync(p, JSON.stringify(pkg, null, 4) + '\n');" "${{ steps.version.outputs.version }}"
             - name: Build for publish
               run: pnpm build --prePublish
             - name: Enable short npm import paths (subpath exports)
               run: npx -y -p denoify@1.5.1 enable_short_npm_import_path
               env:
                   DRY_RUN: "0"
-            - name: Determine npm dist-tag (next for pre-releases)
-              id: dist-tag
-              run: |
-                  case "${{ github.ref_name }}" in
-                    *-*) echo "dist_tag=next" >> "$GITHUB_OUTPUT" ;;
-                    *) echo "dist_tag=latest" >> "$GITHUB_OUTPUT" ;;
-                  esac
             - name: Package validation (dry-run content of the npm tarball)
               run: pnpm pack --dry-run
             - name: Publish on npm (public)
-              run: npm publish --provenance --access public --tag ${{ steps.dist-tag.outputs.dist_tag }}
+              run: npm publish --provenance --access public --tag ${{ steps.version.outputs.dist_tag }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
             # Re-run setup-node so that $HOME/.npmrc points at GitHub Packages:
@@ -67,7 +89,7 @@ jobs:
                   scope: "@skygenesisenterprise"
             - name: Publish on GitHub Packages
               run: |
-                  VERSION="$(node -p "require('./package.json').version")"
+                  VERSION="${{ steps.version.outputs.version }}"
                   # npm refuses to overwrite a version that already exists on GitHub
                   # Packages. Skip (instead of failing the run) when the tag was
                   # already published there, e.g. on a workflow re-run.

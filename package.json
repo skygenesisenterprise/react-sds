@@ -1,6 +1,6 @@
 {
     "name": "@skygenesisenterprise/react-sds",
-    "version": "1.1.0",
+    "version": "1.0.0",
     "packageManager": "pnpm@11.21.0",
     "description": "The SGE Design system React toolkit.",
     "repository": {
@@ -304,6 +304,10 @@
         "./Header/Header": {
             "types": "./dist/Header/Header.d.ts",
             "default": "./dist/Header/Header.js"
+        },
+        "./Header/HeaderNavigation": {
+            "types": "./dist/Header/HeaderNavigation.d.ts",
+            "default": "./dist/Header/HeaderNavigation.js"
         },
         "./Header/useIsHeaderMenuModalOpen": {
             "types": "./dist/Header/useIsHeaderMenuModalOpen.d.ts",

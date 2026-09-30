@@ -4,6 +4,11 @@ import React, {
     memo,
     forwardRef,
     cloneElement,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
     type ReactNode,
     type CSSProperties,
     type ComponentProps
@@ -18,7 +23,7 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import type { FrIconClassName, RiIconClassName } from "../fr/generatedFromCss/classNames";
 import type { MainNavigationProps } from "../MainNavigation";
-import { MainNavigation } from "../MainNavigation";
+import { HeaderNavigation } from "./HeaderNavigation";
 import { Display } from "../Display/Display";
 import { setIdentityAndHomeLinkProps } from "../zz_internal/identityAndHomeLinkProps";
 import "../assets/sge-identity.css";
@@ -132,6 +137,17 @@ export namespace HeaderProps {
 
 export const headerMenuModalIdPrefix = "header-menu-modal";
 
+/**
+ * Menu open state of the closest `<Header />`.
+ *
+ * Used by the legacy `useIsHeaderMenuModalOpen` hook. The header no longer relies on a
+ * DSFR modal to render its collapsed menu, so the state is shared through React context
+ * instead of DOM events.
+ */
+export const HeaderMenuContext = React.createContext<
+    { isOpen: boolean; setIsOpen: (isOpen: boolean) => void } | undefined
+>(undefined);
+
 /** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-header> */
 export const Header = memo(
     forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
@@ -156,7 +172,7 @@ export const Header = memo(
 
         assert<Equals<keyof typeof rest, never>>();
 
-        const id = id_props ?? "fr-header";
+        const id = id_props ?? "sds-header";
 
         const menuModalId = `${headerMenuModalIdPrefix}-${id}`;
         const menuButtonId = `${id}-menu-button`;
@@ -167,6 +183,9 @@ export const Header = memo(
         const isSearchBarEnabled =
             renderSearchInput !== undefined || onSearchButtonClick !== undefined;
 
+        const isCollapsible =
+            navigation !== undefined || quickAccessItems.length > 0 || isSearchBarEnabled;
+
         setIdentityAndHomeLinkProps({ identity, homeLinkProps });
 
         const { t } = useTranslation();
@@ -174,281 +193,305 @@ export const Header = memo(
 
         const { Link } = getLink();
 
-        const getQuickAccessNode = (usecase: "mobile" | "desktop") => (
-            <ul className={fr.cx("fr-btns-group")}>
-                {quickAccessItems.map((quickAccessItem, i) => (
-                    <li key={i}>
-                        {(() => {
-                            const node = !typeGuard<HeaderProps.QuickAccessItem>(
-                                quickAccessItem,
-                                quickAccessItem instanceof Object && "text" in quickAccessItem
-                            ) ? (
-                                quickAccessItem
-                            ) : (
-                                <HeaderQuickAccessItem quickAccessItem={quickAccessItem} />
-                            );
+        const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-                            if (node === null) {
-                                return null;
-                            }
+        const menuButtonRef = useRef<HTMLButtonElement>(null);
+        const panelCloseButtonRef = useRef<HTMLButtonElement>(null);
+        const hasBeenOpenedRef = useRef(false);
 
-                            return cloneElement(node, {
-                                "id": `${id}-quick-access-item-${i}${(() => {
-                                    switch (usecase) {
-                                        case "mobile":
-                                            return "-mobile";
-                                        case "desktop":
-                                            return "";
-                                    }
-                                    assert<Equals<typeof usecase, never>>();
-                                })()}`
-                            });
-                        })()}
-                    </li>
-                ))}
-            </ul>
+        const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+
+        // Move focus into the collapsed panel when it opens, close it with Escape, and
+        // give focus back to the trigger when it closes. The panel is only rendered as a
+        // dialog on small screens (see header.css); this is harmless on desktop.
+        useEffect(() => {
+            if (!isMenuOpen) {
+                if (hasBeenOpenedRef.current) {
+                    hasBeenOpenedRef.current = false;
+                    menuButtonRef.current?.focus();
+                }
+                return;
+            }
+
+            hasBeenOpenedRef.current = true;
+
+            panelCloseButtonRef.current?.focus();
+
+            const onKeyDown = (event: KeyboardEvent) => {
+                if (event.key === "Escape") {
+                    closeMenu();
+                }
+            };
+
+            document.addEventListener("keydown", onKeyDown);
+
+            const previousOverflow = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+
+            return () => {
+                document.removeEventListener("keydown", onKeyDown);
+                document.body.style.overflow = previousOverflow;
+            };
+        }, [isMenuOpen, closeMenu]);
+
+        const menuContextValue = useMemo(
+            () => ({ isOpen: isMenuOpen, setIsOpen: setIsMenuOpen }),
+            [isMenuOpen]
         );
+
+        const quickAccessNodes = quickAccessItems.map((quickAccessItem, i) => {
+            const node = !typeGuard<HeaderProps.QuickAccessItem>(
+                quickAccessItem,
+                quickAccessItem instanceof Object && "text" in quickAccessItem
+            ) ? (
+                quickAccessItem
+            ) : (
+                <HeaderQuickAccessItem quickAccessItem={quickAccessItem} />
+            );
+
+            if (node === null) {
+                return null;
+            }
+
+            return (
+                <li key={i} className="sds-header__actions-item">
+                    {cloneElement(node, { "id": `${id}-quick-access-item-${i}` })}
+                </li>
+            );
+        });
 
         return (
             <>
                 {!disableDisplay && <Display />}
-                <header
-                    role="banner"
-                    id={id}
-                    className={cx(fr.cx("fr-header"), classes.root, className)}
-                    ref={ref}
-                    style={style}
-                    {...rest}
-                >
-                    <div className={cx(fr.cx("fr-header__body" as any), classes.body)}>
-                        <div className={cx(fr.cx("fr-container"), classes.container)}>
-                            <div className={cx(fr.cx("fr-header__body-row"), classes.bodyRow)}>
-                                <div
+                <HeaderMenuContext.Provider value={menuContextValue}>
+                    <header
+                        role="banner"
+                        id={id}
+                        className={cx("sds-header", classes.root, className)}
+                        ref={ref}
+                        style={style}
+                        {...rest}
+                    >
+                        <div
+                            className={cx(
+                                "sds-header__inner",
+                                classes.body,
+                                classes.container,
+                                classes.bodyRow
+                            )}
+                        >
+                            {/* [organisation] */}
+                            <div className={cx("sds-header__organisation", classes.brand)}>
+                                <Link
+                                    {...homeLinkProps}
                                     className={cx(
-                                        fr.cx(
-                                            "fr-header__brand",
-                                            serviceTitle === undefined && "fr-enlarge-link"
-                                        ),
-                                        classes.brand
+                                        "sds-header__brand sds-identity__link",
+                                        classes.logo,
+                                        classes.identity,
+                                        classes.brandTop
                                     )}
                                 >
-                                    <div
+                                    <img
                                         className={cx(
-                                            fr.cx("fr-header__brand-top"),
-                                            classes.brandTop
+                                            "sds-identity__img",
+                                            classes.identityImg
+                                        )}
+                                        src={identity.imgUrl}
+                                        alt={identity.alt}
+                                    />
+                                    <span
+                                        className={cx(
+                                            "sds-identity__institution",
+                                            classes.institution
                                         )}
                                     >
-                                        <div className={cx(fr.cx("fr-header__logo"), classes.logo)}>
-                                            <Link
-                                                {...homeLinkProps}
-                                                className={cx(
-                                                    "sds-identity__link",
-                                                    classes.identity
-                                                )}
-                                            >
-                                                <img
-                                                    className={cx(
-                                                        "sds-identity__img",
-                                                        classes.identityImg
-                                                    )}
-                                                    src={identity.imgUrl}
-                                                    alt={identity.alt}
-                                                />
-                                                <span
-                                                    className={cx(
-                                                        "sds-identity__institution",
-                                                        classes.institution
-                                                    )}
-                                                >
-                                                    {identity.institution}
-                                                </span>
-                                            </Link>
-                                        </div>
+                                        {identity.institution}
+                                    </span>
+                                </Link>
 
-                                        {(quickAccessItems.length > 0 ||
-                                            navigation !== undefined ||
-                                            isSearchBarEnabled) && (
-                                            <div
+                                {serviceTitle !== undefined && (
+                                    <div className={cx("sds-header__service", classes.service)}>
+                                        <Link
+                                            {...homeLinkProps}
+                                            className="sds-header__service-link"
+                                        >
+                                            <p
                                                 className={cx(
-                                                    fr.cx("fr-header__navbar"),
-                                                    classes.navbar
+                                                    "sds-header__service-title",
+                                                    classes.serviceTitle
                                                 )}
                                             >
-                                                {isSearchBarEnabled && (
-                                                    <button
-                                                        id={`${id}-search-button`}
-                                                        className={fr.cx(
-                                                            "fr-btn--search",
-                                                            "fr-btn"
-                                                        )}
-                                                        data-fr-opened={false}
-                                                        aria-controls={searchModalId}
-                                                        title={tSearchBar("label")}
-                                                    >
-                                                        {tSearchBar("label")}
-                                                    </button>
-                                                )}
-                                                <button
-                                                    className={fr.cx("fr-btn--menu", "fr-btn")}
-                                                    data-fr-opened="false"
-                                                    aria-controls={menuModalId}
-                                                    id={menuButtonId}
-                                                    title={t("menu")}
-                                                >
-                                                    {t("menu")}
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {serviceTitle !== undefined && (                                            <div
+                                                {serviceTitle}
+                                            </p>
+                                        </Link>
+                                        {serviceTagline !== undefined && (
+                                            <p
                                                 className={cx(
-                                                    fr.cx("fr-header__service"),
-                                                    classes.service
+                                                    "sds-header__service-tagline",
+                                                    classes.serviceTagline
                                                 )}
                                             >
-                                            <Link {...homeLinkProps}>
-                                                <p
-                                                    className={cx(
-                                                        fr.cx("fr-header__service-title"),
-                                                        classes.serviceTitle
-                                                    )}
-                                                >
-                                                    {serviceTitle}
-                                                </p>
-                                            </Link>
-                                            {serviceTagline !== undefined && (
-                                                <p
-                                                    className={cx(
-                                                        fr.cx("fr-header__service-tagline" as any),
-                                                        classes.serviceTagline
-                                                    )}
-                                                >
-                                                    {serviceTagline}
-                                                </p>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-
-                                {(quickAccessItems.length > 0 || isSearchBarEnabled) && (
-                                    <div className={fr.cx("fr-header__tools")}>
-                                        {quickAccessItems.length > 0 && (
-                                            <div
-                                                className={cx(
-                                                    fr.cx("fr-header__tools-links"),
-                                                    classes.toolsLinks
-                                                )}
-                                            >
-                                                {getQuickAccessNode("desktop")}
-                                            </div>
-                                        )}
-
-                                        {isSearchBarEnabled && (
-                                            <div
-                                                className={fr.cx("fr-header__search", "fr-modal")}
-                                                id={searchModalId}
-                                                aria-labelledby={`${id}-search-bar-button`}
-                                            >
-                                                <div
-                                                    className={fr.cx(
-                                                        "fr-container",
-                                                        "fr-container-lg--fluid"
-                                                    )}
-                                                >
-                                                    <button
-                                                        id={`${id}-search-close-button`}
-                                                        className={fr.cx("fr-btn--close", "fr-btn")}
-                                                        aria-controls={searchModalId}
-                                                        title={t("close")}
-                                                    >
-                                                        {t("close")}
-                                                    </button>
-                                                    <div
-                                                        className={fr.cx("fr-search-bar")}
-                                                        role="search"
-                                                    >
-                                                        <label
-                                                            className={fr.cx("fr-label")}
-                                                            htmlFor={searchInputId}
-                                                            id={searchLabelId}
-                                                        >
-                                                            {tSearchBar("label")}
-                                                        </label>
-                                                        {(
-                                                            renderSearchInput ??
-                                                            (({
-                                                                className,
-                                                                id,
-                                                                placeholder,
-                                                                type
-                                                            }) => (
-                                                                <input
-                                                                    className={className}
-                                                                    id={id}
-                                                                    placeholder={placeholder}
-                                                                    type={type}
-                                                                />
-                                                            ))
-                                                        )({
-                                                            "className": fr.cx("fr-input"),
-                                                            "id": searchInputId,
-                                                            "placeholder": tSearchBar("label"),
-                                                            "type": "search"
-                                                        })}
-                                                        <SearchButton
-                                                            id={`${id}-search-bar-button`}
-                                                            searchInputId={searchInputId}
-                                                            onClick={onSearchButtonClick}
-                                                            clearInputOnSearch={
-                                                                clearSearchInputOnSearch
-                                                            }
-                                                            allowEmptySearch={allowEmptySearch}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                {serviceTagline}
+                                            </p>
                                         )}
                                     </div>
                                 )}
                             </div>
-                        </div>
-                    </div>
-                    {(navigation !== undefined || quickAccessItems.length !== 0) && (
-                        <div
-                            className={cx(fr.cx("fr-header__menu", "fr-modal"), classes.menu)}
-                            id={menuModalId}
-                            aria-labelledby={menuButtonId}
-                        >
-                            <div className={fr.cx("fr-container")}>
+
+                            {/* [navigation] + [action] — inline on desktop, panel on mobile */}
+                            <div
+                                id={menuModalId}
+                                className={cx("sds-header__panel", classes.menu)}
+                                data-open={isMenuOpen ? "" : undefined}
+                                role={isMenuOpen ? "dialog" : undefined}
+                                aria-modal={isMenuOpen ? true : undefined}
+                                aria-label={t("menu")}
+                            >
                                 <button
-                                    id={`${id}-mobile-overlay-button-close`}
-                                    className={fr.cx("fr-btn--close", "fr-btn")}
-                                    aria-controls={menuModalId}
+                                    ref={panelCloseButtonRef}
+                                    type="button"
+                                    className="sds-header__panel-close"
+                                    onClick={closeMenu}
                                     title={t("close")}
                                 >
-                                    {t("close")}
+                                    <span className="sds-header__sr-only">{t("close")}</span>
                                 </button>
+
+                                {navigation !== undefined && (
+                                    <div
+                                        className={cx(
+                                            "sds-header__navigation",
+                                            classes.menuLinks
+                                        )}
+                                    >
+                                        {navigation instanceof Array ? (
+                                            <HeaderNavigation
+                                                id={`${id}-main-navigation`}
+                                                items={navigation}
+                                            />
+                                        ) : (
+                                            navigation
+                                        )}
+                                    </div>
+                                )}
+
+                                <div className={cx("sds-header__actions", classes.navbar)}>
+                                    {quickAccessItems.length > 0 && (
+                                        <ul
+                                            className={cx(
+                                                "sds-header__actions-list",
+                                                classes.toolsLinks
+                                            )}
+                                        >
+                                            {quickAccessNodes}
+                                        </ul>
+                                    )}
+
+                                    {isSearchBarEnabled && (
+                                        <button
+                                            id={`${id}-search-button`}
+                                            type="button"
+                                            className="sds-header__action sds-header__search-button"
+                                            data-fr-opened={false}
+                                            aria-controls={searchModalId}
+                                            title={tSearchBar("label")}
+                                        >
+                                            <span
+                                                className="sds-header__search-icon"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="sds-header__sr-only">
+                                                {tSearchBar("label")}
+                                            </span>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Mobile menu trigger */}
+                            {isCollapsible && (
+                                <button
+                                    ref={menuButtonRef}
+                                    id={menuButtonId}
+                                    type="button"
+                                    className="sds-header__menu-button"
+                                    aria-expanded={isMenuOpen}
+                                    aria-controls={menuModalId}
+                                    title={t("menu")}
+                                    onClick={() => setIsMenuOpen(isOpen => !isOpen)}
+                                >
+                                    <span
+                                        className="sds-header__menu-icon"
+                                        aria-hidden="true"
+                                    />
+                                    <span className="sds-header__sr-only">{t("menu")}</span>
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Search — kept as a DSFR-free modal dialog opened from the actions. */}
+                        {isSearchBarEnabled && (
+                            <div
+                                className={fr.cx("fr-header__search", "fr-modal")}
+                                id={searchModalId}
+                                aria-labelledby={`${id}-search-bar-button`}
+                            >
                                 <div
-                                    className={cx(
-                                        fr.cx("fr-header__menu-links"),
-                                        classes.menuLinks
+                                    className={fr.cx(
+                                        "fr-container",
+                                        "fr-container-lg--fluid"
                                     )}
                                 >
-                                    {getQuickAccessNode("mobile")}
-                                </div>
-                                {navigation !== undefined &&
-                                    (navigation instanceof Array ? (
-                                        <MainNavigation
-                                            id={`${id}-main-navigation`}
-                                            items={navigation}
+                                    <button
+                                        id={`${id}-search-close-button`}
+                                        className={fr.cx("fr-btn--close", "fr-btn")}
+                                        aria-controls={searchModalId}
+                                        title={t("close")}
+                                    >
+                                        {t("close")}
+                                    </button>
+                                    <div className={fr.cx("fr-search-bar")} role="search">
+                                        <label
+                                            className={fr.cx("fr-label")}
+                                            htmlFor={searchInputId}
+                                            id={searchLabelId}
+                                        >
+                                            {tSearchBar("label")}
+                                        </label>
+                                        {(
+                                            renderSearchInput ??
+                                            (({
+                                                className,
+                                                id,
+                                                placeholder,
+                                                type
+                                            }) => (
+                                                <input
+                                                    className={className}
+                                                    id={id}
+                                                    placeholder={placeholder}
+                                                    type={type}
+                                                />
+                                            ))
+                                        )({
+                                            "className": fr.cx("fr-input"),
+                                            "id": searchInputId,
+                                            "placeholder": tSearchBar("label"),
+                                            "type": "search"
+                                        })}
+                                        <SearchButton
+                                            id={`${id}-search-bar-button`}
+                                            searchInputId={searchInputId}
+                                            onClick={onSearchButtonClick}
+                                            clearInputOnSearch={clearSearchInputOnSearch}
+                                            allowEmptySearch={allowEmptySearch}
                                         />
-                                    ) : (
-                                        navigation
-                                    ))}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </header>
+                        )}
+                    </header>
+                </HeaderMenuContext.Provider>
             </>
         );
     })
@@ -491,7 +534,8 @@ export function HeaderQuickAccessItem(props: HeaderQuickAccessItemProps): JSX.El
         <Link
             {...quickAccessItem.linkProps}
             className={cx(
-                fr.cx("fr-btn", quickAccessItem.iconId),
+                "sds-header__action",
+                quickAccessItem.iconId,
                 quickAccessItem.linkProps.className,
                 className
             )}
@@ -503,7 +547,8 @@ export function HeaderQuickAccessItem(props: HeaderQuickAccessItemProps): JSX.El
         <button
             {...quickAccessItem.buttonProps}
             className={cx(
-                fr.cx("fr-btn", quickAccessItem.iconId),
+                "sds-header__action",
+                quickAccessItem.iconId,
                 quickAccessItem.buttonProps.className,
                 className
             )}

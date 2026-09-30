@@ -569,7 +569,7 @@ export function createDsfrCustomBrandingProvider(params: {
                                 color: theme.palette.text.primary,
                                 backgroundColor: theme.palette.background.default
                             },
-                            [`.${fr.cx("fr-header__logo")}`]: {
+                            [".sds-header__brand"]: {
                                 display: "none"
                             },
                             [`.${fr.cx("fr-footer__brand")} .${fr.cx("fr-logo")}`]: {

@@ -7,3 +7,4 @@ export {
     addHeaderTranslations,
     useTranslation
 } from "./Header";
+export { HeaderNavigation, type HeaderNavigationProps } from "./HeaderNavigation";

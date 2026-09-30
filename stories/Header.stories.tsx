@@ -74,9 +74,9 @@ See also [\\\\<MainNavigation \\\\/\\\\>](https://skygenesisenterprise.github.io
         "identity": {
             "control": { "type": null },
             "description": `The institutional identity of the site, made of:
-- \\`imgUrl\\`: URL of the official SGE flag/emblem lockup (SVG preferred),
-- \\`alt\\`: accessible alternative of the image, the name of the Republic must appear,
-- \\`institution\\`: the administrative authority, e.g. "Gouvernement" or "Ministère de l'Économie".`
+- \`imgUrl\`: URL of the official SGE flag/emblem lockup (SVG preferred),
+- \`alt\`: accessible alternative of the image, the name of the Republic must appear,
+- \`institution\`: the administrative authority, e.g. "Gouvernement" or "Ministère de l'Économie".`
         },
         "homeLinkProps": {
             "control": { "type": null },

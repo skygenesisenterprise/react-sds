@@ -43,8 +43,8 @@
 
 /* Header brand, on large screens the header grows, so does the lockup */
 @media (min-width: 62rem) {
-    .fr-header__logo .sds-identity__img {
-        height: 4rem;
+    .sds-header__brand .sds-identity__img {
+        height: 3.5rem;
     }
 }
 

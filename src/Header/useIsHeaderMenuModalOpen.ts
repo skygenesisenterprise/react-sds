@@ -1,35 +1,14 @@
-import { useEffect, useState } from "react";
-import { headerMenuModalIdPrefix } from "./Header";
-import { useIsModalOpen } from "../Modal/useIsModalOpen";
-import { symToStr } from "tsafe/symToStr";
+import { useContext } from "react";
+import { HeaderMenuContext } from "./Header";
 
-export function useIsHeaderMenuModalOpen() {
-    const [headerMenuModalId, setHeaderMenuModalId] = useState("");
+/**
+ * Whether the collapsed menu of the closest `<Header />` is open.
+ *
+ * The header renders its mobile menu itself (no DSFR modal anymore), so the open state
+ * is read from `HeaderMenuContext`. When called outside a header tree it returns `false`.
+ */
+export function useIsHeaderMenuModalOpen(): boolean {
+    const context = useContext(HeaderMenuContext);
 
-    useEffect(() => {
-        const matchingElements = document.querySelectorAll(`[id^='${headerMenuModalIdPrefix}']`);
-
-        if (matchingElements.length > 1) {
-            throw new Error(
-                `There is more than one Header mounted on the page, you can't use ${symToStr({
-                    useIsHeaderMenuModalOpen
-                })}`
-            );
-        }
-
-        if (matchingElements.length === 0) {
-            throw new Error(
-                `The header is not mounted on the page, you can't use ${symToStr({
-                    useIsHeaderMenuModalOpen
-                })}`
-            );
-        }
-
-        setHeaderMenuModalId(matchingElements[0].id);
-    }, []);
-
-    return useIsModalOpen({
-        "id": headerMenuModalId,
-        "isOpenedByDefault": false
-    });
+    return context?.isOpen ?? false;
 }

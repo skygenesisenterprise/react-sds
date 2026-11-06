@@ -22,7 +22,7 @@ grep -Fq 'verify-registry-integrity.sh' "$WORKFLOW"
 grep -Fq "REQUIRED_NPM_VERSION = '11.21.2'" "$ROOT/scripts/ci/ensure-npm-version.cjs"
 grep -Fq "actions/upload-artifact@v4" "$CI_WORKFLOW"
 grep -Fq "actions/download-artifact@v4" "$CI_WORKFLOW"
-grep -Fq "src/generatedFromCss/" "$CI_WORKFLOW"
+grep -Fq "src/fr/generatedFromCss/" "$CI_WORKFLOW"
 grep -Fq "path: ./" "$CI_WORKFLOW"
 bash "$ROOT/tests/registry-integrity.test.sh"
 

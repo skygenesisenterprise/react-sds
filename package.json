@@ -56,10 +56,13 @@
     "license": "MIT",
     "funding": "https://github.com/skygenesisenterprise/react-sds",
     "files": [
-        "src/",
         "dist/",
+        "LICENSE",
+        "README.md",
         "!dist/tsconfig.tsbuildinfo",
-        "!dist/bin/tsconfig.tsbuildinfo"
+        "!dist/bin/tsconfig.tsbuildinfo",
+        "!dist/src/",
+        "!**/*.map"
     ],
     "keywords": [
         "sge design system",

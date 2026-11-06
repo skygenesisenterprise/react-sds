@@ -13,10 +13,10 @@ concurrency:
 env:
   NODE_VERSION: "22"
   NPMJS_REGISTRY: https://registry.npmjs.org
+  GH_REGISTRY: https://npm.pkg.github.com
 
 permissions:
   contents: write
-  id-token: write
   packages: write
 
 jobs:
@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Read the pnpm version pinned in package.json
         id: pnpm
@@ -83,49 +85,71 @@ jobs:
       - name: ESLint check
         run: pnpm lint:check
 
-      - name: Align package.json version with tag
+      - name: Extract version from tag
         id: release
         run: |
           set -euo pipefail
 
-          VERSION="${GITHUB_REF_NAME#v}"
-          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if ! [[ "$TAG_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
             echo "::error::Tag $GITHUB_REF_NAME does not look like a valid vX.Y.Z version."
             exit 1
           fi
 
-          node -e "const fs=require('fs'); const p='package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); pkg.version=process.argv[1]; fs.writeFileSync(p, JSON.stringify(pkg, null, 4) + '\n');" "$VERSION"
+          # Get version from package.json
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          
+          # Verify tag matches package version
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match package.json version ($PKG_VERSION)"
+            exit 1
+          fi
 
-          case "$VERSION" in
-            *-*) dist_tag="${VERSION##*-}" ;;
-            *) dist_tag=latest ;;
-          esac
+          echo "version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
+          
+          # Determine dist-tag based on SemVer prerelease identifier
+          # Use npm's semver logic to extract prerelease label
+          if [[ "$TAG_VERSION" == *-* ]]; then
+            # Extract prerelease part (everything after the first -)
+            prerelease="${TAG_VERSION#*-}"
+            # Get the first segment of prerelease (before any dot)
+            dist_tag="${prerelease%.*}"
+            # Normalize common prerelease identifiers
+            case "$dist_tag" in
+              alpha) dist_tag="alpha" ;;
+              beta) dist_tag="beta" ;;
+              rc|gamma) dist_tag="rc" ;;
+              next) dist_tag="next" ;;
+              *) dist_tag="next" ;;
+            esac
+          else
+            dist_tag="latest"
+          fi
 
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
-          echo "Publishing version $VERSION (from tag $GITHUB_REF_NAME)"
+          echo "Publishing version $TAG_VERSION (from tag $GITHUB_REF_NAME) with dist-tag: $dist_tag"
 
       - name: Build (published layout)
         id: build
         run: pnpm build --prePublish
 
       - name: Unit tests
+        id: test
         run: pnpm test
 
       - name: Assert the build only emitted dist/ and is self-contained
         run: |
           set -euo pipefail
-          VERSION="$(node -p "require('./package.json').version")"
-          if [ "$VERSION" != "${GITHUB_REF_NAME#v}" ]; then
-            echo "package.json is at $VERSION but the tag is $GITHUB_REF_NAME." >&2
-            exit 1
-          fi
+          VERSION="${{ steps.release.outputs.version }}"
+          
           for artifact in legacy dist/package.json dist/src; do
             if [ -e "$artifact" ]; then
               echo "The published build must only emit dist/, found: $artifact" >&2
               exit 1
             fi
           done
+          
+          # Check required files exist
           for file in \
             dist/index.js \
             dist/index.d.ts \
@@ -139,6 +163,8 @@ jobs:
               exit 1
             fi
           done
+          
+          # Verify CSS imports
           node -e '
             const fs = require("fs"), path = require("path");
             const css = fs.readFileSync("dist/main.css", "utf8");
@@ -150,6 +176,14 @@ jobs:
             }
             console.log("dist/main.css imports resolved:", imports.length);
           '
+          
+          # Verify bin files exist
+          for bin_file in dist/bin/react-sds.js dist/bin/copy-legacy-to-public.js dist/bin/only-include-used-icons.js; do
+            if [ ! -f "$bin_file" ]; then
+              echo "Missing bin file: $bin_file" >&2
+              exit 1
+            fi
+          done
 
       - name: Pack package
         id: pack
@@ -158,7 +192,9 @@ jobs:
 
           pack_dir="${RUNNER_TEMP}/pack"
           mkdir -p "$pack_dir"
-          pnpm pack --pack-destination "$pack_dir" --prePublish
+          
+          # Pack without --prePublish flag (which is not valid for pnpm pack)
+          pnpm pack --pack-destination "$pack_dir"
 
           tarball="$(find "$pack_dir" -name '*.tgz' -print -quit)"
           if [[ -z "$tarball" ]]; then
@@ -167,8 +203,95 @@ jobs:
           fi
 
           echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "Package tarball created: $(basename "$tarball")"
+          
+          # Verify tarball exists and has content
+          if [ ! -s "$tarball" ]; then
+            echo "::error::Tarball is empty"
+            exit 1
+          fi
+          
           echo "Contents of $(basename "$tarball"):"
           tar -tzf "$tarball" | sed 's/^/  /'
+          
+          # Verify essential files are in the tarball
+          echo ""
+          echo "Verifying essential files in tarball..."
+          
+          # Get package name from package.json
+          PKG_NAME="$(node -p "require('./package.json').name")"
+          
+          # Create a temp directory to extract and verify
+          verify_dir="${RUNNER_TEMP}/verify"
+          mkdir -p "$verify_dir"
+          tar -xzf "$tarball" -C "$verify_dir"
+          
+          # Check package.json in tarball
+          if [ ! -f "$verify_dir/package/package.json" ]; then
+            echo "::error::package/package.json not found in tarball"
+            exit 1
+          fi
+          
+          TARBALL_PKG_VERSION="$(node -p "require('$verify_dir/package/package.json').version")"
+          if [ "$TARBALL_PKG_VERSION" != "${{ steps.release.outputs.version }}" ]; then
+            echo "::error::Tarball version ($TARBALL_PKG_VERSION) does not match expected version (${{ steps.release.outputs.version }})"
+            exit 1
+          fi
+          
+          # Check essential entry points based on package.json exports
+          # Check main entry
+          if [ ! -f "$verify_dir/package/dist/index.js" ]; then
+            echo "::error::dist/index.js not found in tarball"
+            exit 1
+          fi
+          
+          # Check types entry
+          if [ ! -f "$verify_dir/package/dist/index.d.ts" ]; then
+            echo "::error::dist/index.d.ts not found in tarball"
+            exit 1
+          fi
+          
+          # Check main CSS
+          if [ ! -f "$verify_dir/package/dist/main.css" ]; then
+            echo "::error::dist/main.css not found in tarball"
+            exit 1
+          fi
+          
+          # Check styles index
+          if [ ! -f "$verify_dir/package/dist/styles/index.css" ]; then
+            echo "::error::dist/styles/index.css not found in tarball"
+            exit 1
+          fi
+          
+          # Check legacy assets
+          if [ ! -f "$verify_dir/package/dist/legacy/legacy.css" ]; then
+            echo "::error::dist/legacy/legacy.css not found in tarball"
+            exit 1
+          fi
+          
+          # Check bin files
+          if [ ! -f "$verify_dir/package/dist/bin/react-sds.js" ]; then
+            echo "::error::dist/bin/react-sds.js not found in tarball"
+            exit 1
+          fi
+          
+          # Check that package.json is in the tarball
+          if [ ! -f "$verify_dir/package/package.json" ]; then
+            echo "::error::package.json not found in tarball"
+            exit 1
+          fi
+          
+          # Check that no unwanted files are present
+          echo "Checking for unwanted files..."
+          if tar -tzf "$tarball" | grep -qE '(\.ts$|\.tsx$|src/|node_modules/|\.git/|\.github/|test/|\.test\.|\.spec\.)'; then
+            echo "::warning::Tarball contains files that should not be published"
+            tar -tzf "$tarball" | grep -E '(\.ts$|\.tsx$|src/|node_modules/|\.git/|\.github/|test/|\.test\.|\.spec\.)' | sed 's/^/  WARNING: /'
+          fi
+          
+          # Clean up verification directory
+          rm -rf "$verify_dir"
+          
+          echo "Tarball verification passed"
 
       - name: Publish to npmjs
         id: publish-npmjs
@@ -186,17 +309,26 @@ jobs:
             exit 1
           fi
 
-          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry "$NPMJS_REGISTRY" --prefer-online 2>&1)"; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on npmjs"
-            exit 0
-          elif [[ "$lookup" == *E404* || "$lookup" == *"404 Not Found"* || "$lookup" == *"Not Found - GET"* ]]; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on npmjs yet"
+          # Check if version already exists on npmjs
+          echo "Checking if @skygenesisenterprise/react-sds@$VERSION exists on npmjs..."
+          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry "$NPMJS_REGISTRY" --prefer-online 2>&1)" || true; then
+            if echo "$lookup" | grep -qE "(E404|404 Not Found|Not Found - GET)"; then
+              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on npmjs yet"
+            elif echo "$lookup" | grep -qE "$VERSION"; then
+              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on npmjs (skipping)"
+              echo "status=already_published" >> "$GITHUB_OUTPUT"
+              exit 0
+            else
+              echo "$lookup"
+              echo "::error::Unexpected response when checking version on npmjs"
+              exit 1
+            fi
           else
-            echo "$lookup"
             echo "::error::Could not check whether @skygenesisenterprise/react-sds@$VERSION exists on npmjs"
             exit 1
           fi
 
+          echo "Publishing to npmjs..."
           publish_status=0
           if npm publish "$TARBALL" \
             --registry "$NPMJS_REGISTRY" \
@@ -208,6 +340,7 @@ jobs:
             publish_status=$?
           fi
 
+          # Verify publication by checking if the version is available
           published=false
           for attempt in $(seq 1 30); do
             if npm view "@skygenesisenterprise/react-sds@$VERSION" version \
@@ -223,19 +356,18 @@ jobs:
           done
 
           if [[ "$published" == "true" ]]; then
-            if [[ "$publish_status" -eq 0 ]]; then
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is published on npmjs"
-            else
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is now on npmjs; treating the publish as already completed"
-            fi
+            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is now available on npmjs"
+            echo "status=published" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           if [[ "$publish_status" -eq 0 ]]; then
-            echo "::error::@skygenesisenterprise/react-sds@$VERSION was not found on npmjs after a successful publish (waited up to 5 minutes)"
+            echo "::error::@skygenesisenterprise/react-sds@$VERSION was not found on npmjs after a successful publish command (waited up to 5 minutes)"
+            echo "status=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
+          echo "status=failed" >> "$GITHUB_OUTPUT"
           exit "$publish_status"
 
       - name: Publish to GitHub Packages
@@ -253,39 +385,47 @@ jobs:
             exit 1
           fi
 
-          # Verify package doesn't exist yet on GitHub Packages
-          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry https://npm.pkg.github.com --prefer-online 2>&1)"; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on GitHub Packages"
-            exit 0
-          elif [[ "$lookup" == *E403* || "$lookup" == *"403 Forbidden"* ]]; then
-            echo "::error::Permission denied when checking @skygenesisenterprise/react-sds@$VERSION on GitHub Packages. Ensure GH_PACKAGES_TOKEN has 'read:packages' and 'write:packages' scopes."
-            exit 1
-          elif [[ "$lookup" == *E404* || "$lookup" == *"404 Not Found"* ]]; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on GitHub Packages yet"
-          else
-            echo "$lookup"
-            echo "::error::Could not check whether @skygenesisenterprise/react-sds@$VERSION exists on GitHub Packages"
-            exit 1
+          # Check if version already exists on GitHub Packages
+          echo "Checking if @skygenesisenterprise/react-sds@$VERSION exists on GitHub Packages..."
+          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry "$GH_REGISTRY" --prefer-online 2>&1)" || true; then
+            if echo "$lookup" | grep -qE "E403|403 Forbidden"; then
+              echo "::error::Permission denied when checking @skygenesisenterprise/react-sds@$VERSION on GitHub Packages"
+              echo "::error::Ensure GH_PACKAGES_TOKEN has 'read:packages' and 'write:packages' scopes"
+              exit 1
+            elif echo "$lookup" | grep -qE "E404|404 Not Found"; then
+              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on GitHub Packages yet"
+            elif echo "$lookup" | grep -qE "$VERSION"; then
+              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on GitHub Packages (skipping)"
+              echo "status=already_published" >> "$GITHUB_OUTPUT"
+              exit 0
+            else
+              echo "$lookup"
+              echo "::error::Unexpected response when checking version on GitHub Packages"
+              exit 1
+            fi
           fi
 
-          # Publish to GitHub Packages
-          if ! npm publish "$TARBALL" --registry https://npm.pkg.github.com; then
+          echo "Publishing to GitHub Packages..."
+          if npm publish "$TARBALL" --registry "$GH_REGISTRY"; then
+            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is published on GitHub Packages"
+            echo "status=published" >> "$GITHUB_OUTPUT"
+          else
             echo "::error::Failed to publish @skygenesisenterprise/react-sds@$VERSION to GitHub Packages"
-            echo "::error::Ensure GH_PACKAGES_TOKEN has 'write:packages' scope and the package scope matches your GitHub org/user"
+            echo "::error::Ensure GH_PACKAGES_TOKEN has 'write:packages' scope and the package scope matches your GitHub org"
+            echo "status=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
-          
-          echo "::notice::@skygenesisenterprise/react-sds@$VERSION is published on GitHub Packages"
 
       - name: Create GitHub release
-        if: steps.release.outcome == 'success'
+        id: release-github
+        if: steps.release.outcome == 'success' && steps.publish-npmjs.outcome == 'success' && steps.publish-github.outcome == 'success'
         uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
           draft: false
-          prerelease: ${{ steps.release.outputs.dist_tag == 'next' }}
+          prerelease: ${{ steps.release.outputs.dist_tag != 'latest' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -293,15 +433,30 @@ jobs:
         if: always()
         env:
           VERSION: ${{ steps.release.outputs.version }}
+          DIST_TAG: ${{ steps.release.outputs.dist_tag }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
+          TEST_OUTCOME: ${{ steps.test.outcome }}
           RELEASE_OUTCOME: ${{ steps.release.outcome }}
           PACK_OUTCOME: ${{ steps.pack.outcome }}
           NPMJS_OUTCOME: ${{ steps.publish-npmjs.outcome }}
+          NPMJS_STATUS: ${{ steps.publish-npmjs.outputs.status }}
           GITHUB_OUTCOME: ${{ steps.publish-github.outcome }}
+          GITHUB_STATUS: ${{ steps.publish-github.outputs.status }}
+          RELEASE_GITHUB_OUTCOME: ${{ steps.release-github.outcome }}
         run: |
           result_for() {
-            case "$1" in
-              success) printf '✅ success' ;;
+            local outcome="$1"
+            local status="$2"
+            case "$outcome" in
+              success)
+                if [[ "$status" == "already_published" ]]; then
+                  printf '⏭️ already published'
+                elif [[ "$status" == "published" ]]; then
+                  printf '✅ success'
+                else
+                  printf '✅ success'
+                fi
+                ;;
               failure) printf '❌ failed' ;;
               skipped) printf '⏭️ skipped' ;;
               cancelled) printf '⏹️ cancelled' ;;
@@ -309,18 +464,49 @@ jobs:
             esac
           }
 
+          get_status() {
+            local step="$1"
+            local outcome="${step}_OUTCOME"
+            local status="${step}_STATUS"
+            result_for "${!outcome}" "${!status}"
+          }
+
           {
             echo "### 📦 Publication Summary for @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
-            echo
-            echo "| Registry | Status |"
-            echo "|----------|--------|"
-            echo "| Build | $(result_for "$BUILD_OUTCOME") |"
+            echo ""
+            echo "**Tag:** "`${GITHUB_REF_NAME:-N/A}"""
+            echo "**Commit:** "`${GITHUB_SHA::8}"""
+            echo "**Node.js:** v${{ env.NODE_VERSION }}"
+            echo "**pnpm:** v${{ steps.pnpm.outputs.version }}"
+            echo "**Dist Tag:** ${DIST_TAG:-latest}"
+            echo ""
+            echo "| Step | Status |"
+            echo "|------|--------|"
             echo "| Version resolution | $(result_for "$RELEASE_OUTCOME") |"
-            echo "| Pack | $(result_for "$PACK_OUTCOME") |"
-            echo "| **npmjs.com** | $(result_for "$NPMJS_OUTCOME") |"
-            echo "| **GitHub Packages** | $(result_for "$GITHUB_OUTCOME") |"
-            echo
-            echo "**Note:** If GitHub Packages failed, ensure:"
-            echo "- Secret GH_PACKAGES_TOKEN exists with 'write:packages' and 'read:packages' scopes"
-            echo "- Package name in package.json is @skygenesisenterprise/react-sds"
+            echo "| Format check | $(result_for "$BUILD_OUTCOME") |"
+            echo "| ESLint check | $(result_for "$BUILD_OUTCOME") |"
+            echo "| Build | $(result_for "$BUILD_OUTCOME") |"
+            echo "| Unit tests | $(result_for "$TEST_OUTCOME") |"
+            echo "| Packaging | $(result_for "$PACK_OUTCOME") |"
+            echo "| **npmjs.com** | $(get_status "publish-npmjs") |"
+            echo "| **GitHub Packages** | $(get_status "publish-github") |"
+            echo "| GitHub Release | $(result_for "$RELEASE_GITHUB_OUTCOME") |"
+            echo ""
+            echo "**Environment:**"
+            echo "- Repository: ${{ github.repository }}"
+            echo "- Workflow: ${{ github.workflow }}"
+            echo "- Run ID: ${{ github.run_id }}"
+            echo ""
+            echo "**Notes:**"
+            if [[ "$NPMJS_OUTCOME" == "failure" ]]; then
+              echo "- npmjs publication failed. Check secrets and network connectivity."
+            fi
+            if [[ "$GITHUB_OUTCOME" == "failure" ]]; then
+              echo "- GitHub Packages publication failed. Ensure GH_PACKAGES_TOKEN has 'write:packages' and 'read:packages' scopes."
+            fi
+            if [[ "$RELEASE_GITHUB_OUTCOME" == "skipped" ]]; then
+              echo "- GitHub Release was skipped because one or more publications failed."
+            fi
+            echo ""
+            echo "**Artifact:** ${{ steps.pack.outputs.tarball }}"
           } >> "$GITHUB_STEP_SUMMARY"

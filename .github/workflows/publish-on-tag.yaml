@@ -283,10 +283,23 @@ jobs:
         run: |
           set -Eeuo pipefail
           cd "$RUNNER_TEMP"
-          set +e
-          output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online 2>&1)"
-          result=$?
-          set -e
+          result=1
+          output=""
+          for attempt in $(seq 1 6); do
+            set +e
+            output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online --fetch-retries=0 2>&1)"
+            result=$?
+            set -e
+            [[ "$result" -eq 0 ]] && break
+            if grep -qE 'E404|404 Not Found' <<< "$output"; then
+              break
+            fi
+            if [[ "$attempt" -lt 6 ]]; then
+              delay=$((attempt * 5))
+              echo "npmjs pre-check temporarily unavailable (attempt $attempt/6); retrying in ${delay}s."
+              sleep "$delay"
+            fi
+          done
           if [[ "$result" -eq 0 ]]; then
             verified_version="$(printf '%s' "$output" | tr -d '"[:space:]')"
             if [[ "$verified_version" != "$VERSION" ]]; then
@@ -330,10 +343,23 @@ jobs:
           trap 'rm -f "$npmrc"' EXIT
           printf '@skygenesisenterprise:registry=%s\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
           chmod 600 "$npmrc"
-          set +e
-          output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online 2>&1)"
-          result=$?
-          set -e
+          result=1
+          output=""
+          for attempt in $(seq 1 6); do
+            set +e
+            output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online --fetch-retries=0 2>&1)"
+            result=$?
+            set -e
+            [[ "$result" -eq 0 ]] && break
+            if grep -qE 'E404|404 Not Found' <<< "$output"; then
+              break
+            fi
+            if [[ "$attempt" -lt 6 ]]; then
+              delay=$((attempt * 5))
+              echo "GitHub Packages pre-check temporarily unavailable (attempt $attempt/6); retrying in ${delay}s."
+              sleep "$delay"
+            fi
+          done
           if [[ "$result" -eq 0 ]]; then
             verified_version="$(printf '%s' "$output" | tr -d '"[:space:]')"
             if [[ "$verified_version" != "$VERSION" ]]; then
@@ -383,37 +409,50 @@ jobs:
             exit 1
           fi
           if [[ "${{ steps.check_npmjs.outputs.version_exists }}" == "true" ]]; then
-            verified_version="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$NPMJS_REGISTRY" --prefer-online)"
-            if [[ "$verified_version" != "$VERSION" ]]; then
-              echo "::error::Existing npmjs version could not be verified"
-              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+            if bash scripts/ci/verify-registry-integrity.sh "@skygenesisenterprise/react-sds" "$VERSION" "$TARBALL" "$NPMJS_REGISTRY"; then
+              echo "status=already_published" >> "$GITHUB_OUTPUT"
+              echo "::notice::Existing npmjs version matches this exact tarball; publication skipped"
+              exit 0
+            else
+              verify_status=$?
+              if [[ "$verify_status" -eq 2 ]]; then
+                echo "::error::The existing npmjs version has different package contents; refusing to overwrite it"
+                echo "status=integrity_mismatch" >> "$GITHUB_OUTPUT"
+              else
+                echo "::error::The existing npmjs version could not be verified against the release tarball"
+                echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+              fi
               exit 1
             fi
-            echo "status=already_published" >> "$GITHUB_OUTPUT"
-            echo "::notice::Existing npmjs version verified; publication skipped"
-            exit 0
           fi
+
           echo "Publishing to npmjs using GitHub Actions OIDC Trusted Publishing..."
-          if ! npm publish "$TARBALL" --registry "$NPMJS_REGISTRY" --access public --tag "$DIST_TAG" --provenance; then
-            echo "::error::npmjs publication failed. Verify the npm Trusted Publisher configuration."
-            echo "status=failed" >> "$GITHUB_OUTPUT"
-            exit 1
-          fi
-          published=false
-          for attempt in $(seq 1 24); do
-            if verified_version="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$NPMJS_REGISTRY" --prefer-online 2>/dev/null)" && [[ "$verified_version" == "$VERSION" ]]; then
-              published=true
-              break
+          publish_status=0
+          npm publish "$TARBALL" --registry "$NPMJS_REGISTRY" --access public --tag "$DIST_TAG" --provenance || publish_status=$?
+
+          if bash scripts/ci/verify-registry-integrity.sh "@skygenesisenterprise/react-sds" "$VERSION" "$TARBALL" "$NPMJS_REGISTRY"; then
+            if [[ "$publish_status" -eq 0 ]]; then
+              echo "status=published" >> "$GITHUB_OUTPUT"
+              echo "::notice::npmjs publication accepted and exact tarball integrity verified"
+            else
+              echo "status=already_published_recovered" >> "$GITHUB_OUTPUT"
+              echo "::warning::npm publish returned an error, but npmjs already contains the exact release tarball; treating this as an idempotent retry"
             fi
-            [[ "$attempt" -eq 24 ]] || sleep 5
-          done
-          if [[ "$published" == "true" ]]; then
-            echo "status=published" >> "$GITHUB_OUTPUT"
-            echo "::notice::Version is available on npmjs"
           else
-            echo "::error::npmjs version was not visible after publication"
-            echo "status=verification_failed" >> "$GITHUB_OUTPUT"
-            exit 1
+            verify_status=$?
+            if [[ "$verify_status" -eq 2 ]]; then
+              echo "::error::npmjs contains this version with different package contents; manual investigation is required"
+              echo "status=integrity_mismatch" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+            if [[ "$publish_status" -eq 0 ]]; then
+              echo "::warning::npmjs accepted the publication, but registry metadata did not expose the exact integrity within the verification window. The release will continue; the accepted publish will not be repeated."
+              echo "status=published_unverified" >> "$GITHUB_OUTPUT"
+            else
+              echo "::error::npmjs publication failed and the exact package could not be found for safe recovery"
+              echo "status=failed" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
           fi
 
       # ========================================================================
@@ -456,37 +495,50 @@ jobs:
           printf '@skygenesisenterprise:registry=%s\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
           chmod 600 "$npmrc"
           if [[ "${{ steps.check_github.outputs.version_exists }}" == "true" ]]; then
-            verified_version="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online)"
-            if [[ "$verified_version" != "$VERSION" ]]; then
-              echo "::error::Existing GitHub Packages version could not be verified"
-              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+            if NPM_CONFIG_USERCONFIG="$npmrc" bash scripts/ci/verify-registry-integrity.sh "@skygenesisenterprise/react-sds" "$VERSION" "$TARBALL" "$GH_REGISTRY"; then
+              echo "status=already_published" >> "$GITHUB_OUTPUT"
+              echo "::notice::Existing GitHub Packages version matches this exact tarball; publication skipped"
+              exit 0
+            else
+              verify_status=$?
+              if [[ "$verify_status" -eq 2 ]]; then
+                echo "::error::The existing GitHub Packages version has different package contents; refusing to overwrite it"
+                echo "status=integrity_mismatch" >> "$GITHUB_OUTPUT"
+              else
+                echo "::error::The existing GitHub Packages version could not be verified against the release tarball"
+                echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+              fi
               exit 1
             fi
-            echo "status=already_published" >> "$GITHUB_OUTPUT"
-            echo "::notice::Existing GitHub Packages version verified; publication skipped"
-            exit 0
           fi
+
           echo "Publishing to GitHub Packages..."
-          if ! NPM_CONFIG_USERCONFIG="$npmrc" npm publish "$TARBALL" --registry "$GH_REGISTRY"; then
-            echo "::error::GitHub Packages publication failed. Verify GH_PACKAGES_TOKEN has package write access."
-            echo "status=failed" >> "$GITHUB_OUTPUT"
-            exit 1
-          fi
-          published=false
-          for attempt in $(seq 1 24); do
-            if verified_version="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online 2>/dev/null)" && [[ "$verified_version" == "$VERSION" ]]; then
-              published=true
-              break
+          publish_status=0
+          NPM_CONFIG_USERCONFIG="$npmrc" npm publish "$TARBALL" --registry "$GH_REGISTRY" || publish_status=$?
+
+          if NPM_CONFIG_USERCONFIG="$npmrc" bash scripts/ci/verify-registry-integrity.sh "@skygenesisenterprise/react-sds" "$VERSION" "$TARBALL" "$GH_REGISTRY"; then
+            if [[ "$publish_status" -eq 0 ]]; then
+              echo "status=published" >> "$GITHUB_OUTPUT"
+              echo "::notice::GitHub Packages publication accepted and exact tarball integrity verified"
+            else
+              echo "status=already_published_recovered" >> "$GITHUB_OUTPUT"
+              echo "::warning::GitHub Packages publish returned an error, but the exact release tarball is already present; treating this as an idempotent retry"
             fi
-            [[ "$attempt" -eq 24 ]] || sleep 5
-          done
-          if [[ "$published" == "true" ]]; then
-            echo "status=published" >> "$GITHUB_OUTPUT"
-            echo "::notice::Version is available on GitHub Packages"
           else
-            echo "::error::GitHub Packages version was not visible after publication"
-            echo "status=verification_failed" >> "$GITHUB_OUTPUT"
-            exit 1
+            verify_status=$?
+            if [[ "$verify_status" -eq 2 ]]; then
+              echo "::error::GitHub Packages contains this version with different package contents"
+              echo "status=integrity_mismatch" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+            if [[ "$publish_status" -eq 0 ]]; then
+              echo "::warning::GitHub Packages accepted the publication, but registry metadata did not expose the exact integrity within the verification window. The release will continue; the accepted publish will not be repeated."
+              echo "status=published_unverified" >> "$GITHUB_OUTPUT"
+            else
+              echo "::error::GitHub Packages publication failed and the exact package could not be found for safe recovery"
+              echo "status=failed" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
           fi
 
       # ========================================================================
@@ -546,6 +598,8 @@ jobs:
                 case "$status" in
                   published) echo "Published and verified" ;;
                   already_published) echo "Already published and verified" ;;
+                  already_published_recovered) echo "Retry recovered; exact package integrity verified" ;;
+                  published_unverified) echo "Publish accepted; registry verification delayed" ;;
                   exists) echo "Already exists" ;;
                   not_found) echo "Not found (ready to publish)" ;;
                   token_missing) echo "Token missing" ;;
@@ -560,11 +614,20 @@ jobs:
               *) echo "Not run / unknown" ;;
             esac
           }
-          registry_succeeded() { [[ "$1" == "published" || "$1" == "already_published" ]]; }
+          registry_succeeded() {
+            [[ "$1" == "published" || "$1" == "already_published" || "$1" == "already_published_recovered" || "$1" == "published_unverified" ]]
+          }
+          registry_verified() {
+            [[ "$1" == "published" || "$1" == "already_published" || "$1" == "already_published_recovered" ]]
+          }
           npmjs_ok=false
           github_ok=false
+          npmjs_verified=false
+          github_verified=false
           registry_succeeded "${PUBLISH_NPMJS_STATUS:-}" && npmjs_ok=true
           registry_succeeded "${PUBLISH_GITHUB_STATUS:-}" && github_ok=true
+          registry_verified "${PUBLISH_NPMJS_STATUS:-}" && npmjs_verified=true
+          registry_verified "${PUBLISH_GITHUB_STATUS:-}" && github_verified=true
           {
             echo "### Publication summary — @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
             echo
@@ -590,12 +653,14 @@ jobs:
             echo "| GitHub Packages publication | $(display_status "${PUBLISH_GITHUB_OUTCOME:-}" "${PUBLISH_GITHUB_STATUS:-}") |"
             echo "| GitHub Release | $(display_status "${RELEASE_GITHUB_OUTCOME:-}" "") |"
             echo
-            if [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
-              echo "**Result: SUCCESS — both registries verified and the GitHub Release was created.**"
+            if [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "$npmjs_verified" == "true" && "$github_verified" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
+              echo "**Result: SUCCESS — both registries contain the exact release artifact and the GitHub Release was created.**"
+            elif [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
+              echo "**Result: SUCCESS WITH WARNING — both registries accepted the publication and the GitHub Release was created; at least one registry has delayed metadata visibility, so integrity verification remains pending.**"
             elif [[ "$npmjs_ok" == "true" && "$github_ok" == "true" ]]; then
-              echo "**Result: PARTIAL — both registries contain the verified version, but the GitHub Release was not created.**"
+              echo "**Result: PARTIAL — both registries accepted the package, but the GitHub Release was not created.**"
             elif [[ "$npmjs_ok" == "true" || "$github_ok" == "true" ]]; then
-              echo "**Result: PARTIAL — only one registry has a verified version.**"
+              echo "**Result: PARTIAL — only one registry has accepted the package.**"
             else
               echo "**Result: FAILED — neither registry has a confirmed publication for this run.**"
             fi

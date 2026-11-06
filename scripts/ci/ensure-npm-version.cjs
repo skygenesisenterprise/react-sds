@@ -3,7 +3,7 @@
 const { spawnSync } = require('node:child_process');
 const fs = require('node:fs');
 
-const REQUIRED_NPM_VERSION = '11.5.1';
+const REQUIRED_NPM_VERSION = '11.21.2';
 
 function parseSemver(input) {
   if (typeof input !== 'string') throw new TypeError('Version must be a string');

@@ -84,7 +84,7 @@ jobs:
           name: package-dist
           path: |
             dist/
-            src/generatedFromCss/
+            src/fr/generatedFromCss/
           if-no-files-found: error
           retention-days: 1
 

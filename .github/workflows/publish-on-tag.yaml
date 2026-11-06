@@ -25,7 +25,12 @@ jobs:
     if: github.repository == 'skygenesisenterprise/react-sds'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
+      # ========================================================================
+      # PHASE 1: Setup and Validation
+      # ========================================================================
+
       - name: Check out repository
         uses: actions/checkout@v6
         with:
@@ -34,6 +39,7 @@ jobs:
       - name: Read the pnpm version pinned in package.json
         id: pnpm
         run: |
+          set -Eeuo pipefail
           VERSION="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Using pnpm ${VERSION}"
@@ -48,47 +54,71 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
-          registry-url: ${{ env.NPMJS_REGISTRY }}
 
-      - name: Enable npm trusted publishing
-        run: npm install --global npm@^11.5.1
+      # ========================================================================
+      # PHASE 2: Create isolated npmrc configurations
+      # ========================================================================
 
-      - name: Configure .npmrc for both registries
+      - name: Create isolated .npmrc files
+        id: npmrc
         run: |
-          set -euo pipefail
-          npmrc="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
-          touch "$npmrc"
-          
-          # Configure GitHub Packages for @skygenesisenterprise scope
-          if grep -q '@skygenesisenterprise:registry=' "$npmrc"; then
-            sed -i "s|^@skygenesisenterprise:registry=.*|@skygenesisenterprise:registry=https://npm.pkg.github.com/|" "$npmrc"
-          else
-            printf '\n@skygenesisenterprise:registry=https://npm.pkg.github.com\n' >> "$npmrc"
-          fi
-          
-          # Ensure default registry is npmjs
-          if grep -q '^registry=' "$npmrc"; then
-            sed -i "s|^registry=.*|registry=https://registry.npmjs.org/|" "$npmrc"
-          else
-            printf 'registry=https://registry.npmjs.org/\n' >> "$npmrc"
-          fi
-          
-          echo "Configured .npmrc:"
-          cat "$npmrc"
+          set -Eeuo pipefail
+
+          # Create directory for temporary npmrc files
+          NPMRC_DIR="${RUNNER_TEMP}/npmrc"
+          mkdir -p "$NPMRC_DIR"
+
+          # --- npmjs .npmrc ---
+          NPMJS_NPMRC="${NPMRC_DIR}/npmjs.npmrc"
+          printf 'registry=https://registry.npmjs.org/\nalways-auth=true\n' > "$NPMJS_NPMRC"
+
+          # --- GitHub Packages .npmrc ---
+          GH_PACKAGES_NPMRC="${NPMRC_DIR}/github-packages.npmrc"
+          printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}\nalways-auth=true\n' > "$GH_PACKAGES_NPMRC"
+
+          # Store paths for later use
+          echo "npmjs_npmrc=${NPMJS_NPMRC}" >> "$GITHUB_OUTPUT"
+          echo "gh_packages_npmrc=${GH_PACKAGES_NPMRC}" >> "$GITHUB_OUTPUT"
+          echo "npmrc_dir=${NPMRC_DIR}" >> "$GITHUB_OUTPUT"
+
+          # Set up cleanup trap
+          cleanup_npmrc() {
+            rm -f "${NPMJS_NPMRC}" "${GH_PACKAGES_NPMRC}"
+            rmdir "${NPMRC_DIR}" 2>/dev/null || true
+          }
+          trap cleanup_npmrc EXIT
+
+          echo "Created isolated .npmrc files:"
+          echo "  npmjs: ${NPMJS_NPMRC}"
+          echo "  github-packages: ${GH_PACKAGES_NPMRC}"
+
+      # ========================================================================
+      # PHASE 3: Dependency Installation and Validation
+      # ========================================================================
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          set -Eeuo pipefail
+          pnpm install --frozen-lockfile
 
       - name: Format check
-        run: pnpm format:check
+        run: |
+          set -Eeuo pipefail
+          pnpm format:check
 
       - name: ESLint check
-        run: pnpm lint:check
+        run: |
+          set -Eeuo pipefail
+          pnpm lint:check
+
+      # ========================================================================
+      # PHASE 4: Version and Tag Validation
+      # ========================================================================
 
       - name: Extract version from tag
         id: release
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
 
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           if ! [[ "$TAG_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
@@ -96,25 +126,18 @@ jobs:
             exit 1
           fi
 
-          # Get version from package.json
           PKG_VERSION="$(node -p "require('./package.json').version")"
-          
-          # Verify tag matches package version
+
           if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
             echo "::error::Tag version ($TAG_VERSION) does not match package.json version ($PKG_VERSION)"
             exit 1
           fi
 
           echo "version=$TAG_VERSION" >> "$GITHUB_OUTPUT"
-          
-          # Determine dist-tag based on SemVer prerelease identifier
-          # Use npm's semver logic to extract prerelease label
+
           if [[ "$TAG_VERSION" == *-* ]]; then
-            # Extract prerelease part (everything after the first -)
             prerelease="${TAG_VERSION#*-}"
-            # Get the first segment of prerelease (before any dot)
             dist_tag="${prerelease%.*}"
-            # Normalize common prerelease identifiers
             case "$dist_tag" in
               alpha) dist_tag="alpha" ;;
               beta) dist_tag="beta" ;;
@@ -129,27 +152,39 @@ jobs:
           echo "dist_tag=$dist_tag" >> "$GITHUB_OUTPUT"
           echo "Publishing version $TAG_VERSION (from tag $GITHUB_REF_NAME) with dist-tag: $dist_tag"
 
+      # ========================================================================
+      # PHASE 5: Build and Test
+      # ========================================================================
+
       - name: Build (published layout)
         id: build
-        run: pnpm build --prePublish
+        run: |
+          set -Eeuo pipefail
+          pnpm build --prePublish
 
       - name: Unit tests
         id: test
-        run: pnpm test
+        run: |
+          set -Eeuo pipefail
+          pnpm test
+
+      # ========================================================================
+      # PHASE 6: Build Artifact Validation
+      # ========================================================================
 
       - name: Assert the build only emitted dist/ and is self-contained
+        id: validate-build
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
           VERSION="${{ steps.release.outputs.version }}"
-          
+
           for artifact in legacy dist/package.json dist/src; do
             if [ -e "$artifact" ]; then
               echo "The published build must only emit dist/, found: $artifact" >&2
               exit 1
             fi
           done
-          
-          # Check required files exist
+
           for file in \
             dist/index.js \
             dist/index.d.ts \
@@ -163,8 +198,7 @@ jobs:
               exit 1
             fi
           done
-          
-          # Verify CSS imports
+
           node -e '
             const fs = require("fs"), path = require("path");
             const css = fs.readFileSync("dist/main.css", "utf8");
@@ -176,8 +210,7 @@ jobs:
             }
             console.log("dist/main.css imports resolved:", imports.length);
           '
-          
-          # Verify bin files exist
+
           for bin_file in dist/bin/react-sds.js dist/bin/copy-legacy-to-public.js dist/bin/only-include-used-icons.js; do
             if [ ! -f "$bin_file" ]; then
               echo "Missing bin file: $bin_file" >&2
@@ -185,15 +218,20 @@ jobs:
             fi
           done
 
+          echo "Build validation passed"
+
+      # ========================================================================
+      # PHASE 7: Package Creation
+      # ========================================================================
+
       - name: Pack package
         id: pack
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
 
           pack_dir="${RUNNER_TEMP}/pack"
           mkdir -p "$pack_dir"
-          
-          # Pack without --prePublish flag (which is not valid for pnpm pack)
+
           pnpm pack --pack-destination "$pack_dir"
 
           tarball="$(find "$pack_dir" -name '*.tgz' -print -quit)"
@@ -204,94 +242,175 @@ jobs:
 
           echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
           echo "Package tarball created: $(basename "$tarball")"
-          
-          # Verify tarball exists and has content
+
           if [ ! -s "$tarball" ]; then
             echo "::error::Tarball is empty"
             exit 1
           fi
-          
+
+          TARBALL_SHA256="$(sha256sum "$tarball" | awk '{print $1}')"
+          echo "tarball_sha256=${TARBALL_SHA256}" >> "$GITHUB_OUTPUT"
+          echo "Tarball SHA-256: ${TARBALL_SHA256}"
+
           echo "Contents of $(basename "$tarball"):"
           tar -tzf "$tarball" | sed 's/^/  /'
-          
-          # Verify essential files are in the tarball
+
           echo ""
           echo "Verifying essential files in tarball..."
-          
-          # Get package name from package.json
-          PKG_NAME="$(node -p "require('./package.json').name")"
-          
-          # Create a temp directory to extract and verify
+
           verify_dir="${RUNNER_TEMP}/verify"
           mkdir -p "$verify_dir"
           tar -xzf "$tarball" -C "$verify_dir"
-          
-          # Check package.json in tarball
+
           if [ ! -f "$verify_dir/package/package.json" ]; then
             echo "::error::package/package.json not found in tarball"
             exit 1
           fi
-          
+
           TARBALL_PKG_VERSION="$(node -p "require('$verify_dir/package/package.json').version")"
           if [ "$TARBALL_PKG_VERSION" != "${{ steps.release.outputs.version }}" ]; then
-            echo "::error::Tarball version ($TARBALL_PKG_VERSION) does not match expected version (${{ steps.release.outputs.version }})"
+            echo "::error::Tarball version ($TARBALL_PKG_VERSION) does not match expected"
             exit 1
           fi
-          
-          # Check essential entry points based on package.json exports
-          # Check main entry
-          if [ ! -f "$verify_dir/package/dist/index.js" ]; then
-            echo "::error::dist/index.js not found in tarball"
+
+          TARBALL_PKG_NAME="$(node -p "require('$verify_dir/package/package.json').name")"
+          if [ "$TARBALL_PKG_NAME" != "@skygenesisenterprise/react-sds" ]; then
+            echo "::error::Tarball package name mismatch"
             exit 1
           fi
-          
-          # Check types entry
-          if [ ! -f "$verify_dir/package/dist/index.d.ts" ]; then
-            echo "::error::dist/index.d.ts not found in tarball"
-            exit 1
+
+          for file in dist/index.js dist/index.d.ts dist/main.css dist/styles/index.css \
+                    dist/legacy/legacy.css dist/bin/react-sds.js; do
+            if [ ! -f "$verify_dir/package/$file" ]; then
+              echo "::error::Missing file in tarball: $file"
+              exit 1
+            fi
+          done
+
+          if tar -tzf "$tarball" | grep -qE '(\.ts$|\.tsx$|src/|node_modules/|\.git/)'; then
+            echo "::warning::Tarball contains unwanted files"
           fi
-          
-          # Check main CSS
-          if [ ! -f "$verify_dir/package/dist/main.css" ]; then
-            echo "::error::dist/main.css not found in tarball"
-            exit 1
-          fi
-          
-          # Check styles index
-          if [ ! -f "$verify_dir/package/dist/styles/index.css" ]; then
-            echo "::error::dist/styles/index.css not found in tarball"
-            exit 1
-          fi
-          
-          # Check legacy assets
-          if [ ! -f "$verify_dir/package/dist/legacy/legacy.css" ]; then
-            echo "::error::dist/legacy/legacy.css not found in tarball"
-            exit 1
-          fi
-          
-          # Check bin files
-          if [ ! -f "$verify_dir/package/dist/bin/react-sds.js" ]; then
-            echo "::error::dist/bin/react-sds.js not found in tarball"
-            exit 1
-          fi
-          
-          # Check that package.json is in the tarball
-          if [ ! -f "$verify_dir/package/package.json" ]; then
-            echo "::error::package.json not found in tarball"
-            exit 1
-          fi
-          
-          # Check that no unwanted files are present
-          echo "Checking for unwanted files..."
-          if tar -tzf "$tarball" | grep -qE '(\.ts$|\.tsx$|src/|node_modules/|\.git/|\.github/|test/|\.test\.|\.spec\.)'; then
-            echo "::warning::Tarball contains files that should not be published"
-            tar -tzf "$tarball" | grep -E '(\.ts$|\.tsx$|src/|node_modules/|\.git/|\.github/|test/|\.test\.|\.spec\.)' | sed 's/^/  WARNING: /'
-          fi
-          
-          # Clean up verification directory
+
           rm -rf "$verify_dir"
-          
           echo "Tarball verification passed"
+
+      # ========================================================================
+      # PHASE 8: Version Existence Check (with isolated registries)
+      # ========================================================================
+
+      - name: Check version existence on npmjs
+        id: check-npmjs
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -Eeuo pipefail
+
+          if [[ -z "${NPM_TOKEN:-}" ]]; then
+            echo "::warning::NPM_TOKEN secret is not set"
+            echo "status=token_missing" >> "$GITHUB_OUTPUT"
+            echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          TMP_NPMRC="${RUNNER_TEMP}/npmjs-check.npmrc"
+          printf 'registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=%s\nalways-auth=true\n' "$NPM_TOKEN" > "$TMP_NPMRC"
+
+          echo "Checking @skygenesisenterprise/react-sds@${VERSION} on npmjs..."
+
+          if output=$(NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online 2>&1) || true; then
+            if echo "$output" | grep -qE "E401|401 Unauthorized"; then
+              echo "::error::npmjs authentication failed (401)"
+              rm -f "$TMP_NPMRC"
+              echo "status=auth_failed" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+              exit 1
+            elif echo "$output" | grep -qE "E404|404 Not Found"; then
+              echo "::notice::Version not found on npmjs"
+              echo "status=not_found" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            elif echo "$output" | grep -qE "${VERSION}"; then
+              echo "::notice::Version already exists on npmjs"
+              echo "status=exists" >> "$GITHUB_OUTPUT"
+              echo "version_exists=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "Unexpected response: $output"
+              rm -f "$TMP_NPMRC"
+              echo "status=error" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+          else
+            echo "::error::Failed to query npmjs: $output"
+            rm -f "$TMP_NPMRC"
+            echo "status=query_failed" >> "$GITHUB_OUTPUT"
+            echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          rm -f "$TMP_NPMRC"
+
+      - name: Check version existence on GitHub Packages
+        id: check-github
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: |
+          set -Eeuo pipefail
+
+          if [[ -z "${GH_PACKAGES_TOKEN:-}" ]]; then
+            echo "::warning::GH_PACKAGES_TOKEN secret is not set"
+            echo "status=token_missing" >> "$GITHUB_OUTPUT"
+            echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          TMP_NPMRC="${RUNNER_TEMP}/gh-check.npmrc"
+          printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_PACKAGES_TOKEN" > "$TMP_NPMRC"
+
+          echo "Checking @skygenesisenterprise/react-sds@${VERSION} on GitHub Packages..."
+
+          if output=$(NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online 2>&1) || true; then
+            if echo "$output" | grep -qE "E401|401 Unauthorized"; then
+              echo "::error::GitHub Packages authentication failed (401)"
+              rm -f "$TMP_NPMRC"
+              echo "status=auth_failed" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+              exit 1
+            elif echo "$output" | grep -qE "E403|403 Forbidden"; then
+              echo "::error::GitHub Packages access denied (403)"
+              rm -f "$TMP_NPMRC"
+              echo "status=access_denied" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+              exit 1
+            elif echo "$output" | grep -qE "E404|404 Not Found"; then
+              echo "::notice::Version not found on GitHub Packages"
+              echo "status=not_found" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            elif echo "$output" | grep -qE "${VERSION}"; then
+              echo "::notice::Version already exists on GitHub Packages"
+              echo "status=exists" >> "$GITHUB_OUTPUT"
+              echo "version_exists=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "Unexpected response: $output"
+              rm -f "$TMP_NPMRC"
+              echo "status=error" >> "$GITHUB_OUTPUT"
+              echo "version_exists=false" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+          else
+            echo "::error::Failed to query GitHub Packages: $output"
+            rm -f "$TMP_NPMRC"
+            echo "status=query_failed" >> "$GITHUB_OUTPUT"
+            echo "version_exists=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          rm -f "$TMP_NPMRC"
+
+      # ========================================================================
+      # PHASE 9: Publish to npmjs
+      # ========================================================================
 
       - name: Publish to npmjs
         id: publish-npmjs
@@ -300,75 +419,77 @@ jobs:
           VERSION: ${{ steps.release.outputs.version }}
           DIST_TAG: ${{ steps.release.outputs.dist_tag }}
           TARBALL: ${{ steps.pack.outputs.tarball }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TARBALL_SHA256: ${{ steps.pack.outputs.tarball_sha256 }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
 
-          if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
-            echo "::error::Repository secret NPM_TOKEN is required to publish to npmjs"
+          if [[ -z "${NPM_TOKEN:-}" ]]; then
+            echo "::error::NPM_TOKEN is required"
+            echo "status=token_missing" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
-          # Check if version already exists on npmjs
-          echo "Checking if @skygenesisenterprise/react-sds@$VERSION exists on npmjs..."
-          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry "$NPMJS_REGISTRY" --prefer-online 2>&1)" || true; then
-            if echo "$lookup" | grep -qE "(E404|404 Not Found|Not Found - GET)"; then
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on npmjs yet"
-            elif echo "$lookup" | grep -qE "$VERSION"; then
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on npmjs (skipping)"
-              echo "status=already_published" >> "$GITHUB_OUTPUT"
+          if [[ "${{ steps.check-npmjs.outputs.version_exists }}" == "true" ]]; then
+            echo "::notice::Version already exists on npmjs, skipping"
+            echo "status=already_published" >> "$GITHUB_OUTPUT"
+            TMP_NPMRC="${RUNNER_TEMP}/npmjs-verify.npmrc"
+            printf 'registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=%s\nalways-auth=true\n' "$NPM_TOKEN" > "$TMP_NPMRC"
+            if NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /dev/null 2>&1; then
+              echo "::notice::Verified version is accessible on npmjs"
+              rm -f "$TMP_NPMRC"
               exit 0
             else
-              echo "$lookup"
-              echo "::error::Unexpected response when checking version on npmjs"
+              echo "::error::Cannot verify existing version on npmjs"
+              rm -f "$TMP_NPMRC"
+              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
               exit 1
             fi
-          else
-            echo "::error::Could not check whether @skygenesisenterprise/react-sds@$VERSION exists on npmjs"
-            exit 1
           fi
 
           echo "Publishing to npmjs..."
-          publish_status=0
-          if npm publish "$TARBALL" \
-            --registry "$NPMJS_REGISTRY" \
+          FINAL_NPMRC="${RUNNER_TEMP}/npmjs-publish.npmrc"
+          printf 'registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=%s\nalways-auth=true\n' "$NPM_TOKEN" > "$FINAL_NPMRC"
+
+          if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
+            --registry "${{ env.NPMJS_REGISTRY }}" \
             --access public \
             --tag "$DIST_TAG" \
             --provenance; then
-            publish_status=0
+            echo "::notice::Publish command succeeded"
           else
-            publish_status=$?
-          fi
-
-          # Verify publication by checking if the version is available
-          published=false
-          for attempt in $(seq 1 30); do
-            if npm view "@skygenesisenterprise/react-sds@$VERSION" version \
-              --registry "$NPMJS_REGISTRY" \
-              --prefer-online > /dev/null 2>&1; then
-              published=true
-              break
-            fi
-            if [[ "$attempt" -lt 30 ]]; then
-              echo "Waiting for npmjs to serve @skygenesisenterprise/react-sds@$VERSION (attempt $attempt/30)..."
-              sleep 10
-            fi
-          done
-
-          if [[ "$published" == "true" ]]; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is now available on npmjs"
-            echo "status=published" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if [[ "$publish_status" -eq 0 ]]; then
-            echo "::error::@skygenesisenterprise/react-sds@$VERSION was not found on npmjs after a successful publish command (waited up to 5 minutes)"
+            echo "::error::npm publish failed"
+            rm -f "$FINAL_NPMRC"
             echo "status=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
-          echo "status=failed" >> "$GITHUB_OUTPUT"
-          exit "$publish_status"
+          published=false
+          for attempt in $(seq 1 30); do
+            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.NPMJS_REGISTRY }}" --prefer-online > /dev/null 2>&1; then
+              published=true
+              break
+            fi
+            if [[ "$attempt" -lt 30 ]]; then
+              echo "Waiting for npmjs (attempt $attempt/30)..."
+              sleep 10
+            fi
+          done
+
+          rm -f "$FINAL_NPMRC"
+
+          if [[ "$published" == "true" ]]; then
+            echo "::notice::Version now available on npmjs"
+            echo "status=published" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Version not found on npmjs after publish"
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      # ========================================================================
+      # PHASE 10: Publish to GitHub Packages
+      # ========================================================================
 
       - name: Publish to GitHub Packages
         id: publish-github
@@ -376,45 +497,75 @@ jobs:
         env:
           VERSION: ${{ steps.release.outputs.version }}
           TARBALL: ${{ steps.pack.outputs.tarball }}
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          TARBALL_SHA256: ${{ steps.pack.outputs.tarball_sha256 }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
 
-          if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
-            echo "::error::Repository secret GH_PACKAGES_TOKEN is required to publish to GitHub Packages"
+          if [[ -z "${GH_PACKAGES_TOKEN:-}" ]]; then
+            echo "::error::GH_PACKAGES_TOKEN is required"
+            echo "status=token_missing" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
-          # Check if version already exists on GitHub Packages
-          echo "Checking if @skygenesisenterprise/react-sds@$VERSION exists on GitHub Packages..."
-          if lookup="$(npm view "@skygenesisenterprise/react-sds@$VERSION" version --registry "$GH_REGISTRY" --prefer-online 2>&1)" || true; then
-            if echo "$lookup" | grep -qE "E403|403 Forbidden"; then
-              echo "::error::Permission denied when checking @skygenesisenterprise/react-sds@$VERSION on GitHub Packages"
-              echo "::error::Ensure GH_PACKAGES_TOKEN has 'read:packages' and 'write:packages' scopes"
-              exit 1
-            elif echo "$lookup" | grep -qE "E404|404 Not Found"; then
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is not on GitHub Packages yet"
-            elif echo "$lookup" | grep -qE "$VERSION"; then
-              echo "::notice::@skygenesisenterprise/react-sds@$VERSION is already on GitHub Packages (skipping)"
-              echo "status=already_published" >> "$GITHUB_OUTPUT"
+          if [[ "${{ steps.check-github.outputs.version_exists }}" == "true" ]]; then
+            echo "::notice::Version already exists on GitHub Packages, skipping"
+            echo "status=already_published" >> "$GITHUB_OUTPUT"
+            TMP_NPMRC="${RUNNER_TEMP}/gh-verify.npmrc"
+            printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_PACKAGES_TOKEN" > "$TMP_NPMRC"
+            if NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /dev/null 2>&1; then
+              echo "::notice::Verified version is accessible on GitHub Packages"
+              rm -f "$TMP_NPMRC"
               exit 0
             else
-              echo "$lookup"
-              echo "::error::Unexpected response when checking version on GitHub Packages"
+              echo "::error::Cannot verify existing version on GitHub Packages"
+              rm -f "$TMP_NPMRC"
+              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
               exit 1
             fi
           fi
 
           echo "Publishing to GitHub Packages..."
-          if npm publish "$TARBALL" --registry "$GH_REGISTRY"; then
-            echo "::notice::@skygenesisenterprise/react-sds@$VERSION is published on GitHub Packages"
-            echo "status=published" >> "$GITHUB_OUTPUT"
+          FINAL_NPMRC="${RUNNER_TEMP}/gh-publish.npmrc"
+          printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_PACKAGES_TOKEN" > "$FINAL_NPMRC"
+
+          if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
+            --registry "${{ env.GH_REGISTRY }}"; then
+            echo "::notice::Publish command succeeded"
           else
-            echo "::error::Failed to publish @skygenesisenterprise/react-sds@$VERSION to GitHub Packages"
-            echo "::error::Ensure GH_PACKAGES_TOKEN has 'write:packages' scope and the package scope matches your GitHub org"
+            echo "::error::npm publish to GitHub Packages failed"
+            echo "::error::Ensure GH_PACKAGES_TOKEN has write:packages scope"
+            rm -f "$FINAL_NPMRC"
             echo "status=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
+
+          published=false
+          for attempt in $(seq 1 30); do
+            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.GH_REGISTRY }}" --prefer-online > /dev/null 2>&1; then
+              published=true
+              break
+            fi
+            if [[ "$attempt" -lt 30 ]]; then
+              echo "Waiting for GitHub Packages (attempt $attempt/30)..."
+              sleep 10
+            fi
+          done
+
+          rm -f "$FINAL_NPMRC"
+
+          if [[ "$published" == "true" ]]; then
+            echo "::notice::Version now available on GitHub Packages"
+            echo "status=published" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Version not found on GitHub Packages after publish"
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      # ========================================================================
+      # PHASE 11: Create GitHub Release
+      # ========================================================================
 
       - name: Create GitHub release
         id: release-github
@@ -429,38 +580,52 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # ========================================================================
+      # PHASE 12: Generate Summary
+      # ========================================================================
+
       - name: Summarize publication
         if: always()
         env:
           VERSION: ${{ steps.release.outputs.version }}
           DIST_TAG: ${{ steps.release.outputs.dist_tag }}
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+          TARBALL_SHA256: ${{ steps.pack.outputs.tarball_sha256 }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
           TEST_OUTCOME: ${{ steps.test.outcome }}
           RELEASE_OUTCOME: ${{ steps.release.outcome }}
+          VALIDATE_BUILD_OUTCOME: ${{ steps.validate-build.outcome }}
           PACK_OUTCOME: ${{ steps.pack.outcome }}
           NPMJS_OUTCOME: ${{ steps.publish-npmjs.outcome }}
           NPMJS_STATUS: ${{ steps.publish-npmjs.outputs.status }}
           GITHUB_OUTCOME: ${{ steps.publish-github.outcome }}
           GITHUB_STATUS: ${{ steps.publish-github.outputs.status }}
           RELEASE_GITHUB_OUTCOME: ${{ steps.release-github.outcome }}
+          CHECK_NPMJS_STATUS: ${{ steps.check-npmjs.outputs.status }}
+          CHECK_GITHUB_STATUS: ${{ steps.check-github.outputs.status }}
         run: |
+          set -Eeuo pipefail
+
           result_for() {
             local outcome="$1"
             local status="$2"
             case "$outcome" in
               success)
-                if [[ "$status" == "already_published" ]]; then
-                  printf '⏭️ already published'
-                elif [[ "$status" == "published" ]]; then
-                  printf '✅ success'
-                else
-                  printf '✅ success'
-                fi
-                ;;
-              failure) printf '❌ failed' ;;
-              skipped) printf '⏭️ skipped' ;;
-              cancelled) printf '⏹️ cancelled' ;;
-              *) printf '⚪ not run' ;;
+                case "$status" in
+                  already_published) printf 'Skip (exists)' ;;
+                  published) printf 'Published' ;;
+                  not_found) printf 'Not found' ;;
+                  exists) printf 'Exists' ;;
+                  token_missing) printf 'Token missing' ;;
+                  auth_failed) printf 'Auth failed' ;;
+                  access_denied) printf 'Access denied' ;;
+                  verification_failed) printf 'Verify failed' ;;
+                  *) printf 'Success' ;;
+                esac ;;
+              failure) printf 'FAILED' ;;
+              skipped) printf 'Skipped' ;;
+              cancelled) printf 'Cancelled' ;;
+              *) printf 'Not run' ;;
             esac
           }
 
@@ -472,13 +637,16 @@ jobs:
           }
 
           {
-            echo "### 📦 Publication Summary for @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
+            echo "### Publication Summary for @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
             echo ""
-            echo "**Tag:** "`${GITHUB_REF_NAME:-N/A}"""
-            echo "**Commit:** "`${GITHUB_SHA::8}"""
+            echo "**Tag:** ${GITHUB_REF_NAME:-N/A}"
+            echo "**Commit:** ${GITHUB_SHA::8}"
             echo "**Node.js:** v${{ env.NODE_VERSION }}"
             echo "**pnpm:** v${{ steps.pnpm.outputs.version }}"
             echo "**Dist Tag:** ${DIST_TAG:-latest}"
+            echo ""
+            echo "**Tarball:** $(basename "${TARBALL:-not created}")"
+            echo "**SHA-256:** ${TARBALL_SHA256:-not available}"
             echo ""
             echo "| Step | Status |"
             echo "|------|--------|"
@@ -486,27 +654,53 @@ jobs:
             echo "| Format check | $(result_for "$BUILD_OUTCOME") |"
             echo "| ESLint check | $(result_for "$BUILD_OUTCOME") |"
             echo "| Build | $(result_for "$BUILD_OUTCOME") |"
+            echo "| Build validation | $(result_for "$VALIDATE_BUILD_OUTCOME") |"
             echo "| Unit tests | $(result_for "$TEST_OUTCOME") |"
             echo "| Packaging | $(result_for "$PACK_OUTCOME") |"
+            echo "| npmjs check | $(result_for "${CHECK_NPMJS_STATUS:-not run}" "${CHECK_NPMJS_STATUS:-not run}") |"
+            echo "| GH Packages check | $(result_for "${CHECK_GITHUB_STATUS:-not run}" "${CHECK_GITHUB_STATUS:-not run}") |"
             echo "| **npmjs.com** | $(get_status "publish-npmjs") |"
             echo "| **GitHub Packages** | $(get_status "publish-github") |"
             echo "| GitHub Release | $(result_for "$RELEASE_GITHUB_OUTCOME") |"
             echo ""
-            echo "**Environment:**"
-            echo "- Repository: ${{ github.repository }}"
-            echo "- Workflow: ${{ github.workflow }}"
-            echo "- Run ID: ${{ github.run_id }}"
+            echo "**Environment:** ${{ github.repository }} | ${{ github.workflow }} | Run ${{ github.run_id }}"
             echo ""
-            echo "**Notes:**"
+
             if [[ "$NPMJS_OUTCOME" == "failure" ]]; then
-              echo "- npmjs publication failed. Check secrets and network connectivity."
+              echo "npmjs publication failed. Check NPM_TOKEN secret."
             fi
             if [[ "$GITHUB_OUTCOME" == "failure" ]]; then
-              echo "- GitHub Packages publication failed. Ensure GH_PACKAGES_TOKEN has 'write:packages' and 'read:packages' scopes."
+              echo "GitHub Packages publication failed. Check GH_PACKAGES_TOKEN has write:packages scope."
             fi
             if [[ "$RELEASE_GITHUB_OUTCOME" == "skipped" ]]; then
-              echo "- GitHub Release was skipped because one or more publications failed."
+              echo "GitHub Release skipped - one or more publications failed."
+            fi
+
+            if [[ "${{ steps.check-npmjs.outputs.version_exists }}" == "true" ]] && \
+               [[ "${{ steps.check-github.outputs.version_exists }}" == "true" ]]; then
+              echo "Both registries already had this version (idempotent)."
+            elif [[ "${{ steps.check-npmjs.outputs.version_exists }}" == "false" ]] && \
+                 [[ "${{ steps.check-github.outputs.version_exists }}" == "false" ]]; then
+              echo "Both registries were updated with this version."
+            else
+              echo "Partial publish recovered - one registry had the version."
             fi
             echo ""
-            echo "**Artifact:** ${{ steps.pack.outputs.tarball }}"
+
+            if [[ "$RELEASE_GITHUB_OUTCOME" == "success" ]]; then
+              echo "SUCCESS: Package published to both registries and GitHub Release created."
+            elif [[ "$NPMJS_STATUS" == "published" ]] || [[ "$NPMJS_STATUS" == "already_published" ]] || \
+                 [[ "$NPMJS_STATUS" == "exists" ]]; then
+              if [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || \
+                 [[ "$GITHUB_STATUS" == "exists" ]]; then
+                echo "PARTIAL: Package on both registries but Release failed."
+              else
+                echo "PARTIAL: npmjs OK but GitHub Packages failed."
+              fi
+            elif [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || \
+                 [[ "$GITHUB_STATUS" == "exists" ]]; then
+              echo "PARTIAL: GitHub Packages OK but npmjs failed."
+            else
+              echo "FAILED: Package publication failed on both registries."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"

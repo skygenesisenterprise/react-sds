@@ -2,7 +2,7 @@ name: publish-on-tag
 on:
     push:
         tags:
-            - "v*"
+            - "v*.*.*"
 
 concurrency:
     group: publish-${{ github.ref }}

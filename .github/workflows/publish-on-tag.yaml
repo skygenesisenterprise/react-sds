@@ -57,18 +57,51 @@ jobs:
           cache: pnpm
 
       - name: Ensure npm version supports provenance (11.5.1+)
+        id: npm_version
         run: |
           set -Eeuo pipefail
           # npm 11.5.1+ is required for Trusted Publishing with --provenance
           # Node.js 22 ships with npm 10.x, so we need to upgrade
           NPM_CURRENT="$(npm -v)"
           echo "Current npm version: $NPM_CURRENT"
-          if printf '%s\n11.5.1\n' "$NPM_CURRENT" | sort -V -C; then
+          
+          # Use Node.js semver comparison to reliably check version
+          # This is more reliable than sort -V which has edge cases
+          node -e "
+            const semver = require('semver');
+            const current = process.argv[1];
+            const required = '11.5.1';
+            if (semver.gte(current, required)) {
+              console.log('SUFFICIENT');
+            } else {
+              console.log('INSUFFICIENT');
+            }
+          " "$NPM_CURRENT" > /tmp/npm_check.txt
+          
+          CHECK_RESULT=$(cat /tmp/npm_check.txt)
+          
+          if [[ "$CHECK_RESULT" == "SUFFICIENT" ]]; then
             echo "npm version $NPM_CURRENT is sufficient"
+            echo "npm_version=$NPM_CURRENT" >> "$GITHUB_OUTPUT"
+            echo "npm_upgraded=false" >> "$GITHUB_OUTPUT"
           else
             echo "Upgrading npm to latest stable version..."
             npm install -g npm@latest
-            echo "Updated npm version: $(npm -v)"
+            NPM_NEW="$(npm -v)"
+            echo "Updated npm version: $NPM_NEW"
+            echo "npm_version=$NPM_NEW" >> "$GITHUB_OUTPUT"
+            echo "npm_upgraded=true" >> "$GITHUB_OUTPUT"
+            
+            # Verify the upgrade was successful
+            node -e "
+              const semver = require('semver');
+              const current = process.argv[1];
+              const required = '11.5.1';
+              if (!semver.gte(current, required)) {
+                console.error('ERROR: Upgraded npm version is still insufficient');
+                process.exit(1);
+              }
+            " "$NPM_NEW"
           fi
 
       # ========================================================================
@@ -412,44 +445,69 @@ jobs:
           fi
 
           if [[ "${{ steps.check_npmjs.outputs.version_exists }}" == "true" ]]; then
-            echo "::notice::Version already exists on npmjs, skipping"
+            echo "::notice::Version already exists on npmjs, skipping publication"
             echo "status=already_published" >> "$GITHUB_OUTPUT"
+            
+            # Verify the existing version is accessible and matches
             TMP_NPMRC="${RUNNER_TEMP}/npmjs-verify.npmrc"
             printf 'registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=%s\nalways-auth=true\n' "$NPM_TOKEN" > "$TMP_NPMRC"
-            if NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /dev/null 2>&1; then
-              echo "::notice::Verified version is accessible on npmjs"
-              rm -f "$TMP_NPMRC"
-              exit 0
-            else
+            
+            if ! NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /tmp/npmjs_verify.txt 2>&1; then
               echo "::error::Cannot verify existing version on npmjs"
               rm -f "$TMP_NPMRC"
               echo "status=verification_failed" >> "$GITHUB_OUTPUT"
               exit 1
             fi
+            
+            VERIFIED_VERSION=$(cat /tmp/npmjs_verify.txt | tr -d '"\n')
+            if [[ "$VERIFIED_VERSION" != "$VERSION" ]]; then
+              echo "::error::Version mismatch: expected $VERSION, got $VERIFIED_VERSION"
+              rm -f "$TMP_NPMRC"
+              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+            
+            echo "::notice::Verified version is accessible on npmjs"
+            rm -f "$TMP_NPMRC"
+            exit 0
           fi
 
           echo "Publishing to npmjs..."
           FINAL_NPMRC="${RUNNER_TEMP}/npmjs-publish.npmrc"
           printf 'registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=%s\nalways-auth=true\n' "$NPM_TOKEN" > "$FINAL_NPMRC"
 
-          if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
+          # Verify npm version before publishing
+          node -e "
+            const semver = require('semver');
+            const current = process.argv[1];
+            const required = '11.5.1';
+            if (!semver.gte(current, required)) {
+              console.error('ERROR: npm version must be >= 11.5.1 for provenance publishing');
+              process.exit(1);
+            }
+          " "${{ steps.npm_version.outputs.npm_version }}"
+
+          if ! NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
             --registry "${{ env.NPMJS_REGISTRY }}" \
             --access public \
             --tag "$DIST_TAG" \
             --provenance; then
-            echo "::notice::Publish command succeeded"
-          else
             echo "::error::npm publish failed"
             rm -f "$FINAL_NPMRC"
             echo "status=failed" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
+          echo "::notice::Publish command succeeded, verifying availability..."
+          
           published=false
           for attempt in $(seq 1 30); do
-            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.NPMJS_REGISTRY }}" --prefer-online > /dev/null 2>&1; then
-              published=true
-              break
+            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.NPMJS_REGISTRY }}" --prefer-online > /tmp/npmjs_publish_verify.txt 2>&1; then
+              VERIFIED_VERSION=$(cat /tmp/npmjs_publish_verify.txt | tr -d '"\n')
+              if [[ "$VERIFIED_VERSION" == "$VERSION" ]]; then
+                published=true
+                break
+              fi
             fi
             if [[ "$attempt" -lt 30 ]]; then
               echo "Waiting for npmjs (attempt $attempt/30)..."
@@ -490,30 +548,38 @@ jobs:
           fi
 
           if [[ "${{ steps.check_github.outputs.version_exists }}" == "true" ]]; then
-            echo "::notice::Version already exists on GitHub Packages, skipping"
+            echo "::notice::Version already exists on GitHub Packages, skipping publication"
             echo "status=already_published" >> "$GITHUB_OUTPUT"
+            
             TMP_NPMRC="${RUNNER_TEMP}/gh-verify.npmrc"
             printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_PACKAGES_TOKEN" > "$TMP_NPMRC"
-            if NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /dev/null 2>&1; then
-              echo "::notice::Verified version is accessible on GitHub Packages"
-              rm -f "$TMP_NPMRC"
-              exit 0
-            else
+            
+            if ! NPM_CONFIG_USERCONFIG="$TMP_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --prefer-online > /tmp/gh_verify.txt 2>&1; then
               echo "::error::Cannot verify existing version on GitHub Packages"
               rm -f "$TMP_NPMRC"
               echo "status=verification_failed" >> "$GITHUB_OUTPUT"
               exit 1
             fi
+            
+            VERIFIED_VERSION=$(cat /tmp/gh_verify.txt | tr -d '"\n')
+            if [[ "$VERIFIED_VERSION" != "$VERSION" ]]; then
+              echo "::error::Version mismatch: expected $VERSION, got $VERIFIED_VERSION"
+              rm -f "$TMP_NPMRC"
+              echo "status=verification_failed" >> "$GITHUB_OUTPUT"
+              exit 1
+            fi
+            
+            echo "::notice::Verified version is accessible on GitHub Packages"
+            rm -f "$TMP_NPMRC"
+            exit 0
           fi
 
           echo "Publishing to GitHub Packages..."
           FINAL_NPMRC="${RUNNER_TEMP}/gh-publish.npmrc"
           printf '@skygenesisenterprise:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_PACKAGES_TOKEN" > "$FINAL_NPMRC"
 
-          if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
+          if ! NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm publish "$TARBALL" \
             --registry "${{ env.GH_REGISTRY }}"; then
-            echo "::notice::Publish command succeeded"
-          else
             echo "::error::npm publish to GitHub Packages failed"
             echo "::error::Ensure GH_PACKAGES_TOKEN has write:packages scope"
             rm -f "$FINAL_NPMRC"
@@ -521,11 +587,16 @@ jobs:
             exit 1
           fi
 
+          echo "::notice::Publish command succeeded, verifying availability..."
+          
           published=false
           for attempt in $(seq 1 30); do
-            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.GH_REGISTRY }}" --prefer-online > /dev/null 2>&1; then
-              published=true
-              break
+            if NPM_CONFIG_USERCONFIG="$FINAL_NPMRC" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${{ env.GH_REGISTRY }}" --prefer-online > /tmp/gh_publish_verify.txt 2>&1; then
+              VERIFIED_VERSION=$(cat /tmp/gh_publish_verify.txt | tr -d '"\n')
+              if [[ "$VERIFIED_VERSION" == "$VERSION" ]]; then
+                published=true
+                break
+              fi
             fi
             if [[ "$attempt" -lt 30 ]]; then
               echo "Waiting for GitHub Packages (attempt $attempt/30)..."
@@ -572,90 +643,60 @@ jobs:
           DIST_TAG: ${{ steps.release.outputs.dist_tag }}
           TARBALL: ${{ steps.pack.outputs.tarball }}
           TARBALL_SHA256: ${{ steps.pack.outputs.tarball_sha256 }}
-          RELEASE_OUTCOME: ${{ steps.release.outcome }}
-          RELEASE_STATUS: ${{ steps.release.outputs.dist_tag }}
-          FORMAT_OUTCOME: ${{ steps.format_check.outcome }}
-          LINT_OUTCOME: ${{ steps.lint_check.outcome }}
-          BUILD_OUTCOME: ${{ steps.build.outcome }}
-          TEST_OUTCOME: ${{ steps.test.outcome }}
-          VALIDATE_BUILD_OUTCOME: ${{ steps.validate_build.outcome }}
-          PACK_OUTCOME: ${{ steps.pack.outcome }}
-          CHECK_NPMJS_OUTCOME: ${{ steps.check_npmjs.outcome }}
-          CHECK_NPMJS_STATUS: ${{ steps.check_npmjs.outputs.status }}
-          CHECK_NPMJS_VERSION_EXISTS: ${{ steps.check_npmjs.outputs.version_exists }}
-          CHECK_GITHUB_OUTCOME: ${{ steps.check_github.outcome }}
-          CHECK_GITHUB_STATUS: ${{ steps.check_github.outputs.status }}
-          CHECK_GITHUB_VERSION_EXISTS: ${{ steps.check_github.outputs.version_exists }}
-          NPMJS_OUTCOME: ${{ steps.publish_npmjs.outcome }}
-          NPMJS_STATUS: ${{ steps.publish_npmjs.outputs.status }}
-          GITHUB_OUTCOME: ${{ steps.publish_github.outcome }}
-          GITHUB_STATUS: ${{ steps.publish_github.outputs.status }}
-          RELEASE_GITHUB_OUTCOME: ${{ steps.release_github.outcome }}
+          NPM_VERSION: ${{ steps.npm_version.outputs.npm_version }}
+          NPM_UPGRADED: ${{ steps.npm_version.outputs.npm_upgraded }}
         run: |
           set -Eeuo pipefail
 
-          # Mapping des steps vers leurs variables d'environnement
-          get_env_var() {
+          # Define status mapping for each step
+          # Each step has OUTCOME (success/failure/skipped/cancelled) and STATUS (step-specific)
+          
+          # Function to get the outcome of a step
+          get_step_outcome() {
             local step="$1"
-            local var_name="$2"
             case "$step" in
-              release) echo "${RELEASE_${var_name}:-}" ;;
-              format_check) echo "${FORMAT_${var_name}:-}" ;;
-              lint_check) echo "${LINT_${var_name}:-}" ;;
-              build) echo "${BUILD_${var_name}:-}" ;;
-              test) echo "${TEST_${var_name}:-}" ;;
-              validate_build) echo "${VALIDATE_BUILD_${var_name}:-}" ;;
-              pack) echo "${PACK_${var_name}:-}" ;;
-              check_npmjs) echo "${CHECK_NPMJS_${var_name}:-}" ;;
-              check_github) echo "${CHECK_GITHUB_${var_name}:-}" ;;
-              publish_npmjs) echo "${NPMJS_${var_name}:-}" ;;
-              publish_github) echo "${GITHUB_${var_name}:-}" ;;
-              release_github) echo "${RELEASE_GITHUB_${var_name}:-}" ;;
+              release) echo "${{ steps.release.outcome }}" ;;
+              format_check) echo "${{ steps.format_check.outcome }}" ;;
+              lint_check) echo "${{ steps.lint_check.outcome }}" ;;
+              build) echo "${{ steps.build.outcome }}" ;;
+              test) echo "${{ steps.test.outcome }}" ;;
+              validate_build) echo "${{ steps.validate_build.outcome }}" ;;
+              pack) echo "${{ steps.pack.outcome }}" ;;
+              check_npmjs) echo "${{ steps.check_npmjs.outcome }}" ;;
+              check_github) echo "${{ steps.check_github.outcome }}" ;;
+              publish_npmjs) echo "${{ steps.publish_npmjs.outcome }}" ;;
+              publish_github) echo "${{ steps.publish_github.outcome }}" ;;
+              release_github) echo "${{ steps.release_github.outcome }}" ;;
               *) echo "" ;;
             esac
           }
 
+          # Function to get the status of a step
           get_step_status() {
             local step="$1"
             local outcome
             local status
-            outcome="$(get_env_var "$step" "OUTCOME")"
-            status="$(get_env_var "$step" "STATUS")"
-
-            if [[ -z "$outcome" ]]; then
-              printf 'Not run'
-              return
-            fi
-
-            case "$outcome" in
-              success)
-                case "$status" in
-                  already_published|published) printf 'Published' ;;
-                  exists) printf 'Exists' ;;
-                  not_found) printf 'Not found' ;;
-                  token_missing) printf 'No token' ;;
-                  auth_failed) printf 'Auth failed' ;;
-                  access_denied) printf 'Access denied' ;;
-                  verification_failed) printf 'Verify failed' ;;
-                  query_failed) printf 'Query failed' ;;
-                  *) printf 'Success' ;;
-                esac ;;
-              failure) printf 'FAILED' ;;
-              skipped) printf 'Skipped' ;;
-              cancelled) printf 'Cancelled' ;;
-              *) printf 'Unknown' ;;
+            outcome="$(get_step_outcome "$step")"
+            
+            # Get status from step outputs
+            case "$step" in
+              release) status="${{ steps.release.outputs.dist_tag }}" ;;
+              format_check) status="" ;;
+              lint_check) status="" ;;
+              build) status="" ;;
+              test) status="" ;;
+              validate_build) status="" ;;
+              pack) status="" ;;
+              check_npmjs) status="${{ steps.check_npmjs.outputs.status }}" ;;
+              check_github) status="${{ steps.check_github.outputs.status }}" ;;
+              publish_npmjs) status="${{ steps.publish_npmjs.outputs.status }}" ;;
+              publish_github) status="${{ steps.publish_github.outputs.status }}" ;;
+              release_github) status="" ;;
+              *) status="" ;;
             esac
-          }
-
-          get_outcome_status() {
-            local step="$1"
-            local outcome
-            local status
-            outcome="$(get_env_var "$step" "OUTCOME")"
-            status="$(get_env_var "$step" "STATUS")"
 
             if [[ -z "$outcome" ]]; then
-              printf 'Not run'
+              echo "Not run"
               return
             fi
 
@@ -663,93 +704,151 @@ jobs:
               success)
                 if [[ -n "$status" ]]; then
                   case "$status" in
-                    already_published|published) printf 'Published' ;;
-                    exists) printf 'Exists' ;;
-                    not_found) printf 'Not found' ;;
-                    token_missing) printf 'No token' ;;
-                    auth_failed) printf 'Auth failed' ;;
-                    access_denied) printf 'Access denied' ;;
-                    verification_failed) printf 'Verify failed' ;;
-                    query_failed) printf 'Query failed' ;;
-                    error) printf 'Error' ;;
-                    *) printf 'Success' ;;
+                    already_published|published) echo "Published" ;;
+                    exists) echo "Exists" ;;
+                    not_found) echo "Not found" ;;
+                    token_missing) echo "No token" ;;
+                    auth_failed) echo "Auth failed" ;;
+                    access_denied) echo "Access denied" ;;
+                    verification_failed) echo "Verify failed" ;;
+                    query_failed) echo "Query failed" ;;
+                    error) echo "Error" ;;
+                    *) echo "Success" ;;
                   esac
                 else
-                  printf 'Success'
+                  echo "Success"
                 fi ;;
-              failure) printf 'FAILED' ;;
-              skipped) printf 'Skipped' ;;
-              cancelled) printf 'Cancelled' ;;
-              *) printf 'Not run' ;;
+              failure) echo "FAILED" ;;
+              skipped) echo "Skipped" ;;
+              cancelled) echo "Cancelled" ;;
+              *) echo "Unknown" ;;
+            esac
+          }
+
+          # Function to get display status for summary table
+          get_display_status() {
+            local step="$1"
+            local outcome
+            local status
+            outcome="$(get_step_outcome "$step")"
+            
+            case "$step" in
+              release) status="${{ steps.release.outputs.dist_tag }}" ;;
+              check_npmjs) status="${{ steps.check_npmjs.outputs.status }}" ;;
+              check_github) status="${{ steps.check_github.outputs.status }}" ;;
+              publish_npmjs) status="${{ steps.publish_npmjs.outputs.status }}" ;;
+              publish_github) status="${{ steps.publish_github.outputs.status }}" ;;
+              *) status="" ;;
+            esac
+
+            if [[ -z "$outcome" ]]; then
+              echo "Not run"
+              return
+            fi
+
+            case "$outcome" in
+              success)
+                if [[ -n "$status" ]]; then
+                  case "$status" in
+                    already_published|published) echo "✅ Published" ;;
+                    exists) echo "✅ Exists" ;;
+                    not_found) echo "⚠️ Not found" ;;
+                    token_missing) echo "⚠️ No token" ;;
+                    auth_failed) echo "❌ Auth failed" ;;
+                    access_denied) echo "❌ Access denied" ;;
+                    verification_failed) echo "❌ Verify failed" ;;
+                    query_failed) echo "❌ Query failed" ;;
+                    error) echo "❌ Error" ;;
+                    *) echo "✅ Success" ;;
+                  esac
+                else
+                  echo "✅ Success"
+                fi ;;
+              failure) echo "❌ FAILED" ;;
+              skipped) echo "⏭️ Skipped" ;;
+              cancelled) echo "⏹️ Cancelled" ;;
+              *) echo "⚪ Unknown" ;;
             esac
           }
 
           {
-            echo "### Publication Summary for @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
+            echo "### 📦 Publication Summary for @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
             echo ""
-            echo "**Tag:** ${GITHUB_REF_NAME:-N/A}"
-            echo "**Commit:** ${GITHUB_SHA::8}"
-            echo "**Node.js:** v${{ env.NODE_VERSION }}"
-            echo "**pnpm:** v${{ steps.pnpm.outputs.version }}"
-            echo "**Dist Tag:** ${DIST_TAG:-latest}"
+            echo "**📍 Repository:** ${GITHUB_REF_NAME:-N/A}"
+            echo "**🔗 Commit:** ${GITHUB_SHA::8}"
+            echo "**⚡ Node.js:** v${{ env.NODE_VERSION }}"
+            echo "**📦 pnpm:** v${{ steps.pnpm.outputs.version }}"
+            echo "**🏷️ npm:** v${NPM_VERSION:-unknown}$([[ "$NPM_UPGRADED" == "true" ]] && echo " (upgraded)" || echo "")"
+            echo "**🎯 Dist Tag:** ${DIST_TAG:-latest}"
             echo ""
-            echo "**Tarball:** $(basename "${TARBALL:-not created}")"
-            echo "**SHA-256:** ${TARBALL_SHA256:-not available}"
+            echo "**📦 Tarball:** $(basename "${TARBALL:-not created}")"
+            echo "**🔐 SHA-256:** ${TARBALL_SHA256:-not available}"
             echo ""
             echo "| Step | Status |"
             echo "|------|--------|"
-            echo "| Version resolution | $(get_outcome_status "release") |"
-            echo "| Format check | $(get_outcome_status "format_check") |"
-            echo "| ESLint check | $(get_outcome_status "lint_check") |"
-            echo "| Build | $(get_outcome_status "build") |"
-            echo "| Build validation | $(get_outcome_status "validate_build") |"
-            echo "| Unit tests | $(get_outcome_status "test") |"
-            echo "| Packaging | $(get_outcome_status "pack") |"
-            echo "| npmjs check | $(get_outcome_status "check_npmjs") |"
-            echo "| GH Packages check | $(get_outcome_status "check_github") |"
-            echo "| **npmjs.com** | $(get_step_status "publish_npmjs") |"
-            echo "| **GitHub Packages** | $(get_step_status "publish_github") |"
-            echo "| GitHub Release | $(get_outcome_status "release_github") |"
+            echo "| 📋 Version resolution | $(get_display_status "release") |"
+            echo "| 🎨 Format check | $(get_display_status "format_check") |"
+            echo "| 🔍 ESLint check | $(get_display_status "lint_check") |"
+            echo "| 🏗️ Build | $(get_display_status "build") |"
+            echo "| ✅ Build validation | $(get_display_status "validate_build") |"
+            echo "| 🧪 Unit tests | $(get_display_status "test") |"
+            echo "| 📦 Packaging | $(get_display_status "pack") |"
+            echo "| 🔎 npmjs check | $(get_display_status "check_npmjs") |"
+            echo "| 🔎 GH Packages check | $(get_display_status "check_github") |"
+            echo "| **🚀 npmjs.com** | $(get_display_status "publish_npmjs") |"
+            echo "| **🚀 GitHub Packages** | $(get_display_status "publish_github") |"
+            echo "| 📝 GitHub Release | $(get_display_status "release_github") |"
             echo ""
-            echo "**Environment:** ${{ github.repository }} | ${{ github.workflow }} | Run ${{ github.run_id }}"
+            echo "**🌐 Environment:** ${{ github.repository }} | ${{ github.workflow }} | Run ${{ github.run_id }}"
             echo ""
 
+            # Helper to get step status values
+            NPMJS_OUTCOME="${{ steps.publish_npmjs.outcome }}"
+            NPMJS_STATUS="${{ steps.publish_npmjs.outputs.status }}"
+            GITHUB_OUTCOME="${{ steps.publish_github.outcome }}"
+            GITHUB_STATUS="${{ steps.publish_github.outputs.status }}"
+            RELEASE_GITHUB_OUTCOME="${{ steps.release_github.outcome }}"
+            NPMJS_EXISTS="${{ steps.check_npmjs.outputs.version_exists }}"
+            GH_EXISTS="${{ steps.check_github.outputs.version_exists }}"
+
+            # Error messages
             if [[ "$NPMJS_OUTCOME" == "failure" ]]; then
-              echo "npmjs publication failed. Check NPM_TOKEN secret."
+              echo "❌ **npmjs publication failed.** Check NPM_TOKEN secret and organization permissions."
             fi
             if [[ "$GITHUB_OUTCOME" == "failure" ]]; then
-              echo "GitHub Packages publication failed. Check GH_PACKAGES_TOKEN has write:packages scope."
+              echo "❌ **GitHub Packages publication failed.** Check GH_PACKAGES_TOKEN has write:packages scope."
             fi
             if [[ "$RELEASE_GITHUB_OUTCOME" == "skipped" ]]; then
-              echo "GitHub Release skipped - one or more publications failed."
-            fi
-
-            NPMJS_EXISTS="$CHECK_NPMJS_VERSION_EXISTS"
-            GH_EXISTS="$CHECK_GITHUB_VERSION_EXISTS"
-
-            if [[ "$NPMJS_EXISTS" == "true" ]] && [[ "$GH_EXISTS" == "true" ]]; then
-              echo "Both registries already had this version (idempotent)."
-            elif [[ "$NPMJS_EXISTS" == "false" ]] && [[ "$GH_EXISTS" == "false" ]]; then
-              echo "Both registries were updated with this version."
-            else
-              echo "Partial publish recovered - one registry had the version."
+              echo "⏭️ **GitHub Release skipped** - one or more publications failed."
             fi
             echo ""
 
-            if [[ "$RELEASE_GITHUB_OUTCOME" == "success" ]]; then
-              echo "SUCCESS: Package published to both registries and GitHub Release created."
-            elif [[ "$NPMJS_STATUS" == "published" ]] || [[ "$NPMJS_STATUS" == "already_published" ]] || \
-                 [[ "$NPMJS_STATUS" == "exists" ]]; then
-              if [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || \
-                 [[ "$GITHUB_STATUS" == "exists" ]]; then
-                echo "PARTIAL: Package on both registries but Release failed."
+            # Publication status summary
+            if [[ "$NPMJS_EXISTS" == "true" ]] && [[ "$GH_EXISTS" == "true" ]]; then
+              echo "✅ **Both registries already had this version (idempotent).**"
+            elif [[ "$NPMJS_EXISTS" == "false" ]] && [[ "$GH_EXISTS" == "false" ]]; then
+              if [[ "$NPMJS_STATUS" == "published" ]] && [[ "$GITHUB_STATUS" == "published" ]]; then
+                echo "✅ **Both registries were updated with this version.**"
               else
-                echo "PARTIAL: npmjs OK but GitHub Packages failed."
+                echo "⚠️ **Partial publish - both registries were missing but not both published.**"
               fi
-            elif [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || \
-                 [[ "$GITHUB_STATUS" == "exists" ]]; then
-              echo "PARTIAL: GitHub Packages OK but npmjs failed."
             else
-              echo "FAILED: Package publication failed on both registries."
+              echo "✅ **Partial publish recovered** - one registry had the version, the other was updated."
+            fi
+            echo ""
+
+            # Final result
+            if [[ "$RELEASE_GITHUB_OUTCOME" == "success" ]]; then
+              echo "🎉 **SUCCESS:** Package published to both registries and GitHub Release created."
+            elif [[ "$NPMJS_STATUS" == "published" ]] || [[ "$NPMJS_STATUS" == "already_published" ]] || [[ "$NPMJS_STATUS" == "exists" ]]; then
+              if [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || [[ "$GITHUB_STATUS" == "exists" ]]; then
+                echo "⚠️ **PARTIAL:** Package on both registries but Release failed."
+              else
+                echo "⚠️ **PARTIAL:** npmjs OK but GitHub Packages failed."
+              fi
+            elif [[ "$GITHUB_STATUS" == "published" ]] || [[ "$GITHUB_STATUS" == "already_published" ]] || [[ "$GITHUB_STATUS" == "exists" ]]; then
+              echo "⚠️ **PARTIAL:** GitHub Packages OK but npmjs failed."
+            else
+              echo "❌ **FAILED:** Package publication failed on both registries."
             fi
           } >> "$GITHUB_STEP_SUMMARY"

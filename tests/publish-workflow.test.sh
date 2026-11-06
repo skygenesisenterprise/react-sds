@@ -18,7 +18,8 @@ grep -Fq 'if: ${{ !cancelled()' "$WORKFLOW"
 grep -Fq 'status=integrity_mismatch' "$WORKFLOW"
 grep -Fq 'status=published_unverified' "$WORKFLOW"
 grep -Fq 'verify-registry-integrity.sh' "$WORKFLOW"
-grep -Fq 'npm@11.21.2' "$ROOT/scripts/ci/ensure-npm-version.cjs"
+grep -Fq "REQUIRED_NPM_VERSION = '11.21.2'" "$ROOT/scripts/ci/ensure-npm-version.cjs"
+bash "$ROOT/tests/registry-integrity.test.sh"
 
 if grep -Fq "require('semver')" "$WORKFLOW"; then
   echo "Unexpected runtime dependency on semver remains in workflow." >&2

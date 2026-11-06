@@ -78,6 +78,13 @@ jobs:
           '
       - name: Package validation (dry-run content of the npm tarball)
         run: pnpm pack --dry-run
+      - name: Upload build output for runtime tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
 
   test:
     runs-on: ubuntu-latest
@@ -95,6 +102,11 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download build output for runtime tests
+        uses: actions/download-artifact@v4
+        with:
+          name: package-dist
+          path: dist/
       - name: Unit tests
         run: pnpm test
 

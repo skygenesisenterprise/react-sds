@@ -15,7 +15,10 @@ grep -Fq 'GH_PACKAGES_TOKEN' "$WORKFLOW"
 grep -Fq "steps.check_github.outcome == 'success'" "$WORKFLOW"
 grep -Fq "steps.check_npmjs.outcome == 'success'" "$WORKFLOW"
 grep -Fq 'if: ${{ !cancelled()' "$WORKFLOW"
-grep -Fq 'status=verification_failed' "$WORKFLOW"
+grep -Fq 'status=integrity_mismatch' "$WORKFLOW"
+grep -Fq 'status=published_unverified' "$WORKFLOW"
+grep -Fq 'verify-registry-integrity.sh' "$WORKFLOW"
+grep -Fq 'npm@11.21.2' "$ROOT/scripts/ci/ensure-npm-version.cjs"
 
 if grep -Fq "require('semver')" "$WORKFLOW"; then
   echo "Unexpected runtime dependency on semver remains in workflow." >&2

@@ -1,83 +1,53 @@
-import clsx from "clsx";
-import type { Metadata } from "next";
-import { Inter, Lexend } from "next/font/google";
-import type { ReactNode } from "react";
-import "@/styles/tailwind.css";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { RootProvider } from "fumadocs-ui/provider/next";
+import "./global.css";
+import SearchDialog from "@/components/SearchDialog";
 import { NotployTraffic } from "@/components/NotployTraffic";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
-type Props = {
-	children: ReactNode;
-};
-
-export const metadata: Metadata = {
-	metadataBase: new URL("https://notploy.com"),
-	title: {
-		default:
-			"Notploy - The open-source infrastructure platform for deploying and operating applications",
-		template: "%s | Notploy",
-	},
-	description:
-		"Notploy is an open-source infrastructure platform. Deploy applications, databases and Compose projects, manage servers and clusters, and handle routing, certificates and backups — self-hosted with Notploy Self or managed with Notploy Cloud.",
-	icons: {
-		icon: "/icon.svg",
-		apple: "/apple-touch-icon.png",
-	},
-	openGraph: {
-		title: "Notploy - The open-source infrastructure platform",
-		description:
-			"Deploy applications, databases and Compose projects, manage servers and clusters, and handle routing, certificates and backups — self-hosted with Notploy Self or managed with Notploy Cloud.",
-		images: "/og.png",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Notploy - The open-source infrastructure platform",
-		description:
-			"Deploy applications, databases and Compose projects, manage servers and clusters, and handle routing, certificates and backups — self-hosted with Notploy Self or managed with Notploy Cloud.",
-		images: ["/og.png"],
-	},
-};
 const inter = Inter({
 	subsets: ["latin"],
-	display: "swap",
-	variable: "--font-inter",
 });
 
-const lexend = Lexend({
-	subsets: ["latin"],
-	display: "swap",
-	variable: "--font-lexend",
-});
-// Since we have a `not-found.tsx` page on the root, a layout file
-// is required, even if it's just passing children through.
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+	metadataBase: new URL(
+		process.env.NEXT_PUBLIC_APP_URL || "https://docs.notploy.com",
+	),
+	title: {
+		default: "Notploy Documentation",
+		template: "%s | Notploy Documentation",
+	},
+	description:
+		"Open Source Alternative to Vercel, Netlify and Heroku. Deploy your applications with ease.",
+	keywords: [
+		"notploy",
+		"deployment",
+		"docker",
+		"hosting",
+		"devops",
+		"open source",
+	],
+	authors: [{ name: "Notploy Team" }],
+	openGraph: {
+		title: "Notploy Documentation",
+		description: "Open Source Alternative to Vercel, Netlify and Heroku",
+		type: "website",
+	},
+};
+
+export default function Layout({ children }: LayoutProps<"/">) {
 	return (
-		<html
-			lang="en"
-			className={clsx(
-				"h-full scroll-smooth antialiased",
-				inter.variable,
-				lexend.variable,
-			)}
-		>
-			<body>
+		<html lang="en" className={inter.className} suppressHydrationWarning>
+			<body className="flex flex-col min-h-screen">
 				{/* Traffic Manager instrumentation (no-op without the env vars). */}
 				<NotployTraffic />
-				<a
-					href="#main-content"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+				<RootProvider
+					search={{
+						SearchDialog,
+					}}
 				>
-					Skip to content
-				</a>
-				<div className="flex h-full flex-col">
-					<Header />
-					<div id="main-content" tabIndex={-1}>
-						{children}
-					</div>
-					<Footer />
-				</div>
+					{children}
+				</RootProvider>
 			</body>
 		</html>
 	);

@@ -3,16 +3,14 @@ import Script from "next/script";
 /**
  * Loads the first-party Notploy Traffic Manager instrumentation.
  *
- * The whole instrumentation lives in the collector (`traffic.js`, served by the
- * Notploy instance), so this component only declares *which* property the site
- * is: `data-property-key` is the public key issued by the Traffic Manager for
- * this domain, and `data-endpoint` is the Notploy origin that receives the
- * events. Both come from the environment, so an instance without a Traffic
- * Manager configured simply renders nothing.
+ * Same collector script as the marketing site
+ * (`apps/notploy/public/traffic.js`), pointed at the docs property key. The docs
+ * application is a Next.js App Router app, and the script tracks client-side
+ * route changes itself (patched history APIs + `popstate`), so no
+ * router-specific hook is needed here.
  *
- * See `apps/notploy/public/traffic.js` for what is collected (page views, route
- * changes, explicit events) and what is not (no cookie, no user agent, no
- * fingerprint, no IP address).
+ * Renders nothing when the Traffic Manager is not configured for this
+ * environment.
  */
 export const NotployTraffic = () => {
 	const propertyKey = process.env.NEXT_PUBLIC_NOTPLOY_TRAFFIC_KEY;

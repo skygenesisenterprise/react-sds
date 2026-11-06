@@ -279,6 +279,7 @@ jobs:
           NPMJS_REGISTRY: ${{ env.NPMJS_REGISTRY }}
         run: |
           set -Eeuo pipefail
+          cd "$RUNNER_TEMP"
           set +e
           output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online 2>&1)"
           result=$?
@@ -314,6 +315,7 @@ jobs:
           GH_REGISTRY: ${{ env.GH_REGISTRY }}
         run: |
           set -Eeuo pipefail
+          cd "$RUNNER_TEMP"
           umask 077
           if [[ -z "${GH_PACKAGES_TOKEN:-}" ]]; then
             echo "::error::GH_PACKAGES_TOKEN secret is not configured"
@@ -367,6 +369,7 @@ jobs:
           NPMJS_REGISTRY: ${{ env.NPMJS_REGISTRY }}
         run: |
           set -Eeuo pipefail
+          cd "$RUNNER_TEMP"
           if [[ ! -s "$TARBALL" ]]; then
             echo "::error::Package tarball is missing or empty"
             echo "status=artifact_missing" >> "$GITHUB_OUTPUT"
@@ -429,6 +432,7 @@ jobs:
           GH_REGISTRY: ${{ env.GH_REGISTRY }}
         run: |
           set -Eeuo pipefail
+          cd "$RUNNER_TEMP"
           umask 077
           if [[ -z "${GH_PACKAGES_TOKEN:-}" ]]; then
             echo "::error::GH_PACKAGES_TOKEN is required"

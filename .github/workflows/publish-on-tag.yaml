@@ -572,6 +572,8 @@ jobs:
                 case "$status" in
                   published) echo "Published and verified" ;;
                   already_published) echo "Already published and verified" ;;
+                  already_published_recovered) echo "Retry recovered; exact package integrity verified" ;;
+                  published_unverified) echo "Publish accepted; registry verification delayed" ;;
                   exists) echo "Already exists" ;;
                   not_found) echo "Not found (ready to publish)" ;;
                   token_missing) echo "Token missing" ;;
@@ -586,11 +588,20 @@ jobs:
               *) echo "Not run / unknown" ;;
             esac
           }
-          registry_succeeded() { [[ "$1" == "published" || "$1" == "already_published" ]]; }
+          registry_succeeded() {
+            [[ "$1" == "published" || "$1" == "already_published" || "$1" == "already_published_recovered" || "$1" == "published_unverified" ]]
+          }
+          registry_verified() {
+            [[ "$1" == "published" || "$1" == "already_published" || "$1" == "already_published_recovered" ]]
+          }
           npmjs_ok=false
           github_ok=false
+          npmjs_verified=false
+          github_verified=false
           registry_succeeded "${PUBLISH_NPMJS_STATUS:-}" && npmjs_ok=true
           registry_succeeded "${PUBLISH_GITHUB_STATUS:-}" && github_ok=true
+          registry_verified "${PUBLISH_NPMJS_STATUS:-}" && npmjs_verified=true
+          registry_verified "${PUBLISH_GITHUB_STATUS:-}" && github_verified=true
           {
             echo "### Publication summary — @skygenesisenterprise/react-sds@${VERSION:-unresolved}"
             echo
@@ -616,12 +627,14 @@ jobs:
             echo "| GitHub Packages publication | $(display_status "${PUBLISH_GITHUB_OUTCOME:-}" "${PUBLISH_GITHUB_STATUS:-}") |"
             echo "| GitHub Release | $(display_status "${RELEASE_GITHUB_OUTCOME:-}" "") |"
             echo
-            if [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
-              echo "**Result: SUCCESS — both registries verified and the GitHub Release was created.**"
+            if [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "$npmjs_verified" == "true" && "$github_verified" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
+              echo "**Result: SUCCESS — both registries contain the exact release artifact and the GitHub Release was created.**"
+            elif [[ "$npmjs_ok" == "true" && "$github_ok" == "true" && "${RELEASE_GITHUB_OUTCOME:-}" == "success" ]]; then
+              echo "**Result: SUCCESS WITH WARNING — both registries accepted the publication and the GitHub Release was created; at least one registry has delayed metadata visibility, so integrity verification remains pending.**"
             elif [[ "$npmjs_ok" == "true" && "$github_ok" == "true" ]]; then
-              echo "**Result: PARTIAL — both registries contain the verified version, but the GitHub Release was not created.**"
+              echo "**Result: PARTIAL — both registries accepted the package, but the GitHub Release was not created.**"
             elif [[ "$npmjs_ok" == "true" || "$github_ok" == "true" ]]; then
-              echo "**Result: PARTIAL — only one registry has a verified version.**"
+              echo "**Result: PARTIAL — only one registry has accepted the package.**"
             else
               echo "**Result: FAILED — neither registry has a confirmed publication for this run.**"
             fi

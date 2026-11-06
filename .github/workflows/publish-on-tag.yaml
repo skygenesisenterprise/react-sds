@@ -287,7 +287,7 @@ jobs:
           output=""
           for attempt in $(seq 1 6); do
             set +e
-            output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online --fetch-retries=0 2>&1)"
+            output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online --fetch-retries=0 --fetch-timeout=10000 2>&1)"
             result=$?
             set -e
             [[ "$result" -eq 0 ]] && break
@@ -347,7 +347,7 @@ jobs:
           output=""
           for attempt in $(seq 1 6); do
             set +e
-            output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online --fetch-retries=0 2>&1)"
+            output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online --fetch-retries=0 --fetch-timeout=10000 2>&1)"
             result=$?
             set -e
             [[ "$result" -eq 0 ]] && break

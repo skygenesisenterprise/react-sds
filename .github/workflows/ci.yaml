@@ -138,3 +138,16 @@ jobs:
         run: pnpm build-storybook -o ./build_storybook
       - name: Deploy to GitHub Pages (gh-pages branch)
         run: npx -y -p gh-pages@6.3.0 gh-pages -d ./build_storybook -u "github-actions-bot <actions@github.com>"
+
+  release_workflow_validation:
+    name: Validate release workflow
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Test npm semantic-version handling and workflow invariants
+        run: bash tests/publish-workflow.test.sh

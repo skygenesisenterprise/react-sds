@@ -56,6 +56,21 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
+      - name: Ensure npm version supports provenance (11.5.1+)
+        run: |
+          set -Eeuo pipefail
+          # npm 11.5.1+ is required for Trusted Publishing with --provenance
+          # Node.js 22 ships with npm 10.x, so we need to upgrade
+          NPM_CURRENT="$(npm -v)"
+          echo "Current npm version: $NPM_CURRENT"
+          if printf '%s\n11.5.1\n' "$NPM_CURRENT" | sort -V -C; then
+            echo "npm version $NPM_CURRENT is sufficient"
+          else
+            echo "Upgrading npm to latest stable version..."
+            npm install -g npm@latest
+            echo "Updated npm version: $(npm -v)"
+          fi
+
       # ========================================================================
       # PHASE 3: Dependency Installation and Validation
       # ========================================================================
@@ -66,11 +81,13 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: Format check
+        id: format_check
         run: |
           set -Eeuo pipefail
           pnpm format:check
 
       - name: ESLint check
+        id: lint_check
         run: |
           set -Eeuo pipefail
           pnpm lint:check
@@ -555,27 +572,55 @@ jobs:
           DIST_TAG: ${{ steps.release.outputs.dist_tag }}
           TARBALL: ${{ steps.pack.outputs.tarball }}
           TARBALL_SHA256: ${{ steps.pack.outputs.tarball_sha256 }}
+          RELEASE_OUTCOME: ${{ steps.release.outcome }}
+          RELEASE_STATUS: ${{ steps.release.outputs.dist_tag }}
+          FORMAT_OUTCOME: ${{ steps.format_check.outcome }}
+          LINT_OUTCOME: ${{ steps.lint_check.outcome }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
           TEST_OUTCOME: ${{ steps.test.outcome }}
-          RELEASE_OUTCOME: ${{ steps.release.outcome }}
           VALIDATE_BUILD_OUTCOME: ${{ steps.validate_build.outcome }}
           PACK_OUTCOME: ${{ steps.pack.outcome }}
+          CHECK_NPMJS_OUTCOME: ${{ steps.check_npmjs.outcome }}
+          CHECK_NPMJS_STATUS: ${{ steps.check_npmjs.outputs.status }}
+          CHECK_NPMJS_VERSION_EXISTS: ${{ steps.check_npmjs.outputs.version_exists }}
+          CHECK_GITHUB_OUTCOME: ${{ steps.check_github.outcome }}
+          CHECK_GITHUB_STATUS: ${{ steps.check_github.outputs.status }}
+          CHECK_GITHUB_VERSION_EXISTS: ${{ steps.check_github.outputs.version_exists }}
           NPMJS_OUTCOME: ${{ steps.publish_npmjs.outcome }}
           NPMJS_STATUS: ${{ steps.publish_npmjs.outputs.status }}
           GITHUB_OUTCOME: ${{ steps.publish_github.outcome }}
           GITHUB_STATUS: ${{ steps.publish_github.outputs.status }}
           RELEASE_GITHUB_OUTCOME: ${{ steps.release_github.outcome }}
-          CHECK_NPMJS_STATUS: ${{ steps.check_npmjs.outputs.status }}
-          CHECK_GITHUB_STATUS: ${{ steps.check_github.outputs.status }}
         run: |
           set -Eeuo pipefail
 
+          # Mapping des steps vers leurs variables d'environnement
+          get_env_var() {
+            local step="$1"
+            local var_name="$2"
+            case "$step" in
+              release) echo "${RELEASE_${var_name}:-}" ;;
+              format_check) echo "${FORMAT_${var_name}:-}" ;;
+              lint_check) echo "${LINT_${var_name}:-}" ;;
+              build) echo "${BUILD_${var_name}:-}" ;;
+              test) echo "${TEST_${var_name}:-}" ;;
+              validate_build) echo "${VALIDATE_BUILD_${var_name}:-}" ;;
+              pack) echo "${PACK_${var_name}:-}" ;;
+              check_npmjs) echo "${CHECK_NPMJS_${var_name}:-}" ;;
+              check_github) echo "${CHECK_GITHUB_${var_name}:-}" ;;
+              publish_npmjs) echo "${NPMJS_${var_name}:-}" ;;
+              publish_github) echo "${GITHUB_${var_name}:-}" ;;
+              release_github) echo "${RELEASE_GITHUB_${var_name}:-}" ;;
+              *) echo "" ;;
+            esac
+          }
+
           get_step_status() {
             local step="$1"
-            local outcome_var="${step}_OUTCOME"
-            local status_var="${step}_STATUS"
-            local outcome="${!outcome_var:-}"
-            local status="${!status_var:-}"
+            local outcome
+            local status
+            outcome="$(get_env_var "$step" "OUTCOME")"
+            status="$(get_env_var "$step" "STATUS")"
 
             if [[ -z "$outcome" ]]; then
               printf 'Not run'
@@ -604,10 +649,10 @@ jobs:
 
           get_outcome_status() {
             local step="$1"
-            local outcome_var="${step}_OUTCOME"
-            local status_var="${step}_STATUS"
-            local outcome="${!outcome_var:-}"
-            local status="${!status_var:-}"
+            local outcome
+            local status
+            outcome="$(get_env_var "$step" "OUTCOME")"
+            status="$(get_env_var "$step" "STATUS")"
 
             if [[ -z "$outcome" ]]; then
               printf 'Not run'
@@ -654,8 +699,8 @@ jobs:
             echo "| Step | Status |"
             echo "|------|--------|"
             echo "| Version resolution | $(get_outcome_status "release") |"
-            echo "| Format check | $(get_outcome_status "build") |"
-            echo "| ESLint check | $(get_outcome_status "build") |"
+            echo "| Format check | $(get_outcome_status "format_check") |"
+            echo "| ESLint check | $(get_outcome_status "lint_check") |"
             echo "| Build | $(get_outcome_status "build") |"
             echo "| Build validation | $(get_outcome_status "validate_build") |"
             echo "| Unit tests | $(get_outcome_status "test") |"
@@ -679,8 +724,8 @@ jobs:
               echo "GitHub Release skipped - one or more publications failed."
             fi
 
-            NPMJS_EXISTS="${{ steps.check_npmjs.outputs.version_exists }}"
-            GH_EXISTS="${{ steps.check_github.outputs.version_exists }}"
+            NPMJS_EXISTS="$CHECK_NPMJS_VERSION_EXISTS"
+            GH_EXISTS="$CHECK_GITHUB_VERSION_EXISTS"
 
             if [[ "$NPMJS_EXISTS" == "true" ]] && [[ "$GH_EXISTS" == "true" ]]; then
               echo "Both registries already had this version (idempotent)."

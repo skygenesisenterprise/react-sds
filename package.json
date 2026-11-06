@@ -1,6 +1,6 @@
 {
     "name": "@skygenesisenterprise/react-sds",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "packageManager": "pnpm@12.18.0",
     "description": "The SGE Design system React toolkit.",
     "repository": {

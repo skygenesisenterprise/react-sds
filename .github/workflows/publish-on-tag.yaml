@@ -323,7 +323,7 @@ jobs:
           fi
           npmrc="${RUNNER_TEMP}/gh-check.npmrc"
           trap 'rm -f "$npmrc"' EXIT
-          printf '@skygenesisenterprise:registry=%s\\n//npm.pkg.github.com/:_authToken=%s\\nalways-auth=true\\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
+          printf '@skygenesisenterprise:registry=%s\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
           chmod 600 "$npmrc"
           set +e
           output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online 2>&1)"
@@ -448,7 +448,7 @@ jobs:
           fi
           npmrc="${RUNNER_TEMP}/gh-publish.npmrc"
           trap 'rm -f "$npmrc"' EXIT
-          printf '@skygenesisenterprise:registry=%s\\n//npm.pkg.github.com/:_authToken=%s\\nalways-auth=true\\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
+          printf '@skygenesisenterprise:registry=%s\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
           chmod 600 "$npmrc"
           if [[ "${{ steps.check_github.outputs.version_exists }}" == "true" ]]; then
             verified_version="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online)"

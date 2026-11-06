@@ -6,7 +6,7 @@
  * tokens that applications consume are defined per theme in `../themes/light.css`
  * and `../themes/dark.css`.
  *
- * The palette is derived from the reference identity currently used by Notploy.
+ * The palette is derived from the SGE reference identity.
  * The dark theme maps these values directly to the canonical semantic tokens;
  * the light theme provides a coherent declination of the same hues.
  *
@@ -31,7 +31,7 @@
     --sge-palette-neutral-900: oklch(0.2264 0 0);
     --sge-palette-neutral-950: oklch(0.1913 0 0);
 
-    /* ---- Brand primary (Notploy pale olive, darker declinations) ---------- */
+    /* ---- Brand primary (SGE pale olive, darker declinations) --------------- */
 
     --sge-palette-primary-300: oklch(0.852 0.0205 100.6306);
     --sge-palette-primary-500: oklch(0.62 0.033 100.6306);
@@ -50,7 +50,7 @@
     --sge-palette-info-500: oklch(0.72 0.12 250);
     --sge-palette-info-600: oklch(0.55 0.13 250);
 
-    /* ---- Charts (Notploy reference palette) -------------------------------- */
+    /* ---- Charts (SGE reference palette) ------------------------------------ */
 
     --sge-palette-chart-1: oklch(0.6863 0.1743 34.2614);
     --sge-palette-chart-2: oklch(0.859 0.0209 74.6369);

@@ -1,0 +1,32 @@
+{
+    "name": "SDS React",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+    "postCreateCommand": "corepack enable && corepack prepare pnpm@11.21.0 --activate && pnpm install",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.formatOnSave": true,
+                "typescript.tsdk": "node_modules/typescript/lib"
+            },
+            "extensions": [
+                "editorconfig.editorconfig",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "vitest.explorer",
+                "stylelint.vscode-stylelint",
+                "GitHub.vscode-pull-request-github"
+            ]
+        }
+    },
+    "portsAttributes": {
+        "6006": {
+            "label": "Storybook",
+            "onAutoForward": "notify"
+        },
+        "3000": {
+            "label": "Integration demo",
+            "onAutoForward": "silent"
+        }
+    }
+}

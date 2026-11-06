@@ -1,8 +1,8 @@
 /**
  * SGE dark theme.
  *
- * Reproduces the palette, elevation and motion identity currently used by the
- * Notploy website. This is the reference dark scheme of the SGE design system.
+ * Reproduces the palette, elevation and motion identity of the SGE design
+ * system. This is the reference dark scheme.
  *
  * Activate it explicitly with:
  *
@@ -69,7 +69,7 @@
     --sge-color-on-primary: var(--sge-color-primary-foreground);
     --sge-color-disabled: oklch(0.45 0 0);
 
-    /* ---- Charts (Notploy reference values) --------------------------------- */
+    /* ---- Charts (SGE reference values) ------------------------------------- */
 
     --sge-color-chart-1: var(--sge-palette-chart-1);
     --sge-color-chart-2: var(--sge-palette-chart-2);
@@ -81,7 +81,7 @@
 
     --sge-color-overlay: var(--sge-palette-overlay);
 
-    /* ---- Elevation (Notploy reference values) ------------------------------ */
+    /* ---- Elevation (SGE reference values) ---------------------------------- */
 
     --sge-shadow-2xs: 0 6px 15px 0 rgb(0 0 0 / 0.15);
     --sge-shadow-xs: 0 6px 15px 0 rgb(0 0 0 / 0.15);

@@ -1,30 +1,105 @@
 name: Feature request
-description: Propose a new component or improvement for the SGE Design System React library
+description: Suggest a new capability that SDS React does not have today.
+title: "[Feature]: "
 labels: ["enhancement"]
+
 body:
-  - type: markdown
-    attributes:
-      value: "Thanks for proposing an improvement! For new components, please also check the [component inventory](https://github.com/skygenesisenterprise/react-sds/blob/main/AUDIT.md) first."
-  - type: textarea
-    id: problem
-    attributes:
-      label: Problem / use case
-      description: What do you need to build? What is missing today?
-    validations:
-      required: true
-  - type: textarea
-    id: proposal
-    attributes:
-      label: Proposed solution
-      description: Describe the component or the API you have in mind.
-    validations:
-      required: true
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives considered
-  - type: textarea
-    id: a11y
-    attributes:
-      label: Accessibility considerations
-      description: Keyboard behavior, ARIA patterns, focus management, labels — as specific as possible.
+    - type: markdown
+      attributes:
+          value: |
+              Use this form for something SDS React **cannot do yet**. If the capability already
+              exists and you want it to be faster, clearer, or less error-prone, use
+              [Improvement](https://github.com/skygenesisenterprise/react-sds/issues/new?template=improvement.yml) instead.
+
+              Describe the need, not the patch. A clear use case is enough — you do not have to
+              propose an implementation.
+
+    - type: input
+      id: summary
+      attributes:
+          label: Summary
+          description: One line describing the capability you are missing.
+          placeholder: ex. Add a FileUpload component with drag-and-drop support
+      validations:
+          required: true
+
+    - type: dropdown
+      id: area
+      attributes:
+          label: Where would it live
+          description: Which part of SDS React would this belong to?
+          options:
+              - Components
+              - Design tokens and foundations
+              - Themes
+              - CSS and stylesheets
+              - React Native foundation
+              - Next.js integration
+              - Storybook documentation
+              - Accessibility
+              - CLI
+              - Build and packaging
+              - Tests
+              - Documentation
+              - Dependencies
+              - Something else
+      validations:
+          required: true
+
+    - type: textarea
+      id: problem
+      attributes:
+          label: What problem does this solve?
+          description: What are you unable to do today? What breaks or forces a manual workaround?
+          placeholder: >-
+              I need to upload supporting documents in a form, but the library only ships a
+              basic file input and I have to rebuild drag-and-drop and validation in every app.
+      validations:
+          required: true
+
+    - type: textarea
+      id: usecase
+      attributes:
+          label: How would you use it?
+          description: Describe the concrete workflow, including who does what and how often.
+          placeholder: |
+              As a product developer I would drop a FileUpload component into a form, set accepted
+              MIME types and a size limit, and get accessible drag-and-drop, progress, and error states.
+      validations:
+          required: true
+
+    - type: textarea
+      id: proposal
+      attributes:
+          label: What should SDS React do?
+          description: >-
+              Optional. Describe the behavior you expect. A use case on its own is enough — a
+              specific technical solution is welcome but not required.
+      validations:
+          required: false
+
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives or workarounds
+          description: >-
+              What have you tried instead today? A third-party package, a custom component, or
+              a manual process?
+      validations:
+          required: false
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Anything else
+          description: Scale, number of affected products, related issues or discussions, links.
+      validations:
+          required: false
+
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Before submitting
+          options:
+              - label: I searched the existing issues and this has not been requested yet.
+                required: true

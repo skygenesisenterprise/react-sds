@@ -1,0 +1,88 @@
+name: Documentation
+description: Fix, clarify, or add repository documentation, Storybook stories, guides, or examples.
+title: "[Docs]: "
+labels: ["documentation"]
+
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Documentation lives in several places:
+
+              - `README.md` — installation, usage, architecture, and FAQ
+              - `MIGRATION.md`, `AUDIT.md`, `PROVENANCE.md`, `GOVERNANCE.md` — project history and process
+              - `stories/` — interactive Storybook documentation for each component
+              - `src/` — code comments, JSDoc, and inline help text
+
+              Docs changes are very welcome and are reviewed like any other contribution.
+
+    - type: dropdown
+      id: location
+      attributes:
+          label: Where is the documentation?
+          description: Which part of the documentation needs work?
+          options:
+              - README — install, usage, architecture, or FAQ
+              - Migration, audit, provenance, or governance guide
+              - Storybook story or component example
+              - Component API, code comments, or JSDoc
+              - Design token or theming reference
+              - Next.js, native, or integration guide
+              - CLI reference
+              - Examples in test/integration
+              - Not sure
+      validations:
+          required: true
+
+    - type: input
+      id: page
+      attributes:
+          label: Page or file
+          description: The URL on the Storybook site, or the file path in the repository.
+          placeholder: ex. https://skygenesisenterprise.github.io/react-sds or stories/Button.stories.tsx
+      validations:
+          required: false
+
+    - type: dropdown
+      id: problem
+      attributes:
+          label: What is the problem?
+          options:
+              - Incorrect — the documented behavior is wrong
+              - Incomplete — a step or option is missing
+              - Ambiguous — unclear wording, or two valid readings
+              - Outdated — it no longer matches the current version
+              - Missing entirely — the page or example does not exist
+              - Broken link or formatting
+              - Other
+      validations:
+          required: true
+
+    - type: textarea
+      id: details
+      attributes:
+          label: Details
+          description: What is wrong, incomplete, ambiguous, or missing — and what should it say instead?
+          placeholder: >-
+              The theming guide says to set data-sge-theme on document.body, but the CSS targets
+              the html element. The README already uses html, so the guide is inconsistent.
+      validations:
+          required: true
+
+    - type: textarea
+      id: suggestion
+      attributes:
+          label: Proposed wording or structure
+          description: Optional. A rewritten paragraph or an outline is enough; you do not have to write the whole page.
+      validations:
+          required: false
+
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Before submitting
+          options:
+              - label: I checked the current documentation and the current SDS React version before reporting this.
+                required: true
+              - label: I searched the existing issues for the same documentation problem.
+                required: true

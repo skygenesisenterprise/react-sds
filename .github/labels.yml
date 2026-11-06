@@ -1,0 +1,116 @@
+# Label taxonomy
+#
+# Documentation, not automation: no tool reads this file, and labels cannot be
+# created from a repository. Create or update them in
+# Settings -> Issues -> Labels, keeping the names, colors, and descriptions
+# below. The issue forms in `.github/ISSUE_TEMPLATE/` apply the `type:` labels
+# automatically; `area:` and `status:` labels are applied by maintainers.
+#
+# Three independent dimensions, never combined:
+#
+#   type:    one per issue, set by the template the reporter used
+#   area:    at most one, the functional domain the issue belongs to
+#   status:  orthogonal, applied and removed by maintainers over time
+#
+# Rules that keep the set small:
+#
+#   * No `component-*` / `framework-*` style labels. The area dimension already
+#     separates surfaces, so the type dimension stays at four labels.
+#   * `enhancement` and `improvement` are not synonyms here. `enhancement` is a
+#     capability that does not exist yet; `improvement` is a capability that
+#     exists and should get better. The issue template chosen by the reporter is
+#     what decides between them.
+#   * The `area:` values match the "Affected area" dropdown in the issue forms,
+#     one to one. If you add an area, add it to the dropdown too.
+
+type:
+    - name: bug
+      color: "d73a4a"
+      description: Something behaves incorrectly. A regression, an error, or an unexpected result.
+      auto_applied_by: .github/ISSUE_TEMPLATE/bug_report.yml
+
+    - name: enhancement
+      color: "a2eeef"
+      description: A new capability SDS React does not have today.
+      auto_applied_by: .github/ISSUE_TEMPLATE/feature_request.yml
+
+    - name: improvement
+      color: "0e8a16"
+      description: An existing capability that should get better — performance, DX, reliability, errors, ergonomics.
+      auto_applied_by: .github/ISSUE_TEMPLATE/improvement.yml
+
+    - name: documentation
+      color: "0075ca"
+      description: Documentation only — README guides, Storybook stories, code comments, or examples.
+      auto_applied_by: .github/ISSUE_TEMPLATE/documentation.yml
+
+area:
+    # Derived from the component families in src/, the token and stylesheet
+    # layers in src/sds and src/styles, the native foundation in src/native,
+    # and the integration helpers in src/next-app-router and src/mui.
+    - name: "area: components"
+      color: "c5def5"
+      description: React components in src/ — Button, Alert, Card, Header, Footer, Modal, Tabs, tables, forms.
+    - name: "area: foundations"
+      color: "c5def5"
+      description: Design tokens and contracts — colors, typography, spacing, radius, elevation, motion, breakpoints.
+    - name: "area: themes"
+      color: "c5def5"
+      description: Light and dark themes, color scheme activation, and semantic color mapping.
+    - name: "area: styles"
+      color: "c5def5"
+      description: The CSS foundation, stylesheet generation, DSFR interoperability, and layout primitives.
+    - name: "area: native"
+      color: "c5def5"
+      description: The React Native and Expo foundation in src/native.
+    - name: "area: nextjs"
+      color: "c5def5"
+      description: Next.js App Router and Pages Router integration helpers.
+    - name: "area: storybook"
+      color: "c5def5"
+      description: Storybook configuration, stories, and the published documentation site.
+    - name: "area: accessibility"
+      color: "c5def5"
+      description: Keyboard navigation, focus management, ARIA, contrast, and WCAG 2.2 AA compliance.
+    - name: "area: cli"
+      color: "c5def5"
+      description: The react-sds command-line tools — CSS optimization and static asset helpers.
+    - name: "area: build"
+      color: "c5def5"
+      description: TypeScript compilation, package exports, generated artifacts, and npm packaging.
+    - name: "area: tests"
+      color: "c5def5"
+      description: Vitest runtime tests and the integration demo applications.
+    - name: "area: docs"
+      color: "c5def5"
+      description: Repository documentation — README, migration guides, governance, and provenance.
+    - name: "area: integrations"
+      color: "c5def5"
+      description: Optional MUI, chart, and Discord layers, plus SPA and framework consumption.
+    - name: "area: dependencies"
+      color: "c5def5"
+      description: Dependency updates, peer ranges, and supply-chain concerns.
+
+status:
+    # `pinned`, `security`, `help-wanted`, `wontfix` and `good first issue` are
+    # referenced by maintainer workflows and release checks. They are listed here
+    # so the taxonomy is complete, and `security` is the label to reach for
+    # instead of opening a public issue for a vulnerability.
+    - name: security
+      color: "b60205"
+      description: Security-sensitive. Exempt from stale-bot closing.
+    - name: help-wanted
+      color: "008672"
+      description: Open to outside contributors. Exempt from stale-bot closing.
+    - name: good first issue
+      color: "7057ff"
+      description: Small, well-scoped, approachable. Exempt from stale-bot closing.
+    - name: wontfix
+      color: "ffffff"
+      description: Will not be worked on. State the reason in a comment. Exempt from stale-bot closing.
+    - name: pinned
+      color: "f9d0c4"
+      description: Pinned by maintainers. Exempt from stale-bot closing.
+    - name: stale
+      color: "ededed"
+      description: Applied after 60 days without activity. Removed by any new activity.

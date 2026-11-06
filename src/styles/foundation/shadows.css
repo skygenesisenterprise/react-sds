@@ -2,7 +2,7 @@
  * SGE shadow / elevation tokens.
  *
  * The light-theme defaults are soft, low-contrast elevations. `../themes/dark.css`
- * overrides them with the exact Notploy elevation values so the dark identity
+ * overrides them with the exact SGE elevation values so the dark identity
  * matches the reference application.
  *
  * Elevation is intentionally theme-dependent: a shadow that reads as "raised" on

@@ -1,0 +1,121 @@
+name: Improvement
+description: Make something SDS React already does better — performance, DX, reliability, error messages, or ergonomics.
+title: "[Improvement]: "
+labels: ["improvement"]
+
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Use this form when the capability **already exists** and you want it to be better:
+              slower than it should be, harder to use than it should be, unreliable, or badly
+              explained when it fails.
+
+              If SDS React cannot do this at all, use
+              [Feature request](https://github.com/skygenesisenterprise/react-sds/issues/new?template=feature_request.yml).
+
+    - type: input
+      id: summary
+      attributes:
+          label: Summary
+          description: One line describing what should be better.
+          placeholder: ex. Storybook should show the generated CSS for each theming variant
+      validations:
+          required: true
+
+    - type: dropdown
+      id: area
+      attributes:
+          label: Affected area
+          description: Which part of SDS React are you talking about?
+          options:
+              - Components
+              - Design tokens and foundations
+              - Themes
+              - CSS and stylesheets
+              - React Native foundation
+              - Next.js integration
+              - Storybook documentation
+              - Accessibility
+              - CLI
+              - Build and packaging
+              - Tests
+              - Documentation
+              - Dependencies
+              - Something else
+      validations:
+          required: true
+
+    - type: dropdown
+      id: dimension
+      attributes:
+          label: What kind of improvement?
+          description: This is the main axis maintainers triage on — pick the closest one.
+          options:
+              - Performance — it works, but it is too slow or too heavy
+              - Developer experience — local setup, debugging, contribution workflow
+              - Component API — props, composition, controlled and uncontrolled usage
+              - Theming and tokens — naming, defaults, coverage, or theme switching
+              - Accessibility — keyboard, focus, ARIA, contrast, or screen readers
+              - Architecture and maintainability — structure, duplication, coupling
+              - Reliability and error handling — failures, retries, partial states
+              - Error messages and logging — what a user sees when something goes wrong
+              - Compatibility — React versions, frameworks, browsers, or upgrade path
+              - Documentation and Storybook — discoverability, examples, or clarity
+              - Other
+      validations:
+          required: true
+
+    - type: textarea
+      id: current
+      attributes:
+          label: Current behavior
+          description: What SDS React does today. Include measurements, timings, or a snippet if you have them.
+          placeholder: >-
+              The Header renders all navigation groups eagerly, so a page with six groups ships
+              roughly 40 KB of unused markup and takes ~120 ms longer to hydrate.
+      validations:
+          required: true
+
+    - type: textarea
+      id: desired
+      attributes:
+          label: What should be better, and why?
+          description: Describe the target behavior and the reason behind it.
+          placeholder: >-
+              Render closed navigation groups lazily so the initial payload stays small and
+              products using large information architectures hydrate faster.
+      validations:
+          required: true
+
+    - type: textarea
+      id: impact
+      attributes:
+          label: Expected impact
+          description: Who benefits and how you would notice the change worked.
+      validations:
+          required: false
+
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives considered
+          description: Other ways to reach the same outcome, and why they are worse.
+      validations:
+          required: false
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Anything else
+          description: Measurements, traces, related issues, or a profile.
+      validations:
+          required: false
+
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Before submitting
+          options:
+              - label: I searched the existing issues and this has not been proposed yet.
+                required: true

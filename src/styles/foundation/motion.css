@@ -1,7 +1,7 @@
 /**
  * SGE motion tokens.
  *
- * Durations and easing curves taken from the Notploy reference identity. The
+ * Durations and easing curves taken from the SGE reference identity. The
  * `--sge-transition-*` tokens are ready-to-use `transition` values so product
  * code never assembles an ad-hoc duration/curve pair.
  *

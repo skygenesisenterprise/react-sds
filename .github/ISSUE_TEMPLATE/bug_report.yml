@@ -1,49 +1,130 @@
 name: Bug report
-description: Report a bug in @skygenesisenterprise/react-sds
+description: Something in SDS React behaves incorrectly — a regression, an error, or an unexpected result.
+title: "[Bug]: "
 labels: ["bug"]
+
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-        **Security issue?** Do not open an issue — see SECURITY.md.
-  - type: input
-    id: version
-    attributes:
-      label: Package version
-      description: Which version of @skygenesisenterprise/react-sds do you use?
-      placeholder: "0.1.0"
-    validations:
-      required: true
-  - type: dropdown
-    id: environment
-    attributes:
-      label: Environment
-      description: Where does the bug occur?
-      options:
-        - Next.js (Pages Router)
-        - Next.js (App Router)
-        - Vite
-        - Create React App
-        - Other / SSR
-        - Storybook
-    validations:
-      required: true
-  - type: textarea
-    id: description
-    attributes:
-      label: Description
-      description: What happened? What did you expect to happen?
-    validations:
-      required: true
-  - type: textarea
-    id: reproduction
-    attributes:
-      label: Reproduction
-      description: Minimal code or a link to a repository reproducing the issue.
-      render: tsx
-  - type: textarea
-    id: a11y
-    attributes:
-      label: Accessibility impact
-      description: If relevant, describe the impact for keyboard users, screen readers, contrast, or reduced motion.
+    - type: markdown
+      attributes:
+          value: |
+              Something is broken. The more precisely you describe it, the faster it gets fixed.
+
+              - Not sure this is a bug? Check the [Storybook documentation](https://skygenesisenterprise.github.io/react-sds) and [GitHub Discussions](https://github.com/skygenesisenterprise/react-sds/discussions).
+              - Already reported? Close your issue and add a comment to the existing one — duplicates are closed.
+
+              > **Do not paste secrets, tokens, API keys, private hostnames, or personal data into this issue.**
+              > Redact credentials, hostnames, IPs, emails, and file paths.
+              >
+              > If the problem **is** a security vulnerability, do not report it here at all: open a
+              > [private security advisory](https://github.com/skygenesisenterprise/react-sds/security/advisories/new)
+              > or use the private address in [SECURITY.md](https://github.com/skygenesisenterprise/react-sds/blob/main/SECURITY.md).
+
+    - type: dropdown
+      id: area
+      attributes:
+          label: Affected area
+          description: Which part of SDS React is involved?
+          options:
+              - Components
+              - Design tokens and foundations
+              - Themes
+              - CSS and stylesheets
+              - React Native foundation
+              - Next.js integration
+              - Storybook documentation
+              - Accessibility
+              - CLI
+              - Build and packaging
+              - Tests
+              - Documentation
+              - Dependencies
+              - Something else
+      validations:
+          required: true
+
+    - type: input
+      id: environment
+      attributes:
+          label: Environment
+          description: >-
+              SDS React version, React version, framework, browser, and operating system.
+              Include the exact package version from package.json or node_modules.
+          placeholder: >-
+              ex. @skygenesisenterprise/react-sds 1.1.0, React 18.2, Next.js 13 App Router, Firefox 128, macOS 15
+      validations:
+          required: true
+
+    - type: textarea
+      id: summary
+      attributes:
+          label: What happened
+          description: Describe the problem, not the diagnosis. What did you observe?
+          placeholder: >-
+              A Button inside a Tabs panel loses its focus ring after keyboard navigation.
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected
+      attributes:
+          label: Expected behavior
+          description: What should have happened instead?
+          placeholder: >-
+              The button keeps a visible focus ring, and pressing Tab moves to the next control.
+      validations:
+          required: true
+
+    - type: textarea
+      id: steps
+      attributes:
+          label: Steps to reproduce
+          description: The smallest sequence that shows the problem, from a clean state.
+          placeholder: |
+              1. Render a Tabs component with two panels.
+              2. Press Tab until a Button in the second panel receives focus.
+              3. Observe that the focus ring disappears.
+      validations:
+          required: true
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Code, error output, or screenshots
+          description: >-
+              Paste the relevant JSX, CSS, console output, or a screenshot. Redact
+              credentials, hostnames, and personal data first.
+          placeholder: |
+              Minimal reproduction snippet or the exact error message.
+      validations:
+          required: false
+
+    - type: input
+      id: regression
+      attributes:
+          label: Did this work before?
+          description: If you know the last version that behaved correctly, name it.
+          placeholder: ex. Worked on 1.0.7, broken since 1.1.0
+      validations:
+          required: false
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Anything else
+          description: >-
+              Workarounds, related issues, relevant configuration (structure only, no
+              secrets), or a screen recording.
+      validations:
+          required: false
+
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Before submitting
+          options:
+              - label: I searched the existing issues and this is not a duplicate.
+                required: true
+              - label: I am on the latest available version, and this still happens.
+                required: true
+              - label: I removed anything sensitive from the code and logs pasted above.
+                required: true

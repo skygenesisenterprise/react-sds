@@ -17,9 +17,9 @@ test('the minimum and newer npm versions are accepted', () => {
 });
 
 test('semantic prerelease precedence is respected', () => {
-  assert.equal(compareSemver('11.5.1-beta.1', '11.21.2'), -1);
-  assert.equal(compareSemver('11.5.2-rc.1', '11.21.2'), 1);
-  assert.equal(compareSemver('11.5.1+build.7', '11.21.2'), 0);
+  assert.equal(compareSemver('11.21.2-beta.1', '11.21.2'), -1);
+  assert.equal(compareSemver('11.21.3-rc.1', '11.21.2'), 1);
+  assert.equal(compareSemver('11.21.2+build.7', '11.21.2'), 0);
 });
 
 test('invalid versions fail closed', () => {

@@ -2,7 +2,7 @@ name: publish-on-tag
 on:
     push:
         tags:
-            - "v*.*.*"
+            - "v[0-9]+.[0-9]+.[0-9]+*"
 
 concurrency:
     group: publish-${{ github.ref }}
@@ -14,14 +14,11 @@ jobs:
         if: github.repository == 'skygenesisenterprise/react-sds'
         runs-on: ubuntu-latest
         permissions:
-            contents: write # GitHub release
-            id-token: write # npm provenance
-            packages: write # GitHub Packages
+            contents: write
+            id-token: write
+            packages: write
         steps:
             - uses: actions/checkout@v4
-            # pnpm is pinned once, in package.json (`packageManager`): deriving it here
-            # means the publish job can never install the lockfile with another major
-            # than the one CI and the maintainers use.
             - name: Read the pnpm version pinned in package.json
               id: pnpm
               run: |
@@ -38,8 +35,6 @@ jobs:
                   cache: pnpm
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
-            # These run on the untouched checkout: the version bump below rewrites
-            # package.json, after which a formatting check would no longer mean much.
             - name: Format check
               run: pnpm format:check
             - name: ESLint check
@@ -53,11 +48,9 @@ jobs:
                   fi
                   node -e "const fs=require('fs'); const p='package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); pkg.version=process.argv[1]; fs.writeFileSync(p, JSON.stringify(pkg, null, 4) + '\n');" "$VERSION"
                   echo "Publishing version $VERSION (from tag $GITHUB_REF_NAME)"
-            # `--prePublish` emits the published layout only: no `dist/package.json`
-            # and no `dist/src` copy, which exist solely for local linking.
             - name: Build (published layout)
               run: pnpm build --prePublish
-            - name: Unit tests (including the packaging assertions on dist/)
+            - name: Unit tests
               run: pnpm test
             - name: Assert the build only emitted dist/ and is self-contained
               run: |
@@ -86,8 +79,6 @@ jobs:
                       exit 1
                     fi
                   done
-                  # Every relative @import of the entry stylesheet must resolve inside
-                  # dist/, otherwise consumers get a broken `@.../react-sds/main.css`.
                   node -e '
                     const fs = require("fs"), path = require("path");
                     const css = fs.readFileSync("dist/main.css", "utf8");
@@ -102,18 +93,16 @@ jobs:
             - name: Determine npm dist-tag (next for pre-releases)
               id: dist-tag
               run: |
-                  case "${{ github.ref_name }}" in
+                  case "$GITHUB_REF_NAME" in
                     *-*) echo "dist_tag=next" >> "$GITHUB_OUTPUT" ;;
                     *) echo "dist_tag=latest" >> "$GITHUB_OUTPUT" ;;
                   esac
-            - name: Package validation (dry-run content of the npm tarball)
+            - name: Package validation (dry-run)
               run: pnpm pack --dry-run
             - name: Publish on npm (public)
               run: npm publish --provenance --access public --tag ${{ steps.dist-tag.outputs.dist_tag }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-            # The release is only created once npm accepted the tarball, so a failed
-            # publish never leaves a release pointing at a version nobody can install.
             - name: Create GitHub release
               uses: softprops/action-gh-release@v2
               with:
@@ -124,9 +113,6 @@ jobs:
                   prerelease: ${{ steps.dist-tag.outputs.dist_tag == 'next' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            # Re-run setup-node so that $HOME/.npmrc points at GitHub Packages:
-            # npm binds NODE_AUTH_TOKEN to the registry configured in .npmrc, and the
-            # job is currently configured for registry.npmjs.org (npmjs publish above).
             - name: Configure npm for the GitHub Packages registry
               uses: actions/setup-node@v4
               with:
@@ -136,9 +122,6 @@ jobs:
             - name: Publish on GitHub Packages
               run: |
                   VERSION="$(node -p "require('./package.json').version")"
-                  # npm refuses to overwrite a version that already exists on GitHub
-                  # Packages. Skip (instead of failing the run) when the tag was
-                  # already published there, e.g. on a workflow re-run.
                   if npm view "@skygenesisenterprise/react-sds@${VERSION}" version \
                       --registry=https://npm.pkg.github.com >/dev/null 2>&1; then
                       echo "react-sds@${VERSION} already published on GitHub Packages, skipping."

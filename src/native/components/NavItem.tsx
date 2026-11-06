@@ -1,14 +1,14 @@
 /**
- * ADS Native `NavItem` — a navigation item (tab / nav row).
+ * SDS Native `NavItem` — a navigation item (tab / nav row).
  *
  * A graphical primitive only: actual navigation is delegated to the host app via
- * `onPress` (ADS is not a router).
+ * `onPress` (SDS is not a router).
  */
 
 import * as React from "react";
 import { Pressable, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Icon } from "../primitives";
 
 export type NavItemProps = {
@@ -40,7 +40,7 @@ export function NavItem(props: NavItemProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isActive = active === true;
     const isDisabled = disabled === true;

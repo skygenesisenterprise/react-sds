@@ -16,7 +16,7 @@ const { meta, getStory } = getStoryFactory({
     "wrappedComponent": { Tile },
     "defaultContainerWidth": 360,
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Tile.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Tile.tsx)`,
     "disabledProps": ["lang"],
     // https://storybook.js.org/docs/essentials/controls#configuration
     "argTypes": {

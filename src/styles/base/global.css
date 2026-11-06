@@ -1,0 +1,99 @@
+/**
+ * SGE global defaults.
+ *
+ * Everything here is token-driven (`var(--sge-*)`) so a product gets a coherent
+ * page shell without restyling `html`, `body`, links, selection or scrollbars.
+ * This file is framework-independent plain CSS.
+ */
+
+html {
+    background-color: var(--sge-color-background);
+    color: var(--sge-color-foreground);
+    scrollbar-gutter: stable;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--sge-font-family-base);
+    font-size: var(--sge-font-size-md);
+    font-weight: var(--sge-font-weight-regular);
+    line-height: var(--sge-line-height-body);
+    letter-spacing: var(--sge-tracking-normal);
+    color: var(--sge-color-text);
+    background-color: var(--sge-color-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Give every element the institutional border color; components refine it. */
+* {
+    border-color: var(--sge-color-border);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--sge-font-family-heading);
+    color: var(--sge-color-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    letter-spacing: var(--sge-tracking-tight);
+    text-wrap: balance;
+}
+
+/* Links. */
+a {
+    color: var(--sge-color-link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+    border-radius: var(--sge-radius-small);
+    transition: color var(--sge-transition-quick);
+}
+
+a:hover {
+    color: var(--sge-color-link-hover);
+}
+
+/* Text selection — readable on both schemes. */
+::selection {
+    background-color: color-mix(in oklch, var(--sge-color-primary) 30%, transparent);
+    color: inherit;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--sge-color-border);
+    margin-block: var(--sge-space-6);
+}
+
+/* Thin, theme-aware scrollbars (WebKit + Firefox). */
+::-webkit-scrollbar {
+    width: 0.3125rem;
+    height: 0.3125rem;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sge-color-border);
+    border-radius: 0.3125rem;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sge-color-border) transparent;
+}

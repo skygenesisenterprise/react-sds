@@ -1,0 +1,187 @@
+/**
+ * SDS typography primitives.
+ *
+ * Part of the official SGE Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css` and by each typography component. These classes
+ * are emitted by <SDSHeading />, <SDSText />, <SDSLead /> and <SDSLink /> so an
+ * application never has to write font-size / line-height / weight / margin / color
+ * for standard editorial type.
+ *
+ * `data-*` attributes drive the variations: `data-size` (heading scale / text size),
+ * `data-weight`, `data-color`, `data-margin`, `data-align`, `data-variant` (link).
+ */
+
+/* ---- SDSHeading ----------------------------------------------------------- */
+
+.sds-heading {
+    margin: 0;
+    font-family: var(--sge-font-family-heading);
+    color: var(--sge-color-text);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+}
+
+/* Heading scale follows the element level by default, overridable with data-size. */
+.sds-heading[data-size="1"],
+.sds-heading[data-level="1"] {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+.sds-heading[data-size="2"],
+.sds-heading[data-level="2"] {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+}
+.sds-heading[data-size="3"],
+.sds-heading[data-level="3"] {
+    font-size: clamp(1.375rem, 3vw, 1.625rem);
+}
+.sds-heading[data-size="4"],
+.sds-heading[data-level="4"] {
+    font-size: var(--sge-font-size-xl);
+}
+.sds-heading[data-size="5"],
+.sds-heading[data-level="5"] {
+    font-size: var(--sge-font-size-lg);
+}
+.sds-heading[data-size="6"],
+.sds-heading[data-level="6"] {
+    font-size: var(--sge-font-size-md);
+}
+
+/* ---- SDSText -------------------------------------------------------------- */
+
+.sds-text {
+    margin: 0;
+    font-family: var(--sge-font-family-base);
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-body);
+    color: var(--sge-color-text);
+}
+
+.sds-text[data-size="xs"] {
+    font-size: var(--sge-font-size-xs);
+}
+.sds-text[data-size="sm"] {
+    font-size: var(--sge-font-size-sm);
+}
+.sds-text[data-size="md"] {
+    font-size: var(--sge-font-size-md);
+}
+.sds-text[data-size="lg"] {
+    font-size: var(--sge-font-size-lg);
+}
+.sds-text[data-size="xl"] {
+    font-size: var(--sge-font-size-xl);
+}
+
+.sds-text[data-weight="regular"] {
+    font-weight: var(--sge-font-weight-regular);
+}
+.sds-text[data-weight="medium"] {
+    font-weight: var(--sge-font-weight-medium);
+}
+.sds-text[data-weight="semibold"] {
+    font-weight: var(--sge-font-weight-semibold);
+}
+.sds-text[data-weight="bold"] {
+    font-weight: var(--sge-font-weight-bold);
+}
+
+.sds-text[data-color="default"] {
+    color: var(--sge-color-text);
+}
+.sds-text[data-color="muted"] {
+    color: var(--sge-color-text-muted);
+}
+.sds-text[data-color="primary"] {
+    color: var(--sge-color-primary);
+}
+
+.sds-text[data-margin="none"] {
+    margin: 0;
+}
+.sds-text[data-margin="top"] {
+    margin-top: var(--sge-space-3);
+}
+.sds-text[data-margin="bottom"] {
+    margin-bottom: var(--sge-space-3);
+}
+.sds-text[data-margin="both"] {
+    margin-block: var(--sge-space-3);
+}
+
+.sds-text[data-align="start"] {
+    text-align: start;
+}
+.sds-text[data-align="center"] {
+    text-align: center;
+}
+.sds-text[data-align="end"] {
+    text-align: end;
+}
+
+/* ---- SDSLead -------------------------------------------------------------- */
+
+.sds-lead {
+    margin: 0 0 var(--sge-space-5);
+    max-width: 52rem;
+    font-family: var(--sge-font-family-base);
+    font-size: var(--sge-font-size-lg);
+    line-height: var(--sge-line-height-relaxed);
+    font-weight: var(--sge-font-weight-regular);
+    color: var(--sge-color-text-muted);
+}
+
+/* ---- SDSLink -------------------------------------------------------------- */
+
+.sds-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sge-space-2);
+    font-family: var(--sge-font-family-base);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    color: var(--sge-color-link);
+    transition: color var(--sge-duration-normal) var(--sge-easing-standard);
+}
+
+.sds-link:hover {
+    color: var(--sge-color-link-hover);
+    text-decoration-thickness: 0.1em;
+}
+
+.sds-link:focus-visible {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+    border-radius: var(--sge-radius-sm);
+}
+
+.sds-link[data-variant="muted"] {
+    color: var(--sge-color-text-muted);
+    text-decoration: none;
+}
+.sds-link[data-variant="muted"]:hover {
+    color: var(--sge-color-text);
+    text-decoration: underline;
+}
+
+/* Standalone call-to-action link (icon + arrow), used by content teasers. */
+.sds-link--action {
+    font-weight: var(--sge-font-weight-semibold);
+}
+
+.sds-link--action i {
+    font-size: 0.9em;
+    transition: transform var(--sge-duration-normal) var(--sge-easing-standard);
+}
+
+.sds-link--action:hover i {
+    transform: translateX(0.2em);
+}
+
+/* Disabled state. */
+.sds-link[aria-disabled="true"] {
+    color: var(--sge-color-disabled);
+    pointer-events: none;
+    text-decoration: none;
+}

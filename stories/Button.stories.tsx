@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Button },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Button.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Button.tsx)`,
     "argTypes": {
         "priority": {
             "options": (() => {

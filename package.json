@@ -1,14 +1,14 @@
 {
-    "name": "@codegouvaor/react-ads",
+    "name": "@skygenesisenterprise/react-sds",
     "version": "1.1.0",
     "packageManager": "pnpm@11.21.0",
-    "description": "Official React implementation of the Astoria Design System (ADS), the design system for the digital ecosystem of the Republic of Astoria.",
+    "description": "The SGE Design system React toolkit.",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/codegouvaor/react-ads.git"
+        "url": "git+https://github.com/skygenesisenterprise/react-sds.git"
     },
     "bugs": {
-        "url": "https://github.com/codegouvaor/react-ads/issues"
+        "url": "https://github.com/skygenesisenterprise/react-sds/issues"
     },
     "scripts": {
         "prepare": "patch-package",
@@ -28,11 +28,11 @@
         "format:check": "pnpm _format --list-different",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "prestorybook": "pnpm build && node dist/bin/react-ads optimize-css",
+        "prestorybook": "pnpm build && node dist/bin/react-sds optimize-css",
         "prebuild-storybook": "pnpm prestorybook"
     },
     "bin": {
-        "react-ads": "dist/bin/react-ads.js",
+        "react-sds": "dist/bin/react-sds.js",
         "copy-dsfr-to-public": "dist/bin/copy-dsfr-to-public.js",
         "only-include-used-icons": "dist/bin/only-include-used-icons.js"
     },
@@ -50,10 +50,10 @@
         }
     },
     "author": {
-        "name": "Government of the Republic of Astoria"
+        "name": "Sky Genesis Enterprise"
     },
     "license": "MIT",
-    "funding": "https://github.com/codegouvaor/react-ads",
+    "funding": "https://github.com/skygenesisenterprise/react-sds",
     "files": [
         "src/",
         "dist/",
@@ -62,8 +62,8 @@
         "dsfr/"
     ],
     "keywords": [
-        "astoria design system",
-        "ads",
+        "sge design system",
+        "sds",
         "design system",
         "react",
         "react native",
@@ -73,9 +73,9 @@
         "typescript",
         "accessibility",
         "wcag",
-        "government"
+        "design-system"
     ],
-    "homepage": "https://github.com/codegouvaor/react-ads#readme",
+    "homepage": "https://github.com/skygenesisenterprise/react-sds#readme",
     "dependencies": {
         "tsafe": "^1.8.5",
         "yargs-parser": "^21.1.1"
@@ -443,165 +443,165 @@
             "types": "./dist/Upload.d.ts",
             "default": "./dist/Upload.js"
         },
-        "./ads": {
-            "types": "./dist/ads/index.d.ts",
-            "default": "./dist/ads/index.js"
+        "./sds": {
+            "types": "./dist/sds/index.d.ts",
+            "default": "./dist/sds/index.js"
         },
-        "./ads/content": {
-            "types": "./dist/ads/content/index.d.ts",
-            "default": "./dist/ads/content/index.js"
+        "./sds/content": {
+            "types": "./dist/sds/content/index.d.ts",
+            "default": "./dist/sds/content/index.js"
         },
-        "./ads/content/ADSArticleCard": {
-            "types": "./dist/ads/content/ADSArticleCard.d.ts",
-            "default": "./dist/ads/content/ADSArticleCard.js"
+        "./sds/content/SDSArticleCard": {
+            "types": "./dist/sds/content/SDSArticleCard.d.ts",
+            "default": "./dist/sds/content/SDSArticleCard.js"
         },
-        "./ads/content/ADSCard": {
-            "types": "./dist/ads/content/ADSCard.d.ts",
-            "default": "./dist/ads/content/ADSCard.js"
+        "./sds/content/SDSCard": {
+            "types": "./dist/sds/content/SDSCard.d.ts",
+            "default": "./dist/sds/content/SDSCard.js"
         },
-        "./ads/content/ADSDocument": {
-            "types": "./dist/ads/content/ADSDocument.d.ts",
-            "default": "./dist/ads/content/ADSDocument.js"
+        "./sds/content/SDSDocument": {
+            "types": "./dist/sds/content/SDSDocument.d.ts",
+            "default": "./dist/sds/content/SDSDocument.js"
         },
-        "./ads/content/ADSDownload": {
-            "types": "./dist/ads/content/ADSDownload.d.ts",
-            "default": "./dist/ads/content/ADSDownload.js"
+        "./sds/content/SDSDownload": {
+            "types": "./dist/sds/content/SDSDownload.d.ts",
+            "default": "./dist/sds/content/SDSDownload.js"
         },
-        "./ads/content/ADSEvent": {
-            "types": "./dist/ads/content/ADSEvent.d.ts",
-            "default": "./dist/ads/content/ADSEvent.js"
+        "./sds/content/SDSEvent": {
+            "types": "./dist/sds/content/SDSEvent.d.ts",
+            "default": "./dist/sds/content/SDSEvent.js"
         },
-        "./ads/content/ADSLinkList": {
-            "types": "./dist/ads/content/ADSLinkList.d.ts",
-            "default": "./dist/ads/content/ADSLinkList.js"
+        "./sds/content/SDSLinkList": {
+            "types": "./dist/sds/content/SDSLinkList.d.ts",
+            "default": "./dist/sds/content/SDSLinkList.js"
         },
-        "./ads/content/ADSMeetingCard": {
-            "types": "./dist/ads/content/ADSMeetingCard.d.ts",
-            "default": "./dist/ads/content/ADSMeetingCard.js"
+        "./sds/content/SDSMeetingCard": {
+            "types": "./dist/sds/content/SDSMeetingCard.d.ts",
+            "default": "./dist/sds/content/SDSMeetingCard.js"
         },
-        "./ads/content/ADSNewsList": {
-            "types": "./dist/ads/content/ADSNewsList.d.ts",
-            "default": "./dist/ads/content/ADSNewsList.js"
+        "./sds/content/SDSNewsList": {
+            "types": "./dist/sds/content/SDSNewsList.d.ts",
+            "default": "./dist/sds/content/SDSNewsList.js"
         },
-        "./ads/content/ADSTeaserCard": {
-            "types": "./dist/ads/content/ADSTeaserCard.d.ts",
-            "default": "./dist/ads/content/ADSTeaserCard.js"
+        "./sds/content/SDSTeaserCard": {
+            "types": "./dist/sds/content/SDSTeaserCard.d.ts",
+            "default": "./dist/sds/content/SDSTeaserCard.js"
         },
-        "./ads/layout": {
-            "types": "./dist/ads/layout/index.d.ts",
-            "default": "./dist/ads/layout/index.js"
+        "./sds/layout": {
+            "types": "./dist/sds/layout/index.d.ts",
+            "default": "./dist/sds/layout/index.js"
         },
-        "./ads/layout/ADSColumns": {
-            "types": "./dist/ads/layout/ADSColumns.d.ts",
-            "default": "./dist/ads/layout/ADSColumns.js"
+        "./sds/layout/SDSColumns": {
+            "types": "./dist/sds/layout/SDSColumns.d.ts",
+            "default": "./dist/sds/layout/SDSColumns.js"
         },
-        "./ads/layout/ADSContainer": {
-            "types": "./dist/ads/layout/ADSContainer.d.ts",
-            "default": "./dist/ads/layout/ADSContainer.js"
+        "./sds/layout/SDSContainer": {
+            "types": "./dist/sds/layout/SDSContainer.d.ts",
+            "default": "./dist/sds/layout/SDSContainer.js"
         },
-        "./ads/layout/ADSGrid": {
-            "types": "./dist/ads/layout/ADSGrid.d.ts",
-            "default": "./dist/ads/layout/ADSGrid.js"
+        "./sds/layout/SDSGrid": {
+            "types": "./dist/sds/layout/SDSGrid.d.ts",
+            "default": "./dist/sds/layout/SDSGrid.js"
         },
-        "./ads/layout/ADSMain": {
-            "types": "./dist/ads/layout/ADSMain.d.ts",
-            "default": "./dist/ads/layout/ADSMain.js"
+        "./sds/layout/SDSMain": {
+            "types": "./dist/sds/layout/SDSMain.d.ts",
+            "default": "./dist/sds/layout/SDSMain.js"
         },
-        "./ads/layout/ADSPage": {
-            "types": "./dist/ads/layout/ADSPage.d.ts",
-            "default": "./dist/ads/layout/ADSPage.js"
+        "./sds/layout/SDSPage": {
+            "types": "./dist/sds/layout/SDSPage.d.ts",
+            "default": "./dist/sds/layout/SDSPage.js"
         },
-        "./ads/layout/ADSSection": {
-            "types": "./dist/ads/layout/ADSSection.d.ts",
-            "default": "./dist/ads/layout/ADSSection.js"
+        "./sds/layout/SDSSection": {
+            "types": "./dist/sds/layout/SDSSection.d.ts",
+            "default": "./dist/sds/layout/SDSSection.js"
         },
-        "./ads/layout/ADSStack": {
-            "types": "./dist/ads/layout/ADSStack.d.ts",
-            "default": "./dist/ads/layout/ADSStack.js"
+        "./sds/layout/SDSStack": {
+            "types": "./dist/sds/layout/SDSStack.d.ts",
+            "default": "./dist/sds/layout/SDSStack.js"
         },
-        "./ads/portal": {
-            "types": "./dist/ads/portal/index.d.ts",
-            "default": "./dist/ads/portal/index.js"
+        "./sds/portal": {
+            "types": "./dist/sds/portal/index.d.ts",
+            "default": "./dist/sds/portal/index.js"
         },
-        "./ads/portal/ADSBreadcrumb": {
-            "types": "./dist/ads/portal/ADSBreadcrumb.d.ts",
-            "default": "./dist/ads/portal/ADSBreadcrumb.js"
+        "./sds/portal/SDSBreadcrumb": {
+            "types": "./dist/sds/portal/SDSBreadcrumb.d.ts",
+            "default": "./dist/sds/portal/SDSBreadcrumb.js"
         },
-        "./ads/portal/ADSGovernmentFooter": {
-            "types": "./dist/ads/portal/ADSGovernmentFooter.d.ts",
-            "default": "./dist/ads/portal/ADSGovernmentFooter.js"
+        "./sds/portal/SDSGovernmentFooter": {
+            "types": "./dist/sds/portal/SDSGovernmentFooter.d.ts",
+            "default": "./dist/sds/portal/SDSGovernmentFooter.js"
         },
-        "./ads/portal/ADSGovernmentHeader": {
-            "types": "./dist/ads/portal/ADSGovernmentHeader.d.ts",
-            "default": "./dist/ads/portal/ADSGovernmentHeader.js"
+        "./sds/portal/SDSGovernmentHeader": {
+            "types": "./dist/sds/portal/SDSGovernmentHeader.d.ts",
+            "default": "./dist/sds/portal/SDSGovernmentHeader.js"
         },
-        "./ads/portal/ADSHero": {
-            "types": "./dist/ads/portal/ADSHero.d.ts",
-            "default": "./dist/ads/portal/ADSHero.js"
+        "./sds/portal/SDSHero": {
+            "types": "./dist/sds/portal/SDSHero.d.ts",
+            "default": "./dist/sds/portal/SDSHero.js"
         },
-        "./ads/portal/ADSMegaMenu": {
-            "types": "./dist/ads/portal/ADSMegaMenu.d.ts",
-            "default": "./dist/ads/portal/ADSMegaMenu.js"
+        "./sds/portal/SDSMegaMenu": {
+            "types": "./dist/sds/portal/SDSMegaMenu.d.ts",
+            "default": "./dist/sds/portal/SDSMegaMenu.js"
         },
-        "./ads/portal/ADSMinistryHeader": {
-            "types": "./dist/ads/portal/ADSMinistryHeader.d.ts",
-            "default": "./dist/ads/portal/ADSMinistryHeader.js"
+        "./sds/portal/SDSMinistryHeader": {
+            "types": "./dist/sds/portal/SDSMinistryHeader.d.ts",
+            "default": "./dist/sds/portal/SDSMinistryHeader.js"
         },
-        "./ads/portal/ADSNavigation": {
-            "types": "./dist/ads/portal/ADSNavigation.d.ts",
-            "default": "./dist/ads/portal/ADSNavigation.js"
+        "./sds/portal/SDSNavigation": {
+            "types": "./dist/sds/portal/SDSNavigation.d.ts",
+            "default": "./dist/sds/portal/SDSNavigation.js"
         },
-        "./ads/portal/ADSOfficialNotice": {
-            "types": "./dist/ads/portal/ADSOfficialNotice.d.ts",
-            "default": "./dist/ads/portal/ADSOfficialNotice.js"
+        "./sds/portal/SDSOfficialNotice": {
+            "types": "./dist/sds/portal/SDSOfficialNotice.d.ts",
+            "default": "./dist/sds/portal/SDSOfficialNotice.js"
         },
-        "./ads/portal/ADSPagination": {
-            "types": "./dist/ads/portal/ADSPagination.d.ts",
-            "default": "./dist/ads/portal/ADSPagination.js"
+        "./sds/portal/SDSPagination": {
+            "types": "./dist/sds/portal/SDSPagination.d.ts",
+            "default": "./dist/sds/portal/SDSPagination.js"
         },
-        "./ads/portal/ADSPortal": {
-            "types": "./dist/ads/portal/ADSPortal.d.ts",
-            "default": "./dist/ads/portal/ADSPortal.js"
+        "./sds/portal/SDSPortal": {
+            "types": "./dist/sds/portal/SDSPortal.d.ts",
+            "default": "./dist/sds/portal/SDSPortal.js"
         },
-        "./ads/portal/ADSSearch": {
-            "types": "./dist/ads/portal/ADSSearch.d.ts",
-            "default": "./dist/ads/portal/ADSSearch.js"
+        "./sds/portal/SDSSearch": {
+            "types": "./dist/sds/portal/SDSSearch.d.ts",
+            "default": "./dist/sds/portal/SDSSearch.js"
         },
-        "./ads/portal/ADSServiceBanner": {
-            "types": "./dist/ads/portal/ADSServiceBanner.d.ts",
-            "default": "./dist/ads/portal/ADSServiceBanner.js"
+        "./sds/portal/SDSServiceBanner": {
+            "types": "./dist/sds/portal/SDSServiceBanner.d.ts",
+            "default": "./dist/sds/portal/SDSServiceBanner.js"
         },
-        "./ads/portal/context": {
-            "types": "./dist/ads/portal/context.d.ts",
-            "default": "./dist/ads/portal/context.js"
+        "./sds/portal/context": {
+            "types": "./dist/sds/portal/context.d.ts",
+            "default": "./dist/sds/portal/context.js"
         },
-        "./ads/tokens": {
-            "types": "./dist/ads/tokens.d.ts",
-            "default": "./dist/ads/tokens.js"
+        "./sds/tokens": {
+            "types": "./dist/sds/tokens.d.ts",
+            "default": "./dist/sds/tokens.js"
         },
-        "./ads/typography": {
-            "types": "./dist/ads/typography/index.d.ts",
-            "default": "./dist/ads/typography/index.js"
+        "./sds/typography": {
+            "types": "./dist/sds/typography/index.d.ts",
+            "default": "./dist/sds/typography/index.js"
         },
-        "./ads/typography/ADSHeading": {
-            "types": "./dist/ads/typography/ADSHeading.d.ts",
-            "default": "./dist/ads/typography/ADSHeading.js"
+        "./sds/typography/SDSHeading": {
+            "types": "./dist/sds/typography/SDSHeading.d.ts",
+            "default": "./dist/sds/typography/SDSHeading.js"
         },
-        "./ads/typography/ADSLead": {
-            "types": "./dist/ads/typography/ADSLead.d.ts",
-            "default": "./dist/ads/typography/ADSLead.js"
+        "./sds/typography/SDSLead": {
+            "types": "./dist/sds/typography/SDSLead.d.ts",
+            "default": "./dist/sds/typography/SDSLead.js"
         },
-        "./ads/typography/ADSLink": {
-            "types": "./dist/ads/typography/ADSLink.d.ts",
-            "default": "./dist/ads/typography/ADSLink.js"
+        "./sds/typography/SDSLink": {
+            "types": "./dist/sds/typography/SDSLink.d.ts",
+            "default": "./dist/sds/typography/SDSLink.js"
         },
-        "./ads/typography/ADSText": {
-            "types": "./dist/ads/typography/ADSText.d.ts",
-            "default": "./dist/ads/typography/ADSText.js"
+        "./sds/typography/SDSText": {
+            "types": "./dist/sds/typography/SDSText.d.ts",
+            "default": "./dist/sds/typography/SDSText.js"
         },
-        "./assets/ads/tokens.css": "./dist/assets/ads/tokens.css",
-        "./assets/astoria-gouv.png": "./dist/assets/astoria-gouv.png",
-        "./assets/astoria-identity.css": "./dist/assets/astoria-identity.css",
+        "./assets/sds/tokens.css": "./dist/assets/sds/tokens.css",
+        "./assets/sge-identity.svg": "./dist/assets/sge-identity.svg",
+        "./assets/sge-identity.css": "./dist/assets/sge-identity.css",
         "./assets/blank-favicon.svg": "./dist/assets/blank-favicon.svg",
         "./assets/dsfr_plus_icons.css": "./dist/assets/dsfr_plus_icons.css",
         "./assets/dsfr_plus_icons.scss": "./dist/assets/dsfr_plus_icons.scss",
@@ -935,17 +935,17 @@
             "types": "./dist/native/theme/index.d.ts",
             "default": "./dist/native/theme/index.js"
         },
-        "./native/theme/ADSProvider": {
-            "types": "./dist/native/theme/ADSProvider.d.ts",
-            "default": "./dist/native/theme/ADSProvider.js"
+        "./native/theme/SDSProvider": {
+            "types": "./dist/native/theme/SDSProvider.d.ts",
+            "default": "./dist/native/theme/SDSProvider.js"
         },
         "./native/theme/context": {
             "types": "./dist/native/theme/context.d.ts",
             "default": "./dist/native/theme/context.js"
         },
-        "./native/theme/useADSTheme": {
-            "types": "./dist/native/theme/useADSTheme.d.ts",
-            "default": "./dist/native/theme/useADSTheme.js"
+        "./native/theme/useSDSTheme": {
+            "types": "./dist/native/theme/useSDSTheme.d.ts",
+            "default": "./dist/native/theme/useSDSTheme.js"
         },
         "./native/tokens": {
             "types": "./dist/native/tokens/index.d.ts",
@@ -1445,11 +1445,11 @@
         },
         "./styles/accessibility.css": "./dist/styles/accessibility.css",
         "./styles/base.css": "./dist/styles/base.css",
-        "./styles/components/ads-card.css": "./dist/styles/components/ads-card.css",
-        "./styles/components/ads-layout.css": "./dist/styles/components/ads-layout.css",
-        "./styles/components/ads-portal.css": "./dist/styles/components/ads-portal.css",
-        "./styles/components/ads-search.css": "./dist/styles/components/ads-search.css",
-        "./styles/components/ads-typography.css": "./dist/styles/components/ads-typography.css",
+        "./styles/components/sds-card.css": "./dist/styles/components/sds-card.css",
+        "./styles/components/sds-layout.css": "./dist/styles/components/sds-layout.css",
+        "./styles/components/sds-portal.css": "./dist/styles/components/sds-portal.css",
+        "./styles/components/sds-search.css": "./dist/styles/components/sds-search.css",
+        "./styles/components/sds-typography.css": "./dist/styles/components/sds-typography.css",
         "./styles/components/back-to-top.css": "./dist/styles/components/back-to-top.css",
         "./styles/components/form.css": "./dist/styles/components/form.css",
         "./styles/components/header.css": "./dist/styles/components/header.css",

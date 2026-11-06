@@ -1,51 +1,14 @@
 /**
- * ADS themes — color scheme handling.
+ * Legacy themes entry point.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. Semantic `--ads-*` tokens switch automatically
- * with the active theme.
+ * Kept for compatibility with applications that imported:
  *
- * Supported conventions (both are equivalent and both are honored):
+ *     import "@skygenesisenterprise/react-sds/styles/themes.css";
  *
- *   - `.dark` class on `<html>` (next-themes / Tailwind dark-variant convention),
- *   - `[data-fr-theme="dark"]` attribute on `<html>` (set by the ADS runtime — the
- *     `Display` dialog exposes light / dark / system through it).
+ * The canonical dark theme is `./themes/dark.css`. Import both `./tokens.css`
+ * and this file exactly as before, or prefer the complete entry point:
  *
- * ```html
- * <html class="dark">              <!-- or -->  <html data-fr-theme="dark">
- * ```
- *
- * `system` is resolved by the runtime (`startReactDsfr`, the SSR "early color
- * scheme" helpers): it watches `prefers-color-scheme` and writes the resolved
- * theme in `data-fr-theme` on `<html>`. Applications that do not use the runtime
- * default to the light scheme unless they toggle `.dark` / `data-fr-theme`
- * themselves. No JavaScript is required for the tokens to switch.
+ *     import "@skygenesisenterprise/react-sds/styles";
  */
 
-.dark,
-[data-fr-theme="dark"] {
-    color-scheme: dark;
-
-    /* Colors — dark scheme */
-    --ads-color-primary: oklch(0.6686 0.1641 281);
-    --ads-color-secondary: oklch(0.235 0 0);
-    --ads-color-accent: oklch(0.235 0 0);
-    --ads-color-success: #2f9e63;
-    --ads-color-warning: #e57b00;
-    --ads-color-danger: oklch(0.682 0.1922 23);
-    --ads-color-info: #5b9bf5;
-    --ads-color-background: oklch(0.2002 0 0);
-    --ads-color-foreground: oklch(0.8514 0 0);
-    --ads-color-surface: oklch(0.235 0 0);
-    --ads-color-surface-muted: oklch(0.235 0 0);
-    --ads-color-text: oklch(0.8514 0 0);
-    --ads-color-text-muted: oklch(0.66 0 0);
-    --ads-color-border: oklch(0.329 0 0);
-    --ads-color-input: oklch(0.329 0 0);
-    --ads-color-ring: oklch(0.6686 0.1641 281);
-    --ads-color-focus: oklch(0.6686 0.1641 281);
-    --ads-color-link: oklch(0.6686 0.1641 281);
-    --ads-color-link-hover: oklch(0.78 0.12 264);
-    --ads-color-on-primary: oklch(0.2002 0 0);
-    --ads-color-disabled: oklch(0.45 0 0);
-}
+@import url("./themes/dark.css");

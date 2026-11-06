@@ -344,7 +344,7 @@ const FollowSocial = (
     );
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-follow> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-follow> */
 export const Follow = memo(
     forwardRef<HTMLDivElement, FollowProps>((props, ref) => {
         const { id: props_id, className, classes = {}, social, style, newsletter, ...rest } = props;

@@ -57,7 +57,7 @@ export namespace MainNavigationProps {
             linkProps?: never;
             menuLinks: MenuProps.Link[];
             megaMenu?: never;
-            /** @see <https://github.com/codegouvaor/react-ads/issues/38> */
+            /** @see <https://github.com/skygenesisenterprise/react-sds/issues/38> */
             buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
         };
 
@@ -68,7 +68,7 @@ export namespace MainNavigationProps {
                 leader?: MegaMenuProps.Leader;
                 categories: MegaMenuProps.Category[];
             };
-            /** @see <https://github.com/codegouvaor/react-ads/issues/38> */
+            /** @see <https://github.com/skygenesisenterprise/react-sds/issues/38> */
             buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
         };
     }

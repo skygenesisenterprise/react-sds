@@ -1,11 +1,11 @@
 /**
- * ADS Native `IconButton`.
+ * SDS Native `IconButton`.
  */
 
 import * as React from "react";
 import { Pressable } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Icon } from "../primitives";
 
 export type IconButtonProps = {
@@ -36,7 +36,7 @@ export function IconButton(props: IconButtonProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const iconSize = size ?? tokens.dimensions.iconMd;
     const target = tokens.dimensions.touchTarget;

@@ -1,65 +1,8 @@
 /**
- * ADS base — coherent defaults for the page.
+ * Legacy base entry point.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`. Everything is token-driven (`var(--ads-*)`,
- * see `tokens.css` / `themes.css`) so a government application does not need to
- * restyle `html`, `body`, links or text selection itself.
+ * Kept for compatibility with `@skygenesisenterprise/react-sds/styles/base.css`.
+ * The canonical file is `./base/global.css`.
  */
 
-html {
-    background-color: var(--ads-color-background);
-    color: var(--ads-color-foreground);
-    /* `color-scheme` is declared in tokens.css (:root) and themes.css (dark). */
-}
-
-body {
-    min-height: 100vh;
-    margin: 0;
-    font-family: var(--ads-font-family-base);
-    font-size: var(--ads-font-size-md);
-    font-weight: var(--ads-font-weight-regular);
-    line-height: var(--ads-line-height-body);
-    color: var(--ads-color-text);
-    background-color: var(--ads-color-background);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
-/* Headings: inherit the family and color but keep predictable weight/size —
-   the scale is defined in typography.css. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--ads-font-family-heading);
-    color: var(--ads-color-text);
-}
-
-/* Links. */
-a {
-    color: var(--ads-color-link);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.15em;
-    border-radius: var(--ads-radius-small);
-}
-
-a:hover {
-    color: var(--ads-color-link-hover);
-}
-
-/* Text selection — readable on both schemes. */
-::selection {
-    background-color: var(--ads-color-primary);
-    color: var(--ads-color-on-primary);
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid var(--ads-color-border);
-    margin-block: var(--ads-space-6);
-}
+@import url("./base/global.css");

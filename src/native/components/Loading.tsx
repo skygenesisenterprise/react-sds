@@ -1,11 +1,11 @@
 /**
- * ADS Native `Loading` (activity indicator).
+ * SDS Native `Loading` (activity indicator).
  */
 
 import * as React from "react";
 import { View, ActivityIndicator, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type LoadingProps = {
     /** Optional text shown next to / below the spinner. */
@@ -20,7 +20,7 @@ export type LoadingProps = {
 export function Loading(props: LoadingProps) {
     const { label, size = "large", color, style, testID } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const spinnerSize = size === "large" ? "large" : "small";
 

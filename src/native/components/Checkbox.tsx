@@ -1,11 +1,11 @@
 /**
- * ADS Native `Checkbox`.
+ * SDS Native `Checkbox`.
  */
 
 import * as React from "react";
 import { Pressable, View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type CheckboxProps = {
     checked: boolean;
@@ -30,7 +30,7 @@ export function Checkbox(props: CheckboxProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled === true;
 

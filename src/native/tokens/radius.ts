@@ -1,8 +1,8 @@
 /**
- * ADS Native radius tokens (points).
+ * SDS Native radius tokens (points).
  */
 
-export type ADSRadiusTokens = {
+export type SDSRadiusTokens = {
     none: number;
     sm: number;
     md: number;
@@ -11,7 +11,7 @@ export type ADSRadiusTokens = {
     full: number;
 };
 
-export const adsRadius: ADSRadiusTokens = {
+export const sdsRadius: SDSRadiusTokens = {
     none: 0,
     sm: 6,
     md: 8,

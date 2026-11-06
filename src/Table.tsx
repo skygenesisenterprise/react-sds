@@ -38,7 +38,7 @@ export namespace TableProps {
     export type ColorVariant = ExtractColorVariant<FrClassName>;
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/tableau>  */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/tableau>  */
 export const Table = memo(
     forwardRef<HTMLDivElement, TableProps>((props, ref) => {
         const {

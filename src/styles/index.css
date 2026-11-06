@@ -1,0 +1,54 @@
+/**
+ * @skygenesisenterprise/react-sds/styles — the institutional CSS foundation of
+ * Sky Genesis Enterprise.
+ *
+ * This is the framework-independent entry point: plain CSS, no Tailwind, no
+ * `@apply`, no build step required. Import it once from your application:
+ *
+ *     import "@skygenesisenterprise/react-sds/styles";
+ *
+ * It loads, in order:
+ *
+ *   1. foundation — palette, typography, spacing, radius, shadows, motion
+ *   2. themes     — light (default) and dark semantic tokens
+ *   3. base       — reset, global defaults, typography scale, accessibility
+ *   4. layout     — generic page-shell primitives
+ *   5. components — shared component styles
+ *   6. utilities  — the few system-wide helpers
+ *
+ * The legacy `main.css` entry additionally loads the DSFR `fr-*` stylesheet
+ * used by the historic components. New applications can depend on this file
+ * alone for the SGE identity.
+ */
+
+/* 1. Foundation (theme-independent tokens). */
+@import url("./foundation/tokens.css");
+
+/* 2. Themes (light is the default, dark is opt-in). */
+@import url("./themes/light.css");
+@import url("./themes/dark.css");
+
+/* 3. Base. */
+@import url("./base/reset.css");
+@import url("./base/global.css");
+@import url("./base/typography.css");
+@import url("./base/accessibility.css");
+
+/* 4. Layout primitives. */
+@import url("./layout.css");
+
+/* 5. Shared component styles. */
+@import url("./components/header.css");
+@import url("./components/form.css");
+@import url("./components/table.css");
+@import url("./components/prose.css");
+@import url("./components/back-to-top.css");
+@import url("./components/sds-layout.css");
+@import url("./components/sds-typography.css");
+@import url("./components/sds-card.css");
+@import url("./components/sds-portal.css");
+@import url("./components/sds-search.css");
+
+/* 6. Utilities. */
+@import url("./utilities/index.css");
+

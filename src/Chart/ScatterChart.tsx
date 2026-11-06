@@ -33,7 +33,7 @@ type ScatterChartBaseProps = {
 
 export type ScatterChartProps = ScatterChartBaseProps & BaseChartProps;
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/charts-radarchart> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/charts-radarchart> */
 export const ScatterChart = chartWrapper(
     (props: ScatterChartBaseProps) => <scatter-chart {...stringifyObjectValue(props)} />,
     "scatter-chart"

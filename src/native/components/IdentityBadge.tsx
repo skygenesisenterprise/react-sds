@@ -1,14 +1,14 @@
 /**
- * ADS Native `IdentityBadge` — compact identity / trust label.
+ * SDS Native `IdentityBadge` — compact identity / trust label.
  *
- * Generic across government apps: renders a short label with an optional leading
- * icon. No MyGouv-specific logic.
+ * Generic across applications: renders a short label with an optional leading
+ * icon. No product-specific logic.
  */
 
 import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Icon } from "../primitives";
 
 export type IdentityBadgeProps = {
@@ -22,7 +22,7 @@ export type IdentityBadgeProps = {
 export function IdentityBadge(props: IdentityBadgeProps) {
     const { children, icon, accessibilityLabel, style, testID } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <View

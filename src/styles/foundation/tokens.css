@@ -1,0 +1,17 @@
+/**
+ * SGE foundation — the aggregate entry for institutional tokens.
+ *
+ * Imports every theme-independent foundation layer. Import this file when you
+ * need the raw tokens without the base styles, or import `../index.css` for the
+ * complete foundation (tokens + themes + base + utilities).
+ *
+ * The `--sge-*` namespace is the canonical, institutional namespace. Themes
+ * are opt-in through the `themes/` entry points.
+ */
+
+@import url("./colors.css");
+@import url("./typography.css");
+@import url("./spacing.css");
+@import url("./radius.css");
+@import url("./shadows.css");
+@import url("./motion.css");

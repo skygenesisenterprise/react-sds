@@ -1,11 +1,11 @@
 /**
- * ADS Native `Container` layout primitive (max-width + horizontal gutters).
+ * SDS Native `Container` layout primitive (max-width + horizontal gutters).
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { ViewProps, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type ContainerProps = ViewProps & {
     /** Horizontal gutter. Default "md" spacing step. */
@@ -17,7 +17,7 @@ export type ContainerProps = ViewProps & {
 export function Container(props: ContainerProps) {
     const { gutter = "md", children, style, ...rest } = props;
 
-    const { tokens } = useADSTheme();
+    const { tokens } = useSDSTheme();
 
     const containerStyle: ViewStyle = {
         width: "100%",

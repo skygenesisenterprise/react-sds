@@ -1,14 +1,14 @@
 /**
- * ADS Native color tokens.
+ * SDS Native color tokens.
  *
- * Same semantic contract as the web ADS tokens (`src/ads/tokens.ts`) but with
+ * Same semantic contract as the web SDS tokens (`src/sds/tokens.ts`) but with
  * concrete hex values consumable by React Native style objects. The semantic
- * meaning of each token is the contract; values follow the current Astoria
+ * meaning of each token is the contract; values follow the current Sky Genesis Enterprise
  * palette (provisional) and may be replaced by the official identity without
  * changing the structure.
  */
 
-export type ADSColorToken =
+export type SDSColorToken =
     | "background"
     | "foreground"
     | "surface"
@@ -33,57 +33,57 @@ export type ADSColorToken =
     | "text"
     | "textMuted";
 
-export type ADSColorTokens = Record<ADSColorToken, string>;
+export type SDSColorTokens = Record<SDSColorToken, string>;
 
-export const adsColors: ADSColorTokens = {
-    background: "#ffffff",
-    foreground: "#1c232b",
+export const sdsColors: SDSColorTokens = {
+    background: "#fcfcfc",
+    foreground: "#141414",
     surface: "#ffffff",
     surfaceMuted: "#f6f6f6",
-    primary: "#1b2f5c",
+    primary: "#514e39",
     secondary: "#f6f6f6",
-    accent: "#e1000f",
-    success: "#18753c",
-    warning: "#b34000",
-    danger: "#ce0500",
-    error: "#ce0500",
-    info: "#0063cb",
-    border: "#e5e5e5",
-    input: "#c9c9c9",
-    ring: "#1b2f5c",
-    focus: "#1b2f5c",
-    link: "#1b2f5c",
-    linkHover: "#152647",
+    accent: "#e8e3da",
+    success: "#1d7d3e",
+    warning: "#be7200",
+    danger: "#cf1f29",
+    error: "#cf1f29",
+    info: "#2a75ba",
+    border: "#dbdbdb",
+    input: "#dbdbdb",
+    ring: "#514e39",
+    focus: "#514e39",
+    link: "#514e39",
+    linkHover: "#363325",
     onPrimary: "#ffffff",
-    muted: "#666666",
-    disabled: "#9b9b9b",
-    text: "#1c232b",
-    textMuted: "#6a6a6a"
+    muted: "#f6f6f6",
+    disabled: "#9e9e9e",
+    text: "#141414",
+    textMuted: "#5c5a56"
 };
 
 /** Dark scheme (preliminary) — same semantic tokens, darker surfaces. */
-export const adsDarkColors: ADSColorTokens = {
-    background: "#12161c",
-    foreground: "#e8eaed",
-    surface: "#1c222b",
-    surfaceMuted: "#232a34",
-    primary: "#8fb0e8",
-    secondary: "#2a323d",
-    accent: "#ff6b6b",
-    success: "#4caf7d",
-    warning: "#ff9a5c",
-    danger: "#ff6b6b",
-    error: "#ff6b6b",
-    info: "#6db3f2",
-    border: "#333c48",
-    input: "#3b4552",
-    ring: "#8fb0e8",
-    focus: "#8fb0e8",
-    link: "#8fb0e8",
-    linkHover: "#a9c3ee",
-    onPrimary: "#12161c",
-    muted: "#a3aab3",
-    disabled: "#5c6470",
-    text: "#e8eaed",
-    textMuted: "#a3aab3"
+export const sdsDarkColors: SDSColorTokens = {
+    background: "#141414",
+    foreground: "#e8e3da",
+    surface: "#1c1c1c",
+    surfaceMuted: "#2a2a2a",
+    primary: "#d1cfc0",
+    secondary: "#222222",
+    accent: "#363636",
+    success: "#62c37a",
+    warning: "#f4a437",
+    danger: "#ef4444",
+    error: "#ef4444",
+    info: "#67aaed",
+    border: "#2c2c2c",
+    input: "#2c2c2c",
+    ring: "#d1cfc0",
+    focus: "#d1cfc0",
+    link: "#d1cfc0",
+    linkHover: "#e7e5d6",
+    onPrimary: "#363636",
+    muted: "#2a2a2a",
+    disabled: "#555555",
+    text: "#e8e3da",
+    textMuted: "#8e8a83"
 };

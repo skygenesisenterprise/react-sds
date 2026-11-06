@@ -1,0 +1,63 @@
+/**
+ * Tailwind-compatible aliases for the SGE foundation.
+ *
+ * This file is OPT-IN and is not imported by `styles/index.css`. Import it only
+ * when your application (or a third-party component) expects the conventional
+ * shadcn/Tailwind variable names (`--background`, `--primary`, …).
+ *
+ * The canonical source of truth remains the `--sge-*` namespace; these names
+ * are aliases and must never be used to define the identity.
+ */
+
+:root {
+    --background: var(--sge-color-background);
+    --foreground: var(--sge-color-foreground);
+
+    --card: var(--sge-color-card);
+    --card-foreground: var(--sge-color-card-foreground);
+    --popover: var(--sge-color-popover);
+    --popover-foreground: var(--sge-color-popover-foreground);
+
+    --primary: var(--sge-color-primary);
+    --primary-foreground: var(--sge-color-primary-foreground);
+    --secondary: var(--sge-color-secondary);
+    --secondary-foreground: var(--sge-color-secondary-foreground);
+
+    --muted: var(--sge-color-muted);
+    --muted-foreground: var(--sge-color-muted-foreground);
+    --accent: var(--sge-color-accent);
+    --accent-foreground: var(--sge-color-accent-foreground);
+
+    --destructive: var(--sge-color-destructive);
+    --destructive-foreground: var(--sge-color-destructive-foreground);
+
+    --border: var(--sge-color-border);
+    --input: var(--sge-color-input);
+    --ring: var(--sge-color-ring);
+
+    --chart-1: var(--sge-color-chart-1);
+    --chart-2: var(--sge-color-chart-2);
+    --chart-3: var(--sge-color-chart-3);
+    --chart-4: var(--sge-color-chart-4);
+    --chart-5: var(--sge-color-chart-5);
+
+    --overlay: var(--sge-color-overlay);
+
+    --radius: var(--sge-radius-default);
+    --tracking-normal: var(--sge-tracking-normal);
+
+    --shadow-2xs: var(--sge-shadow-2xs);
+    --shadow-xs: var(--sge-shadow-xs);
+    --shadow-sm: var(--sge-shadow-sm);
+    --shadow: var(--sge-shadow-default);
+    --shadow-md: var(--sge-shadow-md);
+    --shadow-lg: var(--sge-shadow-lg);
+    --shadow-xl: var(--sge-shadow-xl);
+    --shadow-2xl: var(--sge-shadow-2xl);
+
+    --duration-quick: var(--sge-motion-quick);
+    --duration-fast: var(--sge-motion-fast);
+    --duration-medium: var(--sge-motion-medium);
+    --duration-slow: var(--sge-motion-slow);
+    --ease-smooth-out: var(--sge-ease-smooth-out);
+}

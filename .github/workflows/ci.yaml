@@ -114,7 +114,7 @@ jobs:
 
   release_and_publish:
     name: Release and publish on npm
-    if: github.event_name == 'push' && github.repository == 'codegouvaor/react-ads'
+    if: github.event_name == 'push' && github.repository == 'skygenesisenterprise/react-sds'
     runs-on: ubuntu-latest
     needs:
       - test

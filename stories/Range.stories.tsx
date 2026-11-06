@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     wrappedComponent: { Range },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Range.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Range.tsx)`,
     argTypes: {
         disabled: {
             control: { type: "boolean" }

@@ -20,7 +20,7 @@ export type ToggleSwitchGroupProps = {
     style?: CSSProperties;
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-toggleswitchgroup> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-toggleswitchgroup> */
 export const ToggleSwitchGroup = memo<ToggleSwitchGroupProps>(props => {
     const {
         id: id_props,

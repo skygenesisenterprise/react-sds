@@ -1,11 +1,11 @@
 /**
- * ADS Native `Input` (form text field).
+ * SDS Native `Input` (form text field).
  */
 
 import * as React from "react";
 import { TextInput, View, Text } from "react-native";
 import type { TextInputProps, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type InputProps = Omit<TextInputProps, "style"> & {
     label?: string;
@@ -29,7 +29,7 @@ export function Input(props: InputProps) {
         ...rest
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const isDisabled = disabled || !editable;
 

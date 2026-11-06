@@ -15,11 +15,11 @@ const $clientSideIsDark = createStatefulObservable<boolean>(() => {
 
     throw new Error(
         [
-            "react-ads not initialized.",
+            "react-sds not initialized.",
             "Refer to the documentation for setup instructions",
             "If it used to work but after an update you're getting this error",
-            "it usually means that you have multiple copies of @codegouvaor/react-ads in your node_modules",
-            "@codegouvaor/react-ads is a singleton, try removing your lock file and node_module."
+            "it usually means that you have multiple copies of @skygenesisenterprise/react-sds in your node_modules",
+            "@skygenesisenterprise/react-sds is a singleton, try removing your lock file and node_module."
         ].join(" ")
     );
 });

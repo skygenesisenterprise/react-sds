@@ -1,0 +1,149 @@
+/**
+ * SGE typography — the base element scale.
+ *
+ * Centralizes the typography shared by every product: headings, paragraphs,
+ * inline semantics, blockquote, code, pre and lists — all sized from the
+ * institutional `--sge-*` tokens.
+ *
+ * For editorial content (`.gov-prose`) see `../components/prose.css`.
+ */
+
+/* ---- Headings ------------------------------------------------------------ */
+
+h1 {
+    margin: 0 0 var(--sge-space-5);
+    font-size: var(--sge-font-size-3xl);
+    font-weight: var(--sge-font-weight-bold);
+    line-height: var(--sge-line-height-heading);
+}
+
+h2 {
+    margin: var(--sge-space-8) 0 var(--sge-space-4);
+    font-size: var(--sge-font-size-2xl);
+    font-weight: var(--sge-font-weight-bold);
+    line-height: var(--sge-line-height-heading);
+}
+
+h3 {
+    margin: var(--sge-space-6) 0 var(--sge-space-3);
+    font-size: var(--sge-font-size-xl);
+    font-weight: var(--sge-font-weight-semibold);
+    line-height: var(--sge-line-height-tight);
+}
+
+h4 {
+    margin: var(--sge-space-5) 0 var(--sge-space-3);
+    font-size: var(--sge-font-size-lg);
+    font-weight: var(--sge-font-weight-semibold);
+    line-height: var(--sge-line-height-tight);
+}
+
+h5 {
+    margin: var(--sge-space-4) 0 var(--sge-space-2);
+    font-size: var(--sge-font-size-md);
+    font-weight: var(--sge-font-weight-bold);
+    line-height: var(--sge-line-height-tight);
+}
+
+h6 {
+    margin: var(--sge-space-4) 0 var(--sge-space-2);
+    font-size: var(--sge-font-size-sm);
+    font-weight: var(--sge-font-weight-bold);
+    line-height: var(--sge-line-height-tight);
+    text-transform: uppercase;
+    letter-spacing: var(--sge-tracking-wide);
+}
+
+/* ---- Paragraphs & inline ------------------------------------------------ */
+
+p {
+    margin: 0 0 var(--sge-space-4);
+    line-height: var(--sge-line-height-body);
+}
+
+small {
+    font-size: var(--sge-font-size-sm);
+}
+
+strong {
+    font-weight: var(--sge-font-weight-bold);
+}
+
+em {
+    font-style: italic;
+}
+
+mark {
+    background-color: color-mix(in oklch, var(--sge-color-warning) 30%, transparent);
+    color: inherit;
+    padding-inline: 0.15em;
+    border-radius: var(--sge-radius-small);
+}
+
+/* ---- Blockquote ---------------------------------------------------------- */
+
+blockquote {
+    margin: var(--sge-space-5) 0;
+    padding: var(--sge-space-1) var(--sge-space-5);
+    border-left: 3px solid var(--sge-color-border);
+    color: var(--sge-color-text-muted);
+    font-style: italic;
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---- Code ---------------------------------------------------------------- */
+
+code,
+kbd,
+samp {
+    font-family: var(--sge-font-family-mono);
+    font-size: 0.9em;
+    background-color: var(--sge-color-surface-muted);
+    padding: 0.125em 0.375em;
+    border-radius: var(--sge-radius-small);
+}
+
+pre {
+    margin: var(--sge-space-4) 0;
+    padding: var(--sge-space-4);
+    font-family: var(--sge-font-family-mono);
+    font-size: var(--sge-font-size-sm);
+    line-height: var(--sge-line-height-relaxed);
+    background-color: var(--sge-color-surface-muted);
+    border-radius: var(--sge-radius-medium);
+    overflow-x: auto;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+}
+
+kbd {
+    background-color: var(--sge-color-surface);
+    border: 1px solid var(--sge-color-border);
+    border-bottom-width: 2px;
+    box-shadow: var(--sge-elevation-small);
+}
+
+/* ---- Lists --------------------------------------------------------------- */
+
+ul,
+ol {
+    margin: 0 0 var(--sge-space-4);
+    padding-left: var(--sge-space-5);
+    line-height: var(--sge-line-height-body);
+}
+
+li {
+    margin-block: var(--sge-space-1);
+}
+
+li > ul,
+li > ol {
+    margin-bottom: 0;
+}

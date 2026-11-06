@@ -1,15 +1,15 @@
 /**
- * ADS Native motion tokens (milliseconds).
+ * SDS Native motion tokens (milliseconds).
  */
 
-export type ADSMotionTokens = {
+export type SDSMotionTokens = {
     durationFast: number;
     durationNormal: number;
     durationSlow: number;
 };
 
-export const adsMotion: ADSMotionTokens = {
-    durationFast: 120,
-    durationNormal: 200,
+export const sdsMotion: SDSMotionTokens = {
+    durationFast: 150,
+    durationNormal: 250,
     durationSlow: 350
 };

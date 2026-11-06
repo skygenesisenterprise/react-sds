@@ -126,7 +126,7 @@ function removeCharset(rawCssCode: string): string {
         pathJoin(distDirPath, "early-color-scheme.js")
     );
 
-    // ADS CSS foundation (src/styles/**) — published as `@codegouvaor/react-ads/styles/*`
+    // SDS CSS foundation (src/styles/**) — published as `@skygenesisenterprise/react-sds/styles/*`
     // and consumed by `main.css` (relative @imports).
     fs.cpSync(
         pathJoin(projectRootDirPath, "src", "styles"),

@@ -1,526 +1,362 @@
-<p align="center">
-    <i>Astoria Design System — React</i>
-    <br>
-    <b>ADS React</b>
-    <br>
-    <br>
-    <a href="https://github.com/codegouvaor/react-ads/actions">
-      <img src="https://github.com/codegouvaor/react-ads/actions/workflows/ci.yaml/badge.svg">
-    </a>
-    <a href="https://www.npmjs.com/package/@codegouvaor/react-ads">
-      <img src="https://img.shields.io/npm/v/@codegouvaor/react-ads?logo=npm">
-    </a>
-    <a href="https://bundlephobia.com/package/@codegouvaor/react-ads">
-      <img src="https://img.shields.io/bundlephobia/minzip/@codegouvaor/react-ads">
-    </a>
-    <a href="https://github.com/codegouvaor/react-ads/blob/main/LICENSE">
-      <img src="https://img.shields.io/npm/l/@codegouvaor/react-ads">
-    </a>
-</p>
+# SDS React
 
-> **ADS is the official design system for the digital ecosystem of the Republic of Astoria.**
+[![License: MIT](https://img.shields.io/github/license/skygenesisenterprise/react-sds)](LICENSE)
+[![Node.js 22](https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![pnpm 11](https://img.shields.io/badge/pnpm-11-F69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![TypeScript 4.9](https://img.shields.io/badge/TypeScript-4.9-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![React 18](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![React Native 0.72+](https://img.shields.io/badge/React_Native-0.72%2B-61DAFB?logo=react&logoColor=black)](https://reactnative.dev)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-`@codegouvaor/react-ads` is its official React implementation: accessible, typed,
-tree-shakable React components **and the official CSS foundation** for the web
-services, portals and applications of the Astoria government.
+> The official React implementation of the Sky Genesis Enterprise Design System.
 
-> **Status: `1.0.7`.** Since 1.0.6 the package ships the official Astoria Design System
-> CSS foundation (`@codegouvaor/react-ads/main.css`): tokens, reset, base, typography,
-> themes (light/dark/system), accessibility, government layout primitives, editorial
-> content and utilities. **Since 1.0.7 it also ships the ADS Native Foundation
-> (`@codegouvaor/react-ads/native`):** the first official React Native / Expo layer of
-> ADS, sharing the same tokens and conventions with the web implementation without
-> depending on the DOM/CSS stack. A government application imports the foundation once
-> and no longer maintains a government-wide `globals.css` of its own — the application
-> only keeps its business CSS. The project is a fork of the French `react-dsfr` library
-> being transformed into an independent design system; the migration state and what
-> still comes from the upstream DSFR stylesheet are documented in
-> [AUDIT.md](AUDIT.md), [MIGRATION.md](MIGRATION.md) and [PROVENANCE.md](PROVENANCE.md).
+**SDS React** (`@skygenesisenterprise/react-sds`) is the React and React Native toolkit for building the digital products of Sky Genesis Enterprise. It ships accessible, typed, tree-shakable components, the official `--sge-*` CSS foundation, light and dark themes, layout and editorial primitives, and a native foundation that shares the same token contract.
 
-## Table of contents
+**Perfect for:** product teams, design-system maintainers, internal tools, customer portals, marketing sites and mobile applications that need a consistent SGE identity without rebuilding a component library.
 
--   [What is ADS?](#what-is-ads)
--   [Installation](#installation)
--   [Quick start](#quick-start)
--   [CSS foundation](#css-foundation)
--   [Components](#components)
--   [Native — React Native / Expo](#native--react-native--expo)
--   [SSR / Next.js / Server Components](#ssr--nextjs--server-components)
--   [Design tokens](#design-tokens)
--   [Layout primitives](#layout-primitives)
--   [Theming](#theming)
--   [Accessibility](#accessibility)
--   [Internationalization](#internationalization)
--   [Contributing & development](#contributing--development)
--   [Architecture & package layout](#architecture--package-layout)
--   [Provenance & licensing](#provenance--licensing)
--   [Governance](#governance)
--   [Releases & versioning](#releases--versioning)
+## Contents
 
----
+- [SDS React](#sds-react)
+  - [Contents](#contents)
+  - [Why SDS matters](#why-sds-matters)
+  - [What you can do](#what-you-can-do)
+    - [Build](#build)
+    - [Style](#style)
+    - [Theme](#theme)
+    - [Extend](#extend)
+  - [Quick start](#quick-start)
+    - [Install](#install)
+    - [Use the CSS foundation](#use-the-css-foundation)
+    - [Use components](#use-components)
+    - [Use the native foundation](#use-the-native-foundation)
+  - [How SDS React is built](#how-sds-react-is-built)
+    - [Repository layout](#repository-layout)
+    - [Core layers](#core-layers)
+    - [Component families](#component-families)
+    - [Native foundation](#native-foundation)
+    - [Build and tooling](#build-and-tooling)
+  - [Development](#development)
+    - [Root commands](#root-commands)
+    - [CSS foundation development](#css-foundation-development)
+    - [Storybook and integration demos](#storybook-and-integration-demos)
+  - [FAQ](#faq)
+    - [Is SDS free?](#is-sds-free)
+    - [Do I need Next.js?](#do-i-need-nextjs)
+    - [What do I need to run it?](#what-do-i-need-to-run-it)
+    - [Does SDS work with React Native?](#does-sds-work-with-react-native)
+    - [Where is the documentation?](#where-is-the-documentation)
+    - [How do I get help or report a bug?](#how-do-i-get-help-or-report-a-bug)
+  - [Related resources](#related-resources)
+    - [Official](#official)
+    - [Community](#community)
+    - [Commercial](#commercial)
+  - [Contributing](#contributing)
+  - [Security](#security)
+  - [License](#license)
+  - [Note](#note)
 
-## What is ADS?
+## Why SDS matters
 
-The **Astoria Design System** (ADS) is the reference design system for the digital
-public services of the Republic of Astoria. It defines the visual identity,
-components, **CSS foundations**, tokens and accessibility rules that make Astorian
-government websites recognizable, consistent and accessible.
+🎯 **One identity, every product** — the same tokens, components and accessibility rules power web apps, portals, internal tools and native applications. The SGE identity stays consistent by construction.
 
-**ADS React** (`@codegouvaor/react-ads`) is the official React implementation of that
-system. It is designed for the modern React ecosystem:
+🚀 **React-first, framework-agnostic** — use SDS with Next.js App Router or Pages Router, Vite, Create React App, React Server Components or any React 18+ setup.
 
--   **Next.js** — Pages Router and App Router, with full SSR support.
--   **Vite / Create React App / bundler-agnostic** SPA usage.
--   **React Server Components** — components are server-component safe where relevant.
--   **TypeScript** — fully typed, documented API.
--   **Tree-shaking** — cherry-pick the components you import (subpath imports), no monolithic bundle.
--   **A real CSS foundation** — tokens, base styles, themes, layout primitives and
-    accessibility rules shipped as plain CSS, importable with a single line and usable
-    without Tailwind (Tailwind stays optional for business layouts).
--   **Accessibility** — WCAG-oriented implementation and interactive docs with a11y stories.
+🎨 **A real CSS foundation** — `main.css` ships the `--sge-*` tokens, reset, base styles, light and dark themes, typography, layout primitives, component styles and utilities. No Tailwind dependency is required.
 
-The toolkit also ships SSR helpers (no white flash on reload, color scheme persistence),
-an optional MUI adaptation layer, i18n, and opt-in CSS/asset optimization tools.
+♿ **Accessibility by default** — keyboard navigation, visible focus, ARIA patterns, form errors, skip links, reduced motion and contrast handling are part of the system, with WCAG 2.2 AA as the target.
 
-## Installation
+🧩 **Typed and tree-shakable** — every component is fully typed and available from a dedicated subpath, so bundlers only include what you import.
 
-```bash
-npm install @codegouvaor/react-ads
-# or
-pnpm add @codegouvaor/react-ads
-```
+📱 **Web and native parity** — `@skygenesisenterprise/react-sds/native` shares the SDS token contract with the web implementation without importing the DOM or CSS stack.
 
-Peer requirements: `react` ≥ 18 (and `react-dom` for the DOM entry points). No other
-runtime dependency is required for the core components.
+🔓 **Open source and extensible** — the package is MIT licensed, the token names are stable and overridable, and the upstream lineage is documented honestly.
+
+## What you can do
+
+### Build
+
+- Compose pages with the SDS layout primitives: `SDSPage`, `SDSMain`, `SDSContainer`, `SDSSection`, `SDSStack`, `SDSGrid` and `SDSColumns`.
+- Use the portal family for complete institutional shells: `SDSPortal`, `SDSGovernmentHeader`, `SDSMinistryHeader`, `SDSGovernmentFooter`, `SDSHero`, `SDSBreadcrumb`, `SDSNavigation`, `SDSSearch`, `SDSPagination`, `SDSOfficialNotice`, `SDSServiceBanner` and `SDSMegaMenu`.
+- Use the content family for editorial pages: `SDSArticleCard`, `SDSCard`, `SDSDocument`, `SDSDownload`, `SDSEvent`, `SDSLinkList`, `SDSMeetingCard`, `SDSNewsList` and `SDSTeaserCard`.
+- Use the historic generic components (`Button`, `Alert`, `Header`, `Footer`, `Table`, `Tabs`, `Modal`, `Upload`…) and optional chart components where needed.
+
+### Style
+
+- Import the official CSS entry once: `@skygenesisenterprise/react-sds/main.css`.
+- Consume semantic `--sge-*` custom properties instead of hard-coded values.
+- Keep the application CSS focused on business layout; the global visual behavior belongs to SDS.
+- Use the Tailwind adapter only when a product needs utility classes on top of the foundation.
+
+### Theme
+
+- The light theme is the default.
+- The dark theme is opt-in through `data-sge-theme="dark"`, `.dark` or `[data-fr-theme="dark"]`.
+- Override `--sge-*` custom properties from the application to restyle without touching components.
+- Read the typed token contract from `sdsTokens` when a value is needed in JavaScript or React Native.
+
+### Extend
+
+- Import components from their dedicated subpath to keep bundles small.
+- Add the native entry for Expo and React Native applications.
+- Use the `react-sds` CLI to optimize CSS and copy the required static assets.
+- Start from the integration demos for Next.js, Vite and Create React App.
 
 ## Quick start
 
-```tsx
-// 1. The official CSS foundation — once, from your app entry point.
-import "@codegouvaor/react-ads/main.css";
+### Install
 
-// 2. The components — subpath imports keep your bundle minimal.
-import { Button } from "@codegouvaor/react-ads/Button";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { Footer } from "@codegouvaor/react-ads/Footer";
+```bash
+npm install @skygenesisenterprise/react-sds
+# or
+pnpm add @skygenesisenterprise/react-sds
 ```
 
+SDS React is designed for React 18+. The native entry additionally requires `react-native` as an optional peer. The chart and Discord integrations are optional peers as well.
+
+### Use the CSS foundation
+
 ```tsx
+// The official CSS foundation — once, from the application entry point.
+import "@skygenesisenterprise/react-sds/main.css";
+```
+
+The foundation is plain standalone CSS. It can be consumed with Next.js, Vite, Create React App or any other bundler.
+
+### Use components
+
+```tsx
+import "@skygenesisenterprise/react-sds/main.css";
+import { Button } from "@skygenesisenterprise/react-sds/Button";
+
 export function Example() {
+    return <Button iconId="ri-add-line">New record</Button>;
+}
+```
+
+Components can also be imported from the package root:
+
+```tsx
+import { Button, Header, Footer } from "@skygenesisenterprise/react-sds";
+```
+
+Subpath imports remain the recommended, granular path.
+
+### Use the native foundation
+
+```tsx
+import { Button, Card, Heading, SDSProvider, Text } from "@skygenesisenterprise/react-sds/native";
+
+export function ExampleScreen() {
     return (
-        <Button iconId="ri-add-line" onClick={() => alert("Hello Astoria!")}>
-            New record
-        </Button>
+        <SDSProvider colorScheme="system">
+            <Card>
+                <Heading>Mon espace SGE</Heading>
+                <Text>Retrouvez vos services et démarches.</Text>
+                <Button>Continuer</Button>
+            </Card>
+        </SDSProvider>
     );
 }
 ```
 
-See the [interactive documentation](https://codegouvaor.github.io/react-ads) (Storybook)
-for every component, its variants, states and code samples — and the **Foundations**
-pages for the CSS foundation.
+See [`examples/native`](examples/native) for a complete consumption example.
 
-> Components can also be imported from the package root
-> (`import { Button } from "@codegouvaor/react-ads"`): the root re-exports the generic
-> components and the `fr`/`ads` token helpers. Subpath imports remain the granular,
-> recommended path.
->
-> **Legacy:** until the coordinated breaking release (see [MIGRATION.md](MIGRATION.md)),
-> the component styles come from the legacy DSFR layer bundled in the package. The old
-> explicit import `import "@codegouvaor/react-ads/dsfr/dsfr.min.css"` is superseded by
-> `main.css` (which loads it) and kept for compatibility.
+## How SDS React is built
 
-## CSS foundation
+SDS React is a single pnpm package with a TypeScript source tree, a static CSS foundation, Storybook documentation and integration demos. The build pipeline generates the compiled `dist/` tree, the package exports map, the published CSS assets and the native declarations.
 
-`@codegouvaor/react-ads/main.css` is **the official CSS entry of the Astoria Design
-System**. A government application should only keep its *business* CSS — everything
-that concerns the global visual behavior of a government application belongs to ADS.
-
-It loads, in order:
-
-1. **tokens** — `--ads-*` custom properties (colors, typography, spacing, radius,
-   elevation, motion, breakpoints);
-2. **reset** — modern, minimal browser normalization;
-3. **base** — `html`/`body` defaults, links, text selection;
-4. **typography** — the base element scale (`h1`–`h6`, `p`, `blockquote`, `code`,
-   `pre`, lists…);
-5. **themes** — dark scheme (`.dark` and `[data-fr-theme="dark"]`);
-6. **accessibility** — `:focus-visible`, `.ads-sr-only`, reduced motion, contrast;
-7. **layout** — `.gov-page`, `.gov-main`, `.gov-container`, `.gov-section`…;
-8. **component styles** — header shell, forms, tables, editorial `.gov-prose`,
-   `.ads-back-to-top`;
-9. **utilities** — the handful of system-wide helpers;
-10. then the **legacy DSFR layer** that styles the `fr-*` component classes (it will
-    be replaced by `ads-*` styles in the single coordinated breaking release, without
-    changing this import).
-
-The foundation is **plain standalone CSS**: it does not depend on Tailwind or on the
-application build. Applications remain free to use Tailwind (or anything else) for
-their business layouts on top of the foundation.
+### Repository layout
 
 ```text
-src/styles/           # the foundation (published as @codegouvaor/react-ads/styles/*)
-├── tokens.css        # design tokens (light scheme, --ads-*)
-├── reset.css
-├── base.css
-├── typography.css
-├── themes.css        # dark scheme (.dark / [data-fr-theme="dark"])
-├── accessibility.css
-├── layout.css        # .gov-page .gov-main .gov-container .gov-section …
-├── utilities.css
-└── components/
-    ├── header.css    # .gov-header-sticky
-    ├── form.css      # .gov-form primitives
-    ├── table.css     # .gov-table primitives
-    ├── prose.css     # .gov-prose editorial content
-    └── back-to-top.css
+react-sds/
+├── src/
+│   ├── styles/                  # Official CSS foundation
+│   │   ├── foundation/          # Theme-independent --sge-* tokens
+│   │   ├── themes/              # light.css (default) and dark.css (opt-in)
+│   │   ├── components/          # SDS component styles
+│   │   ├── reset.css            # Browser normalization
+│   │   ├── base.css             # Global defaults
+│   │   ├── typography.css       # Element typography scale
+│   │   ├── accessibility.css    # Focus, screen-reader and contrast rules
+│   │   ├── layout.css           # Page-shell primitives
+│   │   ├── utilities.css        # System-wide helpers
+│   │   └── index.css            # Foundation entry imported by main.css
+│   ├── sds/                     # SDS foundations and component families
+│   │   ├── tokens.ts            # Typed token contract
+│   │   ├── layout/              # SDSPage, SDSMain, SDSGrid, …
+│   │   ├── typography/          # SDSHeading, SDSText, SDSLead, SDSLink
+│   │   ├── portal/              # SDSPortal, headers, footer, navigation, …
+│   │   └── content/             # Cards, documents, events, news, …
+│   ├── native/                  # SDS Native Foundation (React Native / Expo)
+│   ├── fr/                      # Legacy DSFR token helpers
+│   ├── assets/                  # Static assets and public token re-exports
+│   ├── bin/                     # CLI tools (react-sds)
+│   └── <Component>.tsx          # Historic generic components
+├── scripts/build/               # Build pipeline and exports generation
+├── stories/                     # Storybook documentation
+├── test/                        # Unit, runtime and integration tests
+├── examples/native/             # Native consumption example
+├── .storybook/                  # Storybook configuration
+├── package.json
+└── pnpm-lock.yaml
 ```
 
-## Components
+### Core layers
 
-The library implements generic, accessible components, among which:
+| Path               | Role                                                                              |
+| ------------------ | --------------------------------------------------------------------------------- |
+| `src/sds`          | Token contract and SDS component families: layout, typography, portal and content |
+| `src/styles`       | Official CSS foundation imported by `main.css`; canonical `--sge-*` namespace     |
+| `src/native`       | Native foundation with the same token names and no DOM/CSS dependency             |
+| `src/fr`           | Legacy DSFR token helpers kept while historic `fr-*` components remain            |
+| `scripts/build`    | Generates `dist/`, the exports map, CSS assets and native declarations            |
+| `src/bin`          | `react-sds` CLI for CSS optimization and static asset helpers                     |
+| `test/integration` | Next.js App Router, Next.js Pages Router, Vite and Create React App demos         |
 
-`Accordion` · `Alert` · `BackToTop` · `Badge` · `Breadcrumb` · `Button` ·
-`ButtonsGroup` · `CallOut` · `Card` · `Checkbox` · `ConsentManagement` · `Download` ·
-`Follow` · `Footer` · `Header` · `Highlight` · `Input` · `LanguageSelect` ·
-`MainNavigation` · `Modal` · `Notice` · `Pagination` · `Quote` · `RadioButtons` ·
-`Range` · `SearchBar` · `SegmentedControl` · `Select` · `SideMenu` · `SkipLinks` ·
-`Stepper` · `Summary` · `Table` · `Tabs` · `Tag` · `TagsGroup` · `Tile` ·
-`ToggleSwitch` · `Tooltip` · `Upload` · plus `blocks/` composites and the legacy chart
-components (`Chart/*`, optional `@gouvfr/dsfr-chart` peer).
+### Component families
 
-> The France-specific leftovers from the fork (`FranceConnectButton`,
-> `AgentConnectButton`, `ProConnectButton`, `MonCompteProButton`, `eulerianAnalytics`)
-> have been removed — see [CHANGELOG.md](CHANGELOG.md) and [MIGRATION.md](MIGRATION.md)
-> §Stage 2.
+| Family     | Components                                                                                                                                                                                                                        |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Layout     | `SDSPage`, `SDSMain`, `SDSContainer`, `SDSSection`, `SDSStack`, `SDSGrid`, `SDSColumns`                                                                                                                                           |
+| Typography | `SDSHeading`, `SDSText`, `SDSLead`, `SDSLink`                                                                                                                                                                                     |
+| Portal     | `SDSPortal`, `SDSGovernmentHeader`, `SDSMinistryHeader`, `SDSGovernmentFooter`, `SDSHero`, `SDSBreadcrumb`, `SDSNavigation`, `SDSSearch`, `SDSPagination`, `SDSOfficialNotice`, `SDSServiceBanner`, `SDSMegaMenu`                 |
+| Content    | `SDSArticleCard`, `SDSCard`, `SDSDocument`, `SDSDownload`, `SDSEvent`, `SDSLinkList`, `SDSMeetingCard`, `SDSNewsList`, `SDSTeaserCard`                                                                                            |
+| Generic    | `Accordion`, `Alert`, `BackToTop`, `Badge`, `Button`, `Card`, `Checkbox`, `ConsentManagement`, `Footer`, `Header`, `Input`, `Modal`, `Pagination`, `Select`, `Table`, `Tabs`, `Tag`, `ToggleSwitch`, `Tooltip`, `Upload` and more |
 
-## Native — React Native / Expo
+The historic chart components remain available through their optional `@gouvfr/dsfr-chart` peer.
 
-**`@codegouvaor/react-ads/native` is the official native support of ADS** (the
-**ADS Native Foundation**, introduced in 1.0.7). It lets React Native / Expo
-applications of the Astorian government (MyGouv Mobile, Économie Mobile,
-Éducation Mobile, …) use ADS as their shared native UI layer:
+### Native foundation
 
-```text
-               Astoria Design System
-                        │
-         ┌──────────────┴──────────────┐
-         │                             │
-     Web / React                 Native / React Native
-         │                             │
-@codegouvaor/               @codegouvaor/
-  react-ads                   react-ads/native
-         │                             │
-      Browser                      iOS / Android
-```
+The native entry is **not a DOM port**. It is built on React Native primitives (`View`, `Text`, `Pressable`, `TextInput`, `Modal`, `FlatList`…) and shares the same semantic token contract as the web foundation:
 
-The native layer shares the **ADS tokens and conventions** with the web
-implementation but is **not a port of the DOM/CSS components**: it is built on
-React Native primitives (`View`, `Text`, `Pressable`, `TextInput`, `Modal`,
-`FlatList`, …). It never imports the web/DOM stack, and the web bundle never
-imports the native layer.
+| Layer                 | Components                                                                                                             |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Foundations           | `Text`, `Heading`, `Icon`, `Divider`, `Stack`, `Container`                                                             |
+| Actions               | `Button`, `IconButton`, `Link`                                                                                         |
+| Forms                 | `Input`, `TextArea`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Select`                                             |
+| Feedback              | `Alert`, `Badge`, `Status`, `Progress`, `Loading`                                                                      |
+| Layout and content    | `Card`, `List`, `ListItem`, `Section`, `Avatar`                                                                        |
+| Navigation primitives | `Header`, `TabBar`, `NavItem`                                                                                          |
+| Institutional         | `ServiceCard`, `ProcedureCard`, `DocumentCard`, `NotificationCard`, `IdentityBadge`, `StatusBadge`, `GovernmentBanner` |
 
-### Installation
+The native foundation provides graphics and primitives, not a router. Routing stays in Expo Router or React Navigation. The web bundle never imports the native layer, and the native bundle never imports the web/DOM stack.
+
+### Build and tooling
+
+The build pipeline compiles TypeScript, copies the CSS foundation and static assets, regenerates the package exports map and prepares the published native declarations. The root `main.css` entry loads the SDS foundation first, then the DSFR stylesheet that still styles the historic `fr-*` component classes.
+
+The repository also contains the `react-sds` CLI (`src/bin`), the Storybook documentation, the Vitest runtime tests and the integration applications used to validate consumption in real frameworks.
+
+## Development
+
+SDS React uses **Node.js 22** and **pnpm 11** in CI. Install dependencies from the repository root:
 
 ```bash
-npm install @codegouvaor/react-ads react-native
+git clone https://github.com/skygenesisenterprise/react-sds.git
+cd react-sds
+pnpm install --frozen-lockfile
 ```
 
-`react-native` is an optional peer dependency of the package (required only by
-the native entry, never by the web entry).
+### Root commands
 
-### Usage
+| Command                    | Purpose                                                    |
+| -------------------------- | ---------------------------------------------------------- |
+| `pnpm build`               | Generate assets/types and compile the library into `dist/` |
+| `pnpm test`                | Run the Vitest unit and runtime test suite                 |
+| `pnpm lint:check`          | Run ESLint                                                 |
+| `pnpm format:check`        | Check formatting with Prettier                             |
+| `pnpm storybook`           | Run the Storybook documentation on `:6006`                 |
+| `pnpm build-storybook`     | Build the static Storybook                                 |
+| `pnpm prestorybook`        | Build the package and optimize the CSS used by Storybook   |
+| `pnpm start-next-appdir`   | Run the Next.js App Router demo against `dist/`            |
+| `pnpm start-next-pagesdir` | Run the Next.js Pages Router demo against `dist/`          |
+| `pnpm start-vite`          | Run the Vite demo against `dist/`                          |
+| `pnpm start-cra`           | Run the Create React App demo against `dist/`              |
 
-```tsx
-import {
-  Button,
-  Card,
-  Heading,
-  Text,
-} from "@codegouvaor/react-ads/native";
+The build step includes the full TypeScript typecheck. Run `pnpm build`, `pnpm test`, `pnpm lint:check` and `pnpm format:check` before opening a pull request.
 
-export function ExampleScreen() {
-  return (
-    <View>
-      <Heading>Mon espace MyGouv</Heading>
-      <Card>
-        <Text>Retrouvez vos services et démarches administratives.</Text>
-        <Button>Continuer</Button>
-      </Card>
-    </View>
-  );
-}
-```
+### CSS foundation development
 
-Metro resolves `@codegouvaor/react-ads/native` directly to the compiled native
-entry — no web code is pulled into an Expo bundle.
+- Theme-independent tokens live in `src/styles/foundation/`.
+- Light and dark semantic tokens live in `src/styles/themes/`.
+- Shared component styles live in `src/styles/components/`.
+- `src/styles/index.css` is the foundation entry, and `scripts/build/main.css` is the official CSS entry published with the package.
+- The canonical namespace is `--sge-*`; do not introduce a parallel token namespace.
 
-### Components (ADS Native Foundation)
+Token changes must stay aligned with `src/sds/tokens.ts` (web), `src/native/tokens` (native) and the foundation tests.
 
--   **Foundations** — `Text`, `Heading`, `Icon`, `Divider`, `Stack`, `Container`.
--   **Actions** — `Button`, `IconButton`, `Link`.
--   **Forms** — `Input`, `TextArea`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Select`.
--   **Feedback** — `Alert`, `Badge`, `Status`, `Progress`, `Loading`.
--   **Layout / content** — `Card`, `List`, `ListItem`, `Section`, `Avatar`.
--   **Navigation primitives (graphical only)** — `Header`, `TabBar`, `NavItem`.
-    ADS provides the graphics, **not a router**: routing stays in Expo Router or
-    React Navigation.
--   **Government components** — `ServiceCard`, `ProcedureCard`, `DocumentCard`,
-    `NotificationCard`, `IdentityBadge`, `StatusBadge`, `GovernmentBanner`.
-    Generic across applications, no MyGouv-specific logic.
-
-### Tokens & theme
-
-Native tokens mirror the web ADS token contract (colors, typography, spacing,
-radius, elevation, dimensions, motion) with concrete values consumable by React
-Native styles:
-
-```tsx
-import { adsTokens } from "@codegouvaor/react-ads/native";
-
-adsTokens.spacing.md; // 16
-adsTokens.dimensions.touchTarget; // 44
-```
-
-Components are themed through the provider (defaults to the Astoria palette and
-to the system color scheme when no provider is present):
-
-```tsx
-import { ADSProvider } from "@codegouvaor/react-ads/native";
-
-<ADSProvider colorScheme="system">
-  <App />
-</ADSProvider>
-```
-
-### Accessibility & touch
-
-Native components ship with accessibility baked in (`accessibilityLabel`,
-`accessibilityHint`, `accessibilityRole`, `accessibilityState`, disabled/loading
-states announced to assistive technologies) and mobile-adapted **touch targets**
-(≥ 44 pt on interactive controls) — see [Accessibility](#accessibility).
-
-A complete consumption example lives in [`examples/native`](examples/native).
-
-## SSR / Next.js / Server Components
-
-The package does not require Next.js. SSR helpers are provided as separate subpath
-modules.
-
-### Next.js App Router
-
-```tsx
-// app/layout.tsx
-import "@codegouvaor/react-ads/main.css"; // ← the whole ADS CSS foundation
-import { DsfrHead } from "@codegouvaor/react-ads/next-app-router/DsfrHead";
-import { DsfrProvider } from "@codegouvaor/react-ads/next-app-router/DsfrProvider";
-```
-
-`DsfrProvider` renders the runtime for client components and `DsfrHead` handles fonts,
-favicon and color-scheme on the server without white flash on hydration. See the
-`test/integration/next-appdir` demo app for a full setup (fonts preloading, nonce, CSP).
-
-### Next.js Pages Router
-
-```tsx
-import { createNextDsfrIntegrationApi } from "@codegouvaor/react-ads/next-pagesdir";
-```
-
-See `test/integration/next-pagesdir`.
-
-### React Server Components
-
-Most components are server-component safe. Components that need browser APIs are labeled
-`"use client"` and are imported through client entry points, keeping the server bundle clean.
-`BackToTop` is one of them.
-
-## Design tokens
-
-ADS tokens are the single source of truth for the look of the system. They are exposed
-as CSS custom properties (`--ads-*`) and as typed constants (`src/ads/tokens.ts`,
-`import { adsTokens } from "@codegouvaor/react-ads/ads"`).
-
-```css
-:root {
-    --ads-color-primary: …;
-    --ads-color-background: …;
-    --ads-radius-medium: …;
-    --ads-space-4: …;
-    --ads-font-family-base: …;
-}
-```
-
-Token families: **colors** (`background`, `foreground`, `surface`, `surface-muted`,
-`primary`, `secondary`, `accent`, `success`, `warning`, `danger`, `info`, `border`,
-`input`, `ring`, `link`, `link-hover`, `text`, `text-muted`, `focus`, `disabled`,
-`on-primary`), **typography** (fonts, sizes `xs`–`3xl`, weights, line-heights),
-**spacing** (`--ads-space-1`…`12`, 4px base), **radius**, **elevation**, **motion**
-(durations, easings, ready-made `--ads-transition-*`) and **breakpoints**.
-
-Components and stylesheets consume tokens — never hard-coded values — so updating the
-identity never requires rewriting a component. Overriding `--ads-*` custom properties
-from your application `:root` is the supported theming mechanism.
-
-> The token values follow the **Astoria palette** used by the reference government
-> application. The exact official identity (colors, fonts, icons) is decided by the
-> Astoria brand/design owners and will replace the values without changing the
-> property names — see [MIGRATION.md](MIGRATION.md).
-
-## Layout primitives
-
-The foundation ships the generic government page shell primitives (`layout.css`), so no
-application has to restyle its shell:
-
-```tsx
-<div className="gov-page">
-    <div className="gov-header-sticky">{/* <Header … /> */}</div>
-    <main className="gov-main" id="contenu">
-        <div className="gov-container">
-            <div className="gov-page-header">
-                <h1 className="gov-page-title">Titre de la page</h1>
-                <p className="gov-page-description">Description…</p>
-            </div>
-            <section className="gov-section">
-                <div className="gov-section__header">
-                    <h2 className="gov-section__title">…</h2>
-                </div>
-                <div className="gov-content">{/* … */}</div>
-            </section>
-        </div>
-    </main>
-    {/* <Footer … /> */}
-</div>
-```
-
-| Class                         | Role                                                        |
-| ----------------------------- | ----------------------------------------------------------- |
-| `.gov-page`                   | full-height flex column (`min-height: 100vh`)               |
-| `.gov-main`                   | grows to fill the space (sticky footer)                     |
-| `.gov-container`              | centered column, max-width coherent with ADS (`75rem`)      |
-| `.gov-section` (+ `--subtle`) | vertical rhythm of the page sections                        |
-| `.gov-section__container`     | wide internal centered column of a section                  |
-| `.gov-section__header/title`  | section heading with optional action on the right           |
-| `.gov-page-header/title/description` | page header band                                   |
-| `.gov-content`                | readable content column                                     |
-| `.gov-lead` / `.gov-kicker`   | introduction paragraph / small uppercase label              |
-
-**Editorial content** (`.gov-prose`, `components/prose.css`): wrap editorial content
-(law texts, press articles, guides…) in `.gov-prose` and two ministries render the same
-default typography — paragraphs, headings, lists, links, blockquotes, code, tables,
-images and captions.
-
-**Back to top** (`BackToTop` component + `components/back-to-top.css`): a floating,
-accessible, reduced-motion-aware "back to top" bubble that appears once the page is
-scrolled — style included, position/z-index/theme/responsive handled.
-
-**Forms & tables** (`components/form.css`, `components/table.css`): plain-CSS
-primitives (`.gov-form` fields, help/error/required states; `.gov-table` with
-responsive overflow, density and hover variants) for hand-written markup — the
-`<Input />`, `<Select />`, `<Checkbox />`, `<Table />`… components are styled by the
-component layer shipped with the package.
-
-## Theming
-
-Three mechanisms, all token-driven:
-
--   **CSS variables** — override `--ads-*` custom properties from your application to
-    restyle globally without touching components.
--   **Dark mode** — semantic tokens switch automatically. Both conventions are honored:
-
-    ```html
-    <html class="dark">…</html>
-    <html data-fr-theme="dark">…</html>
-    ```
-
-    The `Display` dialog (in the `Header`) exposes **light / dark / system**; the
-    runtime (`startReactDsfr` + SSR "early color scheme" helpers) resolves `system`
-    against `prefers-color-scheme` and writes the result in `data-fr-theme`. Without
-    the runtime the default is the light scheme.
--   **Application freedom** — business layouts stay free to use Tailwind or any
-    utility approach on top of the foundation.
-
-## Accessibility
-
-Accessibility is a first-class requirement (target: WCAG 2.2 AA):
-
--   keyboard navigation, visible focus, ARIA patterns, form errors, skip links;
--   reduced motion support (durations collapse to 1 ms under
-    `prefers-reduced-motion: reduce`);
--   centralized rules in `accessibility.css`: `:focus-visible`, `.ads-sr-only`,
-    `.ads-focus-ring`, `.ads-touch-target`, `prefers-contrast: more`;
--   every component story documents its accessibility properties;
--   the Storybook runs with the `@storybook/addon-a11y` checks.
-
-## Internationalization
-
-Built-in texts (Header, Footer, consent management, Display, …) are translated with an
-opt-in i18n mechanism: provide translations for the languages you support and override
-any string. See `src/i18n.ts` and the stories of the `Display` component.
-
-## Contributing & development
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) — and [AUDIT.md](AUDIT.md) if you want the state of
-the codebase before making structural changes.
+### Storybook and integration demos
 
 ```bash
-git clone https://github.com/codegouvaor/react-ads.git
-cd react-ads
-pnpm install
+pnpm storybook
 ```
 
-| Command                                 | Purpose                                                 |
-| --------------------------------------- | ------------------------------------------------------- |
-| `pnpm build`                            | Generate assets/types and compile the library (`dist/`) |
-| `pnpm storybook`                        | Interactive documentation (dev server on `:6006`)       |
-| `pnpm test`                             | Unit tests (vitest)                                     |
-| `pnpm lint:check` / `pnpm format:check` | ESLint and Prettier checks                              |
-| `pnpm start-next-appdir`                | Run the Next.js App Router demo app (linked to `dist/`) |
+Storybook documents every component, its variants, states, accessibility properties and code samples. The integration demos under `test/integration/` validate the package against Next.js App Router, Next.js Pages Router, Vite and Create React App.
 
-> ⚠️ The legacy CSS generation step (`scripts/build/*`, `src/bin/*`) consumes
-> `@gouvfr/dsfr` **at build time only**. Consumers never install it.
+## FAQ
 
-## Architecture & package layout
+### Is SDS free?
 
-```text
-src/
-├── styles/            # the ADS CSS foundation (tokens, themes, layout, utilities,
-│   │                  #  components/…) — published and loaded by main.css
-├── assets/            # static assets shipped with the package
-├── ads/               # ADS foundations: token contracts (colors, type, space, …)
-├── native/            # ADS Native Foundation (React Native / Expo) — published as
-│   │                  #  @codegouvaor/react-ads/native, no DOM/CSS dependency
-├── fr/                # token helpers (legacy namespace, renamed with the CSS layer)
-├── BackToTop.tsx      # floating "back to top" button (styles in styles/components/)
-├── <Component>.tsx    # one module per component — subpath imports, tree-shakable
-├── next-app-router/   # Next.js App Router helpers (server + client)
-├── next-pagesdir.tsx  # Next.js Pages Router helpers
-├── mui/               # optional MUI adaptation layer
-└── bin/               # CLI tools (react-ads optimize-css, copy-static-assets, …)
-```
+Yes. SDS React is licensed under the MIT License. The project started as a fork of [`codegouvfr/react-dsfr`](https://github.com/codegouvfr/react-dsfr) (also MIT) and retains the upstream history and attribution obligations documented in [PROVENANCE.md](PROVENANCE.md).
 
-Component usage follows `import { X } from "@codegouvaor/react-ads/X"` — bundlers then
-only include the modules you import. The CSS foundation is importable as a whole
-(`@codegouvaor/react-ads/main.css`) or file by file
-(`@codegouvaor/react-ads/styles/layout.css`, `@codegouvaor/react-ads/styles/themes.css`,
-`@codegouvaor/react-ads/assets/ads/tokens.css`, …).
+### Do I need Next.js?
 
-## Provenance & licensing
+No. SDS React works with Next.js App Router and Pages Router, Vite, Create React App and any React 18+ setup. Next.js helpers are optional subpath modules, not a requirement.
 
-This project started as a fork of [`codegouvfr/react-dsfr`](https://github.com/codegouvfr/react-dsfr)
-(MIT), itself the React integration of the French government's DSFR. The fork retains the
-upstream Git history. It is being transformed — step by step, without rewriting what is
-technically sound — into the official React library of the **Astoria Design System**.
+### What do I need to run it?
 
-Read [PROVENANCE.md](PROVENANCE.md) for the honest account of this lineage and the
-attribution obligations that follow. The code is MIT licensed (see [LICENSE](LICENSE)).
+React 18+ for the web components. For development, use Node.js 22 and pnpm 11. The native entry requires `react-native` as an optional peer, and the chart and Discord integrations have their own optional peers.
 
-## Governance
+### Does SDS work with React Native?
 
-This module is developed and maintained in the open by the digital services of the Republic
-of Astoria, under the governance described in [GOVERNANCE.md](GOVERNANCE.md). Security
-matters: see [SECURITY.md](SECURITY.md).
+Yes. `@skygenesisenterprise/react-sds/native` is the official SDS Native Foundation for React Native and Expo. It shares the SDS token contract with the web implementation but uses React Native primitives instead of the DOM/CSS stack.
 
-## Releases & versioning
+### Where is the documentation?
 
-The package follows [Semantic Versioning](https://semver.org). Releases are cut from the
-`main` branch and published to npm — see [GOVERNANCE.md](GOVERNANCE.md) and
-`.github/workflows/ci.yaml`. Changes are tracked in [CHANGELOG.md](CHANGELOG.md).
+The interactive documentation lives at [skygenesisenterprise.github.io/react-sds](https://skygenesisenterprise.github.io/react-sds). The repository also contains [MIGRATION.md](MIGRATION.md), [AUDIT.md](AUDIT.md), [PROVENANCE.md](PROVENANCE.md) and the Storybook sources in `stories/`.
+
+### How do I get help or report a bug?
+
+Open a [GitHub issue](https://github.com/skygenesisenterprise/react-sds/issues) for bugs and feature requests. Never report a security vulnerability in a public issue — follow [SECURITY.md](SECURITY.md) instead.
+
+## Related resources
+
+### Official
+
+- Documentation and Storybook: [skygenesisenterprise.github.io/react-sds](https://skygenesisenterprise.github.io/react-sds)
+- npm package: [@skygenesisenterprise/react-sds](https://www.npmjs.com/package/@skygenesisenterprise/react-sds)
+- Repository: [github.com/skygenesisenterprise/react-sds](https://github.com/skygenesisenterprise/react-sds)
+- Native example: [`examples/native`](examples/native)
+- Integration demos: [`test/integration`](test/integration)
+
+### Community
+
+- Bugs and feature requests: [GitHub Issues](https://github.com/skygenesisenterprise/react-sds/issues)
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Governance: [GOVERNANCE.md](GOVERNANCE.md)
+
+### Commercial
+
+- Sky Genesis Enterprise: [skygenesisenterprise.com](https://skygenesisenterprise.com)
+- Commercial support and design-system engagements: contact Sky Genesis Enterprise.
+
+## Contributing
+
+Contributions and suggestions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before participating, then use the appropriate [pull request template](.github/PULL_REQUEST_TEMPLATE.md).
+
+- Keep PR titles in [Conventional Commits](https://www.conventionalcommits.org) format (`fix: …`, `feat: …`, `docs: …`).
+- Run `pnpm build`, `pnpm test`, `pnpm lint:check` and `pnpm format:check` before opening a pull request.
+- Update the Storybook stories and the foundation tests when changing component APIs or tokens.
+- Read [AUDIT.md](AUDIT.md) before making structural changes.
+
+## Security
+
+Do not report security vulnerabilities in public issues. Follow the private reporting instructions in [SECURITY.md](SECURITY.md).
+
+## License
+
+SDS React is licensed under the [MIT License](LICENSE). Some optional integrations and upstream assets may carry their own license terms; check the relevant package or asset before redistributing it.
+
+## Note
+
+SDS React is maintained by [Sky Genesis Enterprise](https://skygenesisenterprise.com). The documentation layout follows the [Notploy README](https://github.com/skygenesisenterprise/notploy/blob/master/README.md) as the reference design for Sky Genesis Enterprise repositories. Links to external services are provided for convenience and do not imply endorsement. Check each service's own terms before relying on it in production.

@@ -1,11 +1,11 @@
 /**
- * ADS Native `Card` (surface container).
+ * SDS Native `Card` (surface container).
  */
 
 import * as React from "react";
 import { View, Pressable } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { elevationToStyle } from "../utils";
 
 export type CardProps = {
@@ -36,7 +36,7 @@ export function Card(props: CardProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const cardStyle: ViewStyle = {
         backgroundColor: colors.surface,

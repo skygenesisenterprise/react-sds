@@ -3,5 +3,5 @@ import { useBreakpointsValuesPx } from "./useBreakpointsValuesPx";
 
 export type { BreakpointKeys, BreakpointsValues };
 
-/** @deprecated Use import { useBreakpointsValuesPx } from "@codegouvaor/react-ads/useBreakpointsValuesPx"; instead */
+/** @deprecated Use import { useBreakpointsValuesPx } from "@skygenesisenterprise/react-sds/useBreakpointsValuesPx"; instead */
 export const useBreakpointsValues = useBreakpointsValuesPx;

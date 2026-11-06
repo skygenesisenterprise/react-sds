@@ -1,0 +1,49 @@
+/**
+ * SGE motion tokens.
+ *
+ * Durations and easing curves taken from the Notploy reference identity. The
+ * `--sge-transition-*` tokens are ready-to-use `transition` values so product
+ * code never assembles an ad-hoc duration/curve pair.
+ *
+ * Motion is automatically collapsed when the user asks for reduced motion.
+ */
+
+:root {
+    --sge-motion-quick: 150ms;
+    --sge-motion-fast: 250ms;
+    --sge-motion-medium: 350ms;
+    --sge-motion-slow: 400ms;
+
+    --sge-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+    --sge-ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --sge-ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+    --sge-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+    --sge-transition-quick: var(--sge-motion-quick) var(--sge-ease-smooth-out);
+    --sge-transition-fast: var(--sge-motion-fast) var(--sge-ease-smooth-out);
+    --sge-transition-medium: var(--sge-motion-medium) var(--sge-ease-smooth-out);
+    --sge-transition-slow: var(--sge-motion-slow) var(--sge-ease-smooth-out);
+
+    /* Contract aliases (duration/easing/transition names consumed by SDS components). */
+    --sge-duration-fast: var(--sge-motion-quick);
+    --sge-duration-normal: var(--sge-motion-fast);
+    --sge-duration-slow: var(--sge-motion-medium);
+    --sge-easing-standard: var(--sge-ease-standard);
+    --sge-easing-entrance: var(--sge-ease-entrance);
+    --sge-easing-exit: var(--sge-ease-exit);
+    --sge-transition-normal: var(--sge-transition-fast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --sge-motion-quick: 1ms;
+        --sge-motion-fast: 1ms;
+        --sge-motion-medium: 1ms;
+        --sge-motion-slow: 1ms;
+
+        --sge-transition-quick: 1ms linear;
+        --sge-transition-fast: 1ms linear;
+        --sge-transition-medium: 1ms linear;
+        --sge-transition-slow: 1ms linear;
+    }
+}

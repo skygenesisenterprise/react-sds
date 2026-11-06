@@ -11,7 +11,7 @@ import { createComponentI18nApi } from "./i18n";
 import type { FrIconClassName, RiIconClassName } from "./fr/generatedFromCss/classNames";
 import { getIdentityAndHomeLinkProps } from "./zz_internal/identityAndHomeLinkProps";
 import type { HeaderProps } from "./Header";
-import "./assets/astoria-identity.css";
+import "./assets/sge-identity.css";
 import { typeGuard } from "tsafe/typeGuard";
 import { id } from "tsafe/id";
 
@@ -38,7 +38,7 @@ export type FooterProps = {
     };
     license?: ReactNode;
     /**
-     * The institutional identity of the Republic of Astoria (same prop as the one of the
+     * The institutional identity of the Sky Genesis Enterprise (same prop as the one of the
      * `<Header />`). If not provided, the identity of the `<Header />` will be used.
      * Be aware that if your Header is not used as a server component while the Footer is
      * you need to provide the identity to the Footer.
@@ -158,7 +158,7 @@ export namespace FooterProps {
     }
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-footer> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-footer> */
 export const Footer = memo(
     forwardRef<HTMLDivElement, FooterProps>((props, ref) => {
         const {
@@ -289,13 +289,13 @@ export const Footer = memo(
                                     identity === undefined ? null : (
                                         <div
                                             className={cx(
-                                                "ads-identity__footer",
+                                                "sds-identity__footer",
                                                 classes.identity
                                             )}
                                         >
                                             <img
                                                 className={cx(
-                                                    "ads-identity__img",
+                                                    "sds-identity__img",
                                                     classes.identityImg
                                                 )}
                                                 src={identity.imgUrl}
@@ -303,7 +303,7 @@ export const Footer = memo(
                                             />
                                             <span
                                                 className={cx(
-                                                    "ads-identity__institution",
+                                                    "sds-identity__institution",
                                                     classes.institution
                                                 )}
                                             >

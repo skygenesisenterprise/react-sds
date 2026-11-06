@@ -1,5 +1,5 @@
-import { createModal } from '@codegouvaor/react-ads/Modal'
-import { useIsModalOpen } from '@codegouvaor/react-ads/Modal/useIsModalOpen'
+import { createModal } from '@skygenesisenterprise/react-sds/Modal'
+import { useIsModalOpen } from '@skygenesisenterprise/react-sds/Modal/useIsModalOpen'
 import { useState, useEffect, useId } from 'react'
 
 type Props = {

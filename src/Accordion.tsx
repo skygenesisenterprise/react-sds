@@ -48,7 +48,7 @@ export namespace AccordionProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-accordion>  */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-accordion>  */
 export const Accordion = memo(
     forwardRef<HTMLDivElement, AccordionProps>((props, ref) => {
         const {

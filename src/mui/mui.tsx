@@ -196,7 +196,7 @@ export function getMuiDsfrThemeOptions(params: {
                         "margin": "unset"
                     },
                     "selectLabel": {
-                        //Fixes: https://github.com/codegouvaor/react-ads/assets/6702424/678a7f69-d4e8-4897-85f0-65c605b46900
+                        //Fixes: https://github.com/skygenesisenterprise/react-sds/assets/6702424/678a7f69-d4e8-4897-85f0-65c605b46900
                         "margin": "unset"
                     }
                 }
@@ -415,7 +415,7 @@ export function createDsfrCustomBrandingProvider(params: {
         const { theme, isGov, faviconUrl_userProvided } = useMemo(() => {
             const theme_gov = createMuiDsfrTheme({ isDark, breakpointsValues });
 
-            // @ts-expect-error: Technic to detect if user is using the government theme
+            // @ts-expect-error: Technic to detect if user is using the institutional theme
             theme_gov.palette.isGov = true;
 
             const { theme, faviconUrl: faviconUrl_userProvided } = createMuiTheme({

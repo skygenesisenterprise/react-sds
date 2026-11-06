@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { ToggleSwitchGroup },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/ToggleSwitchGroup.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/ToggleSwitchGroup.tsx)`,
     "disabledProps": ["lang"],
     "argTypes": {
         "labelPosition": {

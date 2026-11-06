@@ -6,7 +6,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Breadcrumb },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Breadcrumb.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Breadcrumb.tsx)`,
     "disabledProps": ["lang"]
 });
 

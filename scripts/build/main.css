@@ -1,70 +1,31 @@
 @charset "UTF-8";
 
 /**
- * @codegouvaor/react-ads/main.css — the official CSS entry of the Astoria Design
- * System. Import it once from your application entry point:
+ * @skygenesisenterprise/react-sds/main.css — the official complete CSS entry of
+ * the Sky Genesis Enterprise Design System.
  *
- *     import "@codegouvaor/react-ads/main.css";
+ * Import it once from your application entry point:
  *
- * It loads, in order:
+ *     import "@skygenesisenterprise/react-sds/main.css";
  *
- *   1. tokens          — `--ads-*` custom properties (light scheme)
- *   2. reset           — modern, minimal browser normalization
- *   3. base            — html/body defaults, links, selection
- *   4. typography      — the base element scale (headings, code, lists…)
- *   5. themes          — dark scheme (`.dark` / `[data-fr-theme="dark"]`)
- *   6. accessibility   — focus, visually-hidden, reduced motion, contrast
- *   7. layout          — `.gov-page`, `.gov-main`, `.gov-container`, `.gov-section`…
- *   8. component styles— header shell, forms, tables, editorial prose, back-to-top
- *   9. utilities       — the few system-wide helpers (`.ads-text-muted`, …)
+ * It loads the institutional foundation (`styles/index.css`: tokens, themes,
+ * reset, base, typography, accessibility, layout, shared components and
+ * utilities), then the DSFR stylesheet that still styles the `fr-*` classes
+ * emitted by the historic components (Header, Footer, Button, Table…).
  *
- * then the legacy DSFR stylesheet that styles the `fr-*` classes emitted by the
- * components (Header, Footer, Button, Table…) — see MIGRATION.md stage 4: this
- * layer will be replaced by `ads-*` component styles in a single coordinated
- * breaking release, without changing this import.
+ * If you only need the SGE identity and not the historic `fr-*` component layer,
+ * import the foundation directly:
+ *
+ *     import "@skygenesisenterprise/react-sds/styles";
  *
  * The foundation is plain, standalone CSS: it does not require Tailwind (or any
  * other framework) to work, and applications remain free to use Tailwind for
- * their business layouts on top of it.
+ * their business layouts on top of it. Tailwind adapters are available under
+ * `@skygenesisenterprise/react-sds/styles/adapters/`.
  */
 
-/* 1. Design tokens (light scheme) */
-@import url(./styles/tokens.css);
-
-/* 2. Reset */
-@import url(./styles/reset.css);
-
-/* 3. Base */
-@import url(./styles/base.css);
-
-/* 4. Typography */
-@import url(./styles/typography.css);
-
-/* 5. Themes (dark scheme) */
-@import url(./styles/themes.css);
-
-/* 6. Accessibility */
-@import url(./styles/accessibility.css);
-
-/* 7. Layout primitives */
-@import url(./styles/layout.css);
-
-/* 8. Component styles */
-@import url(./styles/components/header.css);
-@import url(./styles/components/form.css);
-@import url(./styles/components/table.css);
-@import url(./styles/components/prose.css);
-@import url(./styles/components/back-to-top.css);
-
-/* ADS component families (layout, typography, portal, content). */
-@import url(./styles/components/ads-layout.css);
-@import url(./styles/components/ads-typography.css);
-@import url(./styles/components/ads-card.css);
-@import url(./styles/components/ads-portal.css);
-@import url(./styles/components/ads-search.css);
-
-/* 9. Utilities */
-@import url(./styles/utilities.css);
+/* SGE institutional foundation. */
+@import url(./styles/index.css);
 
 /* Legacy DSFR layer — styles the fr-* component classes (icons + framework). */
 @import url(./dsfr/utility/icons/icons.min.css);

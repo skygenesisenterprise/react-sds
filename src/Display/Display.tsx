@@ -26,7 +26,7 @@ export const headerFooterDisplayItem: HeaderProps.QuickAccessItem.Button &
     })()
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-display> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-display> */
 export function Display() {
     const { t } = useTranslation();
 

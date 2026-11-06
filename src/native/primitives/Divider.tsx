@@ -1,11 +1,11 @@
 /**
- * ADS Native `Divider` primitive (hairline separator).
+ * SDS Native `Divider` primitive (hairline separator).
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { ViewProps, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type DividerProps = ViewProps & {
     /** Default 1 (vertical) — horizontal hairline. */
@@ -18,7 +18,7 @@ export type DividerProps = ViewProps & {
 export function Divider(props: DividerProps) {
     const { orientation = "horizontal", margin = "md", style, ...rest } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const dividerStyle: ViewStyle =
         orientation === "vertical"

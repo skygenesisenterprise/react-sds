@@ -1,0 +1,29 @@
+/**
+ * SGE shadow / elevation tokens.
+ *
+ * The light-theme defaults are soft, low-contrast elevations. `../themes/dark.css`
+ * overrides them with the exact Notploy elevation values so the dark identity
+ * matches the reference application.
+ *
+ * Elevation is intentionally theme-dependent: a shadow that reads as "raised" on
+ * a light surface needs a stronger value on a dark surface.
+ */
+
+:root {
+    --sge-shadow-none: none;
+
+    --sge-shadow-2xs: 0 1px 2px rgb(28 35 43 / 0.06);
+    --sge-shadow-xs: 0 1px 2px rgb(28 35 43 / 0.08);
+    --sge-shadow-sm: 0 2px 6px rgb(28 35 43 / 0.1), 0 1px 2px rgb(28 35 43 / 0.06);
+    --sge-shadow-default: var(--sge-shadow-sm);
+    --sge-shadow-md: 0 6px 18px rgb(28 35 43 / 0.14);
+    --sge-shadow-lg: 0 12px 32px rgb(28 35 43 / 0.18);
+    --sge-shadow-xl: 0 20px 48px rgb(28 35 43 / 0.22);
+    --sge-shadow-2xl: 0 28px 64px rgb(28 35 43 / 0.26);
+
+    /* Legacy elevation names (kept for consumers of the former SDS foundation). */
+    --sge-elevation-none: var(--sge-shadow-none);
+    --sge-elevation-small: var(--sge-shadow-xs);
+    --sge-elevation-medium: var(--sge-shadow-md);
+    --sge-elevation-large: var(--sge-shadow-lg);
+}

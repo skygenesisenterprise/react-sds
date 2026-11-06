@@ -1,11 +1,11 @@
 /**
- * ADS Native `Text` primitive.
+ * SDS Native `Text` primitive.
  */
 
 import * as React from "react";
 import { Text as RNText } from "react-native";
 import type { TextProps as RNTextProps, TextStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type TextVariant = "body" | "bodySmall" | "caption" | "label" | "muted";
 
@@ -21,7 +21,7 @@ export type TextProps = Omit<RNTextProps, "style"> & {
 export function Text(props: TextProps) {
     const { variant = "body", muted, style, ...rest } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const base: TextStyle = {
         color: muted ? colors.muted : colors.text,

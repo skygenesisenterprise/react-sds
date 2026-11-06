@@ -1,0 +1,22 @@
+/**
+ * SGE radius tokens.
+ *
+ * `--sge-radius-default` is the reference radius used by the Notploy identity
+ * (0.5rem). The named steps are available for the components that need a
+ * different curvature while staying on the same scale.
+ */
+
+:root {
+    --sge-radius-none: 0;
+    --sge-radius-default: 0.5rem;
+    --sge-radius-small: 0.375rem;
+    --sge-radius-medium: 0.5rem;
+    --sge-radius-large: 0.625rem;
+    --sge-radius-xl: 0.875rem;
+    --sge-radius-full: 9999px;
+
+    /* Tailwind-compatible aliases. */
+    --sge-radius-sm: var(--sge-radius-small);
+    --sge-radius-md: var(--sge-radius-medium);
+    --sge-radius-lg: var(--sge-radius-large);
+}

@@ -3,21 +3,21 @@ import { Header } from "../dist/Header";
 import { sectionName } from "./sectionName";
 import { getStoryFactory } from "./getStory";
 import "./utils.css";
-import astoriaGouvImgUrl from "../src/assets/astoria-gouv.png";
+import sgeIdentityImgUrl from "../src/assets/sge-identity.svg";
 
 const identity = {
-    imgUrl: astoriaGouvImgUrl,
-    alt: "République d'Astoria",
-    institution: "Gouvernement"
+    imgUrl: sgeIdentityImgUrl,
+    alt: "Sky Genesis Enterprise",
+    institution: "Sky Genesis Enterprise"
 };
 
 const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { "MainNavigation": Header },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/tree/main/src/MainNavigation)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/tree/main/src/MainNavigation)
 
-This component isn't meant to be used directly but via the [\\<Header \\/\\>](https://codegouvaor.github.io/react-ads/?path=/docs/components-header)`,
+This component isn't meant to be used directly but via the [\\<Header \\/\\>](https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-header)`,
     "argTypes": {
         "identity": {
             "control": { "type": null }
@@ -36,7 +36,7 @@ export const DirectLinks = getStory({
     "identity": identity,
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)"
+        "title": "Accueil - Nom de l’entité (organisation, équipe, service)"
     },
     "navigation": [
         {
@@ -77,7 +77,7 @@ export const DropdownMenu = getStory({
     "identity": identity,
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)"
+        "title": "Accueil - Nom de l’entité (organisation, équipe, service)"
     },
     "navigation": [
         {
@@ -187,7 +187,7 @@ export const MegaMenu = getStory({
     "identity": identity,
     "homeLinkProps": {
         "href": "/",
-        "title": "Accueil - Nom de l’entité (ministère, secrétariat d‘état, gouvernement)"
+        "title": "Accueil - Nom de l’entité (organisation, équipe, service)"
     },
     "navigation": [
         {

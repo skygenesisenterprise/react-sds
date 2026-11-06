@@ -1,5 +1,5 @@
 {
-    "name": "react-ads-test-app-next",
+    "name": "react-sds-test-app-next",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "only-include-used-icons": "node node_modules/@codegouvaor/react-ads/bin/only-include-used-icons.js",
+        "only-include-used-icons": "node node_modules/@skygenesisenterprise/react-sds/bin/only-include-used-icons.js",
         "predev": "yarn only-include-used-icons",
         "prebuild": "yarn only-include-used-icons"
     },
@@ -24,7 +24,7 @@
         "dayjs": "^1.11.6",
         "@mui/x-date-pickers": "^6.18.2",
         "@mui/x-data-grid": "^6.18.2",
-        "@codegouvaor/react-ads": "file:../../../dist"
+        "@skygenesisenterprise/react-sds": "file:../../../dist"
     },
     "devDependencies": {
         "@types/react": "18.0.21",

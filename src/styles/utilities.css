@@ -1,27 +1,8 @@
 /**
- * ADS utilities — a handful of system-wide helpers.
+ * Legacy utilities entry point.
  *
- * Part of the official Astoria Design System CSS foundation, loaded by
- * `@codegouvaor/react-ads/main.css`.
- *
- * ADS deliberately does NOT re-implement a utility framework (Tailwind already
- * covers layout utilities in the applications that use it). Only the helpers that
- * carry a real system justification live here:
- *
- *   - `.ads-sr-only` / `.ads-focus-ring` / `.ads-touch-target` are in
- *     `accessibility.css` (they are accessibility rules);
- *   - the text helpers below map to semantic tokens so muted/centered text never
- *     depends on a hard-coded value.
+ * Kept for compatibility with `@skygenesisenterprise/react-sds/styles/utilities.css`.
+ * The canonical file is `./utilities/index.css`.
  */
 
-.ads-text-muted {
-    color: var(--ads-color-text-muted);
-}
-
-.ads-text-center {
-    text-align: center;
-}
-
-.ads-text-bold {
-    font-weight: var(--ads-font-weight-bold);
-}
+@import url("./utilities/index.css");

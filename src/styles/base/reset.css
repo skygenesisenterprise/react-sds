@@ -1,0 +1,83 @@
+/**
+ * SGE reset — modern and minimal.
+ *
+ * Part of the institutional CSS foundation of Sky Genesis Enterprise. The reset
+ * deliberately stays soft: it normalizes the inconsistencies that have a real
+ * cost (box-sizing, form typography, media sizing) without imposing opinions
+ * that would fight the components.
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /* Keep the root at the browser default (16px) — SGE uses `rem`. */
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+}
+
+/* Media are fluid by default, never overflow their container. */
+img,
+picture,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Forms: inherit typography from the page. */
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+}
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+    cursor: default;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Lists only lose their bullets/margins when a class is present — classless
+   lists keep the native, predictable behavior. */
+ul[class],
+ol[class] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tables collapse borders by default; opt into spacing via `border-spacing`
+   when a design needs it. */
+table {
+    border-collapse: collapse;
+}
+
+/* Remove the inner padding/ring WebKit adds to search inputs in Safari. */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}

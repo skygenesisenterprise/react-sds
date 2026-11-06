@@ -94,7 +94,7 @@ export async function readPublicDirPath(params: { projectDirPath: string }): Pro
         }
 
         console.error(
-            `Can't parse the vite configuration please open an issue about it on the react-ads GitHub repository.`
+            `Can't parse the vite configuration please open an issue about it on the react-sds GitHub repository.`
         );
 
         process.exit(-1);

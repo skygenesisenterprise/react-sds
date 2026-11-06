@@ -1,11 +1,11 @@
 /**
- * ADS Native `Alert` (feedback banner).
+ * SDS Native `Alert` (feedback banner).
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle, AccessibilityRole } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text, Icon } from "../primitives";
 
 export type AlertSeverity = "info" | "success" | "warning" | "error";
@@ -38,7 +38,7 @@ export function Alert(props: AlertProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const accent = colors[severity];
     const bg = severity === "error" ? colors.surfaceMuted : colors.surfaceMuted;

@@ -35,7 +35,7 @@ export namespace CallOutProps {
     export type ColorVariant = ExtractColorVariant<FrClassName>;
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-callout> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-callout> */
 export const CallOut = memo(
     forwardRef<HTMLDivElement, CallOutProps>((props, ref) => {
         const {

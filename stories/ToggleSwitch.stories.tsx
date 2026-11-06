@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { ToggleSwitch },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/ToggleSwitch.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/ToggleSwitch.tsx)
 
 ## Uncontrolled
 

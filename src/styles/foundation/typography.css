@@ -1,0 +1,50 @@
+/**
+ * SGE typography tokens.
+ *
+ * Font stacks, scale, weights, line heights and tracking shared by every SGE
+ * product. Applications may override these custom properties to load their own
+ * fonts without changing the token names.
+ */
+
+:root {
+    /* ---- Families ---------------------------------------------------------- */
+
+    --sge-font-family-base: "Marianne", "Public Sans", system-ui, -apple-system,
+        "Segoe UI", sans-serif;
+    --sge-font-family-heading: var(--sge-font-family-base);
+    --sge-font-family-display: var(--sge-font-family-base);
+    --sge-font-family-sans: var(--sge-font-family-base);
+    --sge-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+
+    /* ---- Sizes ------------------------------------------------------------- */
+
+    --sge-font-size-xs: 0.75rem;
+    --sge-font-size-sm: 0.875rem;
+    --sge-font-size-md: 1rem;
+    --sge-font-size-lg: 1.25rem;
+    --sge-font-size-xl: 1.5rem;
+    --sge-font-size-2xl: 1.75rem;
+    --sge-font-size-3xl: 2.25rem;
+
+    /* ---- Weights ----------------------------------------------------------- */
+
+    --sge-font-weight-regular: 400;
+    --sge-font-weight-medium: 500;
+    --sge-font-weight-semibold: 600;
+    --sge-font-weight-bold: 700;
+
+    /* ---- Line heights ------------------------------------------------------ */
+
+    --sge-line-height-body: 1.6;
+    --sge-line-height-heading: 1.2;
+    --sge-line-height-tight: 1.2;
+    --sge-line-height-normal: 1.5;
+    --sge-line-height-relaxed: 1.7;
+
+    /* ---- Tracking ---------------------------------------------------------- */
+
+    --sge-tracking-normal: 0.01em;
+    --sge-tracking-tight: -0.025em;
+    --sge-tracking-wide: 0.04em;
+}

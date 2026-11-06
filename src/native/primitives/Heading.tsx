@@ -1,11 +1,11 @@
 /**
- * ADS Native `Heading` primitive.
+ * SDS Native `Heading` primitive.
  */
 
 import * as React from "react";
 import { Text as RNText } from "react-native";
 import type { TextProps as RNTextProps, TextStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -21,7 +21,7 @@ export type HeadingProps = Omit<RNTextProps, "style"> & {
 export function Heading(props: HeadingProps) {
     const { level = 1, accessible, style, ...rest } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const size = (() => {
         switch (level) {

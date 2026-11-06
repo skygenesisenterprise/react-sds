@@ -1,12 +1,12 @@
 /**
- * ADS Native `NotificationCard` — a generic notification entry.
+ * SDS Native `NotificationCard` — a generic notification entry.
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
-import type { ADSColorToken } from "../tokens";
+import { useSDSTheme } from "../theme";
+import type { SDSColorToken } from "../tokens";
 import { Text, Icon } from "../primitives";
 import { Card } from "./Card";
 
@@ -29,7 +29,7 @@ export type NotificationCardProps = {
     testID?: string;
 };
 
-const TONE_COLOR: Record<NonNullable<NotificationCardProps["tone"]>, ADSColorToken> = {
+const TONE_COLOR: Record<NonNullable<NotificationCardProps["tone"]>, SDSColorToken> = {
     info: "info",
     success: "success",
     warning: "warning",
@@ -52,7 +52,7 @@ export function NotificationCard(props: NotificationCardProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     const accent = colors[TONE_COLOR[tone]];
 

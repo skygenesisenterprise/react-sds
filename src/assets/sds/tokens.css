@@ -1,0 +1,12 @@
+/**
+ * SDS design tokens — CSS custom properties.
+ *
+ * Public import path kept for compatibility:
+ *
+ *     import "@skygenesisenterprise/react-sds/assets/sds/tokens.css";
+ *
+ * The canonical token stylesheet is `src/styles/tokens.css` (part of the official
+ * `main.css` foundation entry). This file re-exports it so both import paths stay
+ * in sync — see the canonical file for the full documentation of the tokens.
+ */
+@import url("../../styles/tokens.css");

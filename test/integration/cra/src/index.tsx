@@ -1,14 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { startReactDsfr } from "@codegouvaor/react-ads/spa";
+import { startReactDsfr } from "@skygenesisenterprise/react-sds/spa";
 import { Home } from "./Home";
 import { Mui } from "./Mui";
 import { Picto } from "./Picto";
 import { useRoute, RouteProvider } from "./router";
-import { Header } from "@codegouvaor/react-ads/Header";
-import { fr } from "@codegouvaor/react-ads";
+import { Header } from "@skygenesisenterprise/react-sds/Header";
+import { fr } from "@skygenesisenterprise/react-sds";
 import { routes } from "./router";
-import { headerFooterDisplayItem } from "@codegouvaor/react-ads/Display";
+import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
 
 
 startReactDsfr({
@@ -36,9 +36,9 @@ function Root() {
         }}>
             <Header
                 identity={{
-                    imgUrl: "/astoria-gouv.png",
-                    alt: "République d'Astoria",
-                    institution: "Gouvernement"
+                    imgUrl: "/sge-identity.svg",
+                    alt: "Sky Genesis Enterprise",
+                    institution: "Sky Genesis Enterprise"
                 }}
                 serviceTitle="Nom du site / service"
                 quickAccessItems={[
@@ -51,7 +51,7 @@ function Root() {
                         text: "Nous contacter",
                     }
                 ]}
-                homeLinkProps={{ ...routes.home().link, "title": "Accueil - République d'Astoria" }}
+                homeLinkProps={{ ...routes.home().link, "title": "Accueil - Sky Genesis Enterprise" }}
                 navigation={[
                     {
                         "text": "Home",

@@ -1,0 +1,99 @@
+/**
+ * SGE dark theme.
+ *
+ * Reproduces the palette, elevation and motion identity currently used by the
+ * Notploy website. This is the reference dark scheme of the SGE design system.
+ *
+ * Activate it explicitly with:
+ *
+ *     <html data-sge-theme="dark">
+ *
+ * The legacy `.dark` and `[data-fr-theme="dark"]` selectors are also honored so
+ * applications already driving a dark scheme through their runtime keep working.
+ * SGE does not apply the dark theme automatically.
+ */
+
+[data-sge-theme="dark"],
+.dark,
+[data-fr-theme="dark"] {
+    color-scheme: dark;
+
+    /* ---- Surfaces ---------------------------------------------------------- */
+
+    --sge-color-background: var(--sge-palette-neutral-950);
+    --sge-color-foreground: var(--sge-palette-neutral-200);
+
+    --sge-color-card: var(--sge-palette-neutral-900);
+    --sge-color-card-foreground: var(--sge-color-foreground);
+    --sge-color-popover: var(--sge-palette-neutral-900);
+    --sge-color-popover-foreground: var(--sge-color-foreground);
+
+    --sge-color-surface: var(--sge-color-card);
+    --sge-color-surface-muted: var(--sge-palette-neutral-800);
+
+    /* ---- Intent ------------------------------------------------------------ */
+
+    --sge-color-primary: var(--sge-palette-primary-300);
+    --sge-color-primary-foreground: var(--sge-palette-neutral-600);
+
+    --sge-color-secondary: var(--sge-palette-neutral-850);
+    --sge-color-secondary-foreground: var(--sge-palette-primary-300);
+
+    --sge-color-muted: var(--sge-palette-neutral-800);
+    --sge-color-muted-foreground: var(--sge-palette-neutral-300);
+
+    --sge-color-accent: var(--sge-palette-neutral-600);
+    --sge-color-accent-foreground: var(--sge-palette-primary-300);
+
+    --sge-color-destructive: var(--sge-palette-destructive-500);
+    --sge-color-destructive-foreground: var(--sge-palette-neutral-0);
+    --sge-color-danger: var(--sge-color-destructive);
+
+    --sge-color-success: var(--sge-palette-success-500);
+    --sge-color-warning: var(--sge-palette-warning-500);
+    --sge-color-info: var(--sge-palette-info-500);
+
+    /* ---- Lines & focus ----------------------------------------------------- */
+
+    --sge-color-border: var(--sge-palette-neutral-700);
+    --sge-color-input: var(--sge-palette-neutral-700);
+    --sge-color-ring: var(--sge-palette-primary-300);
+    --sge-color-focus: var(--sge-color-ring);
+
+    /* ---- Text -------------------------------------------------------------- */
+
+    --sge-color-text: var(--sge-color-foreground);
+    --sge-color-text-muted: var(--sge-color-muted-foreground);
+    --sge-color-link: var(--sge-color-primary);
+    --sge-color-link-hover: oklch(0.92 0.02 100.6306);
+    --sge-color-on-primary: var(--sge-color-primary-foreground);
+    --sge-color-disabled: oklch(0.45 0 0);
+
+    /* ---- Charts (Notploy reference values) --------------------------------- */
+
+    --sge-color-chart-1: var(--sge-palette-chart-1);
+    --sge-color-chart-2: var(--sge-palette-chart-2);
+    --sge-color-chart-3: var(--sge-palette-chart-3);
+    --sge-color-chart-4: var(--sge-palette-chart-4);
+    --sge-color-chart-5: var(--sge-palette-chart-5);
+
+    /* ---- Overlay ----------------------------------------------------------- */
+
+    --sge-color-overlay: var(--sge-palette-overlay);
+
+    /* ---- Elevation (Notploy reference values) ------------------------------ */
+
+    --sge-shadow-2xs: 0 6px 15px 0 rgb(0 0 0 / 0.15);
+    --sge-shadow-xs: 0 6px 15px 0 rgb(0 0 0 / 0.15);
+    --sge-shadow-sm: 0 6px 15px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --sge-shadow-default: 0 6px 15px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --sge-shadow-md: 0 6px 15px 0 rgb(0 0 0 / 0.3), 0 2px 4px -1px rgb(0 0 0 / 0.3);
+    --sge-shadow-lg: 0 6px 15px 0 rgb(0 0 0 / 0.3), 0 4px 6px -1px rgb(0 0 0 / 0.3);
+    --sge-shadow-xl: 0 6px 15px 0 rgb(0 0 0 / 0.3), 0 8px 10px -1px rgb(0 0 0 / 0.3);
+    --sge-shadow-2xl: 0 6px 15px 0 rgb(0 0 0 / 0.75);
+
+    --sge-elevation-none: var(--sge-shadow-none);
+    --sge-elevation-small: var(--sge-shadow-xs);
+    --sge-elevation-medium: var(--sge-shadow-md);
+    --sge-elevation-large: var(--sge-shadow-lg);
+}

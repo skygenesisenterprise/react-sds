@@ -1,0 +1,84 @@
+/**
+ * SGE accessibility — the common rules every product needs.
+ *
+ * Components ship their own (often stronger) focus styles; the rules here are
+ * the safety net for everything else. Use the `sge-` helpers in new code; the
+ * `sds-` names are kept as compatibility aliases.
+ */
+
+/* ---- Visible focus -------------------------------------------------------- */
+
+:focus-visible {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+}
+
+.sge-focus-ring:focus-visible,
+.sds-focus-ring:focus-visible {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--sge-color-focus) 25%, transparent);
+}
+
+/* ---- Visually hidden ------------------------------------------------------- */
+
+.sge-sr-only,
+.sds-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Re-show a visually-hidden element on focus (skip links pattern). */
+.sge-sr-only:focus-visible,
+.sds-sr-only:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* ---- Touch targets --------------------------------------------------------- */
+
+.sge-touch-target,
+.sds-touch-target {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+}
+
+/* ---- Disabled states ------------------------------------------------------- */
+
+:disabled,
+[aria-disabled="true"] {
+    color: var(--sge-color-disabled);
+}
+
+/* ---- Reduced motion -------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ---- High contrast --------------------------------------------------------- */
+
+@media (prefers-contrast: more) {
+    :focus-visible {
+        outline-width: 3px;
+    }
+}

@@ -1,5 +1,5 @@
 {
-    "name": "react-ads-test-app-vite",
+    "name": "react-sds-test-app-vite",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -7,8 +7,8 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "copy-dsfr-to-public": "node node_modules/@codegouvaor/react-ads/bin/copy-dsfr-to-public.js",
-        "only-include-used-icons": "node node_modules/@codegouvaor/react-ads/bin/only-include-used-icons.js",
+        "copy-dsfr-to-public": "node node_modules/@skygenesisenterprise/react-sds/bin/copy-dsfr-to-public.js",
+        "only-include-used-icons": "node node_modules/@skygenesisenterprise/react-sds/bin/only-include-used-icons.js",
         "predev": "yarn copy-dsfr-to-public && yarn only-include-used-icons",
         "prebuild": "yarn copy-dsfr-to-public && yarn only-include-used-icons"
     },
@@ -22,7 +22,7 @@
         "@mui/x-date-pickers": "^6.18.2",
         "@mui/icons-material": "^5.14.18",
         "dayjs": "^1.11.6",
-        "@codegouvaor/react-ads": "file:../../../dist"
+        "@skygenesisenterprise/react-sds": "file:../../../dist"
     },
     "devDependencies": {
         "@types/react": "18.0.21",

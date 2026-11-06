@@ -1,0 +1,64 @@
+/**
+ * SGE color primitives.
+ *
+ * Part of the institutional CSS foundation of Sky Genesis Enterprise. These are
+ * raw, theme-independent OKLCH palette primitives. The semantic `--sge-color-*`
+ * tokens that applications consume are defined per theme in `../themes/light.css`
+ * and `../themes/dark.css`.
+ *
+ * The palette is derived from the reference identity currently used by Notploy.
+ * The dark theme maps these values directly to the canonical semantic tokens;
+ * the light theme provides a coherent declination of the same hues.
+ *
+ * Do not use `--sge-palette-*` directly in product code: depend on the semantic
+ * `--sge-color-*` tokens instead so that theme switching keeps working.
+ */
+
+:root {
+    /* ---- Neutrals --------------------------------------------------------- */
+
+    --sge-palette-neutral-0: oklch(1 0 0);
+    --sge-palette-neutral-50: oklch(0.9911 0 0);
+    --sge-palette-neutral-100: oklch(0.9731 0 0);
+    --sge-palette-neutral-200: oklch(0.9173 0.0133 82.4015);
+    --sge-palette-neutral-300: oklch(0.6348 0.0113 81.7875);
+    --sge-palette-neutral-400: oklch(0.4681 0.0069 84.5829);
+    --sge-palette-neutral-500: oklch(0.3523 0 0);
+    --sge-palette-neutral-600: oklch(0.3329 0 0);
+    --sge-palette-neutral-700: oklch(0.2931 0 0);
+    --sge-palette-neutral-800: oklch(0.285 0 0);
+    --sge-palette-neutral-850: oklch(0.252 0 0);
+    --sge-palette-neutral-900: oklch(0.2264 0 0);
+    --sge-palette-neutral-950: oklch(0.1913 0 0);
+
+    /* ---- Brand primary (Notploy pale olive, darker declinations) ---------- */
+
+    --sge-palette-primary-300: oklch(0.852 0.0205 100.6306);
+    --sge-palette-primary-500: oklch(0.62 0.033 100.6306);
+    --sge-palette-primary-600: oklch(0.52 0.036 100.6306);
+    --sge-palette-primary-700: oklch(0.42 0.033 100.6306);
+    --sge-palette-primary-800: oklch(0.32 0.025 100.6306);
+
+    /* ---- Semantic hues ---------------------------------------------------- */
+
+    --sge-palette-destructive-500: oklch(0.6368 0.2078 25.3313);
+    --sge-palette-destructive-600: oklch(0.55 0.2078 25.3313);
+    --sge-palette-success-500: oklch(0.74 0.14 150);
+    --sge-palette-success-600: oklch(0.52 0.13 150);
+    --sge-palette-warning-500: oklch(0.78 0.15 70);
+    --sge-palette-warning-600: oklch(0.62 0.15 70);
+    --sge-palette-info-500: oklch(0.72 0.12 250);
+    --sge-palette-info-600: oklch(0.55 0.13 250);
+
+    /* ---- Charts (Notploy reference palette) -------------------------------- */
+
+    --sge-palette-chart-1: oklch(0.6863 0.1743 34.2614);
+    --sge-palette-chart-2: oklch(0.859 0.0209 74.6369);
+    --sge-palette-chart-3: oklch(0.6348 0.0113 81.7875);
+    --sge-palette-chart-4: oklch(0.4681 0.0069 84.5829);
+    --sge-palette-chart-5: oklch(0.3523 0 0);
+
+    /* ---- Overlay ----------------------------------------------------------- */
+
+    --sge-palette-overlay: rgb(0 0 0 / 0.5);
+}

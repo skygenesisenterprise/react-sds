@@ -1,0 +1,76 @@
+/**
+ * Tailwind CSS v4 adapter for the SGE foundation.
+ *
+ * Import this file AFTER the SGE foundation has been loaded:
+ *
+ *     import "@skygenesisenterprise/react-sds/styles";
+ *     import "@skygenesisenterprise/react-sds/styles/adapters/tailwind-v4.css";
+ *
+ * It exposes the institutional tokens as Tailwind v4 theme variables so the
+ * usual utilities (`bg-background`, `text-foreground`, `border-border`,
+ * `rounded`, `shadow`, …) resolve to the SGE identity.
+ *
+ * The `@theme` at-rule is specific to Tailwind v4 and is intentionally kept in
+ * a dedicated adapter, never in the canonical foundation.
+ */
+
+@import url("./tailwind.css");
+
+@theme inline {
+    --color-background: var(--sge-color-background);
+    --color-foreground: var(--sge-color-foreground);
+
+    --color-card: var(--sge-color-card);
+    --color-card-foreground: var(--sge-color-card-foreground);
+    --color-popover: var(--sge-color-popover);
+    --color-popover-foreground: var(--sge-color-popover-foreground);
+
+    --color-primary: var(--sge-color-primary);
+    --color-primary-foreground: var(--sge-color-primary-foreground);
+    --color-secondary: var(--sge-color-secondary);
+    --color-secondary-foreground: var(--sge-color-secondary-foreground);
+
+    --color-muted: var(--sge-color-muted);
+    --color-muted-foreground: var(--sge-color-muted-foreground);
+    --color-accent: var(--sge-color-accent);
+    --color-accent-foreground: var(--sge-color-accent-foreground);
+
+    --color-destructive: var(--sge-color-destructive);
+    --color-destructive-foreground: var(--sge-color-destructive-foreground);
+
+    --color-border: var(--sge-color-border);
+    --color-input: var(--sge-color-input);
+    --color-ring: var(--sge-color-ring);
+
+    --color-chart-1: var(--sge-color-chart-1);
+    --color-chart-2: var(--sge-color-chart-2);
+    --color-chart-3: var(--sge-color-chart-3);
+    --color-chart-4: var(--sge-color-chart-4);
+    --color-chart-5: var(--sge-color-chart-5);
+
+    --color-overlay: var(--sge-color-overlay);
+
+    --radius-sm: var(--sge-radius-small);
+    --radius-md: var(--sge-radius-medium);
+    --radius-lg: var(--sge-radius-large);
+    --radius-xl: var(--sge-radius-xl);
+
+    --shadow-2xs: var(--sge-shadow-2xs);
+    --shadow-xs: var(--sge-shadow-xs);
+    --shadow-sm: var(--sge-shadow-sm);
+    --shadow-md: var(--sge-shadow-md);
+    --shadow-lg: var(--sge-shadow-lg);
+    --shadow-xl: var(--sge-shadow-xl);
+    --shadow-2xl: var(--sge-shadow-2xl);
+
+    --duration-quick: var(--sge-motion-quick);
+    --duration-fast: var(--sge-motion-fast);
+    --duration-medium: var(--sge-motion-medium);
+    --duration-slow: var(--sge-motion-slow);
+
+    --ease-smooth-out: var(--sge-ease-smooth-out);
+
+    --tracking-normal: var(--sge-tracking-normal);
+    --tracking-tight: var(--sge-tracking-tight);
+    --tracking-wide: var(--sge-tracking-wide);
+}

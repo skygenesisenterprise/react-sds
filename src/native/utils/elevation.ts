@@ -1,12 +1,12 @@
 /**
- * Utility to translate an ADS elevation token into React Native shadow props.
+ * Utility to translate an SDS elevation token into React Native shadow props.
  */
 
 import { Platform } from "react-native";
 import type { ViewStyle } from "react-native";
-import type { ADSElevation } from "../tokens";
+import type { SDSElevation } from "../tokens";
 
-export function elevationToStyle(elevation: ADSElevation): ViewStyle {
+export function elevationToStyle(elevation: SDSElevation): ViewStyle {
     if (Platform.OS === "android") {
         return { elevation: elevation.android };
     }

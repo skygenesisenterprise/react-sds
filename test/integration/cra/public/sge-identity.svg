@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80" role="img" aria-labelledby="sge-title">
+  <title id="sge-title">Sky Genesis Enterprise</title>
+  <rect width="320" height="80" rx="12" fill="#111827"/>
+  <rect x="12" y="12" width="56" height="56" rx="10" fill="#7c3aed"/>
+  <text x="40" y="49" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="700" text-anchor="middle">SGE</text>
+  <text x="84" y="36" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="20" font-weight="700" letter-spacing="0.04em">SKY GENESIS</text>
+  <text x="84" y="58" fill="#c4b5fd" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="600" letter-spacing="0.18em">ENTERPRISE</text>
+</svg>

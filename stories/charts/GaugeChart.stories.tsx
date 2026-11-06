@@ -6,12 +6,12 @@ const { meta, getStory } = getStoryFactory<GaugeChartProps>({
     sectionName: sectionName,
     "wrappedComponent": { GaugeChart },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Chart/BarChart.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Chart/BarChart.tsx)
 
 To use this component you need to add \`@gouvfr/dsfr-chart\` to your dependencies.  
 
 Note for Next users: Chart components are not SSR compatible. You need to import them dynamically with [\`next/dynamic\`](https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#nextdynamic).  
-You can find an example [here](https://github.com/codegouvaor/react-ads/blob/bc2c2be290b09684711c53176b7a379cebed08a8/test/integration/next-appdir/app/dsfr-chart/page.tsx#L8-L9).  
+You can find an example [here](https://github.com/skygenesisenterprise/react-sds/blob/bc2c2be290b09684711c53176b7a379cebed08a8/test/integration/next-appdir/app/dsfr-chart/page.tsx#L8-L9).  
 
 `,
     "argTypes": {

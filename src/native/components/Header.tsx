@@ -1,5 +1,5 @@
 /**
- * ADS Native `Header` — a mobile app header bar.
+ * SDS Native `Header` — a mobile app header bar.
  *
  * A graphical primitive (title + optional leading/trailing actions). Navigation
  * is delegated to the host app via `onBack` / `onPress`.
@@ -8,7 +8,7 @@
 import * as React from "react";
 import { View, Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { IconButton } from "./IconButton";
 
 export type HeaderProps = {
@@ -39,7 +39,7 @@ export function Header(props: HeaderProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <View

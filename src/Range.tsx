@@ -69,7 +69,7 @@ export namespace RangeProps {
 
 // const DoubleRange = (props: Pick<RangeProps, "min" | "max" | "nativeInputProps" | "step">) => {};
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-segmented-control> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-segmented-control> */
 export const Range = memo(
     forwardRef<HTMLDivElement, RangeProps>((props, ref) => {
         const {

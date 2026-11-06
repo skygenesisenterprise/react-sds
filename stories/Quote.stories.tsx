@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Quote },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Quote.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Quote.tsx)`,
     "disabledProps": ["lang"]
 });
 

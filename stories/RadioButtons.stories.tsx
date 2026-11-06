@@ -9,13 +9,13 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { RadioButtons },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/RadioButtons.tsx)  
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/RadioButtons.tsx)  
   
 ## Controlled
 
 \`\`\`tsx
 import { useState } from "react";
-import { RadioButtons } from "@codegouvaor/react-ads/RadioButtons";
+import { RadioButtons } from "@skygenesisenterprise/react-sds/RadioButtons";
 
 function MyComponent(){
 
@@ -57,7 +57,7 @@ function MyComponent(){
 
 \`\`\`tsx
 import { useState } from "react";
-import { RadioButtons } from "@codegouvaor/react-ads/RadioButtons";
+import { RadioButtons } from "@skygenesisenterprise/react-sds/RadioButtons";
 
 function MyComponent(){
 

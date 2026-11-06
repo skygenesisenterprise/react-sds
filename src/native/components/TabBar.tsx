@@ -1,5 +1,5 @@
 /**
- * ADS Native `TabBar` — a horizontal bar of `NavItem`s (tab navigation).
+ * SDS Native `TabBar` — a horizontal bar of `NavItem`s (tab navigation).
  *
  * Graphical primitive only; routing is delegated to the host app.
  */
@@ -7,7 +7,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { NavItem } from "./NavItem";
 
 export type Tab = {
@@ -37,7 +37,7 @@ export function TabBar(props: TabBarProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <View

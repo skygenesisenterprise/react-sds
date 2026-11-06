@@ -7,7 +7,7 @@ const { meta, getStory } = getStoryFactory({
     "wrappedComponent": { SideMenu },
     "defaultContainerWidth": 300,
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/SideMenu.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/SideMenu.tsx)`,
     "disabledProps": ["lang"],
     "argTypes": {
         "title": {

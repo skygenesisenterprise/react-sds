@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Checkbox },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Checkbox.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Checkbox.tsx)`,
     "argTypes": {
         "options": {
             "description": `An array describing the checkbox options. 

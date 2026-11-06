@@ -23,7 +23,7 @@ const packageJsonPath = pathJoin(projectRootDirPath, "package.json");
  * Subpaths reported broken in consumer projects (TS2307 / MODULE_NOT_FOUND) plus a few
  * representatives of each emitted shape: flat files (SkipLinks), directories with an
  * index (Header, MainNavigation, Display), deep files (MainNavigation/MegaMenu),
- * namespaces (native, ads, fr) and the root entry.
+ * namespaces (native, sds, fr) and the root entry.
  */
 const PUBLIC_SUBPATHS = [
     ".",
@@ -35,7 +35,7 @@ const PUBLIC_SUBPATHS = [
     "/Button",
     "/Footer",
     "/native",
-    "/ads",
+    "/sds",
     "/fr",
     "/next-pagesdir",
     "/next-app-router/DsfrHead",
@@ -120,15 +120,15 @@ describe("published package: package.json exports", () => {
 describe("published package: TypeScript resolution", () => {
     const setupConsumer = (): string => {
         // Reproduces the "install the repo / published package in a consumer" layout:
-        // node_modules/@codegouvaor/react-ads = dist/ + the root package.json, which is
+        // node_modules/@skygenesisenterprise/react-sds = dist/ + the root package.json, which is
         // the layout the broken `./*` wildcard used to live in.
-        const consumerDirPath = fs.mkdtempSync(pathJoin(os.tmpdir(), "react-ads-consumer-"));
+        const consumerDirPath = fs.mkdtempSync(pathJoin(os.tmpdir(), "react-sds-consumer-"));
 
         const packageDirPath = pathJoin(
             consumerDirPath,
             "node_modules",
-            "@codegouvaor",
-            "react-ads"
+            "@skygenesisenterprise",
+            "react-sds"
         );
 
         fs.mkdirSync(packageDirPath, { "recursive": true });
@@ -153,12 +153,12 @@ describe("published package: TypeScript resolution", () => {
         );
 
         const consumerSourceCode = [
-            `import { Header } from "@codegouvaor/react-ads/Header";`,
-            `import { SkipLinks } from "@codegouvaor/react-ads/SkipLinks";`,
-            `import { MainNavigation } from "@codegouvaor/react-ads/MainNavigation";`,
-            `import { MegaMenu } from "@codegouvaor/react-ads/MainNavigation/MegaMenu";`,
-            `import { Display } from "@codegouvaor/react-ads/Display";`,
-            `import { Header as HeaderRoot } from "@codegouvaor/react-ads";`,
+            `import { Header } from "@skygenesisenterprise/react-sds/Header";`,
+            `import { SkipLinks } from "@skygenesisenterprise/react-sds/SkipLinks";`,
+            `import { MainNavigation } from "@skygenesisenterprise/react-sds/MainNavigation";`,
+            `import { MegaMenu } from "@skygenesisenterprise/react-sds/MainNavigation/MegaMenu";`,
+            `import { Display } from "@skygenesisenterprise/react-sds/Display";`,
+            `import { Header as HeaderRoot } from "@skygenesisenterprise/react-sds";`,
             ...moduleSubpaths
                 .filter(
                     subpath =>
@@ -169,7 +169,7 @@ describe("published package: TypeScript resolution", () => {
                         subpath !== "/MainNavigation/MegaMenu" &&
                         subpath !== "/Display"
                 )
-                .map(subpath => `import "${"@codegouvaor/react-ads" + subpath}";`)
+                .map(subpath => `import "${"@skygenesisenterprise/react-sds" + subpath}";`)
         ].join("\n");
 
         fs.writeFileSync(pathJoin(consumerDirPath, "consumer.ts"), consumerSourceCode);
@@ -228,7 +228,7 @@ describe("published package: Node resolution", () => {
             subpath =>
                 !subpath.startsWith("/main.css") && !subpath.startsWith("/early-color-scheme")
         )) {
-            const moduleName = `@codegouvaor/react-ads${subpath === "." ? "" : subpath}`;
+            const moduleName = `@skygenesisenterprise/react-sds${subpath === "." ? "" : subpath}`;
 
             expect(
                 () => requireFromConsumer.resolve(moduleName),
@@ -239,9 +239,9 @@ describe("published package: Node resolution", () => {
 });
 
 function setupConsumerNode(): string {
-    const consumerDirPath = fs.mkdtempSync(pathJoin(os.tmpdir(), "react-ads-consumer-node-"));
+    const consumerDirPath = fs.mkdtempSync(pathJoin(os.tmpdir(), "react-sds-consumer-node-"));
 
-    const packageDirPath = pathJoin(consumerDirPath, "node_modules", "@codegouvaor", "react-ads");
+    const packageDirPath = pathJoin(consumerDirPath, "node_modules", "@skygenesisenterprise", "react-sds");
 
     fs.mkdirSync(packageDirPath, { "recursive": true });
 

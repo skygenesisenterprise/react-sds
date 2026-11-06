@@ -26,7 +26,7 @@ export type BackToTopProps = {
     iconId?: FrIconClassName | RiIconClassName;
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-backtotop> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-backtotop> */
 export const BackToTop = memo(
     forwardRef<HTMLButtonElement, BackToTopProps>((props, ref) => {
         const {
@@ -64,7 +64,7 @@ export const BackToTop = memo(
             <button
                 type="button"
                 ref={ref}
-                className={cx("ads-back-to-top", isVisible && "is-visible", className)}
+                className={cx("sds-back-to-top", isVisible && "is-visible", className)}
                 style={style}
                 onClick={onButtonClick}
                 tabIndex={isVisible ? 0 : -1}

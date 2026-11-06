@@ -1,0 +1,30 @@
+/**
+ * SGE spacing tokens.
+ *
+ * A 4px base scale shared by every product. Use these steps instead of ad-hoc
+ * pixel values so layouts stay rhythmically consistent across applications.
+ */
+
+:root {
+    --sge-space-base: 0.25rem;
+    --sge-space-1: 0.25rem;
+    --sge-space-2: 0.5rem;
+    --sge-space-3: 0.75rem;
+    --sge-space-4: 1rem;
+    --sge-space-5: 1.5rem;
+    --sge-space-6: 2rem;
+    --sge-space-7: 2.5rem;
+    --sge-space-8: 3rem;
+    --sge-space-9: 4rem;
+    --sge-space-10: 5rem;
+    --sge-space-11: 6rem;
+    --sge-space-12: 8rem;
+
+    /* ---- Layout ------------------------------------------------------------ */
+
+    --sge-breakpoint-xs: 0rem;
+    --sge-breakpoint-sm: 36rem;
+    --sge-breakpoint-md: 48rem;
+    --sge-breakpoint-lg: 62rem;
+    --sge-breakpoint-xl: 75rem;
+}

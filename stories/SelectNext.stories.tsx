@@ -11,10 +11,10 @@ const { meta, getStory } = getStoryFactory<SelectProps<SelectProps.Option[]>>({
     "description": `
 \`\`\`tsx
 
-import { Select } from "@codegouvaor/react-ads/SelectNext";
+import { Select } from "@skygenesisenterprise/react-sds/SelectNext";
 
 \`\`\`
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/SelectNext.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/SelectNext.tsx)
 
 
 ## Controlled
@@ -33,7 +33,7 @@ type Value = typeof values[number]; // "foo" | "bar" | "baz";
 
 \`\`\`tsx
 import { useState } from "react";
-import { Select } from "@codegouvaor/react-ads/Select";
+import { Select } from "@skygenesisenterprise/react-sds/Select";
 
 function MyComponent(){
 
@@ -71,7 +71,7 @@ function MyComponent(){
 
 \`\`\`tsx
 import { useState } from "react";
-import { Select } from "@codegouvaor/react-ads/Select";
+import { Select } from "@skygenesisenterprise/react-sds/Select";
 
 function MyComponent(){
 
@@ -98,7 +98,7 @@ function MyComponent(){
 
 \`\`\`tsx
 import { useState } from "react";
-import { Select } from "@codegouvaor/react-ads/Select";
+import { Select } from "@skygenesisenterprise/react-sds/Select";
 
 function MyComponent(){
 

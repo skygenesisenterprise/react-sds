@@ -3,10 +3,10 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { useIsDark } from "@codegouvaor/react-ads/useIsDark";
-import { createModal } from "@codegouvaor/react-ads/Modal";
-import { useIsModalOpen } from "@codegouvaor/react-ads/Modal/useIsModalOpen";
-import { useIsHeaderMenuModalOpen } from "@codegouvaor/react-ads/Header/useIsHeaderMenuModalOpen";
+import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
+import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+import { useIsModalOpen } from "@skygenesisenterprise/react-sds/Modal/useIsModalOpen";
+import { useIsHeaderMenuModalOpen } from "@skygenesisenterprise/react-sds/Header/useIsHeaderMenuModalOpen";
 
 export function ClientComponent() {
 

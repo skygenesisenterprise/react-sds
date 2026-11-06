@@ -1,11 +1,11 @@
 /**
- * ADS Native `RadioGroup`.
+ * SDS Native `RadioGroup`.
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Radio } from "./Radio";
 
 export type RadioOption<T extends string = string> = {
@@ -35,7 +35,7 @@ export function RadioGroup<T extends string = string>(props: RadioGroupProps<T>)
         testID
     } = props;
 
-    const { tokens } = useADSTheme();
+    const { tokens } = useSDSTheme();
 
     return (
         <View

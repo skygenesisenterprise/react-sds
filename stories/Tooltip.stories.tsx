@@ -10,7 +10,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Tooltip },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Tooltip.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Tooltip.tsx)`,
     "argTypes": {
         "id": {
             "control": { "type": "text" },

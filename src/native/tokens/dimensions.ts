@@ -1,5 +1,5 @@
 /**
- * ADS Native dimension tokens.
+ * SDS Native dimension tokens.
  *
  * Mobile-specific measurements adapted for touch — these intentionally differ
  * from the web (larger touch targets, thumb-friendly control heights).
@@ -7,7 +7,7 @@
 
 import { StyleSheet } from "react-native";
 
-export type ADSDimensionTokens = {
+export type SDSDimensionTokens = {
     /** Minimum touch target (Apple HIG / Material guidance). */
     touchTarget: number;
     /** Small control height (icon buttons, compact). */
@@ -36,7 +36,7 @@ export type ADSDimensionTokens = {
     hairline: number;
 };
 
-export const adsDimensions: ADSDimensionTokens = {
+export const sdsDimensions: SDSDimensionTokens = {
     touchTarget: 44,
     controlSm: 36,
     controlMd: 44,

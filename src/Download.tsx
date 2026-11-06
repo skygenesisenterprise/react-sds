@@ -17,7 +17,7 @@ export type DownloadProps = {
     classes?: Partial<Record<"root" | "wrapper" | "link" | "details", string>>;
 };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-download> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-download> */
 export const Download = memo(
     forwardRef<HTMLDivElement, DownloadProps>((props, ref) => {
         const {

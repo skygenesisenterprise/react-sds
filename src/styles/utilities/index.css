@@ -1,0 +1,34 @@
+/**
+ * SGE utilities — a handful of system-wide helpers.
+ *
+ * SGE deliberately does NOT re-implement a utility framework (Tailwind already
+ * covers layout utilities in the applications that use it). Only the helpers
+ * that carry a real system justification live here.
+ *
+ * New code should use the `sge-` names. The `sds-` names are kept as
+ * compatibility aliases for applications built before the institutional rename.
+ */
+
+.sge-text-muted,
+.sds-text-muted {
+    color: var(--sge-color-text-muted);
+}
+
+.sge-text-center,
+.sds-text-center {
+    text-align: center;
+}
+
+.sge-text-bold,
+.sds-text-bold {
+    font-weight: var(--sge-font-weight-bold);
+}
+
+.sge-text-balance {
+    text-wrap: balance;
+}
+
+.sge-full-bleed {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+}

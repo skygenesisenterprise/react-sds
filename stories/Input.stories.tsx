@@ -10,7 +10,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Input },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Input.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Input.tsx)`,
     "argTypes": {
         "disabled": {
             "control": { "type": "boolean" }

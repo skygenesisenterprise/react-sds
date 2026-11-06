@@ -1,11 +1,11 @@
 /**
- * ADS Native `DocumentCard` — a generic document/file entry.
+ * SDS Native `DocumentCard` — a generic document/file entry.
  */
 
 import * as React from "react";
 import { View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
-import { useADSTheme } from "../theme";
+import { useSDSTheme } from "../theme";
 import { Text, Icon } from "../primitives";
 import { Card } from "./Card";
 import { StatusBadge, type StatusKey } from "./StatusBadge";
@@ -38,7 +38,7 @@ export function DocumentCard(props: DocumentCardProps) {
         testID
     } = props;
 
-    const { colors, tokens } = useADSTheme();
+    const { colors, tokens } = useSDSTheme();
 
     return (
         <Card

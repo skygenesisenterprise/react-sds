@@ -1,6 +1,6 @@
 "use client";
 
-import { Follow as BaseFollow } from "@codegouvaor/react-ads/Follow";
+import { Follow as BaseFollow } from "@skygenesisenterprise/react-sds/Follow";
 import { useState } from 'react'
 
 export const Follow = () => {

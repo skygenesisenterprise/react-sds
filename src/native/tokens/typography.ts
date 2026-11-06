@@ -1,13 +1,13 @@
 /**
- * ADS Native typography tokens.
+ * SDS Native typography tokens.
  *
  * Font sizes are given in points (numbers) as expected by React Native styles.
  * Weights use the React Native `FontWeight` string union.
  */
 
-export type ADSFontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+export type SDSFontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
-export type ADSTypographyTokens = {
+export type SDSTypographyTokens = {
     "fontFamily-sans": string;
     "fontFamily-serif": string;
     "fontFamily-mono": string;
@@ -18,10 +18,10 @@ export type ADSTypographyTokens = {
     "fontSize-xl": number;
     "fontSize-2xl": number;
     "fontSize-3xl": number;
-    "fontWeight-regular": ADSFontWeight;
-    "fontWeight-medium": ADSFontWeight;
-    "fontWeight-semibold": ADSFontWeight;
-    "fontWeight-bold": ADSFontWeight;
+    "fontWeight-regular": SDSFontWeight;
+    "fontWeight-medium": SDSFontWeight;
+    "fontWeight-semibold": SDSFontWeight;
+    "fontWeight-bold": SDSFontWeight;
     "lineHeight-body": number;
     "lineHeight-heading": number;
     "lineHeight-tight": number;
@@ -29,7 +29,7 @@ export type ADSTypographyTokens = {
     "lineHeight-relaxed": number;
 };
 
-export const adsTypography: ADSTypographyTokens = {
+export const sdsTypography: SDSTypographyTokens = {
     "fontFamily-sans": "System",
     "fontFamily-serif": "Georgia",
     "fontFamily-mono": "monospace",

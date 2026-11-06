@@ -8,12 +8,12 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Alert },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Alert.tsx)
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Alert.tsx)
 
 ## Uncontrolled mode  
 
 \`\`\`tsx
-import { Alert } from "@codegouvaor/react-ads/Alert";
+import { Alert } from "@skygenesisenterprise/react-sds/Alert";
 
 <Alert
     severity="success"
@@ -27,7 +27,7 @@ import { Alert } from "@codegouvaor/react-ads/Alert";
 ## Controlled mode
 
 \`\`\`tsx
-import { Alert } from "@codegouvaor/react-ads/Alert";
+import { Alert } from "@skygenesisenterprise/react-sds/Alert";
 import { useState } from "react";
 
 const [ isClosed, setIsClosed ] = useState(false);

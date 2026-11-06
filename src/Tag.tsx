@@ -96,7 +96,7 @@ export namespace TagProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-tag> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-tag> */
 export const Tag = memo(
     forwardRef<TagProps.HTMLElement, TagProps>(
         // -- (lint hack) to keep same indent as before

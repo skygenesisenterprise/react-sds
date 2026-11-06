@@ -1,5 +1,5 @@
 /**
- * Minimal React Native mock used by ADS Native runtime tests.
+ * Minimal React Native mock used by SDS Native runtime tests.
  *
  * Renders native primitives as plain host elements so components can be
  * rendered with `react-dom/server` in the Node vitest environment. This mock

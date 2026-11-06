@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     block-all-mixed-content;
     upgrade-insecure-requests;
     require-trusted-types-for 'script';
-    trusted-types default react-ads react-ads-asap nextjs#bundler;
+    trusted-types default react-sds react-sds-asap nextjs#bundler;
 `;
 
     const requestHeaders = new Headers();

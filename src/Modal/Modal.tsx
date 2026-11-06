@@ -205,7 +205,7 @@ addModalTranslations({
 
 export { addModalTranslations };
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-modal> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-modal> */
 export function createModal(params: { isOpenedByDefault: boolean; id: string }): {
     buttonProps: {
         /** Only for analytics, feel free to overwrite */

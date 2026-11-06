@@ -1,6 +1,6 @@
-import { fr } from "@codegouvaor/react-ads";
+import { fr } from "@skygenesisenterprise/react-sds";
 
-import * as Pictogrammes from '@codegouvaor/react-ads/picto';
+import * as Pictogrammes from '@skygenesisenterprise/react-sds/picto';
 
 export function Picto() {
     return (

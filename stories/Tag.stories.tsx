@@ -7,7 +7,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Tag },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Tag.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Tag.tsx)`,
     "argTypes": {
         "dismissible": {
             "control": { "type": "boolean" }

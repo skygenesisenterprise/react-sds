@@ -1,5 +1,5 @@
 /**
- * ADS Native `TextArea` — a multiline text input.
+ * SDS Native `TextArea` — a multiline text input.
  */
 
 import * as React from "react";

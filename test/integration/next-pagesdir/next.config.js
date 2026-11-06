@@ -10,7 +10,7 @@ const nextConfig = {
     return config;
   },
   //This option requires Next 13.1 or newer, if you can't update you can use this plugin instead: https://github.com/martpie/next-transpile-modules
-  transpilePackages: ["@codegouvaor/react-ads", "tss-react"]
+  transpilePackages: ["@skygenesisenterprise/react-sds", "tss-react"]
 };
 
 module.exports = nextConfig

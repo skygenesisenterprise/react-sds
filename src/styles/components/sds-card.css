@@ -1,0 +1,533 @@
+/**
+ * SDS content components.
+ *
+ * Part of the official SGE Design System CSS foundation, loaded by
+ * `@skygenesisenterprise/react-sds/main.css` and by each content component. Styles the card
+ * family (<SDSCard />, <SDSTeaserCard />, <SDSArticleCard />), the list wrappers
+ * (<SDSNewsList />, <SDSLinkList />) and the document / event blocks.
+ */
+
+/* ---- SDSCard -------------------------------------------------------------- */
+
+.sds-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sge-space-3);
+    padding: var(--sge-space-5);
+    background-color: var(--sge-color-surface);
+    border: 1px solid var(--sge-color-border);
+    border-radius: var(--sge-radius-large);
+    box-shadow: var(--sge-elevation-small);
+    transition:
+        box-shadow var(--sge-duration-normal) var(--sge-easing-standard),
+        transform var(--sge-duration-normal) var(--sge-easing-standard);
+}
+
+.sds-card[data-variant="flat"] {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.sds-card[data-tone="subtle"] {
+    background-color: var(--sge-color-surface-muted);
+    box-shadow: none;
+}
+
+.sds-card__media {
+    margin: calc(-1 * var(--sge-space-5)) calc(-1 * var(--sge-space-5)) 0;
+    border-radius: var(--sge-radius-large) var(--sge-radius-large) 0 0;
+    overflow: hidden;
+}
+
+.sds-card__media img,
+.sds-card__media > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.sds-card__title {
+    margin: 0;
+    font-family: var(--sge-font-family-heading);
+    font-size: var(--sge-font-size-lg);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+
+.sds-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+.sds-card__title a:hover {
+    text-decoration: underline;
+    color: var(--sge-color-link);
+}
+
+.sds-card__description {
+    margin: 0;
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-body);
+    color: var(--sge-color-text-muted);
+    flex: 1 1 auto;
+}
+
+.sds-card__footer {
+    margin-top: var(--sge-space-2);
+}
+
+.sds-card__tag {
+    align-self: flex-start;
+    font-size: var(--sge-font-size-xs);
+    font-weight: var(--sge-font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sge-color-primary);
+}
+
+.sds-card:hover {
+    box-shadow: var(--sge-elevation-medium);
+    transform: translateY(-2px);
+}
+
+.sds-card:focus-within {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+}
+
+/* ---- SDSTeaserCard -------------------------------------------------------- */
+
+.sds-teaser-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sge-space-3);
+    padding: var(--sge-space-4);
+    border: 1px solid var(--sge-color-border);
+    border-radius: var(--sge-radius-medium);
+    background-color: var(--sge-color-background);
+    transition:
+        border-color var(--sge-duration-normal) var(--sge-easing-standard),
+        box-shadow var(--sge-duration-normal) var(--sge-easing-standard);
+}
+
+.sds-teaser-card:hover {
+    border-color: var(--sge-color-primary);
+    box-shadow: var(--sge-elevation-small);
+}
+
+.sds-teaser-card__tag {
+    align-self: flex-start;
+    font-size: var(--sge-font-size-xs);
+    font-weight: var(--sge-font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sge-color-primary);
+}
+
+.sds-teaser-card__title {
+    margin: 0;
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+
+.sds-teaser-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+.sds-teaser-card__title a:hover {
+    text-decoration: underline;
+    color: var(--sge-color-link);
+}
+
+.sds-teaser-card__description {
+    margin: 0;
+    font-size: var(--sge-font-size-sm);
+    line-height: var(--sge-line-height-body);
+    color: var(--sge-color-text-muted);
+}
+
+.sds-teaser-card__action {
+    margin-top: var(--sge-space-2);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sge-space-2);
+    font-size: var(--sge-font-size-sm);
+    font-weight: var(--sge-font-weight-semibold);
+    color: var(--sge-color-link);
+    text-decoration: none;
+}
+.sds-teaser-card__action:hover {
+    text-decoration: underline;
+}
+.sds-teaser-card__action i {
+    transition: transform var(--sge-duration-normal) var(--sge-easing-standard);
+}
+.sds-teaser-card__action:hover i {
+    transform: translateX(0.2em);
+}
+
+/* ---- SDSArticleCard ------------------------------------------------------- */
+
+.sds-article-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sge-space-2);
+}
+
+.sds-article-card__media {
+    border-radius: var(--sge-radius-large);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background-color: var(--sge-color-surface-muted);
+}
+.sds-article-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sds-article-card__date {
+    font-size: var(--sge-font-size-xs);
+    color: var(--sge-color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sds-article-card__title {
+    margin: 0;
+    font-size: var(--sge-font-size-lg);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+
+.sds-article-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+.sds-article-card__title a:hover {
+    text-decoration: underline;
+    color: var(--sge-color-link);
+}
+
+.sds-article-card__description {
+    margin: 0;
+    font-size: var(--sge-font-size-sm);
+    line-height: var(--sge-line-height-body);
+    color: var(--sge-color-text-muted);
+}
+
+.sds-article-card__link {
+    margin-top: var(--sge-space-1);
+    font-weight: var(--sge-font-weight-semibold);
+}
+
+/* ---- SDSNewsList ---------------------------------------------------------- */
+
+.sds-news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--sge-space-6);
+}
+
+.sds-news-list--horizontal {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 61.99rem) {
+    .sds-news-list--horizontal {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 47.99rem) {
+    .sds-news-list--horizontal {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---- SDSLinkList ---------------------------------------------------------- */
+
+.sds-link-list__title {
+    margin: 0 0 var(--sge-space-3);
+    font-family: var(--sge-font-family-heading);
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+
+.sds-link-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--sge-space-1);
+}
+
+.sds-link-list__item {
+    border-top: 1px solid var(--sge-color-border);
+    padding-block: var(--sge-space-2);
+}
+
+.sds-link-list__item:last-child {
+    border-bottom: 1px solid var(--sge-color-border);
+}
+
+.sds-link-list__link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sge-space-3);
+    font-weight: var(--sge-font-weight-medium);
+    color: var(--sge-color-link);
+    text-decoration: none;
+}
+.sds-link-list__link:hover {
+    text-decoration: underline;
+}
+.sds-link-list__link:focus-visible {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+    border-radius: var(--sge-radius-sm);
+}
+
+.sds-link-list__link i {
+    flex: none;
+    transform: translateY(0.15em);
+}
+
+.sds-link-list__description {
+    display: block;
+    font-size: var(--sge-font-size-sm);
+    font-weight: var(--sge-font-weight-regular);
+    color: var(--sge-color-text-muted);
+}
+
+/* ---- SDSDocument / SDSDownload -------------------------------------------- */
+
+.sds-document {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sge-space-4);
+    padding: var(--sge-space-4);
+    border: 1px solid var(--sge-color-border);
+    border-radius: var(--sge-radius-medium);
+    background-color: var(--sge-color-background);
+}
+
+.sds-document__icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--sge-radius-md);
+    background-color: var(--sge-color-surface-muted);
+    color: var(--sge-color-primary);
+    font-size: var(--sge-font-size-lg);
+}
+
+.sds-document__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sge-space-1);
+    min-width: 0;
+}
+
+.sds-document__title {
+    margin: 0;
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+.sds-document__title a {
+    color: inherit;
+    text-decoration: none;
+}
+.sds-document__title a:hover {
+    text-decoration: underline;
+    color: var(--sge-color-link);
+}
+
+.sds-document__meta {
+    font-size: var(--sge-font-size-xs);
+    color: var(--sge-color-text-muted);
+}
+
+.sds-document__action {
+    margin-left: auto;
+    align-self: center;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--sge-radius-md);
+    color: var(--sge-color-link);
+    background-color: var(--sge-color-surface-muted);
+    transition: background-color var(--sge-duration-normal) var(--sge-easing-standard);
+}
+.sds-document__action:hover {
+    background-color: var(--sge-color-primary);
+    color: var(--sge-color-on-primary);
+}
+
+/* ---- SDSDownload ---------------------------------------------------------- */
+
+.sds-download {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sge-space-3);
+    padding: var(--sge-space-3) var(--sge-space-4);
+    border: 1px solid var(--sge-color-border);
+    border-radius: var(--sge-radius-medium);
+    background-color: var(--sge-color-background);
+    color: var(--sge-color-text);
+    text-decoration: none;
+    transition:
+        border-color var(--sge-duration-normal) var(--sge-easing-standard),
+        box-shadow var(--sge-duration-normal) var(--sge-easing-standard);
+}
+
+.sds-download > i {
+    flex: none;
+    font-size: var(--sge-font-size-lg);
+    color: var(--sge-color-primary);
+}
+
+.sds-download:hover {
+    border-color: var(--sge-color-primary);
+    box-shadow: var(--sge-elevation-small);
+}
+
+.sds-download:focus-visible {
+    outline: 2px solid var(--sge-color-focus);
+    outline-offset: 2px;
+}
+
+.sds-download__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1em;
+}
+
+.sds-download__label {
+    font-weight: var(--sge-font-weight-semibold);
+    color: var(--sge-color-text);
+}
+
+.sds-download__meta {
+    font-size: var(--sge-font-size-xs);
+    color: var(--sge-color-text-muted);
+}
+
+/* ---- SDSEvent / SDSMeetingCard --------------------------------------------- */
+
+.sds-event {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sge-space-4);
+    padding: var(--sge-space-4);
+    border-left: 3px solid var(--sge-color-primary);
+    background-color: var(--sge-color-surface-muted);
+    border-radius: 0 var(--sge-radius-medium) var(--sge-radius-medium) 0;
+}
+
+.sds-event__date {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--sge-radius-md);
+    background-color: var(--sge-color-primary);
+    color: var(--sge-color-on-primary);
+    line-height: 1;
+}
+
+.sds-event__date-day {
+    font-size: var(--sge-font-size-lg);
+    font-weight: var(--sge-font-weight-bold);
+}
+
+.sds-event__date-month {
+    font-size: var(--sge-font-size-xs);
+    text-transform: uppercase;
+    margin-top: 0.2em;
+}
+
+.sds-event__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sge-space-1);
+}
+
+.sds-event__title {
+    margin: 0;
+    font-size: var(--sge-font-size-md);
+    line-height: var(--sge-line-height-heading);
+    font-weight: var(--sge-font-weight-bold);
+    color: var(--sge-color-text);
+}
+.sds-event__title a {
+    color: inherit;
+    text-decoration: none;
+}
+.sds-event__title a:hover {
+    text-decoration: underline;
+    color: var(--sge-color-link);
+}
+
+.sds-event__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sge-space-3);
+    font-size: var(--sge-font-size-sm);
+    color: var(--sge-color-text-muted);
+}
+
+.sds-event__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sge-space-2);
+}
+
+.sds-event__meta i {
+    font-size: 0.95em;
+}
+
+/* ---- SDSMeetingCard ------------------------------------------------------- */
+
+.sds-meeting-card {
+    padding: var(--sge-space-4);
+    border: 1px solid var(--sge-color-border);
+    border-radius: var(--sge-radius-large);
+    background-color: var(--sge-color-background);
+    box-shadow: var(--sge-elevation-small);
+}
+
+.sds-meeting-card .sds-event {
+    padding: 0;
+    border-left: none;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+.sds-meeting-card__attendees {
+    margin: var(--sge-space-3) 0 0;
+    padding-top: var(--sge-space-3);
+    border-top: 1px solid var(--sge-color-border);
+    font-size: var(--sge-font-size-sm);
+    color: var(--sge-color-text-muted);
+}

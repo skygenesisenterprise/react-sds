@@ -47,7 +47,7 @@ export namespace ButtonsGroupProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-buttonsgroup> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-buttonsgroup> */
 export const ButtonsGroup = memo(
     forwardRef<HTMLUListElement, ButtonsGroupProps>((props, ref) => {
         const {

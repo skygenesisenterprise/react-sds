@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory<HighlightProps>({
     sectionName,
     wrappedComponent: { Highlight },
     description: `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Highlight.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Highlight.tsx)`,
     argTypes: {
         size: {
             options: (() => {

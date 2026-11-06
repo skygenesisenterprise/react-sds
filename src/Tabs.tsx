@@ -47,7 +47,7 @@ export namespace TabsProps {
     };
 }
 
-/** @see <https://codegouvaor.github.io/react-ads/?path=/docs/components-tabs> */
+/** @see <https://skygenesisenterprise.github.io/react-sds/?path=/docs/components-tabs> */
 export const Tabs = memo(
     forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
         const {

@@ -8,7 +8,7 @@ const { meta, getStory } = getStoryFactory({
     sectionName,
     "wrappedComponent": { Upload },
     "description": `
-- [See source code](https://github.com/codegouvaor/react-ads/blob/main/src/Upload.tsx)`,
+- [See source code](https://github.com/skygenesisenterprise/react-sds/blob/main/src/Upload.tsx)`,
     "argTypes": {
         "disabled": {
             "control": { "type": "boolean" }

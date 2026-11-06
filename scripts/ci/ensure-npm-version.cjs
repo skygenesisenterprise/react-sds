@@ -8,12 +8,12 @@ const REQUIRED_NPM_VERSION = '11.5.1';
 function parseSemver(input) {
   if (typeof input !== 'string') throw new TypeError('Version must be a string');
   const value = input.trim();
-  const match = /^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$/.exec(value);
+  const match = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/.exec(value);
   if (!match) throw new Error('Invalid semantic version: ' + JSON.stringify(input));
 
   const prerelease = match[4] ? match[4].split('.') : [];
   for (const identifier of prerelease) {
-    if (/^\\d+$/.test(identifier) && identifier.length > 1 && identifier.startsWith('0')) {
+    if (/^\d+$/.test(identifier) && identifier.length > 1 && identifier.startsWith('0')) {
       throw new Error('Invalid numeric prerelease identifier in version: ' + value);
     }
   }
@@ -47,8 +47,8 @@ function compareSemver(leftInput, rightInput) {
     if (b === undefined) return 1;
     if (a === b) continue;
 
-    const aNumeric = /^\\d+$/.test(a);
-    const bNumeric = /^\\d+$/.test(b);
+    const aNumeric = /^\d+$/.test(a);
+    const bNumeric = /^\d+$/.test(b);
     if (aNumeric && bNumeric) return BigInt(a) > BigInt(b) ? 1 : -1;
     if (aNumeric !== bNumeric) return aNumeric ? -1 : 1;
     return a > b ? 1 : -1;
@@ -61,7 +61,7 @@ function run(command, args, options = {}) {
   if (result.error) throw result.error;
   if (result.status !== 0) {
     throw new Error('Command failed: ' + command + ' ' + args.join(' ') +
-      (result.stderr ? '\\n' + result.stderr.trim() : ''));
+      (result.stderr ? '\n' + result.stderr.trim() : ''));
   }
   return result.stdout.trim();
 }
@@ -69,7 +69,7 @@ function run(command, args, options = {}) {
 function writeGitHubOutput(values) {
   const outputPath = process.env.GITHUB_OUTPUT;
   if (!outputPath) return;
-  const content = Object.entries(values).map(([key, value]) => key + '=' + value).join('\\n') + '\\n';
+  const content = Object.entries(values).map(([key, value]) => key + '=' + value).join('\n') + '\n';
   fs.appendFileSync(outputPath, content, { encoding: 'utf8', mode: 0o600 });
 }
 

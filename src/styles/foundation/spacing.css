@@ -3,6 +3,15 @@
  *
  * A 4px base scale shared by every product. Use these steps instead of ad-hoc
  * pixel values so layouts stay rhythmically consistent across applications.
+ *
+ * The scale is a 4px grid, doubling at the top end:
+ *   1–4  →  4, 8, 12, 16px (increments of 4px)
+ *   5–8  →  24, 32, 40, 48px (increments of 8px)
+ *   9–12 →  64, 80, 96, 128px (increments of 16px)
+ *
+ * Spacing is for space *inside* and *between* elements only. Layout dimensions
+ * (containers, content widths, control heights, breakpoints) live in
+ * `./dimensions.css` so the two never get mixed.
  */
 
 :root {
@@ -19,12 +28,4 @@
     --sge-space-10: 5rem;
     --sge-space-11: 6rem;
     --sge-space-12: 8rem;
-
-    /* ---- Layout ------------------------------------------------------------ */
-
-    --sge-breakpoint-xs: 0rem;
-    --sge-breakpoint-sm: 36rem;
-    --sge-breakpoint-md: 48rem;
-    --sge-breakpoint-lg: 62rem;
-    --sge-breakpoint-xl: 75rem;
 }

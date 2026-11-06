@@ -26,9 +26,9 @@ export function Navigation() {
                 {
                     "text": "Charts",
                     "linkProps": {
-                        "href": "/dsfr-chart"
+                        "href": "/legacy-chart"
                     },
-                    "isActive": segment === "dsfr-chart"
+                    "isActive": segment === "legacy-chart"
                 },
                 {
                     "text": "External link",

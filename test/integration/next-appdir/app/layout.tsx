@@ -1,10 +1,10 @@
 import { NextAppDirEmotionCacheProvider } from "tss-react/next";
-import { DsfrHead } from "@skygenesisenterprise/react-sds/next-appdir/DsfrHead";
-import { DsfrProvider } from "@skygenesisenterprise/react-sds/next-appdir/DsfrProvider";
+import { SdsHead } from "@skygenesisenterprise/react-sds/next-appdir/SdsHead";
+import { SdsProvider } from "@skygenesisenterprise/react-sds/next-appdir/SdsProvider";
 import { getHtmlAttributes } from "@skygenesisenterprise/react-sds/next-appdir/getHtmlAttributes";
-import { StartDsfr } from "./StartDsfr";
+import { StartLegacy } from "./StartLegacy";
 import { defaultColorScheme } from "./defaultColorScheme";
-import MuiDsfrThemeProvider from "@skygenesisenterprise/react-sds/mui";
+import MuiSdsThemeProvider from "@skygenesisenterprise/react-sds/mui";
 import { Header } from "@skygenesisenterprise/react-sds/Header";
 import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 import { headerFooterDisplayItem, addDisplayTranslations } from "@skygenesisenterprise/react-sds/Display";
@@ -39,8 +39,8 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
         <html {...getHtmlAttributes({ defaultColorScheme, lang })}>
             <head>
                 <title>Next 13 AppDir demo — SDS React</title>
-                <StartDsfr />
-                <DsfrHead
+                <StartLegacy />
+                <SdsHead
                     Link={Link}
                     preloadFonts={[
                         //"Marianne-Light",
@@ -58,12 +58,12 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
                 />
             </head>
             <body>
-                <DsfrProvider lang={lang}>
+                <SdsProvider lang={lang}>
                     <ConsentBannerAndConsentManagement />
                     <NextAppDirEmotionCacheProvider
                         options={{ "key": "css", nonce, prepend: true }}
                     >
-                        <MuiDsfrThemeProvider>
+                        <MuiSdsThemeProvider>
                             <Header
                                 identity={{
                                     imgUrl: "/sge-identity.svg",
@@ -108,9 +108,9 @@ export default function RootLayout({ children }: { children: JSX.Element }) {
                                     <ClientFooterItem key={"client-footer"} />
                                 ]}
                             />
-                        </MuiDsfrThemeProvider>
+                        </MuiSdsThemeProvider>
                     </NextAppDirEmotionCacheProvider>
-                </DsfrProvider>
+                </SdsProvider>
             </body>
         </html>
     );

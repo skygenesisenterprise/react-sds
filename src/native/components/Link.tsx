@@ -23,19 +23,12 @@ export type LinkProps = {
 };
 
 export function Link(props: LinkProps) {
-    const {
-        children,
-        onPress,
-        disabled,
-        accessibilityLabel,
-        accessibilityHint,
-        style,
-        testID
-    } = props;
+    const { children, onPress, disabled, accessibilityLabel, accessibilityHint, style, testID } =
+        props;
 
     const { colors, tokens } = useSDSTheme();
 
-    const label: string = typeof children === "string" ? children : accessibilityLabel ?? "";
+    const label: string = typeof children === "string" ? children : (accessibilityLabel ?? "");
 
     return (
         <Pressable

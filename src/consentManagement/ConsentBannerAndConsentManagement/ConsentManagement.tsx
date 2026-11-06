@@ -34,8 +34,7 @@ export function createConsentManagement<
     personalDataPolicyLinkProps: RegisteredLinkProps | undefined;
     finalityDescription: ((params: { lang: string }) => FinalityDescription) | FinalityDescription;
     useFinalityConsent: () =>
-        | FinalityConsent<ExtractFinalityFromFinalityDescription<FinalityDescription>>
-        | undefined;
+        FinalityConsent<ExtractFinalityFromFinalityDescription<FinalityDescription>> | undefined;
     processConsentChanges: ProcessConsentChanges<
         ExtractFinalityFromFinalityDescription<FinalityDescription>
     >;
@@ -198,11 +197,11 @@ export function createConsentManagement<
                                     (subFinality !== undefined
                                         ? [`${finality}.${subFinality}` as Finality]
                                         : wrap.subFinalities === undefined
-                                        ? [finality as Finality]
-                                        : Object.keys(wrap.subFinalities).map(
-                                              subFinality =>
-                                                  `${finality}.${subFinality}` as Finality
-                                          )
+                                          ? [finality as Finality]
+                                          : Object.keys(wrap.subFinalities).map(
+                                                subFinality =>
+                                                    `${finality}.${subFinality}` as Finality
+                                            )
                                     ).forEach(finality =>
                                         processLocalConsentChange({
                                             "type": "atomic change",
@@ -285,13 +284,13 @@ export function createConsentManagement<
                         ? "full consent"
                         : "full refusal"
                     : finalityConsent.isFullConsent
-                    ? "full consent"
-                    : Object.keys(finalityConsent)
-                          .filter(exclude("isFullConsent"))
-                          .map(subFinality => finalityConsent[subFinality])
-                          .includes(true)
-                    ? "partial consent"
-                    : "full refusal",
+                      ? "full consent"
+                      : Object.keys(finalityConsent)
+                              .filter(exclude("isFullConsent"))
+                              .map(subFinality => finalityConsent[subFinality])
+                              .includes(true)
+                        ? "partial consent"
+                        : "full refusal",
             [finalityConsent]
         );
 

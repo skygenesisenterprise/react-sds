@@ -28,14 +28,7 @@ export type TabBarProps = {
 };
 
 export function TabBar(props: TabBarProps) {
-    const {
-        tabs,
-        value,
-        onSelect,
-        accessibilityLabel,
-        style,
-        testID
-    } = props;
+    const { tabs, value, onSelect, accessibilityLabel, style, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 

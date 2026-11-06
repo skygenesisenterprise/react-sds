@@ -162,10 +162,32 @@ export type SDSBreakpointTokens = {
     xl: string;
 };
 
+/**
+ * Layout and interaction dimensions — deliberately separate from `spacing`.
+ * CSS names are `--sge-<key>` (e.g. `--sge-container-default`).
+ */
+export type SDSDimensionTokens = {
+    "container-narrow": string;
+    "container-default": string;
+    "container-wide": string;
+    "content-prose": string;
+    "content-wide": string;
+    "control-height-sm": string;
+    "control-height-md": string;
+    "control-height-lg": string;
+    "touch-target": string;
+    "icon-size-sm": string;
+    "icon-size-md": string;
+    "icon-size-lg": string;
+    "focus-ring-width": string;
+    "focus-ring-offset": string;
+};
+
 export type SDSTokens = {
     colors: SDSColorTokens;
     typography: SDSTypographyTokens;
     spacing: SDSSpacingTokens;
+    dimensions: SDSDimensionTokens;
     radius: SDSRadiusTokens;
     elevation: SDSElevationTokens;
     motion: SDSMotionTokens;
@@ -204,14 +226,17 @@ export const sdsTokens: SDSTokens = {
         disabled: "oklch(0.7 0 0)"
     },
     typography: {
+        // SGE ships no webfont: the institutional stack is the platform UI stack.
+        // Products that load an official SGE typeface override
+        // `--sge-font-family-sans` in their own stylesheet.
         "font-family-base":
-            '"Marianne", "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+            'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif',
         "font-family-heading":
-            '"Marianne", "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+            'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif',
         "font-family-sans":
-            '"Marianne", "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
+            'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif',
         "font-family-mono":
-            "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+            'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
         "font-size-xs": "0.75rem",
         "font-size-sm": "0.875rem",
         "font-size-md": "1rem",
@@ -243,6 +268,22 @@ export const sdsTokens: SDSTokens = {
         "10": "5rem",
         "11": "6rem",
         "12": "8rem"
+    },
+    dimensions: {
+        "container-narrow": "45rem",
+        "container-default": "75rem",
+        "container-wide": "80rem",
+        "content-prose": "52rem",
+        "content-wide": "72rem",
+        "control-height-sm": "2rem",
+        "control-height-md": "2.5rem",
+        "control-height-lg": "3rem",
+        "touch-target": "2.5rem",
+        "icon-size-sm": "1rem",
+        "icon-size-md": "1.25rem",
+        "icon-size-lg": "1.5rem",
+        "focus-ring-width": "2px",
+        "focus-ring-offset": "2px"
     },
     radius: {
         none: "0",

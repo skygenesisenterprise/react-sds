@@ -7,8 +7,8 @@ import { assert } from "tsafe/assert";
 import type { Equals } from "tsafe";
 import TechnicalError from "../dist/picto/TechnicalError";
 import { fr } from "../dist";
-import artworkOvoidSvgUrl from "../dist/dsfr/artwork/background/ovoid.svg";
-import artworkTechnicalErrorSvgUrl from "../dist/dsfr/artwork/pictograms/system/technical-error.svg";
+import artworkOvoidSvgUrl from "../dist/legacy/artwork/background/ovoid.svg";
+import artworkTechnicalErrorSvgUrl from "../dist/legacy/artwork/pictograms/system/technical-error.svg";
 import placeholder_16x9ImgUrl from "./assets/placeholder.16x9.png";
 
 const { meta, getStory } = getStoryFactory({

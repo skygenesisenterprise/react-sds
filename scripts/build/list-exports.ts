@@ -27,12 +27,19 @@ export type ExportsTarget =
 
 export type ExportsMap = Record<string, ExportsTarget>;
 
-const EXTENSIONED_ASSET_FILES = [".css", ".svg", ".png", ".scss"] as const;
+/**
+ * Files shipped verbatim (stylesheets, images, and the script assets consumed as-is such
+ * as the Tailwind preset) get an export that keeps their extension, e.g.
+ * `./assets/tailwind-preset.cjs` -> `./dist/assets/tailwind-preset.cjs`, with no `types`
+ * condition (they ship no declaration). The short `./tailwind-preset` alias is declared in
+ * SPECIAL_EXPORTS.
+ */
+const EXTENSIONED_ASSET_FILES = [".css", ".svg", ".png", ".scss", ".cjs", ".mjs"] as const;
 
 /**
  * Entries that are not derivable from the `dist/` file tree alone, or that need to
  * stay exactly as they are (root entry, server-only Discord alias, runtime/CSS
- * artifacts, the legacy DSFR CSS tree shipped at the package root, package.json).
+ * artifacts, the vendored legacy CSS tree shipped under `dist/legacy`, package.json).
  */
 const SPECIAL_EXPORTS: ExportsMap = {
     ".": {
@@ -46,19 +53,22 @@ const SPECIAL_EXPORTS: ExportsMap = {
     "./main.css": "./dist/main.css",
     "./early-color-scheme.js": "./dist/early-color-scheme.js",
     "./package.json": "./package.json",
-    "./dsfr/*": "./dsfr/*",
+    "./legacy/*": "./dist/legacy/*",
     // The complete institutional CSS foundation, importable as a single subpath.
     "./styles": "./dist/styles/index.css",
+    // Tokens only: the `--sge-*` custom properties, no reset and no base styles.
+    "./tokens": "./dist/styles/tokens.css",
     // Tailwind v3 preset (opt-in adapter, shipped in the same package).
     "./tailwind-preset": "./dist/assets/tailwind-preset.cjs"
 };
 
 /**
  * Directories of `dist/` that are build/local-linking artifacts and must never be
- * declared in `exports` (`bin/` is the CLI, `src/` is only copied for local linking,
- * `dsfr/`/`favicon/` are shipped as-is at the package root).
+ * declared in `exports` individually (`bin/` is the CLI, `src/` is only copied for local
+ * linking, `legacy/` is exposed through the single `./legacy/*` wildcard and `favicon/`
+ * is referenced by the legacy stylesheet).
  */
-const EXCLUDED_DIR_NAMES = new Set(["bin", "src", "dsfr", "favicon"]);
+const EXCLUDED_DIR_NAMES = new Set(["bin", "src", "legacy", "favicon"]);
 
 const walk = (dirPath: string): string[] =>
     fs.readdirSync(dirPath, { "withFileTypes": true }).reduce<string[]>((filePaths, dirent) => {

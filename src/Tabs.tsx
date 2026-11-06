@@ -72,7 +72,7 @@ export const Tabs = memo(
 
         const selectedTabIndex = useMemo(() => {
             const index = tabs.findIndex(tab =>
-                "content" in tab ? tab.isDefault ?? false : tab.tabId === selectedTabId
+                "content" in tab ? (tab.isDefault ?? false) : tab.tabId === selectedTabId
             );
             return index === -1 ? 0 : index;
         }, [tabs, selectedTabId]);

@@ -39,8 +39,7 @@ export function Checkbox(props: CheckboxProps) {
     const boxBg = checked ? colors.primary : colors.surface;
     const boxBorder = checked ? colors.primary : isDisabled ? colors.disabled : colors.input;
 
-    const textLabel: string =
-        typeof label === "string" ? label : accessibilityLabel ?? "";
+    const textLabel: string = typeof label === "string" ? label : (accessibilityLabel ?? "");
 
     return (
         <Pressable
@@ -75,7 +74,14 @@ export function Checkbox(props: CheckboxProps) {
                 }}
             >
                 {checked && (
-                    <Text style={{ color: colors.onPrimary, fontSize: 16, lineHeight: 18, fontWeight: "700" }}>
+                    <Text
+                        style={{
+                            color: colors.onPrimary,
+                            fontSize: 16,
+                            lineHeight: 18,
+                            fontWeight: "700"
+                        }}
+                    >
                         ✓
                     </Text>
                 )}

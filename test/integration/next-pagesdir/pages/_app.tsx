@@ -1,11 +1,11 @@
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { createNextDsfrIntegrationApi } from "@skygenesisenterprise/react-sds/next-pagesdir";
+import { createNextSdsIntegrationApi } from "@skygenesisenterprise/react-sds/next-pagesdir";
 import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
 import { Header } from "@skygenesisenterprise/react-sds/Header";
 import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 import { createEmotionSsrAdvancedApproach } from "tss-react/next/pagesDir";
-import { useStyles } from "tss-react/dsfr";
+import { useStyles } from "tss-react/legacy";
 import { fr } from "@skygenesisenterprise/react-sds";
 import Link from "next/link";
 
@@ -16,9 +16,9 @@ declare module "@skygenesisenterprise/react-sds/next-pagesdir" {
 }
 
 const {
-    withDsfr,
-    dsfrDocumentApi
-} = createNextDsfrIntegrationApi({
+    withLegacy,
+    legacyDocumentApi
+} = createNextSdsIntegrationApi({
     "defaultColorScheme": "system",
     Link,
     "preloadFonts": [
@@ -39,7 +39,7 @@ const { augmentDocumentWithEmotionCache, withAppEmotionCache } = createEmotionSs
     "key": "css"
 });
 
-export { dsfrDocumentApi, augmentDocumentWithEmotionCache };
+export { legacyDocumentApi, augmentDocumentWithEmotionCache };
 
 function App({ Component, pageProps }: AppProps) {
 
@@ -126,4 +126,4 @@ function App({ Component, pageProps }: AppProps) {
     );
 }
 
-export default withAppEmotionCache(withDsfr(App));
+export default withAppEmotionCache(withLegacy(App));

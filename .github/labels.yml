@@ -59,7 +59,7 @@ area:
       description: Light and dark themes, color scheme activation, and semantic color mapping.
     - name: "area: styles"
       color: "c5def5"
-      description: The CSS foundation, stylesheet generation, DSFR interoperability, and layout primitives.
+      description: The CSS foundation, stylesheet generation, legacy interoperability, and layout primitives.
     - name: "area: native"
       color: "c5def5"
       description: The React Native and Expo foundation in src/native.

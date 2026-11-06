@@ -2,19 +2,19 @@
  * This processing stage is run by `npx react-sds optimize-css`, after the icon CSS
  * has been optimized.
  * It scans your codebase to find which react-sds components are used and rebuilds
- * the node_modules/@skygenesisenterprise/react-sds/dsfr/dsfr.css and dsfr.min.css files
+ * the node_modules/@skygenesisenterprise/react-sds/legacy/legacy.css and legacy.min.css files
  * with only the CSS of those components (plus the core, which is always included).
- * The public/dsfr/dsfr.min.css file is patched as well if applicable (not in Next.js for example).
+ * The public/legacy/legacy.min.css file is patched as well if applicable (not in Next.js for example).
  *
- * The trimmed stylesheets are rebuilt from the granular CSS files shipped by the DSFR
- * (dsfr/core/*, dsfr/component/*, dsfr/scheme/*) so no CSS rule is ever rewritten,
+ * The trimmed stylesheets are rebuilt from the granular CSS files shipped by the legacy
+ * (legacy/core/*, legacy/component/*, legacy/scheme/*) so no CSS rule is ever rewritten,
  * only whole components are included or excluded. This makes the output robust to
- * classes and attributes dynamically added by the DSFR JavaScript (data-fr-js-*).
+ * classes and attributes dynamically added by the legacy JavaScript (data-fr-js-*).
  *
  * Usage of a component is detected by:
  * - Imports of `@skygenesisenterprise/react-sds/<Component>` in your sources.
  * - Usage of the component's CSS class names (e.g. "fr-table") in your sources,
- *   for when you use raw DSFR classes without the React component.
+ *   for when you use raw legacy classes without the React component.
  *
  * Stylesheets (.css, .scss...) are not scanned: class name detection is substring based,
  * so a single compiled bundle would mark every component as used.
@@ -24,7 +24,7 @@
  * "react-sds": {
  *     "additionalComponents": ["table", "Range"]
  * }
- * (values are DSFR CSS component names or react-sds component names)
+ * (values are legacy CSS component names or react-sds component names)
  *
  * There are three optional arguments that you can use:
  * - `--projectDir <path>` to specify the project directory. Default to the current working directory.
@@ -51,18 +51,18 @@ import { fnv1aHashToHex } from "./tools/fnv1aHashToHex";
 import { modifyHtmlHrefs } from "./tools/modifyHtmlHrefs";
 
 /**
- * The DSFR CSS components (dsfr/component/<name> directories), listed in the
- * order in which they are concatenated in the upstream dsfr.css bundle.
+ * The legacy CSS components (legacy/component/<name> directories), listed in the
+ * order in which they are concatenated in the upstream legacy.css bundle.
  * Preserving this order preserves the CSS cascade of the original stylesheet.
  *
  * The order is the order of first occurrence of each `component/<name>/main.scss`
  * in the `sources` of `@gouvfr/dsfr/dist/dsfr.main.css.map`. It is asserted against
- * the installed DSFR in test/runtime/scripts/onlyIncludeUsedComponents/dsfrComponentsCascadeOrder.test.ts
- * so that it can't silently drift on a DSFR bump.
+ * the installed legacy in test/runtime/scripts/onlyIncludeUsedComponents/legacyComponentsCascadeOrder.test.ts
+ * so that it can't silently drift on a legacy bump.
  * `radio` is the only component that has no `main.scss` upstream, its position is
  * taken from the first occurrence of any of its stylesheets (between notice and card).
  */
-export const DSFR_COMPONENTS_CASCADE_ORDER = [
+export const LEGACY_COMPONENTS_CASCADE_ORDER = [
     "upload",
     "range",
     "accordion",
@@ -104,24 +104,25 @@ export const DSFR_COMPONENTS_CASCADE_ORDER = [
     "consent",
     "follow",
     "password",
+    "display",
     "translate",
     "table",
     "transcription",
     "header"
 ] as const;
 
-export type DsfrComponentName = (typeof DSFR_COMPONENTS_CASCADE_ORDER)[number];
+export type LegacyComponentName = (typeof LEGACY_COMPONENTS_CASCADE_ORDER)[number];
 
 /**
  * Map from react-sds module (the `@skygenesisenterprise/react-sds/<moduleId>` import subpath)
- * to the DSFR CSS components its markup depends on, transitive dependencies included
+ * to the legacy CSS components its markup depends on, transitive dependencies included
  * (e.g. the Header renders a navigation, a search bar and a modal on mobile).
  * When in doubt a dependency is included: too much CSS is only a size cost,
  * not enough CSS is a rendering bug.
  * Modules that do not appear here and are not known non-component modules trigger
  * a fail-safe: every component is included.
  */
-export const REACT_DSFR_MODULE_TO_DSFR_COMPONENTS: Record<string, DsfrComponentName[]> = {
+export const REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS: Record<string, LegacyComponentName[]> = {
     "Accordion": ["accordion"],
     "Alert": ["alert", "link", "button"],
     "Badge": ["badge"],
@@ -185,11 +186,11 @@ export const REACT_DSFR_MODULE_TO_DSFR_COMPONENTS: Record<string, DsfrComponentN
 };
 
 /**
- * The stylesheet a DSFR component ships under `component/<name>/<name>.<ext>`, by order of
+ * The stylesheet a legacy component ships under `component/<name>/<name>.<ext>`, by order of
  * preference. Not every component has every variant: `download` for instance only ships
  * `download.css` and `download.min.css`, no `.main.` ones.
  */
-export const DSFR_COMPONENT_CSS_FILE_EXTENSIONS = [
+export const LEGACY_COMPONENT_CSS_FILE_EXTENSIONS = [
     "main.min.css",
     "min.css",
     "main.css",
@@ -197,7 +198,7 @@ export const DSFR_COMPONENT_CSS_FILE_EXTENSIONS = [
 ] as const;
 
 /**
- * CSS class name prefixes that reveal a direct usage of a DSFR component in the
+ * CSS class name prefixes that reveal a direct usage of a legacy component in the
  * sources (when raw fr-* classes are used without importing the React component).
  * Substring matching is intentional and fail-safe: matching too much only means
  * including a component's CSS that may not be needed.
@@ -205,10 +206,10 @@ export const DSFR_COMPONENT_CSS_FILE_EXTENSIONS = [
  * A prefix only belongs here if it opens a selector in that component's own stylesheet.
  * A class that the component merely *styles as a descendant* is not a usage signal: its
  * base rules live elsewhere (usually in the always included core), so detecting on it
- * pulls the whole component in for nothing. dsfrComponentDetectionClassPrefixes.test.ts
+ * pulls the whole component in for nothing. legacyComponentDetectionClassPrefixes.test.ts
  * re-derives this rule against the installed @gouvfr/dsfr.
  */
-export const DSFR_COMPONENT_DETECTION_CLASS_PREFIXES: Record<DsfrComponentName, string[]> = {
+export const LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES: Record<LegacyComponentName, string[]> = {
     "accordion": ["fr-accordion"],
     "alert": ["fr-alert"],
     "badge": ["fr-badge"],
@@ -223,6 +224,10 @@ export const DSFR_COMPONENT_DETECTION_CLASS_PREFIXES: Record<DsfrComponentName, 
     // live in the always included core, and every rule content.css has for them is
     // scoped under .fr-content-media, which is already the prefix detected here.
     "content": ["fr-content-media"],
+    // `display` styles `.fr-display` only as a descendant of `.fr-fieldset__element`
+    // (a form layout helper), so no class prefix earns a place here: the component
+    // is reached through imports. See legacyComponentDetectionClassPrefixes.test.ts.
+    "display": [],
     "download": ["fr-download"],
     "follow": ["fr-follow"],
     "footer": ["fr-footer"],
@@ -260,18 +265,18 @@ export const DSFR_COMPONENT_DETECTION_CLASS_PREFIXES: Record<DsfrComponentName, 
 };
 
 /**
- * react-sds modules that are known not to render any DSFR component markup
+ * react-sds modules that are known not to render any legacy component markup
  * (hooks, utilities, integration helpers, assets...).
  */
 const NON_COMPONENT_MODULE_IDS = new Set<string>([
-    // SDS foundations (design tokens, BackToTop bubble): no DSFR component markup
+    // SDS foundations (design tokens, BackToTop bubble): no legacy component markup
     // (BackToTop only uses an icon glyph from the always-included icon font).
     "sds",
     "BackToTop",
-    // SDS CSS foundation stylesheets (styles/*): the SDS layer replaces DSFR,
-    // it never renders DSFR component markup.
+    // SDS CSS foundation stylesheets (styles/*): the SDS layer replaces legacy,
+    // it never renders legacy component markup.
     "styles",
-    // SDS Native (native/*): React Native implementation — no DSFR markup, and
+    // SDS Native (native/*): React Native implementation — no legacy markup, and
     // must never be pulled into the web CSS optimizer.
     "native",
     "fr",
@@ -285,7 +290,7 @@ const NON_COMPONENT_MODULE_IDS = new Set<string>([
     "assets",
     "favicon",
     "main.css",
-    "dsfr.css",
+    "legacy.css",
     "next-appdir",
     "next-app-router",
     "next-pagesdir",
@@ -317,21 +322,21 @@ const IMPORT_SPECIFIER_REGEXES = [
     /@import\s+(?:url\(\s*)?["'`]([^"'`\n]+)["'`]/g
 ];
 
-const REACT_DSFR_PACKAGE_NAME = "@skygenesisenterprise/react-sds";
+const REACT_LEGACY_PACKAGE_NAME = "@skygenesisenterprise/react-sds";
 
 /**
  * Module id produced when a file imports the package root (`@skygenesisenterprise/react-sds`,
  * no subpath). The root entry re-exports every generic component, so a root import does
  * not tell which components are used: the caller falls back to including every component.
  */
-export const ROOT_IMPORT_MODULE_ID = REACT_DSFR_PACKAGE_NAME;
+export const ROOT_IMPORT_MODULE_ID = REACT_LEGACY_PACKAGE_NAME;
 
-export function getReactDsfrImportedModuleIds(params: { rawFileContent: string }): string[] {
+export function getReactLegacyImportedModuleIds(params: { rawFileContent: string }): string[] {
     const { rawFileContent } = params;
 
     const moduleIds = new Set<string>();
 
-    if (!rawFileContent.includes(REACT_DSFR_PACKAGE_NAME)) {
+    if (!rawFileContent.includes(REACT_LEGACY_PACKAGE_NAME)) {
         return [];
     }
 
@@ -342,7 +347,7 @@ export function getReactDsfrImportedModuleIds(params: { rawFileContent: string }
     );
 
     for (const importSpecifier of importSpecifiers) {
-        if (importSpecifier === REACT_DSFR_PACKAGE_NAME) {
+        if (importSpecifier === REACT_LEGACY_PACKAGE_NAME) {
             // Importing the package root can pull any of the components re-exported from
             // src/index.ts: the import itself does not tell which ones are used.
             moduleIds.add(ROOT_IMPORT_MODULE_ID);
@@ -350,11 +355,11 @@ export function getReactDsfrImportedModuleIds(params: { rawFileContent: string }
             continue;
         }
 
-        if (!importSpecifier.startsWith(`${REACT_DSFR_PACKAGE_NAME}/`)) {
+        if (!importSpecifier.startsWith(`${REACT_LEGACY_PACKAGE_NAME}/`)) {
             continue;
         }
 
-        const subpath = importSpecifier.slice(`${REACT_DSFR_PACKAGE_NAME}/`.length);
+        const subpath = importSpecifier.slice(`${REACT_LEGACY_PACKAGE_NAME}/`.length);
 
         const segments = subpath
             .replace(/\.(?:js|mjs|cjs|ts|tsx|jsx)$/, "")
@@ -370,7 +375,7 @@ export function getReactDsfrImportedModuleIds(params: { rawFileContent: string }
                 switch (segments[0]) {
                     case "blocks":
                         return segments.slice(0, 2).join("/");
-                    case "dsfr":
+                    case "legacy":
                         return segments.slice(0, 3).join("/");
                     default:
                         return segments[0];
@@ -382,42 +387,42 @@ export function getReactDsfrImportedModuleIds(params: { rawFileContent: string }
     return Array.from(moduleIds);
 }
 
-export function resolveModuleIdToDsfrComponents(params: {
+export function resolveModuleIdToLegacyComponents(params: {
     moduleId: string;
-}): DsfrComponentName[] | undefined {
+}): LegacyComponentName[] | undefined {
     const { moduleId } = params;
 
-    direct_import_of_a_dsfr_component_stylesheet: {
-        const match = moduleId.match(/^dsfr\/component\/([^/]+)/);
+    direct_import_of_a_legacy_component_stylesheet: {
+        const match = moduleId.match(/^legacy\/component\/([^/]+)/);
 
         if (match === null) {
-            break direct_import_of_a_dsfr_component_stylesheet;
+            break direct_import_of_a_legacy_component_stylesheet;
         }
 
-        const dsfrComponent = DSFR_COMPONENTS_CASCADE_ORDER.find(
+        const legacyComponent = LEGACY_COMPONENTS_CASCADE_ORDER.find(
             componentName => componentName === match[1]
         );
 
-        return dsfrComponent === undefined ? undefined : [dsfrComponent];
+        return legacyComponent === undefined ? undefined : [legacyComponent];
     }
 
-    if (moduleId.startsWith("dsfr/")) {
+    if (moduleId.startsWith("legacy/")) {
         return [];
     }
 
     {
-        const dsfrComponents = REACT_DSFR_MODULE_TO_DSFR_COMPONENTS[moduleId.split("/")[0]];
+        const legacyComponents = REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS[moduleId.split("/")[0]];
 
-        if (dsfrComponents !== undefined) {
-            return dsfrComponents;
+        if (legacyComponents !== undefined) {
+            return legacyComponents;
         }
     }
 
     {
-        const dsfrComponents = REACT_DSFR_MODULE_TO_DSFR_COMPONENTS[moduleId];
+        const legacyComponents = REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS[moduleId];
 
-        if (dsfrComponents !== undefined) {
-            return dsfrComponents;
+        if (legacyComponents !== undefined) {
+            return legacyComponents;
         }
     }
 
@@ -432,25 +437,25 @@ export function resolveModuleIdToDsfrComponents(params: {
     return undefined;
 }
 
-export function detectDsfrComponentsFromClassNames(params: {
+export function detectLegacyComponentsFromClassNames(params: {
     rawFileContent: string;
-}): DsfrComponentName[] {
+}): LegacyComponentName[] {
     const { rawFileContent } = params;
 
     if (!rawFileContent.includes("fr-")) {
         return [];
     }
 
-    return Object.entries(DSFR_COMPONENT_DETECTION_CLASS_PREFIXES)
+    return Object.entries(LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES)
         .filter(([, classPrefixes]) =>
             classPrefixes.some(classPrefix => rawFileContent.includes(classPrefix))
         )
-        .map(([componentName]) => componentName as DsfrComponentName);
+        .map(([componentName]) => componentName as LegacyComponentName);
 }
 
 export function rewriteCssRelativeUrls(params: {
     rawCssCode: string;
-    /** Posix style, relative to the dsfr directory, e.g. "component/header" */
+    /** Posix style, relative to the legacy directory, e.g. "component/header" */
     cssFileRelativeDirPath: string;
 }): string {
     const { rawCssCode, cssFileRelativeDirPath } = params;
@@ -481,7 +486,7 @@ export function rewriteCssRelativeUrls(params: {
 
 /**
  * The assets (fonts, icons, artwork...) referenced by a stylesheet whose url()
- * have already been rewritten relative to the dsfr directory root by
+ * have already been rewritten relative to the legacy directory root by
  * rewriteCssRelativeUrls(). Absolute and data: urls are skipped.
  */
 export function getReferencedAssetRelativePaths(params: { rawCssCode: string }): string[] {
@@ -525,24 +530,24 @@ export function patchCoreCssCodeForCompatWithMui(params: { rawCssCode: string })
         );
 }
 
-export function generateDsfrCssCode(params: {
-    dsfrComponents: string[];
+export function generateLegacyCssCode(params: {
+    legacyComponents: string[];
     isMinified: boolean;
-    /** Returns the raw code of a file within the dsfr directory, undefined if it does not exist */
-    readDsfrFile: (fileRelativePath: string) => string | undefined;
+    /** Returns the raw code of a file within the legacy directory, undefined if it does not exist */
+    readLegacyFile: (fileRelativePath: string) => string | undefined;
 }): string {
-    const { dsfrComponents, isMinified, readDsfrFile } = params;
+    const { legacyComponents, isMinified, readLegacyFile } = params;
 
-    const sortedDsfrComponents = [
-        ...DSFR_COMPONENTS_CASCADE_ORDER.filter(componentName =>
-            dsfrComponents.includes(componentName)
+    const sortedLegacyComponents = [
+        ...LEGACY_COMPONENTS_CASCADE_ORDER.filter(componentName =>
+            legacyComponents.includes(componentName)
         ),
         // Fail-safe for component directories unknown to this script
-        // (newer DSFR version): appended in alphabetical order.
-        ...dsfrComponents
+        // (newer legacy version): appended in alphabetical order.
+        ...legacyComponents
             .filter(
                 componentName =>
-                    !DSFR_COMPONENTS_CASCADE_ORDER.includes(componentName as DsfrComponentName)
+                    !LEGACY_COMPONENTS_CASCADE_ORDER.includes(componentName as LegacyComponentName)
             )
             .sort()
     ];
@@ -555,7 +560,7 @@ export function generateDsfrCssCode(params: {
         return [
             ["core", "core"],
             ["scheme", "scheme"],
-            ...sortedDsfrComponents.map(componentName => [
+            ...sortedLegacyComponents.map(componentName => [
                 `component/${componentName}`,
                 componentName
             ])
@@ -565,7 +570,7 @@ export function generateDsfrCssCode(params: {
                     dirRelativePath,
                     basename
                 )) {
-                    const rawCssCode = readDsfrFile(fileRelativePath);
+                    const rawCssCode = readLegacyFile(fileRelativePath);
 
                     if (rawCssCode === undefined) {
                         continue;
@@ -600,11 +605,11 @@ export function generateDsfrCssCode(params: {
 
     assert(
         cssChunks.length !== 0,
-        "Can't find the granular DSFR stylesheets to rebuild dsfr.css from"
+        "Can't find the granular legacy stylesheets to rebuild legacy.css from"
     );
 
     return [
-        `/*! DSFR stylesheet rebuilt by react-sds optimize-css, components: ${sortedDsfrComponents.join(
+        `/*! legacy stylesheet rebuilt by react-sds optimize-css, components: ${sortedLegacyComponents.join(
             ", "
         )} */`,
         ...cssChunks.map(({ dirRelativePath, rawCssCode }) => {
@@ -630,14 +635,14 @@ export function generateDsfrCssCode(params: {
 type CommandContext = {
     projectDirPath: string;
     srcFilePaths: string[];
-    dsfrDirPath: string;
+    legacyDirPath: string;
     spaParams:
         | {
-              dsfrDirPath_static: string;
-              // Undefined whenever public/dsfr exists but no index.html was found to add
+              legacyDirPath_static: string;
+              // Undefined whenever public/legacy exists but no index.html was found to add
               // a cache busting query parameter to: a monorepo invoked with --projectDir
               // where the html is not where either branch looks, a project that used to be
-              // a Vite/CRA app and lost its index.html, or a public/dsfr that was committed
+              // a Vite/CRA app and lost its index.html, or a public/legacy that was committed
               // or restored by other means. Not reachable through copy-static-assets: it
               // asserts "Can't locate your index.html file." before creating anything.
               htmlFilePath: string | undefined;
@@ -647,7 +652,7 @@ type CommandContext = {
     isStrict: boolean;
 };
 
-const CODEGOUV_REACT_DSFR: string = JSON.parse(
+const SGE_PACKAGE_NAME: string = JSON.parse(
     fs.readFileSync(pathJoin(getProjectRoot(), "package.json")).toString("utf8")
 )["name"];
 
@@ -677,7 +682,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
 
         const packageJson = JSON.parse((await readFile(packageJsonFilePath)).toString("utf8"));
 
-        if (packageJson["name"] !== CODEGOUV_REACT_DSFR) {
+        if (packageJson["name"] !== SGE_PACKAGE_NAME) {
             break special_case_for_our_storybook;
         }
 
@@ -695,7 +700,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
         );
 
         const doesExist = await existsAsync(
-            pathJoin(...[nodeModulesDirPath, ...CODEGOUV_REACT_DSFR.split("/")])
+            pathJoin(...[nodeModulesDirPath, ...SGE_PACKAGE_NAME.split("/")])
         );
 
         if (!doesExist) {
@@ -705,22 +710,25 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
         return nodeModulesDirPath;
     })(0);
 
-    const dsfrDirPath = pathJoin(
-        ...[nodeModulesDirPath, ...CODEGOUV_REACT_DSFR.split("/"), "dsfr"]
+    const legacyDirPath = pathJoin(
+        ...[nodeModulesDirPath, ...SGE_PACKAGE_NAME.split("/"), "dist", "legacy"]
     );
 
-    const dsfrDirPath_static = await (async () => {
-        const dsfrDirPath_static = pathJoin(await readPublicDirPath({ projectDirPath }), "dsfr");
+    const legacyDirPath_static = await (async () => {
+        const legacyDirPath_static = pathJoin(
+            await readPublicDirPath({ projectDirPath }),
+            "legacy"
+        );
 
-        if (!(await existsAsync(dsfrDirPath_static))) {
+        if (!(await existsAsync(legacyDirPath_static))) {
             return undefined;
         }
 
-        return dsfrDirPath_static;
+        return legacyDirPath_static;
     })();
 
     const htmlFilePath = await (async () => {
-        if (dsfrDirPath_static === undefined) {
+        if (legacyDirPath_static === undefined) {
             return undefined;
         }
 
@@ -735,7 +743,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
         }
 
         cra: {
-            const filePath = pathJoin(pathDirname(dsfrDirPath_static), "index.html");
+            const filePath = pathJoin(pathDirname(legacyDirPath_static), "index.html");
 
             if (!fs.existsSync(filePath)) {
                 break cra;
@@ -770,9 +778,11 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                     }
 
                     if (
-                        await existsAsync(pathJoin(projectDirPath, relativeDirPath, "dsfr.min.css"))
+                        await existsAsync(
+                            pathJoin(projectDirPath, relativeDirPath, "legacy.min.css")
+                        )
                     ) {
-                        // We don't want to search in public/dsfr
+                        // We don't want to search in public/legacy
                         return false;
                     }
 
@@ -810,7 +820,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                             return false;
                         }
 
-                        if (parsedPackageJson["name"] === CODEGOUV_REACT_DSFR) {
+                        if (parsedPackageJson["name"] === SGE_PACKAGE_NAME) {
                             // Scanning react-sds's own sources would mark every component as used.
                             return false;
                         }
@@ -827,10 +837,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
                             return false;
                         }
 
-                        for (const packageName of [
-                            CODEGOUV_REACT_DSFR,
-                            "@gouvfr/dsfr",
-                        ]) {
+                        for (const packageName of [SGE_PACKAGE_NAME, "@gouvfr/dsfr"]) {
                             if (
                                 Object.keys({
                                     ...parsedPackageJson["dependencies"],
@@ -865,9 +872,9 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
         .flat()
         .filter(
             filePath =>
-                // NOTE: Stylesheets are deliberately not scanned: detectDsfrComponentsFromClassNames()
+                // NOTE: Stylesheets are deliberately not scanned: detectLegacyComponentsFromClassNames()
                 // does substring matching, so a single compiled bundle (a leftover out/, a
-                // dependency shipping the DSFR) would mark every component as used.
+                // dependency shipping the legacy) would mark every component as used.
                 // Use "react-sds"."additionalComponents" in your package.json for the
                 // components you only reference from a stylesheet.
                 ["tsx", "jsx", "js", "ts", "mdx", "html", "htm", "svelte", "vue"].find(ext =>
@@ -878,14 +885,14 @@ async function getCommandContext(args: string[]): Promise<CommandContext | undef
     return {
         projectDirPath,
         srcFilePaths,
-        dsfrDirPath,
+        legacyDirPath,
         "spaParams": (() => {
-            if (dsfrDirPath_static === undefined) {
+            if (legacyDirPath_static === undefined) {
                 return undefined;
             }
 
             return {
-                dsfrDirPath_static,
+                legacyDirPath_static,
                 htmlFilePath
             };
         })(),
@@ -903,27 +910,27 @@ export async function main(args: string[]) {
 
     const log = commandContext.isSilent ? undefined : console.log;
 
-    const componentsDirPath = pathJoin(commandContext.dsfrDirPath, "component");
+    const componentsDirPath = pathJoin(commandContext.legacyDirPath, "component");
 
     if (!fs.existsSync(componentsDirPath)) {
         assert(
             false,
             [
-                `Can't find the granular DSFR stylesheets in ${componentsDirPath},`,
-                `is your installation of ${CODEGOUV_REACT_DSFR} complete?`
+                `Can't find the granular legacy stylesheets in ${componentsDirPath},`,
+                `is your installation of ${SGE_PACKAGE_NAME} complete?`
             ].join(" ")
         );
     }
 
-    const availableDsfrComponents = fs
+    const availableLegacyComponents = fs
         .readdirSync(componentsDirPath, { "withFileTypes": true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
         .filter(componentName =>
-            DSFR_COMPONENT_CSS_FILE_EXTENSIONS.some(ext =>
+            LEGACY_COMPONENT_CSS_FILE_EXTENSIONS.some(ext =>
                 fs.existsSync(
                     pathJoin(
-                        commandContext.dsfrDirPath,
+                        commandContext.legacyDirPath,
                         "component",
                         componentName,
                         `${componentName}.${ext}`
@@ -932,7 +939,7 @@ export async function main(args: string[]) {
             )
         );
 
-    const usedDsfrComponents = new Set<string>();
+    const usedLegacyComponents = new Set<string>();
 
     let doIncludeAllComponents = false;
 
@@ -940,7 +947,7 @@ export async function main(args: string[]) {
         commandContext.srcFilePaths.map(async srcFilePath => {
             const rawFileContent = (await readFile(srcFilePath)).toString("utf8");
 
-            for (const moduleId of getReactDsfrImportedModuleIds({ rawFileContent })) {
+            for (const moduleId of getReactLegacyImportedModuleIds({ rawFileContent })) {
                 if (moduleId === ROOT_IMPORT_MODULE_ID) {
                     console.warn(
                         [
@@ -948,7 +955,7 @@ export async function main(args: string[]) {
                             `${pathRelative(process.cwd(), srcFilePath)}:`,
                             `a root import does not tell which components are used, so no CSS`,
                             `is trimmed at all for this run. Prefer importing components from`,
-                            `their subpath (e.g. "${REACT_DSFR_PACKAGE_NAME}/Button") to keep`,
+                            `their subpath (e.g. "${REACT_LEGACY_PACKAGE_NAME}/Button") to keep`,
                             `the CSS optimization effective.`
                         ].join(" ")
                     );
@@ -958,9 +965,9 @@ export async function main(args: string[]) {
                     continue;
                 }
 
-                const dsfrComponents = resolveModuleIdToDsfrComponents({ moduleId });
+                const legacyComponents = resolveModuleIdToLegacyComponents({ moduleId });
 
-                if (dsfrComponents === undefined) {
+                if (legacyComponents === undefined) {
                     // NOTE: Deliberately not routed through log?.(), --silent must not hide
                     // the fact that the optimization has been disabled for this run.
                     console.warn(
@@ -977,17 +984,17 @@ export async function main(args: string[]) {
                     continue;
                 }
 
-                if (dsfrComponents.length === 0) {
+                if (legacyComponents.length === 0) {
                     continue;
                 }
 
                 log?.(`Found import of ${moduleId} in ${pathRelative(process.cwd(), srcFilePath)}`);
 
-                dsfrComponents.forEach(componentName => usedDsfrComponents.add(componentName));
+                legacyComponents.forEach(componentName => usedLegacyComponents.add(componentName));
             }
 
-            for (const componentName of detectDsfrComponentsFromClassNames({ rawFileContent })) {
-                if (usedDsfrComponents.has(componentName)) {
+            for (const componentName of detectLegacyComponentsFromClassNames({ rawFileContent })) {
+                if (usedLegacyComponents.has(componentName)) {
                     continue;
                 }
 
@@ -998,7 +1005,7 @@ export async function main(args: string[]) {
                     )}`
                 );
 
-                usedDsfrComponents.add(componentName);
+                usedLegacyComponents.add(componentName);
             }
         })
     );
@@ -1010,23 +1017,23 @@ export async function main(args: string[]) {
             break additional_components_from_package_json;
         }
 
-        const reactDsfrConfig: unknown = JSON.parse(
+        const reactLegacyConfig: unknown = JSON.parse(
             (await readFile(packageJsonFilePath)).toString("utf8")
         )["react-sds"];
 
         const additionalComponents: unknown =
-            reactDsfrConfig === null || typeof reactDsfrConfig !== "object"
+            reactLegacyConfig === null || typeof reactLegacyConfig !== "object"
                 ? undefined
-                : (reactDsfrConfig as Record<string, unknown>)["additionalComponents"];
+                : (reactLegacyConfig as Record<string, unknown>)["additionalComponents"];
 
         if (additionalComponents === undefined) {
-            if (reactDsfrConfig !== null && typeof reactDsfrConfig === "object") {
+            if (reactLegacyConfig !== null && typeof reactLegacyConfig === "object") {
                 // A typo in the key would otherwise silently disable the escape hatch.
                 console.warn(
                     [
                         `[react-sds] The "react-sds" entry of your package.json has no`,
                         `"additionalComponents" key, is it a typo? Found:`,
-                        `${Object.keys(reactDsfrConfig as Record<string, unknown>).join(", ")}`
+                        `${Object.keys(reactLegacyConfig as Record<string, unknown>).join(", ")}`
                     ].join(" ")
                 );
             }
@@ -1041,13 +1048,13 @@ export async function main(args: string[]) {
         );
 
         for (const additionalComponent of additionalComponents) {
-            const dsfrComponents =
-                REACT_DSFR_MODULE_TO_DSFR_COMPONENTS[additionalComponent] ??
-                (availableDsfrComponents.includes(additionalComponent)
+            const legacyComponents =
+                REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS[additionalComponent] ??
+                (availableLegacyComponents.includes(additionalComponent)
                     ? [additionalComponent]
                     : undefined);
 
-            if (dsfrComponents === undefined) {
+            if (legacyComponents === undefined) {
                 console.warn(
                     [
                         `[react-sds] Unknown component "${additionalComponent}" in`,
@@ -1061,13 +1068,13 @@ export async function main(args: string[]) {
                 continue;
             }
 
-            if (dsfrComponents.length === 0) {
+            if (legacyComponents.length === 0) {
                 // Reporting "Including <X>" here would be the exact opposite of what happens,
                 // and this escape hatch is precisely what one reaches for when something is unstyled.
                 console.warn(
                     [
                         `[react-sds] "${additionalComponent}" of`,
-                        `"react-sds"."additionalComponents" maps to no DSFR stylesheet,`,
+                        `"react-sds"."additionalComponents" maps to no legacy stylesheet,`,
                         `nothing was added.`,
                         ...(additionalComponent === "Chart"
                             ? [`The Chart CSS comes from the @gouvfr/dsfr-chart package.`]
@@ -1080,7 +1087,7 @@ export async function main(args: string[]) {
 
             log?.(`Including ${additionalComponent} (from package.json additionalComponents)`);
 
-            dsfrComponents.forEach(componentName => usedDsfrComponents.add(componentName));
+            legacyComponents.forEach(componentName => usedLegacyComponents.add(componentName));
         }
     }
 
@@ -1089,7 +1096,7 @@ export async function main(args: string[]) {
             [
                 `[react-sds] Aborting because of --strict:`,
                 `something could not be resolved (see the warning(s) above),`,
-                `so this run would have shipped the untrimmed dsfr.min.css.`,
+                `so this run would have shipped the untrimmed legacy.min.css.`,
                 `Fix the cause or add the component to "react-sds"."additionalComponents"`,
                 `in your package.json.`
             ].join(" ")
@@ -1098,16 +1105,18 @@ export async function main(args: string[]) {
         process.exit(1);
     }
 
-    const dsfrComponents = doIncludeAllComponents
-        ? availableDsfrComponents
-        : availableDsfrComponents.filter(componentName => usedDsfrComponents.has(componentName));
+    const legacyComponents = doIncludeAllComponents
+        ? availableLegacyComponents
+        : availableLegacyComponents.filter(componentName =>
+              usedLegacyComponents.has(componentName)
+          );
 
     log?.(
-        `Including the CSS of ${dsfrComponents.length} DSFR components (out of ${availableDsfrComponents.length}).`
+        `Including the CSS of ${legacyComponents.length} legacy components (out of ${availableLegacyComponents.length}).`
     );
 
-    const readDsfrFile = (fileRelativePath: string) => {
-        const filePath = pathJoin(commandContext.dsfrDirPath, ...fileRelativePath.split("/"));
+    const readLegacyFile = (fileRelativePath: string) => {
+        const filePath = pathJoin(commandContext.legacyDirPath, ...fileRelativePath.split("/"));
 
         if (!fs.existsSync(filePath)) {
             return undefined;
@@ -1116,20 +1125,20 @@ export async function main(args: string[]) {
         return fs.readFileSync(filePath).toString("utf8");
     };
 
-    const rawDsfrCssCodeBuffer = Buffer.from(
-        generateDsfrCssCode({
-            dsfrComponents,
+    const rawLegacyCssCodeBuffer = Buffer.from(
+        generateLegacyCssCode({
+            legacyComponents,
             "isMinified": false,
-            readDsfrFile
+            readLegacyFile
         }),
         "utf8"
     );
 
-    const rawDsfrMinCssCodeBuffer = Buffer.from(
-        generateDsfrCssCode({
-            dsfrComponents,
+    const rawLegacyMinCssCodeBuffer = Buffer.from(
+        generateLegacyCssCode({
+            legacyComponents,
             "isMinified": true,
-            readDsfrFile
+            readLegacyFile
         }),
         "utf8"
     );
@@ -1139,31 +1148,31 @@ export async function main(args: string[]) {
     await Promise.all(
         [
             {
-                "dsfrDirPath": commandContext.dsfrDirPath,
-                "cssFileBasenames": ["dsfr.css", "dsfr.min.css"] as const
+                "legacyDirPath": commandContext.legacyDirPath,
+                "cssFileBasenames": ["legacy.css", "legacy.min.css"] as const
             },
             ...(commandContext.spaParams === undefined
                 ? []
                 : [
                       {
-                          "dsfrDirPath": commandContext.spaParams.dsfrDirPath_static,
-                          // copy-dsfr-to-public only keeps the minified variant.
-                          "cssFileBasenames": ["dsfr.min.css"] as const
+                          "legacyDirPath": commandContext.spaParams.legacyDirPath_static,
+                          // copy-legacy-to-public only keeps the minified variant.
+                          "cssFileBasenames": ["legacy.min.css"] as const
                       }
                   ])
-        ].map(async ({ dsfrDirPath, cssFileBasenames }) =>
+        ].map(async ({ legacyDirPath, cssFileBasenames }) =>
             Promise.all(
                 cssFileBasenames.map(async cssFileBasename => {
-                    const cssFilePath = pathJoin(dsfrDirPath, cssFileBasename);
+                    const cssFilePath = pathJoin(legacyDirPath, cssFileBasename);
 
                     if (!(await existsAsync(cssFilePath))) {
                         return;
                     }
 
                     const buffer =
-                        cssFileBasename === "dsfr.min.css"
-                            ? rawDsfrMinCssCodeBuffer
-                            : rawDsfrCssCodeBuffer;
+                        cssFileBasename === "legacy.min.css"
+                            ? rawLegacyMinCssCodeBuffer
+                            : rawLegacyCssCodeBuffer;
 
                     if (Buffer.compare(await readFile(cssFilePath), buffer) === 0) {
                         return;
@@ -1178,40 +1187,40 @@ export async function main(args: string[]) {
     );
 
     // NOTE: Deliberately outside of the `hasChanged` guard below.
-    // copy-dsfr-to-public builds its keep list from the url() of the dsfr.min.css it
+    // copy-legacy-to-public builds its keep list from the url() of the legacy.min.css it
     // finds in node_modules, then early returns on every later run as long as
-    // public/dsfr/version.txt matches the @gouvfr/dsfr version. So once it has run
-    // against an already trimmed stylesheet, public/dsfr is frozen on that asset subset
+    // public/legacy/version.txt matches the @gouvfr/dsfr version. So once it has run
+    // against an already trimmed stylesheet, public/legacy is frozen on that asset subset
     // and growing the component set later can never bring the missing files back.
-    // Copying them ourselves also makes a purged public/dsfr repairable when the CSS
+    // Copying them ourselves also makes a purged public/legacy repairable when the CSS
     // itself did not change.
-    await (async function copyUsedDsfrAssetsToStatic() {
+    await (async function copyUsedLegacyAssetsToStatic() {
         if (commandContext.spaParams === undefined) {
             return;
         }
 
-        const { dsfrDirPath_static } = commandContext.spaParams;
+        const { legacyDirPath_static } = commandContext.spaParams;
 
         await Promise.all(
             getReferencedAssetRelativePaths({
-                "rawCssCode": rawDsfrMinCssCodeBuffer.toString("utf8")
+                "rawCssCode": rawLegacyMinCssCodeBuffer.toString("utf8")
             }).map(async assetRelativePath => {
                 const pathSegments = assetRelativePath.split("/");
 
-                const srcFilePath = pathJoin(commandContext.dsfrDirPath, ...pathSegments);
+                const srcFilePath = pathJoin(commandContext.legacyDirPath, ...pathSegments);
 
                 if (!(await existsAsync(srcFilePath))) {
                     return;
                 }
 
-                await cp(srcFilePath, pathJoin(dsfrDirPath_static, ...pathSegments));
+                await cp(srcFilePath, pathJoin(legacyDirPath_static, ...pathSegments));
             })
         );
     })();
 
     // NOTE: Deliberately outside of the `hasChanged` guard below. The rewrite is
     // idempotent, and inside the guard a stale or hand reverted hash could never be
-    // repaired as long as dsfr.min.css itself did not change.
+    // repaired as long as legacy.min.css itself did not change.
     await (async function addHashQueryParameterInIndexHtml() {
         const htmlFilePath = commandContext.spaParams?.htmlFilePath;
 
@@ -1224,14 +1233,14 @@ export async function main(args: string[]) {
         const { modifiedHtml } = modifyHtmlHrefs({
             "html": html,
             "getModifiedHref": href => {
-                if (!href.includes("dsfr.min.css")) {
+                if (!href.includes("legacy.min.css")) {
                     return href;
                 }
 
                 const [urlWithoutQuery] = href.split("?");
 
                 return `${urlWithoutQuery}?hash=${fnv1aHashToHex(
-                    rawDsfrMinCssCodeBuffer.toString("utf8")
+                    rawLegacyMinCssCodeBuffer.toString("utf8")
                 )}`;
             }
         });

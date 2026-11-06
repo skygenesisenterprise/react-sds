@@ -25,15 +25,7 @@ export type GovernmentBannerProps = {
 };
 
 export function GovernmentBanner(props: GovernmentBannerProps) {
-    const {
-        image,
-        institution,
-        tagline,
-        accessibilityLabel,
-        style,
-        imageStyle,
-        testID
-    } = props;
+    const { image, institution, tagline, accessibilityLabel, style, imageStyle, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 

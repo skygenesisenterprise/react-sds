@@ -1,8 +1,8 @@
 import { it, expect, describe } from "vitest";
-import { detectDsfrComponentsFromClassNames } from "../../../../src/bin/only-include-css-of-used-components";
+import { detectLegacyComponentsFromClassNames } from "../../../../src/bin/only-include-css-of-used-components";
 
-describe("detectDsfrComponentsFromClassNames", () => {
-    it("detects raw usage of DSFR component classes", () => {
+describe("detectLegacyComponentsFromClassNames", () => {
+    it("detects raw usage of legacy component classes", () => {
         const rawFileContent = `
             export function MyTable() {
                 return <div className="fr-table">
@@ -11,7 +11,7 @@ describe("detectDsfrComponentsFromClassNames", () => {
             }
         `;
 
-        const detected = detectDsfrComponentsFromClassNames({ rawFileContent });
+        const detected = detectLegacyComponentsFromClassNames({ rawFileContent });
 
         expect(detected).toContain("table");
         expect(detected).toContain("badge");
@@ -19,7 +19,7 @@ describe("detectDsfrComponentsFromClassNames", () => {
     });
 
     it("detects modifier classes thanks to prefix matching", () => {
-        const detected = detectDsfrComponentsFromClassNames({
+        const detected = detectLegacyComponentsFromClassNames({
             "rawFileContent": `<button class="fr-btn fr-btn--secondary">Ok</button>`
         });
 
@@ -28,7 +28,7 @@ describe("detectDsfrComponentsFromClassNames", () => {
 
     it("detects nothing in files without fr- classes", () => {
         expect(
-            detectDsfrComponentsFromClassNames({
+            detectLegacyComponentsFromClassNames({
                 "rawFileContent": `const theme = { "color": "blue" };`
             })
         ).toStrictEqual([]);

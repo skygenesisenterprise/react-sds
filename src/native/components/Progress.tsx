@@ -20,14 +20,7 @@ export type ProgressProps = {
 };
 
 export function Progress(props: ProgressProps) {
-    const {
-        value,
-        showLabel,
-        accessibilityLabel,
-        size = "md",
-        style,
-        testID
-    } = props;
+    const { value, showLabel, accessibilityLabel, size = "md", style, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 

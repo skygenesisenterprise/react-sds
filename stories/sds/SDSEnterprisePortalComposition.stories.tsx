@@ -10,14 +10,7 @@ import {
     SDSSearch,
     SDSPagination
 } from "../dist/sds/portal";
-import {
-    SDSPage,
-    SDSMain,
-    SDSContainer,
-    SDSSection,
-    SDSStack,
-    SDSGrid
-} from "../dist/sds/layout";
+import { SDSPage, SDSMain, SDSContainer, SDSSection, SDSStack, SDSGrid } from "../dist/sds/layout";
 import { SDSLead } from "../dist/sds/typography";
 import {
     SDSTeaserCard,
@@ -88,8 +81,14 @@ export const EnterprisePortal = getStory(
 
                                 <SDSSearch placeholder="Rechercher une démarche" />
 
-                                <SDSSection title="Démarches" subtitle="Accéder aux principaux services en ligne">
-                                    <SDSGrid columns={{ "mobile": 1, "tablet": 2, "desktop": 3 }} gap="6">
+                                <SDSSection
+                                    title="Démarches"
+                                    subtitle="Accéder aux principaux services en ligne"
+                                >
+                                    <SDSGrid
+                                        columns={{ "mobile": 1, "tablet": 2, "desktop": 3 }}
+                                        gap="6"
+                                    >
                                         <SDSTeaserCard
                                             href="#"
                                             tag="Démarche"
@@ -113,8 +112,8 @@ export const EnterprisePortal = getStory(
 
                                 <SDSSection title="Actualités">
                                     <SDSLead>
-                                        Les dernières publications de Sky Genesis Enterprise et les communiqués
-                                        officiels.
+                                        Les dernières publications de Sky Genesis Enterprise et les
+                                        communiqués officiels.
                                     </SDSLead>
                                     <SDSNewsList
                                         horizontal
@@ -123,19 +122,22 @@ export const EnterprisePortal = getStory(
                                                 "href": "#",
                                                 "date": "12 janv. 2026",
                                                 "title": "Rapport annuel 2026 publié",
-                                                "description": "Le rapport annuel de Sky Genesis Enterprise est en ligne."
+                                                "description":
+                                                    "Le rapport annuel de Sky Genesis Enterprise est en ligne."
                                             },
                                             {
                                                 "href": "#",
                                                 "date": "10 janv. 2026",
                                                 "title": "Nouvelle base de données",
-                                                "description": "Accès aux données ouvertes de la défense."
+                                                "description":
+                                                    "Accès aux données ouvertes de la défense."
                                             },
                                             {
                                                 "href": "#",
                                                 "date": "8 janv. 2026",
                                                 "title": "Campagne de recrutement",
-                                                "description": "Sky Genesis Enterprise recrute des ingénieurs."
+                                                "description":
+                                                    "Sky Genesis Enterprise recrute des ingénieurs."
                                             }
                                         ]}
                                     />

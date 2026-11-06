@@ -187,7 +187,7 @@ export const Input = memo(
                                     .filter(value => value !== undefined)
                                     .join(" ") || undefined
                             }
-                            type={textArea ? undefined : nativeInputProps?.type ?? "text"}
+                            type={textArea ? undefined : (nativeInputProps?.type ?? "text")}
                             id={inputId}
                         />
                     );

@@ -10,7 +10,7 @@
  *
  * It loads the institutional foundation (`styles/index.css`: tokens, themes,
  * reset, base, typography, accessibility, layout, shared components and
- * utilities), then the DSFR stylesheet that still styles the `fr-*` classes
+ * utilities), then the legacy stylesheet that still styles the `fr-*` classes
  * emitted by the historic components (Header, Footer, Button, Table…).
  *
  * If you only need the SGE identity and not the historic `fr-*` component layer,
@@ -27,6 +27,6 @@
 /* SGE institutional foundation. */
 @import url(./styles/index.css);
 
-/* Legacy DSFR layer — styles the fr-* component classes (icons + framework). */
-@import url(./dsfr/utility/icons/icons.min.css);
-@import url(./dsfr/dsfr.css);
+/* Legacy legacy layer — styles the fr-* component classes (icons + framework). */
+@import url(./legacy/utility/icons/icons.min.css);
+@import url(./legacy/legacy.css);

@@ -37,14 +37,17 @@ export function Switch(props: SwitchProps) {
 
     const isDisabled = disabled === true;
 
-    const textLabel: string = typeof label === "string" ? label : accessibilityLabel ?? "";
+    const textLabel: string = typeof label === "string" ? label : (accessibilityLabel ?? "");
 
     const control = (
         <RNSwitch
             value={value}
             onValueChange={onValueChange}
             disabled={isDisabled}
-            trackColor={{ true: colors.primary, false: isDisabled ? colors.disabled : colors.input }}
+            trackColor={{
+                true: colors.primary,
+                false: isDisabled ? colors.disabled : colors.input
+            }}
             thumbColor={colors.surface}
             ios_backgroundColor={isDisabled ? colors.disabled : colors.input}
         />
@@ -61,7 +64,10 @@ export function Switch(props: SwitchProps) {
                 accessibilityLabel={accessibilityLabel ?? textLabel}
                 accessibilityHint={accessibilityHint}
                 hitSlop={8}
-                style={[{ minHeight: tokens.dimensions.touchTarget, justifyContent: "center" }, style]}
+                style={[
+                    { minHeight: tokens.dimensions.touchTarget, justifyContent: "center" },
+                    style
+                ]}
             >
                 {control}
             </Pressable>

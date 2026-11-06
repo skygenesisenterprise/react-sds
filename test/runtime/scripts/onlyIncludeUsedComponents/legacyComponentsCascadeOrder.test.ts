@@ -1,10 +1,10 @@
 import { it, expect, describe } from "vitest";
 import * as fs from "fs";
 import { join as pathJoin } from "path";
-import { DSFR_COMPONENTS_CASCADE_ORDER } from "../../../../src/bin/only-include-css-of-used-components";
+import { LEGACY_COMPONENTS_CASCADE_ORDER } from "../../../../src/bin/only-include-css-of-used-components";
 
 /**
- * DSFR_COMPONENTS_CASCADE_ORDER only has a reason to exist if it matches the order in
+ * LEGACY_COMPONENTS_CASCADE_ORDER only has a reason to exist if it matches the order in
  * which the upstream bundle concatenates the components. This test is what makes a
  * silent drift on a @gouvfr/dsfr bump impossible.
  *
@@ -14,7 +14,7 @@ import { DSFR_COMPONENTS_CASCADE_ORDER } from "../../../../src/bin/only-include-
  * The source map is read instead: its `sources` list the scss files in emission order,
  * and only `radio` has no `main.scss` entry point to key on.
  */
-describe("DSFR_COMPONENTS_CASCADE_ORDER", () => {
+describe("LEGACY_COMPONENTS_CASCADE_ORDER", () => {
     const sourceMapFilePath = pathJoin(
         process.cwd(),
         "node_modules",
@@ -69,9 +69,9 @@ describe("DSFR_COMPONENTS_CASCADE_ORDER", () => {
     it("matches the section order of the installed @gouvfr/dsfr", () => {
         // Deliberately an assertion and not a skip: @gouvfr/dsfr is a direct dependency of
         // this repo, so there is no legitimate case where the map is absent. Skipping would
-        // let the guard silently evaporate on a future DSFR that stops shipping source maps.
+        // let the guard silently evaporate on a future legacy that stops shipping source maps.
         expect(fs.existsSync(sourceMapFilePath), `${sourceMapFilePath} not found`).toBe(true);
 
-        expect([...DSFR_COMPONENTS_CASCADE_ORDER]).toStrictEqual(getUpstreamCascadeOrder());
+        expect([...LEGACY_COMPONENTS_CASCADE_ORDER]).toStrictEqual(getUpstreamCascadeOrder());
     });
 });

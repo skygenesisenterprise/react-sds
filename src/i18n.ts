@@ -38,11 +38,9 @@ function getLanguageBestApprox<Language extends string>(params: {
 type FrMessagesToTranslationFunction<
     FrMessages extends Record<string, ReactNode | ((params: any) => ReactNode)>
 > = {
-    <K extends NonFunctionMessageKey<FrMessages>>(messageKey: K): FrMessages[K] extends (
-        params: any
-    ) => infer R
-        ? R
-        : FrMessages[K];
+    <K extends NonFunctionMessageKey<FrMessages>>(
+        messageKey: K
+    ): FrMessages[K] extends (params: any) => infer R ? R : FrMessages[K];
 } & {
     <K extends FunctionMessageKey<FrMessages>>(
         messageKey: K,

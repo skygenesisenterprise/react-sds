@@ -5,7 +5,7 @@ import type { ColorDecisionAndCorrespondingOption } from "../../scripts/build/cs
 import { fr } from "../../dist/fr";
 import { createUseDebounce } from "powerhooks/useDebounce";
 import { Fzf } from "fzf";
-import { MuiDsfrThemeProvider } from "../../dist/mui";
+import { MuiSdsThemeProvider } from "../../dist/mui";
 import { Search } from "./Search";
 import { useConst } from "powerhooks/useConst";
 import { Evt } from "evt";
@@ -79,7 +79,7 @@ export function ColorHelper() {
     }, [search, context, color, usage]);
 
     return (
-        <MuiDsfrThemeProvider>
+        <MuiSdsThemeProvider>
             <div>
                 <CallOut
                     className={css({ "marginBottom": 0 })}
@@ -133,7 +133,7 @@ export function ColorHelper() {
                 )}
                     */}
             </div>
-        </MuiDsfrThemeProvider>
+        </MuiSdsThemeProvider>
     );
 }
 

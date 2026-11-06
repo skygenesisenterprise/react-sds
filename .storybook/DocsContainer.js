@@ -3,14 +3,14 @@ import React, { useEffect } from "react";
 import { DocsContainer as BaseContainer } from "@storybook/addon-docs";
 import { useDarkMode } from "storybook-dark-mode";
 import { darkTheme, lightTheme } from "./customTheme";
-import "../dist/dsfr/utility/icons/icons.min.css";
-import "../dist/dsfr/dsfr.css";
+import "../dist/legacy/utility/icons/icons.min.css";
+import "../dist/legacy/legacy.css";
 import { useIsDark } from "../dist/useIsDark";
-import { startReactDsfr } from "../dist/spa";
+import { startReactSds } from "../dist/spa";
 import { fr } from "../dist/fr";
-import { MuiDsfrThemeProvider } from "../dist/mui";
+import { MuiSdsThemeProvider } from "../dist/mui";
 
-startReactDsfr({
+startReactSds({
     "defaultColorScheme": "system",
     "useLang": () => "fr"
 });
@@ -70,9 +70,9 @@ export const DocsContainer = ({ children, context }) => {
                     }
                 }}
             >
-                <MuiDsfrThemeProvider>
+                <MuiSdsThemeProvider>
                     {children}
-                </MuiDsfrThemeProvider>
+                </MuiSdsThemeProvider>
             </BaseContainer>
         </>
     );

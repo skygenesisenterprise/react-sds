@@ -25,12 +25,7 @@ export const SDSDownload = (props: SDSDownloadProps) => {
     const meta = [fileType, fileSize].filter(Boolean).join(" · ");
 
     return (
-        <a
-            href={href}
-            download
-            className={cx("sds-download", className)}
-            style={style}
-        >
+        <a href={href} download className={cx("sds-download", className)} style={style}>
             <i className="fr-icon-download-line" aria-hidden="true" />
             <span className="sds-download__body">
                 <span className="sds-download__label">{label}</span>

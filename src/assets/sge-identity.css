@@ -1,7 +1,7 @@
 /* SDS — institutional identity of Sky Genesis Enterprise.
    Companion stylesheet of the <Header /> and <Footer /> brand blocks.
    It renders the Sky Genesis Enterprise brand lockup and the
-   institution line in place of the legacy DSFR state brand (fr-logo tricolor
+   institution line in place of the legacy legacy state brand (fr-logo tricolor
    block). Provisional until the SDS stylesheet lands (see MIGRATION.md stage 4):
    the fr-* classes still come from the framework stylesheet, this file only
    tunes the brand zone. */

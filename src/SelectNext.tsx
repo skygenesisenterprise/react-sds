@@ -163,7 +163,7 @@ function NonMemoizedNonForwardedSelect<T extends SelectProps.Option[]>(
 
                     return {
                         "defaultValue": isEmptyValueSelected
-                            ? nativeSelectProps?.defaultValue ?? ""
+                            ? (nativeSelectProps?.defaultValue ?? "")
                             : (() => {
                                   const selectedOption = options.find(option => option.selected);
                                   assert(selectedOption !== undefined);
@@ -177,8 +177,8 @@ function NonMemoizedNonForwardedSelect<T extends SelectProps.Option[]>(
                     state !== "default" && nativeSelectProps["aria-describedby"] !== undefined
                         ? `${stateDescriptionId} ${nativeSelectProps["aria-describedby"]}`
                         : state !== "default"
-                        ? stateDescriptionId
-                        : undefined
+                          ? stateDescriptionId
+                          : undefined
                 }
                 disabled={disabled}
             >

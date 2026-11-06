@@ -48,9 +48,7 @@ export function ListItem(props: ListItemProps) {
 
     const isDisabled = disabled === true;
 
-    const label =
-        accessibilityLabel ??
-        (typeof title === "string" ? title : undefined);
+    const label = accessibilityLabel ?? (typeof title === "string" ? title : undefined);
 
     const content = (
         <>
@@ -84,7 +82,11 @@ export function ListItem(props: ListItemProps) {
             )}
             {trailing === undefined && showChevron && (
                 <View style={{ marginLeft: tokens.spacing.md, justifyContent: "center" }}>
-                    <Icon name="chevron-right" size={tokens.dimensions.iconSm} color={colors.muted} />
+                    <Icon
+                        name="chevron-right"
+                        size={tokens.dimensions.iconSm}
+                        color={colors.muted}
+                    />
                 </View>
             )}
         </>

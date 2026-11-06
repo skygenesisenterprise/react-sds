@@ -8,7 +8,7 @@ import { chartWrapper, BaseChartProps, stringifyObjectValue, ChartColor } from "
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/GaugeChart.vue#L55
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/GaugeChart.vue#L55
             "gauge-chart": {
                 value: string;
                 init: string;

@@ -14,8 +14,7 @@ export function createGetHtmlAttributes(params: { defaultColorScheme: DefaultCol
     function getHtmlAttributes(params: {
         lang: string | undefined;
     }): { suppressHydrationWarning: true; lang?: string } & (
-        | Record<typeof data_fr_scheme | typeof data_fr_theme, ColorScheme>
-        | {}
+        Record<typeof data_fr_scheme | typeof data_fr_theme, ColorScheme> | {}
     ) {
         const { lang } = params;
 

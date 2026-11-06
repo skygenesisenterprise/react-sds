@@ -7,10 +7,10 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "copy-dsfr-to-public": "node node_modules/@skygenesisenterprise/react-sds/bin/copy-dsfr-to-public.js",
+        "copy-legacy-to-public": "node node_modules/@skygenesisenterprise/react-sds/bin/copy-legacy-to-public.js",
         "only-include-used-icons": "node node_modules/@skygenesisenterprise/react-sds/bin/only-include-used-icons.js",
-        "predev": "yarn copy-dsfr-to-public && yarn only-include-used-icons",
-        "prebuild": "yarn copy-dsfr-to-public && yarn only-include-used-icons"
+        "predev": "yarn copy-legacy-to-public && yarn only-include-used-icons",
+        "prebuild": "yarn copy-legacy-to-public && yarn only-include-used-icons"
     },
     "dependencies": {
         "react": "18.2.0",

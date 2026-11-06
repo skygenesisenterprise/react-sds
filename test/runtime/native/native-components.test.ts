@@ -36,7 +36,9 @@ describe("SDS Native component smoke tests (react-native mocked)", () => {
     it("Button disabled state is exposed to assistive tech", () => {
         const html = render(createElement(Button, { disabled: true }, "Continuer"));
 
-        expect(html).toContain('accessibilityState="{&quot;disabled&quot;:true,&quot;busy&quot;:false}"');
+        expect(html).toContain(
+            'accessibilityState="{&quot;disabled&quot;:true,&quot;busy&quot;:false}"'
+        );
     });
 
     it("Button loading state renders an activity indicator", () => {
@@ -49,13 +51,19 @@ describe("SDS Native component smoke tests (react-native mocked)", () => {
         const html = render(createElement(Checkbox, { checked: true, "label": "Accepter" }));
 
         expect(html).toContain('accessibilityRole="checkbox"');
-        expect(html).toContain('accessibilityState="{&quot;checked&quot;:true,&quot;disabled&quot;:false}"');
+        expect(html).toContain(
+            'accessibilityState="{&quot;checked&quot;:true,&quot;disabled&quot;:false}"'
+        );
         expect(html).toContain("Accepter");
     });
 
     it("Alert exposes an alert role", () => {
         const html = render(
-            createElement(Alert, { "severity": "error", "title": "Erreur" }, "Un problème est survenu.")
+            createElement(
+                Alert,
+                { "severity": "error", "title": "Erreur" },
+                "Un problème est survenu."
+            )
         );
 
         expect(html).toContain('accessibilityRole="alert"');

@@ -298,12 +298,13 @@ export const Header = memo(
                                             </div>
                                         )}
                                     </div>
-                                    {serviceTitle !== undefined && (                                            <div
-                                                className={cx(
-                                                    fr.cx("fr-header__service"),
-                                                    classes.service
-                                                )}
-                                            >
+                                    {serviceTitle !== undefined && (
+                                        <div
+                                            className={cx(
+                                                fr.cx("fr-header__service"),
+                                                classes.service
+                                            )}
+                                        >
                                             <Link {...homeLinkProps}>
                                                 <p
                                                     className={cx(

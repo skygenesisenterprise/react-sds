@@ -85,7 +85,7 @@ export const useIsDarkClientSide: UseIsDark = () => {
             document.documentElement.setAttribute(data_fr_scheme, newColorScheme);
 
             if (data_fr_js_value !== "true") {
-                //NOTE: DSFR not started yet.
+                //NOTE: legacy not started yet.
                 document.documentElement.setAttribute(
                     data_fr_theme,
                     newColorScheme === "system" ? getSystemColorScheme() : newColorScheme

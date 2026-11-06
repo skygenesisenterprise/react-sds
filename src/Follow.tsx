@@ -111,7 +111,7 @@ export namespace FollowProps {
     } & (NewsletterWithForm | NewsletterWithoutForm);
 
     /**
-     * From DSFR `$follow-icons` + `copy` and `mail`
+     * From legacy `$follow-icons` + `copy` and `mail`
      */
     export type SocialType =
         | "copy"

@@ -6,7 +6,7 @@ import { parseCss } from "./parseCss";
 import { assert } from "tsafe/assert";
 import { exclude } from "tsafe/exclude";
 import type { Icon } from "../../src/bin/only-include-used-icons";
-import { PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR } from "../../src/bin/only-include-used-icons";
+import { PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy } from "../../src/bin/only-include-used-icons";
 import { sep } from "path";
 import * as css from "css";
 
@@ -55,7 +55,7 @@ export function getPatchedRawCssCodeForCompatWithRemixIcon(params: { rawCssCode:
 
     const back =
         new Array(
-            PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR.split(sep)
+            PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy.split(sep)
                 .length - 1
         )
             .fill("..")
@@ -75,7 +75,7 @@ export async function collectIcons(params: {
     const { iconsCssRawCode, remixiconDirPath } = params;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const dsfrIcons = parseCss(iconsCssRawCode)
+    const legacyIcons = parseCss(iconsCssRawCode)
         .stylesheet!.rules.filter(({ type }) => type === "rule")
         .map(({ selectors: [selector], declarations }: any) => {
             const iconId = (() => {
@@ -106,7 +106,7 @@ export async function collectIcons(params: {
                 return matchArray[1];
             })();
 
-            return id<Icon.Dsfr>({
+            return id<Icon.Legacy>({
                 iconId,
                 "prefix": "fr-icon-",
                 svgRelativePath
@@ -131,5 +131,5 @@ export async function collectIcons(params: {
             )
     );
 
-    return [...dsfrIcons, ...remixiconIcons];
+    return [...legacyIcons, ...remixiconIcons];
 }

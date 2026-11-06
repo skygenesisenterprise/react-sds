@@ -1,13 +1,13 @@
-import marianneLightWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Light.woff2";
-import marianneItalicWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Light_Italic.woff2";
-import marianneRegularWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Regular.woff2";
-import marianneRegularItalicWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Regular_Italic.woff2";
-import marianneMediumWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Medium.woff2";
-import marianneMediumItalicWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Medium_Italic.woff2";
-import marianneBoldWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Bold.woff2";
-import marianneBoldItalicWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Marianne-Bold_Italic.woff2";
-import spectralRegularWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Spectral-Regular.woff2";
-import spectralExtraBoldWoff2Url from "@skygenesisenterprise/react-sds/dsfr/fonts/Spectral-ExtraBold.woff2";
+import marianneLightWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Light.woff2";
+import marianneItalicWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Light_Italic.woff2";
+import marianneRegularWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Regular.woff2";
+import marianneRegularItalicWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Regular_Italic.woff2";
+import marianneMediumWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Medium.woff2";
+import marianneMediumItalicWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Medium_Italic.woff2";
+import marianneBoldWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Bold.woff2";
+import marianneBoldItalicWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Marianne-Bold_Italic.woff2";
+import spectralRegularWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Spectral-Regular.woff2";
+import spectralExtraBoldWoff2Url from "@skygenesisenterprise/react-sds/legacy/fonts/Spectral-ExtraBold.woff2";
 
 export const fontUrlByFileBasename = {
     "Marianne-Light": marianneLightWoff2Url,

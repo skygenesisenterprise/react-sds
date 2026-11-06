@@ -41,9 +41,9 @@ describe("SDS Native module resolution & isolation", () => {
             fs.existsSync(pathJoin(projectRootDirPath, "dist", "native", "index.js")),
             "dist/native/index.js should exist after pnpm build"
         ).toBe(true);
-        expect(
-            fs.existsSync(pathJoin(projectRootDirPath, "dist", "native", "index.d.ts"))
-        ).toBe(true);
+        expect(fs.existsSync(pathJoin(projectRootDirPath, "dist", "native", "index.d.ts"))).toBe(
+            true
+        );
     });
 
     it("resolves @skygenesisenterprise/react-sds/native to dist/native/index.js", () => {
@@ -54,9 +54,7 @@ describe("SDS Native module resolution & isolation", () => {
         // The published package flattens dist/ at its root (see npm pack /
         // denoify enable_short_npm_import_path), so the subpath "native"
         // resolves to <root>/native/index.js.
-        const subpathCandidates = [
-            pathJoin(projectRootDirPath, "dist", "native", "index.js")
-        ];
+        const subpathCandidates = [pathJoin(projectRootDirPath, "dist", "native", "index.js")];
 
         expect(subpathCandidates.some(path => fs.existsSync(path))).toBe(true);
     });
@@ -74,10 +72,9 @@ describe("SDS Native module resolution & isolation", () => {
             const content = fs.readFileSync(filePath).toString("utf8");
 
             for (const needle of forbidden) {
-                expect(
-                    content.includes(needle),
-                    `${filePath} should not contain "${needle}"`
-                ).toBe(false);
+                expect(content.includes(needle), `${filePath} should not contain "${needle}"`).toBe(
+                    false
+                );
             }
         }
     });
@@ -87,9 +84,9 @@ describe("SDS Native module resolution & isolation", () => {
             return;
         }
 
-        const webEntry = fs.readFileSync(
-            pathJoin(projectRootDirPath, "dist", "index.js")
-        ).toString("utf8");
+        const webEntry = fs
+            .readFileSync(pathJoin(projectRootDirPath, "dist", "index.js"))
+            .toString("utf8");
 
         expect(webEntry.includes("react-native")).toBe(false);
     });
@@ -99,9 +96,9 @@ describe("SDS Native module resolution & isolation", () => {
             return;
         }
 
-        const webEntry = fs.readFileSync(
-            pathJoin(projectRootDirPath, "dist", "index.js")
-        ).toString("utf8");
+        const webEntry = fs
+            .readFileSync(pathJoin(projectRootDirPath, "dist", "index.js"))
+            .toString("utf8");
 
         expect(webEntry.includes("./native")).toBe(false);
     });

@@ -1,12 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
-import {
-    SDSHeading,
-    SDSText,
-    SDSLead,
-    SDSLink
-} from "../../../src/sds/typography";
+import { SDSHeading, SDSText, SDSLead, SDSLink } from "../../../src/sds/typography";
 
 describe("SDS typography primitives", () => {
     it("SDSHeading renders the correct semantic tag and level", () => {
@@ -29,13 +24,17 @@ describe("SDS typography primitives", () => {
 
     it("SDSText maps size / weight / color / margin / align props", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSText, {
-                "size": "lg",
-                "weight": "bold",
-                "color": "muted",
-                "margin": "bottom",
-                "align": "center"
-            }, "Texte")
+            createElement(
+                SDSText,
+                {
+                    "size": "lg",
+                    "weight": "bold",
+                    "color": "muted",
+                    "margin": "bottom",
+                    "align": "center"
+                },
+                "Texte"
+            )
         );
         expect(html).toContain('class="sds-text"');
         expect(html).toContain('data-size="lg"');
@@ -66,7 +65,11 @@ describe("SDS typography primitives", () => {
         expect(html).toContain('class="sds-link"');
 
         const action = renderToStaticMarkup(
-            createElement(SDSLink, { "href": "/b", "variant": "action", "iconId": "fr-icon-arrow-right-line" }, "Voir")
+            createElement(
+                SDSLink,
+                { "href": "/b", "variant": "action", "iconId": "fr-icon-arrow-right-line" },
+                "Voir"
+            )
         );
         expect(action).toContain("sds-link--action");
         expect(action).toContain('data-variant="action"');
@@ -74,7 +77,9 @@ describe("SDS typography primitives", () => {
     });
 
     it("SDSLink honors the disabled state", () => {
-        const html = renderToStaticMarkup(createElement(SDSLink, { "href": "/c", "disabled": true }, "T"));
+        const html = renderToStaticMarkup(
+            createElement(SDSLink, { "href": "/c", "disabled": true }, "T")
+        );
         expect(html).not.toContain('href="/c"');
         expect(html).toContain('aria-disabled="true"');
     });

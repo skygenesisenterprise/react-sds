@@ -43,6 +43,6 @@ description:
       Next.js (Pages Router and App Router), SPA setups (Vite, CRA) and optional MUI and
       chart layers.
 
-      The project started as a fork of the French react-dsfr library and is being
+      The project started as a fork of the French French design-system library and is being
       progressively transformed into an independent design system: audit and roadmap are
       documented in the repository (AUDIT.md, MIGRATION.md, PROVENANCE.md).

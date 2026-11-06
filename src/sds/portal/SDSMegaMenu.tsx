@@ -48,7 +48,10 @@ export const SDSMegaMenu = (props: SDSMegaMenuProps) => {
             >
                 {label}
                 <i
-                    className={cx("fr-icon-arrow-down-s-line", isOpen && "sds-mega-menu__chevron-open")}
+                    className={cx(
+                        "fr-icon-arrow-down-s-line",
+                        isOpen && "sds-mega-menu__chevron-open"
+                    )}
                     aria-hidden="true"
                 />
             </button>

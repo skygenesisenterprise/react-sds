@@ -38,12 +38,7 @@ export const SDSStack = (props: SDSStackProps) => {
     const Tag = as as "div";
 
     return (
-        <Tag
-            className={cx("sds-stack", className)}
-            data-gap={gap}
-            data-align={align}
-            style={style}
-        >
+        <Tag className={cx("sds-stack", className)} data-gap={gap} data-align={align} style={style}>
             {children}
         </Tag>
     );

@@ -4,7 +4,7 @@
  * This script is ran with `npx react-sds include-used-icons`
  * It scans your codebase to find which icons are used and only include those in the final build.
  * Do do that it patches the node_modules/@skygenesisenterprise/react-sds/dist/utility/icons/icons.css file
- * and the public/dsfr/utility/icons/icons.css file (if applicable, not in Next.js for example).
+ * and the public/legacy/utility/icons/icons.css file (if applicable, not in Next.js for example).
  * The script can figure out where your node_modules and public directories are.
  *
  * There are two optional arguments that you can use:
@@ -31,20 +31,20 @@ import { modifyHtmlHrefs } from "./tools/modifyHtmlHrefs";
 
 export const PATH_OF_ICONS_JSON = pathJoin("utility", "icons", "icons.json");
 
-export const PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR = pathJoin(
+export const PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy = pathJoin(
     "utility",
     "icons",
-    "dsfr_remixicon.css"
+    "legacy_remixicon.css"
 );
 
-export type Icon = Icon.Dsfr | Icon.Remixicon;
+export type Icon = Icon.Legacy | Icon.Remixicon;
 
 export namespace Icon {
     export type Common = {
         iconId: string;
     };
 
-    export type Dsfr = Common & {
+    export type Legacy = Common & {
         prefix: "fr-icon-";
         svgRelativePath: string;
     };
@@ -55,7 +55,7 @@ export namespace Icon {
     };
 }
 
-type IconLike = Icon.Dsfr | Omit<Icon.Remixicon, "rawSvgCode">;
+type IconLike = Icon.Legacy | Omit<Icon.Remixicon, "rawSvgCode">;
 
 export function generateIconsRawCssCode(params: {
     usedIcons: IconLike[];
@@ -112,13 +112,13 @@ export function generateIconsRawCssCode(params: {
 type CommandContext = {
     projectDirPath: string;
     srcFilePaths: string[];
-    dsfrDirPath: string;
+    legacyDirPath: string;
     spaParams:
         | {
-              dsfrDirPath_static: string;
-              // Undefined whenever public/dsfr exists but no index.html was found to add
+              legacyDirPath_static: string;
+              // Undefined whenever public/legacy exists but no index.html was found to add
               // a cache busting query parameter to: a project that used to be a Vite/CRA
-              // app and lost its index.html, or a public/dsfr that was committed or
+              // app and lost its index.html, or a public/legacy that was committed or
               // restored by other means. Not reachable through copy-static-assets, which
               // resolves index.html through the same two paths as this script and asserts
               // "Can't locate your index.html file." before creating anything.
@@ -128,7 +128,7 @@ type CommandContext = {
     isSilent: boolean;
 };
 
-const CODEGOUV_REACT_DSFR: string = JSON.parse(
+const SGE_PACKAGE_NAME: string = JSON.parse(
     fs.readFileSync(pathJoin(getProjectRoot(), "package.json")).toString("utf8")
 )["name"];
 
@@ -152,7 +152,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
     special_case_for_our_storybook: {
         const projectDirPath = process.cwd();
 
-        const isProjectPathReactDsfr = await (async () => {
+        const isProjectPathReactLegacy = await (async () => {
             const packageJsonFilePath = pathJoin(projectDirPath, "package.json");
 
             if (!(await existsAsync(packageJsonFilePath))) {
@@ -161,10 +161,10 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
 
             const packageJson = JSON.parse((await readFile(packageJsonFilePath)).toString("utf8"));
 
-            return packageJson["name"] === CODEGOUV_REACT_DSFR;
+            return packageJson["name"] === SGE_PACKAGE_NAME;
         })();
 
-        if (!isProjectPathReactDsfr) {
+        if (!isProjectPathReactLegacy) {
             break special_case_for_our_storybook;
         }
 
@@ -202,7 +202,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
         return {
             projectDirPath,
             srcFilePaths,
-            "dsfrDirPath": pathJoin(projectDirPath, "dist", "dsfr"),
+            "legacyDirPath": pathJoin(projectDirPath, "dist", "legacy"),
             "spaParams": undefined,
             "isSilent": false
         };
@@ -218,7 +218,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
         );
 
         const doesExist = await existsAsync(
-            pathJoin(...[nodeModulesDirPath, ...CODEGOUV_REACT_DSFR.split("/")])
+            pathJoin(...[nodeModulesDirPath, ...SGE_PACKAGE_NAME.split("/")])
         );
 
         if (!doesExist) {
@@ -228,22 +228,25 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
         return nodeModulesDirPath;
     })(0);
 
-    const dsfrDirPath = pathJoin(
-        ...[nodeModulesDirPath, ...CODEGOUV_REACT_DSFR.split("/"), "dsfr"]
+    const legacyDirPath = pathJoin(
+        ...[nodeModulesDirPath, ...SGE_PACKAGE_NAME.split("/"), "dist", "legacy"]
     );
 
-    const dsfrDirPath_static = await (async () => {
-        const dsfrDirPath_static = pathJoin(await readPublicDirPath({ projectDirPath }), "dsfr");
+    const legacyDirPath_static = await (async () => {
+        const legacyDirPath_static = pathJoin(
+            await readPublicDirPath({ projectDirPath }),
+            "legacy"
+        );
 
-        if (!(await existsAsync(dsfrDirPath_static))) {
+        if (!(await existsAsync(legacyDirPath_static))) {
             return undefined;
         }
 
-        return dsfrDirPath_static;
+        return legacyDirPath_static;
     })();
 
     const htmlFilePath = await (async () => {
-        if (dsfrDirPath_static === undefined) {
+        if (legacyDirPath_static === undefined) {
             return undefined;
         }
 
@@ -258,11 +261,11 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
         }
 
         cra: {
-            if (dsfrDirPath_static === undefined) {
+            if (legacyDirPath_static === undefined) {
                 break cra;
             }
 
-            const filePath = pathJoin(pathDirname(dsfrDirPath_static), "index.html");
+            const filePath = pathJoin(pathDirname(legacyDirPath_static), "index.html");
 
             if (!fs.existsSync(filePath)) {
                 break cra;
@@ -300,7 +303,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
                             pathJoin(projectDirPath, relativeDirPath, PATH_OF_ICONS_JSON)
                         )
                     ) {
-                        // We don't want to search in public/dsfr
+                        // We don't want to search in public/legacy
                         return false;
                     }
 
@@ -346,10 +349,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
                             return false;
                         }
 
-                        for (const packageName of [
-                            CODEGOUV_REACT_DSFR,
-                            "@gouvfr/dsfr",
-                        ]) {
+                        for (const packageName of [SGE_PACKAGE_NAME, "@gouvfr/dsfr"]) {
                             if (
                                 Object.keys({
                                     ...parsedPackageJson["dependencies"],
@@ -366,7 +366,7 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
 
                     if (
                         pathDirname(relativeDirPath).endsWith(
-                            pathJoin(...CODEGOUV_REACT_DSFR.split("/"))
+                            pathJoin(...SGE_PACKAGE_NAME.split("/"))
                         )
                     ) {
                         return pathBasename(relativeDirPath) === "src";
@@ -400,14 +400,14 @@ async function getCommandContext(args: string[]): Promise<CommandContext> {
     return {
         projectDirPath,
         srcFilePaths,
-        dsfrDirPath,
+        legacyDirPath,
         "spaParams": (() => {
-            if (dsfrDirPath_static === undefined) {
+            if (legacyDirPath_static === undefined) {
                 return undefined;
             }
 
             return {
-                dsfrDirPath_static,
+                legacyDirPath_static,
                 htmlFilePath
             };
         })(),
@@ -421,29 +421,31 @@ export async function main(args: string[]) {
     const log = commandContext.isSilent ? undefined : console.log;
 
     const icons: Icon[] = JSON.parse(
-        (await readFile(pathJoin(commandContext.dsfrDirPath, PATH_OF_ICONS_JSON))).toString("utf8")
+        (await readFile(pathJoin(commandContext.legacyDirPath, PATH_OF_ICONS_JSON))).toString(
+            "utf8"
+        )
     );
 
     const { usedIconClassNames } = await (async function getUsedIconClassNames() {
-        const prefixes = { "prefixDsfr": "fr-icon-", "prefixRemixIcon": "ri-" } as const;
+        const prefixes = { "prefixLegacy": "fr-icon-", "prefixRemixIcon": "ri-" } as const;
 
         assert<Equals<(typeof prefixes)[keyof typeof prefixes], Icon["prefix"]>>();
 
-        const { prefixDsfr, prefixRemixIcon, ...rest } = prefixes;
+        const { prefixLegacy, prefixRemixIcon, ...rest } = prefixes;
 
         assert<Equals<keyof typeof rest, never>>();
 
-        const { availableDsfrIconClassNames, availableRemixiconIconClassNames } = (() => {
+        const { availableLegacyIconClassNames, availableRemixiconIconClassNames } = (() => {
             const allAvailableIconClassNames = icons.map(
                 ({ prefix, iconId }) => `${prefix}${iconId}`
             );
 
-            const availableDsfrIconClassNames: string[] = [];
+            const availableLegacyIconClassNames: string[] = [];
             const availableRemixiconIconClassNames: string[] = [];
 
             allAvailableIconClassNames.forEach(className => {
-                if (className.startsWith(prefixDsfr)) {
-                    availableDsfrIconClassNames.push(className);
+                if (className.startsWith(prefixLegacy)) {
+                    availableLegacyIconClassNames.push(className);
                     return;
                 }
                 if (className.startsWith(prefixRemixIcon)) {
@@ -452,7 +454,7 @@ export async function main(args: string[]) {
                 }
             });
 
-            return { availableDsfrIconClassNames, availableRemixiconIconClassNames };
+            return { availableLegacyIconClassNames, availableRemixiconIconClassNames };
         })();
 
         const setUsedIconClassNames = new Set<string>();
@@ -462,7 +464,9 @@ export async function main(args: string[]) {
                 const rawFileContent = (await readFile(srcFilePath)).toString("utf8");
 
                 [
-                    ...(!rawFileContent.includes(prefixDsfr) ? [] : availableDsfrIconClassNames),
+                    ...(!rawFileContent.includes(prefixLegacy)
+                        ? []
+                        : availableLegacyIconClassNames),
                     ...(!rawFileContent.includes(prefixRemixIcon)
                         ? []
                         : availableRemixiconIconClassNames)
@@ -507,8 +511,8 @@ export async function main(args: string[]) {
             "patchedRawCssCodeForCompatWithRemixIcon": fs
                 .readFileSync(
                     pathJoin(
-                        commandContext.dsfrDirPath,
-                        PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR
+                        commandContext.legacyDirPath,
+                        PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy
                     )
                 )
                 .toString("utf8"),
@@ -522,10 +526,10 @@ export async function main(args: string[]) {
     const iconsMinCssRelativePath = pathJoin("utility", "icons", "icons.min.css");
 
     await Promise.all(
-        [commandContext.dsfrDirPath, commandContext.spaParams?.dsfrDirPath_static]
+        [commandContext.legacyDirPath, commandContext.spaParams?.legacyDirPath_static]
             .filter(exclude(undefined))
-            .map(async dsfrDirPath => {
-                const cssFilePath = pathJoin(dsfrDirPath, iconsMinCssRelativePath);
+            .map(async legacyDirPath => {
+                const cssFilePath = pathJoin(legacyDirPath, iconsMinCssRelativePath);
 
                 if (Buffer.compare(await readFile(cssFilePath), rawIconCssCodeBuffer) === 0) {
                     return;
@@ -540,7 +544,7 @@ export async function main(args: string[]) {
     // NOTE: Deliberately outside of the `hasChanged` guard below. These three writes are
     // idempotent, and inside the guard a stale or hand reverted output could never be
     // repaired as long as icons.min.css itself did not change. Nothing else writes them:
-    // copy-dsfr-to-public builds its keep list from the url() of dsfr.min.css, so the
+    // copy-legacy-to-public builds its keep list from the url() of legacy.min.css, so the
     // icons and the hash query parameter are this script's responsibility alone.
     await Promise.all([
         (async function addHashQueryParameterInIndexHtml() {
@@ -575,10 +579,10 @@ export async function main(args: string[]) {
         })(),
         (async function generateUsedRemixiconFiles() {
             await Promise.all(
-                [commandContext.dsfrDirPath, commandContext.spaParams?.dsfrDirPath_static]
+                [commandContext.legacyDirPath, commandContext.spaParams?.legacyDirPath_static]
                     .filter(exclude(undefined))
-                    .map(async dsfrDistDirPath => {
-                        const remixiconDirPath = pathJoin(dsfrDistDirPath, "icons", "remixicon");
+                    .map(async legacyDistDirPath => {
+                        const remixiconDirPath = pathJoin(legacyDistDirPath, "icons", "remixicon");
 
                         fs.mkdirSync(remixiconDirPath, { "recursive": true });
 
@@ -596,19 +600,19 @@ export async function main(args: string[]) {
                     })
             );
         })(),
-        (async function copyUsedDsfrIconsToStatic() {
+        (async function copyUsedLegacyIconsToStatic() {
             if (commandContext.spaParams === undefined) {
                 return;
             }
 
-            const { dsfrDirPath_static } = commandContext.spaParams;
+            const { legacyDirPath_static } = commandContext.spaParams;
 
             await Promise.all(
                 usedIcons
                     .map(icon => (icon.prefix !== "fr-icon-" ? undefined : icon))
                     .filter(exclude(undefined))
                     .map(({ svgRelativePath }) =>
-                        ([commandContext.dsfrDirPath, dsfrDirPath_static] as const).map(
+                        ([commandContext.legacyDirPath, legacyDirPath_static] as const).map(
                             baseDirPath =>
                                 pathJoin(
                                     baseDirPath,

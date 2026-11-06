@@ -2,9 +2,9 @@
 import React, { useMemo } from "react";
 import { objectKeys } from "tsafe/objectKeys";
 import { getAssetUrl } from "../tools/getAssetUrl";
-import AppleTouchIcon from "@skygenesisenterprise/react-sds/dsfr/favicon/apple-touch-icon.png";
-import FaviconSvg from "@skygenesisenterprise/react-sds/dsfr/favicon/favicon.svg";
-import FaviconIco from "@skygenesisenterprise/react-sds/dsfr/favicon/favicon.ico";
+import AppleTouchIcon from "@skygenesisenterprise/react-sds/legacy/favicon/apple-touch-icon.png";
+import FaviconSvg from "@skygenesisenterprise/react-sds/legacy/favicon/favicon.svg";
+import FaviconIco from "@skygenesisenterprise/react-sds/legacy/favicon/favicon.ico";
 import { getScriptToRunAsap } from "../useIsDark/scriptToRunAsap";
 import { fontUrlByFileBasename } from "./zz_internal/fontUrlByFileBasename";
 import { getDefaultColorSchemeServerSide } from "./zz_internal/defaultColorScheme";
@@ -13,10 +13,10 @@ import { assert } from "tsafe/assert";
 //NOTE: As of now there is no way to enforce ordering in Next Appdir
 //See: https://github.com/vercel/next.js/issues/16630
 // @import url(...) doesn't work. Using Sass and @use is our last resort.
-import "@skygenesisenterprise/react-sds/assets/dsfr_plus_icons.scss";
+import "@skygenesisenterprise/react-sds/assets/legacy_plus_icons.scss";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- used in doc
 
-export type DsfrHeadProps = {
+export type SdsHeadProps = {
     /** If not provided no fonts are preloaded.
      * Preloading of fonts is only enabled in production.
      */
@@ -24,7 +24,7 @@ export type DsfrHeadProps = {
     /**
      * When set, the value will be used as the nonce attribute of subsequent script tags.
      *
-     * Don't forget to add `doCheckNonce: true` in {@link startReactDsfr} options.
+     * Don't forget to add `doCheckNonce: true` in {@link startReactSds} options.
      *
      * @see https://developer.mozilla.org/fr/docs/Web/HTML/Global_attributes/nonce
      */
@@ -32,7 +32,7 @@ export type DsfrHeadProps = {
     /**
      * Enable Trusted Types with a custom policy name.
      *
-     * Don't forget to add `trustedTypesPolicyName` in {@link startReactDsfr} options.
+     * Don't forget to add `trustedTypesPolicyName` in {@link startReactSds} options.
      *
      * @see https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/trusted-types
      * @see {@link DEFAULT_TRUSTED_TYPES_POLICY_NAME}
@@ -51,8 +51,8 @@ export type DsfrHeadProps = {
 
 const isProduction = process.env.NODE_ENV !== "development";
 
-export function DsfrHeadBase(
-    props: DsfrHeadProps & {
+export function SdsHeadBase(
+    props: SdsHeadProps & {
         Link: Function;
     }
 ) {

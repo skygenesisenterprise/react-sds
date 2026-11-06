@@ -56,11 +56,7 @@ export function Card(props: CardProps) {
                 accessibilityLabel={accessibilityLabel}
                 accessibilityHint={accessibilityHint}
                 accessibilityState={{ disabled: disabled === true }}
-                style={({ pressed }) => [
-                    cardStyle,
-                    { opacity: pressed ? 0.9 : 1 },
-                    style
-                ]}
+                style={({ pressed }) => [cardStyle, { opacity: pressed ? 0.9 : 1 }, style]}
             >
                 {children}
             </Pressable>

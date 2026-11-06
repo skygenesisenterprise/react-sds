@@ -2,7 +2,13 @@ import { describe, it, expect, vi } from "vitest";
 
 vi.mock("react-native", () => import("./react-native-mock"));
 
-import { sdsTokens, sdsColors, sdsSpacing, sdsRadius, sdsDimensions } from "../../../src/native/tokens";
+import {
+    sdsTokens,
+    sdsColors,
+    sdsSpacing,
+    sdsRadius,
+    sdsDimensions
+} from "../../../src/native/tokens";
 
 describe("SDS Native tokens", () => {
     it("exposes the full SDSTokens contract", () => {

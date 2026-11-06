@@ -16,7 +16,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/ScatterChart.vue#L75
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/ScatterChart.vue#L75
             "scatter-chart": {
                 showLine?: string;
             } & IntrinsicGraphType &

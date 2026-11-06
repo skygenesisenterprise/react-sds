@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Home } from "./Home";
 import { Mui } from "./Mui";
 import { Picto } from "./Picto";
-import { startReactDsfr } from "@skygenesisenterprise/react-sds/spa";
+import { startReactSds } from "@skygenesisenterprise/react-sds/spa";
 import { Header } from "@skygenesisenterprise/react-sds/Header";
 import { Footer } from "@skygenesisenterprise/react-sds/Footer";
 import { BrowserRouter } from "react-router-dom";
@@ -11,10 +11,10 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
 import { fr } from "@skygenesisenterprise/react-sds";
 import { ConsentBannerAndConsentManagement, FooterConsentManagementItem, FooterPersonalDataPolicyItem } from "./consentManagement";
-import { createDsfrCustomBrandingProvider } from "@skygenesisenterprise/react-sds/mui";
+import { createLegacyCustomBrandingProvider } from "@skygenesisenterprise/react-sds/mui";
 import { createTheme } from "@mui/material/styles";
 
-startReactDsfr({ "defaultColorScheme": "system", Link });
+startReactSds({ "defaultColorScheme": "system", Link });
 
 declare module "@skygenesisenterprise/react-sds/spa" {
     interface RegisterLink {
@@ -22,7 +22,7 @@ declare module "@skygenesisenterprise/react-sds/spa" {
     }
 }
 
-const { DsfrCustomBrandingProvider } = createDsfrCustomBrandingProvider({
+const { LegacyCustomBrandingProvider } = createLegacyCustomBrandingProvider({
     createMuiTheme: ({ isDark, theme_gov }) => {
         if (import.meta.env.VITE_IS_GOV_INSTANCE === "true") {
             return { theme: theme_gov };
@@ -44,9 +44,9 @@ const { DsfrCustomBrandingProvider } = createDsfrCustomBrandingProvider({
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <BrowserRouter>
-        <DsfrCustomBrandingProvider>
+        <LegacyCustomBrandingProvider>
             <Root />
-        </DsfrCustomBrandingProvider>
+        </LegacyCustomBrandingProvider>
         </BrowserRouter>
     </React.StrictMode>
 );

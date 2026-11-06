@@ -57,5 +57,8 @@ export const SDSLinkStory = link.getStory(
         "iconId": "fr-icon-arrow-right-line",
         "children": "Accéder au service"
     },
-    { "description": "Lien stylisé. `variant`: default (texte souligné), muted, action (avec icône)." }
+    {
+        "description":
+            "Lien stylisé. `variant`: default (texte souligné), muted, action (avec icône)."
+    }
 );

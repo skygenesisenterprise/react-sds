@@ -45,11 +45,7 @@ export const SDSLink = (props: SDSLinkProps) => {
     return (
         <a
             href={disabled ? undefined : href}
-            className={cx(
-                "sds-link",
-                variant === "action" && "sds-link--action",
-                className
-            )}
+            className={cx("sds-link", variant === "action" && "sds-link--action", className)}
             data-variant={variant}
             style={style}
             onClick={disabled ? undefined : onClick}

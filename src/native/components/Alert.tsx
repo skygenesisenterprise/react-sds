@@ -29,14 +29,7 @@ const ICON_BY_SEVERITY: Record<AlertSeverity, string> = {
 };
 
 export function Alert(props: AlertProps) {
-    const {
-        severity = "info",
-        title,
-        children,
-        role = "alert",
-        style,
-        testID
-    } = props;
+    const { severity = "info", title, children, role = "alert", style, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 
@@ -64,7 +57,11 @@ export function Alert(props: AlertProps) {
             ]}
         >
             <View style={{ marginTop: 2 }}>
-                <Icon name={ICON_BY_SEVERITY[severity]} size={tokens.dimensions.iconSm} color={accent} />
+                <Icon
+                    name={ICON_BY_SEVERITY[severity]}
+                    size={tokens.dimensions.iconSm}
+                    color={accent}
+                />
             </View>
             <View style={{ flex: 1, gap: tokens.spacing.xs }}>
                 {title !== undefined && (
@@ -77,9 +74,7 @@ export function Alert(props: AlertProps) {
                         {title}
                     </Text>
                 )}
-                {children !== undefined && (
-                    <Text variant="bodySmall">{children}</Text>
-                )}
+                {children !== undefined && <Text variant="bodySmall">{children}</Text>}
             </View>
         </View>
     );

@@ -47,7 +47,9 @@ describe("SDS layout primitives", () => {
     });
 
     it("SDSStack sets the gap and align data attributes", () => {
-        const html = renderToStaticMarkup(createElement(SDSStack, { "gap": 8, "align": "center" }, "x"));
+        const html = renderToStaticMarkup(
+            createElement(SDSStack, { "gap": 8, "align": "center" }, "x")
+        );
         expect(html).toContain('class="sds-stack"');
         expect(html).toContain('data-gap="8"');
         expect(html).toContain('data-align="center"');
@@ -55,7 +57,11 @@ describe("SDS layout primitives", () => {
 
     it("SDSGrid maps responsive columns and cascades defaults", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSGrid, { "columns": { "mobile": 1, "tablet": 2, "desktop": 3 }, "gap": 6 }, "x")
+            createElement(
+                SDSGrid,
+                { "columns": { "mobile": 1, "tablet": 2, "desktop": 3 }, "gap": 6 },
+                "x"
+            )
         );
         expect(html).toContain('data-cols-sm="1"');
         expect(html).toContain('data-cols-md="2"');
@@ -63,7 +69,9 @@ describe("SDS layout primitives", () => {
         expect(html).toContain('data-gap="6"');
 
         // defaults: tablet inherits mobile, desktop inherits tablet
-        const defaults = renderToStaticMarkup(createElement(SDSGrid, { "columns": { "mobile": 2 } }, "x"));
+        const defaults = renderToStaticMarkup(
+            createElement(SDSGrid, { "columns": { "mobile": 2 } }, "x")
+        );
         expect(defaults).toContain('data-cols-sm="2"');
         expect(defaults).toContain('data-cols-md="2"');
         expect(defaults).toContain('data-cols-lg="2"');
@@ -71,7 +79,12 @@ describe("SDS layout primitives", () => {
 
     it("SDSColumns wraps each child in a column item", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSColumns, { "cols": 3, "gap": 6 }, createElement("div", null, "a"), createElement("div", null, "b"))
+            createElement(
+                SDSColumns,
+                { "cols": 3, "gap": 6 },
+                createElement("div", null, "a"),
+                createElement("div", null, "b")
+            )
         );
         const items = html.match(/sds-columns__item/g) ?? [];
         expect(items.length).toBe(2);
@@ -81,7 +94,15 @@ describe("SDS layout primitives", () => {
 
     it("exported from the SDS root barrel", async () => {
         const sds = await import("../../../src/sds");
-        for (const name of ["SDSPage", "SDSMain", "SDSContainer", "SDSSection", "SDSStack", "SDSGrid", "SDSColumns"]) {
+        for (const name of [
+            "SDSPage",
+            "SDSMain",
+            "SDSContainer",
+            "SDSSection",
+            "SDSStack",
+            "SDSGrid",
+            "SDSColumns"
+        ]) {
             expect(typeof sds[name]).toBe("function");
         }
     });

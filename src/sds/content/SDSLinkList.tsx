@@ -28,9 +28,7 @@ export const SDSLinkList = (props: SDSLinkListProps) => {
 
     return (
         <div className={cx("sds-link-list-wrap", className)} style={style}>
-            {title !== undefined && (
-                <h2 className="sds-link-list__title">{title}</h2>
-            )}
+            {title !== undefined && <h2 className="sds-link-list__title">{title}</h2>}
             <ul className="sds-link-list">
                 {items.map((item, index) => (
                     <li key={index} className="sds-link-list__item">

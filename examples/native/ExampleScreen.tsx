@@ -40,16 +40,13 @@ export function ExampleScreen() {
                 <Stack spacing="lg" style={{ padding: 16 }}>
                     <Heading level={1}>Mon espace SGE</Heading>
 
-                    <Text>
-                        Retrouvez vos services et démarches administratives.
-                    </Text>
+                    <Text>Retrouvez vos services et démarches administratives.</Text>
 
                     <Card elevated>
                         <Stack spacing="md">
                             <Heading level={3}>Déclaration de revenus</Heading>
                             <Text variant="bodySmall">
-                                Effectuez votre déclaration en ligne en quelques
-                                minutes.
+                                Effectuez votre déclaration en ligne en quelques minutes.
                             </Text>
                             <Button onPress={() => undefined} icon="arrowRight">
                                 Continuer

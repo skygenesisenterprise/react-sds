@@ -79,7 +79,7 @@ export function Search(props: Props) {
     }, [areFiltersOpen]);
 
     const { classes, cx } = useStyles({
-        "filterWrapperMaxHeight": areFiltersOpen ? filtersWrapperDivElement?.scrollHeight ?? 0 : 0
+        "filterWrapperMaxHeight": areFiltersOpen ? (filtersWrapperDivElement?.scrollHeight ?? 0) : 0
     });
 
     return (
@@ -124,7 +124,7 @@ export function Search(props: Props) {
                     nativeSelectProps={{
                         "onChange": event =>
                             onContextChange(event.target.value || (undefined as any)),
-                        "value": contextes.length === 1 ? contextes[0] : context ?? ""
+                        "value": contextes.length === 1 ? contextes[0] : (context ?? "")
                     }}
                 >
                     {[undefined, ...contextes].map(context => (
@@ -139,7 +139,7 @@ export function Search(props: Props) {
                     nativeSelectProps={{
                         "onChange": event =>
                             onColorChange(event.target.value || (undefined as any)),
-                        "value": colors.length === 1 ? colors[0] : color ?? ""
+                        "value": colors.length === 1 ? colors[0] : (color ?? "")
                     }}
                 >
                     {[undefined, ...colors].map(color => (
@@ -154,7 +154,7 @@ export function Search(props: Props) {
                     nativeSelectProps={{
                         "onChange": event =>
                             onUsageChange(event.target.value || (undefined as any)),
-                        "value": usages.length === 1 ? usages[0] : usage ?? ""
+                        "value": usages.length === 1 ? usages[0] : (usage ?? "")
                     }}
                 >
                     {[undefined, ...usages].map(usage => (

@@ -11,11 +11,11 @@ import { join as pathJoin, basename as pathBasename, relative as pathRelative } 
 import type { Icon } from "../../../src/bin/only-include-used-icons";
 
 export function cssToTs(params: {
-    rawDsfrCssCode: string;
+    rawLegacyCssCode: string;
     generatedDirPath: string;
     icons: Icon[];
 }) {
-    const { rawDsfrCssCode, generatedDirPath, icons } = params;
+    const { rawLegacyCssCode, generatedDirPath, icons } = params;
 
     fs.mkdirSync(generatedDirPath, { "recursive": true });
 
@@ -31,7 +31,7 @@ export function cssToTs(params: {
     fs.writeFileSync(
         targetGetColorOptionsHexFilePath,
         Buffer.from(
-            [warningMessage, ``, generateGetColorOptionsHexTsCode(rawDsfrCssCode), ``].join("\n"),
+            [warningMessage, ``, generateGetColorOptionsHexTsCode(rawLegacyCssCode), ``].join("\n"),
             "utf8"
         )
     );
@@ -48,7 +48,7 @@ export function cssToTs(params: {
                     targetGetColorOptionsHexFilePath
                 ).replace(/\.ts$/, "")}";`,
                 ``,
-                generateColorOptionsTsCode(rawDsfrCssCode),
+                generateColorOptionsTsCode(rawLegacyCssCode),
                 ``,
                 `export type ColorOptions<Format extends "css var" | "hex"= "css var"> = `,
                 `  Format extends "css var" ? typeof colorOptions : ReturnType<typeof getColorOptionsHex>;`,
@@ -72,7 +72,7 @@ export function cssToTs(params: {
                     targetColorOptionsFilePath
                 ).replace(/\.ts$/, "")}";`,
                 ``,
-                generateGetColorDecisionsHexTsCode(rawDsfrCssCode),
+                generateGetColorDecisionsHexTsCode(rawLegacyCssCode),
                 ``
             ].join("\n"),
             "utf8"
@@ -91,7 +91,7 @@ export function cssToTs(params: {
                     targetGetColorDecisionsHexFilePath
                 ).replace(/\.ts$/, "")}";`,
                 ``,
-                generateColorDecisionsTsCode(rawDsfrCssCode),
+                generateColorDecisionsTsCode(rawLegacyCssCode),
                 ``,
                 `export type ColorDecisions<Format extends "css var" | "hex"= "css var"> = `,
                 `  Format extends "css var" ? typeof colorDecisions : ReturnType<typeof getColorDecisionsHex>;`,
@@ -104,7 +104,7 @@ export function cssToTs(params: {
     fs.writeFileSync(
         pathJoin(generatedDirPath, "breakpoints.ts"),
         Buffer.from(
-            [warningMessage, ``, generateBreakpointsTsCode(rawDsfrCssCode)].join("\n"),
+            [warningMessage, ``, generateBreakpointsTsCode(rawLegacyCssCode)].join("\n"),
             "utf8"
         )
     );
@@ -116,7 +116,7 @@ export function cssToTs(params: {
                 warningMessage,
                 `import { breakpoints } from "../breakpoints";`,
                 ``,
-                generateTypographyTsCode(rawDsfrCssCode),
+                generateTypographyTsCode(rawLegacyCssCode),
                 ``
             ].join("\n"),
             "utf8"
@@ -126,7 +126,7 @@ export function cssToTs(params: {
     fs.writeFileSync(
         pathJoin(generatedDirPath, "spacing.ts"),
         Buffer.from(
-            [warningMessage, ``, generateSpacingTsCode(rawDsfrCssCode), ``].join("\n"),
+            [warningMessage, ``, generateSpacingTsCode(rawLegacyCssCode), ``].join("\n"),
             "utf8"
         )
     );
@@ -138,8 +138,8 @@ export function cssToTs(params: {
                 warningMessage,
                 ``,
                 generateClassNamesTsCode({
-                    "rawCssCode": rawDsfrCssCode,
-                    "dsfrIconClassNames": icons
+                    "rawCssCode": rawLegacyCssCode,
+                    "legacyIconClassNames": icons
                         .filter(({ prefix }) => prefix === "fr-icon-")
                         .map(({ iconId, prefix }) => `${prefix}${iconId}`),
                     "remixiconClassNames": icons
@@ -158,7 +158,7 @@ export function cssToTs(params: {
             [
                 warningMessage,
                 ``,
-                generateColorDecisionAndCorrespondingOptionsTsCode(rawDsfrCssCode),
+                generateColorDecisionAndCorrespondingOptionsTsCode(rawLegacyCssCode),
                 ``
             ].join("\n"),
             "utf8"

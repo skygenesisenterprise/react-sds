@@ -149,7 +149,8 @@ export const SideMenu = memo(
                                                             // @ts-expect-error
                                                             <ComponentToUse
                                                                 aria-expanded={
-                                                                    item.expandedByDefault ?? false
+                                                                    (item.expandedByDefault ??
+                                                                    false)
                                                                         ? "true"
                                                                         : "false"
                                                                 }

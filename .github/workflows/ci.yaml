@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - main
+      - master
   pull_request:
     branches:
       - main
+      - master
 
 env:
   PNPM_VERSION: 11.21.0

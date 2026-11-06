@@ -16,7 +16,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/BarChart.vue#L79
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/BarChart.vue#L79
             "bar-chart": {
                 horizontal?: string;
                 stacked?: string;

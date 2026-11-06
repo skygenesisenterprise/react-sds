@@ -1,13 +1,13 @@
 import { it, expect, describe } from "vitest";
 import {
-    generateDsfrCssCode,
+    generateLegacyCssCode,
     rewriteCssRelativeUrls,
     patchCoreCssCodeForCompatWithMui,
     getReferencedAssetRelativePaths
 } from "../../../../src/bin/only-include-css-of-used-components";
 
 describe("rewriteCssRelativeUrls", () => {
-    it("rewrites urls relative to the css file into urls relative to the dsfr directory", () => {
+    it("rewrites urls relative to the css file into urls relative to the legacy directory", () => {
         expect(
             rewriteCssRelativeUrls({
                 "rawCssCode": `.fr-accordion__btn::after{-webkit-mask-image:url("../../icons/arrows/arrow-down-s-line.svg")}`,
@@ -44,7 +44,7 @@ describe("rewriteCssRelativeUrls", () => {
 });
 
 describe("patchCoreCssCodeForCompatWithMui", () => {
-    it("excludes Mui buttons from the DSFR hover and active rules", () => {
+    it("excludes Mui buttons from the legacy hover and active rules", () => {
         expect(
             patchCoreCssCodeForCompatWithMui({
                 "rawCssCode":
@@ -56,8 +56,8 @@ describe("patchCoreCssCodeForCompatWithMui", () => {
     });
 });
 
-describe("generateDsfrCssCode", () => {
-    const fakeDsfrFiles: Record<string, string> = {
+describe("generateLegacyCssCode", () => {
+    const fakeLegacyFiles: Record<string, string> = {
         "core/core.main.min.css": '@charset "UTF-8";.core{--x:url("../fonts/f.woff2")}',
         "core/core.print.min.css": "@media print{.core-print{display:none}}",
         "scheme/scheme.min.css": ":root[data-fr-theme=dark]{--grey:#161616}",
@@ -69,13 +69,13 @@ describe("generateDsfrCssCode", () => {
         "component/download/download.min.css": ".fr-download{color:blue}"
     };
 
-    const readDsfrFile = (fileRelativePath: string) => fakeDsfrFiles[fileRelativePath];
+    const readLegacyFile = (fileRelativePath: string) => fakeLegacyFiles[fileRelativePath];
 
     it("always includes core and scheme, includes only requested components, preserves the cascade order", () => {
-        const generated = generateDsfrCssCode({
-            "dsfrComponents": ["header", "button", "download"],
+        const generated = generateLegacyCssCode({
+            "legacyComponents": ["header", "button", "download"],
             "isMinified": true,
-            readDsfrFile
+            readLegacyFile
         });
 
         // Cascade order is button < download < header regardless of the requested order.
@@ -98,10 +98,10 @@ describe("generateDsfrCssCode", () => {
     });
 
     it("excludes the components that are not requested", () => {
-        const generated = generateDsfrCssCode({
-            "dsfrComponents": ["button"],
+        const generated = generateLegacyCssCode({
+            "legacyComponents": ["button"],
             "isMinified": true,
-            readDsfrFile
+            readLegacyFile
         });
 
         expect(generated).toContain(".fr-btn{");
@@ -110,10 +110,10 @@ describe("generateDsfrCssCode", () => {
     });
 
     it("rewrites asset urls and strips @charset", () => {
-        const generated = generateDsfrCssCode({
-            "dsfrComponents": ["header"],
+        const generated = generateLegacyCssCode({
+            "legacyComponents": ["header"],
             "isMinified": true,
-            readDsfrFile
+            readLegacyFile
         });
 
         expect(generated).toContain('url("fonts/f.woff2")');
@@ -123,12 +123,12 @@ describe("generateDsfrCssCode", () => {
 
     it("is deterministic, running it twice yields the same output", () => {
         const params = {
-            "dsfrComponents": ["button", "header"],
+            "legacyComponents": ["button", "header"],
             "isMinified": true,
-            readDsfrFile
+            readLegacyFile
         };
 
-        expect(generateDsfrCssCode(params)).toBe(generateDsfrCssCode(params));
+        expect(generateLegacyCssCode(params)).toBe(generateLegacyCssCode(params));
     });
 });
 

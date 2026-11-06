@@ -16,7 +16,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/BarLineChart.vue#L75
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/BarLineChart.vue#L75
             "bar-line-chart": {
                 ybar: string;
             } & IntrinsicGraphType &

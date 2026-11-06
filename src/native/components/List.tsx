@@ -10,10 +10,7 @@ import type { FlatListProps, ViewStyle } from "react-native";
 import { useSDSTheme } from "../theme";
 import { Divider } from "../primitives";
 
-export type ListProps<T> = Omit<
-    FlatListProps<T>,
-    "style" | "ItemSeparatorComponent"
-> & {
+export type ListProps<T> = Omit<FlatListProps<T>, "style" | "ItemSeparatorComponent"> & {
     /** Optional section title rendered above the list. */
     title?: string;
     /** Default true — hairline separators between rows. */
@@ -48,9 +45,7 @@ export function List<T>(props: ListProps<T>) {
                 {...rest}
                 scrollEnabled={false}
                 ItemSeparatorComponent={
-                    divided
-                        ? () => <Divider orientation="horizontal" margin="none" />
-                        : undefined
+                    divided ? () => <Divider orientation="horizontal" margin="none" /> : undefined
                 }
                 contentContainerStyle={contentContainerStyle}
             />

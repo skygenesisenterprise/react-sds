@@ -2,8 +2,8 @@
 
 Practical guide to designing charts, tables, and data displays that communicate clearly.
 
-
 ## Table of Contents
+
 1. [Chart Selection](#chart-selection)
 2. [Bar Charts](#bar-charts)
 3. [Line Charts](#line-charts)
@@ -22,19 +22,20 @@ Practical guide to designing charts, tables, and data displays that communicate 
 
 ### Choosing the Right Chart Type
 
-| Data Type | Best Chart | Avoid |
-|-----------|-----------|-------|
-| Part-to-whole | Pie (≤5 slices), stacked bar | Pie with many slices |
-| Change over time | Line chart, area chart | Pie chart |
-| Comparison (few items) | Bar chart (horizontal or vertical) | Line chart |
-| Comparison (many items) | Horizontal bar chart | Vertical bars (labels hard) |
-| Distribution | Histogram, box plot | Pie chart |
-| Correlation | Scatter plot | Line chart |
-| Composition over time | Stacked area, stacked bar | Multiple pie charts |
+| Data Type               | Best Chart                         | Avoid                       |
+| ----------------------- | ---------------------------------- | --------------------------- |
+| Part-to-whole           | Pie (≤5 slices), stacked bar       | Pie with many slices        |
+| Change over time        | Line chart, area chart             | Pie chart                   |
+| Comparison (few items)  | Bar chart (horizontal or vertical) | Line chart                  |
+| Comparison (many items) | Horizontal bar chart               | Vertical bars (labels hard) |
+| Distribution            | Histogram, box plot                | Pie chart                   |
+| Correlation             | Scatter plot                       | Line chart                  |
+| Composition over time   | Stacked area, stacked bar          | Multiple pie charts         |
 
 ### When NOT to Use a Chart
 
 Sometimes a simple number is better:
+
 - Single data point → Big number display
 - Two numbers to compare → Side-by-side with % change
 - Very few data points → Table might be clearer
@@ -66,13 +67,13 @@ Sometimes a simple number is better:
 ```css
 /* Bar appearance */
 .bar {
-  fill: var(--primary);
-  border-radius: 2px 2px 0 0; /* Slight rounding on top only */
+    fill: var(--primary);
+    border-radius: 2px 2px 0 0; /* Slight rounding on top only */
 }
 
 /* Hover state */
 .bar:hover {
-  fill: var(--primary-dark);
+    fill: var(--primary-dark);
 }
 
 /* Spacing */
@@ -103,20 +104,24 @@ Sometimes a simple number is better:
 ```css
 /* Line appearance */
 .line {
-  stroke-width: 2px;
-  fill: none;
+    stroke-width: 2px;
+    fill: none;
 }
 
 /* Data points */
 .data-point {
-  r: 4px;
-  fill: white;
-  stroke-width: 2px;
+    r: 4px;
+    fill: white;
+    stroke-width: 2px;
 }
 
 /* Only show points on hover or for few data points */
-.data-point { opacity: 0; }
-.line-group:hover .data-point { opacity: 1; }
+.data-point {
+    opacity: 0;
+}
+.line-group:hover .data-point {
+    opacity: 1;
+}
 ```
 
 ---
@@ -148,6 +153,7 @@ Sometimes a simple number is better:
 ### Alternative: Simple Numbers
 
 Often clearer than a pie chart:
+
 ```
 ┌─────────────────────────────────┐
 │ 67% Mobile   23% Desktop   10% Tablet │
@@ -171,6 +177,7 @@ Yellow:  #eab308
 ```
 
 **Rules:**
+
 - Maximum 5-7 distinct colors
 - Avoid red/green together (colorblindness)
 - Test with colorblind simulator
@@ -200,10 +207,12 @@ Positive:  #22c55e (green)
 ### Colorblind-Safe Palettes
 
 Test your palette with:
+
 - Coblis Color Blindness Simulator
 - Chrome DevTools rendering settings
 
 **Safe combinations:**
+
 - Blue + Orange (deuteranopia safe)
 - Blue + Yellow
 - Purple + Green + Orange
@@ -222,6 +231,7 @@ Test your palette with:
 ### Table Design Principles
 
 **1. Align numbers right**
+
 ```
 Revenue
 ────────
@@ -231,6 +241,7 @@ $123,789
 ```
 
 **2. Align text left**
+
 ```
 Product Name
 ────────────
@@ -240,57 +251,64 @@ Widget Pro Max
 ```
 
 **3. Use consistent precision**
+
 ```
 ❌  $1234, $567.89, $2.5k
 ✅  $1,234.00, $567.89, $2,500.00
 ```
 
 **4. Minimize borders**
+
 ```css
 /* Light horizontal lines only */
 tr {
-  border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
 }
 /* No vertical borders, no heavy lines */
 ```
 
 **5. Generous padding**
+
 ```css
 td {
-  padding: 12px 16px;
+    padding: 12px 16px;
 }
 ```
 
 ### Table Patterns
 
 **Zebra striping:**
+
 ```css
 tr:nth-child(even) {
-  background-color: #f9fafb;
+    background-color: #f9fafb;
 }
 ```
 
 **Hover highlighting:**
+
 ```css
 tr:hover {
-  background-color: #f3f4f6;
+    background-color: #f3f4f6;
 }
 ```
 
 **Sortable columns:**
+
 ```html
 <th>
-  Revenue
-  <button aria-label="Sort by revenue">▼</button>
+    Revenue
+    <button aria-label="Sort by revenue">▼</button>
 </th>
 ```
 
 **Sticky headers:**
+
 ```css
 thead th {
-  position: sticky;
-  top: 0;
-  background: white;
+    position: sticky;
+    top: 0;
+    background: white;
 }
 ```
 
@@ -329,27 +347,31 @@ thead th {
 
 ```html
 <div class="metric-card">
-  <span class="label">Revenue</span>
-  <span class="value">$45,234</span>
-  <span class="change positive">↑ 12.3%</span>
+    <span class="label">Revenue</span>
+    <span class="value">$45,234</span>
+    <span class="change positive">↑ 12.3%</span>
 </div>
 ```
 
 ```css
 .metric-card {
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .value {
-  font-size: 2rem;
-  font-weight: 600;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
-.change.positive { color: #22c55e; }
-.change.negative { color: #ef4444; }
+.change.positive {
+    color: #22c55e;
+}
+.change.negative {
+    color: #ef4444;
+}
 ```
 
 ---
@@ -366,6 +388,7 @@ thead th {
 ### Annotation Patterns
 
 **Event markers:**
+
 ```
                     ╭─── Product launch
 Revenue ──────────/│\──────────────
@@ -373,6 +396,7 @@ Revenue ──────────/│\────────────�
 ```
 
 **Threshold lines:**
+
 ```
 Revenue ──────────────────────
 - - - - - Target: $50k - - - -
@@ -380,6 +404,7 @@ Revenue ──────────────────────
 ```
 
 **Callout boxes:**
+
 ```
 ┌──────────────────────────┐
 │ 📈 Best month ever!      │
@@ -404,20 +429,21 @@ Revenue ──────────────────────
 
 ```html
 <figure role="img" aria-label="Bar chart showing monthly revenue">
-  <figcaption class="sr-only">
-    Revenue by month: January $10,000, February $12,000...
-  </figcaption>
-  <svg>...</svg>
+    <figcaption class="sr-only">Revenue by month: January $10,000, February $12,000...</figcaption>
+    <svg>...</svg>
 </figure>
 ```
 
 ### Data Tables as Alternative
 
 For complex charts, provide data table version:
+
 ```html
 <details>
-  <summary>View data as table</summary>
-  <table>...</table>
+    <summary>View data as table</summary>
+    <table>
+        ...
+    </table>
 </details>
 ```
 
@@ -425,15 +451,15 @@ For complex charts, provide data table version:
 
 ## Common Mistakes
 
-| Mistake | Problem | Fix |
-|---------|---------|-----|
-| 3D charts | Distorts perception | Use flat 2D |
-| Dual Y-axes | Confusing comparisons | Separate charts |
-| Too many colors | Visual noise | Limit to 5-7 |
-| Missing zero | Misleading differences | Start at zero |
-| No labels | Hard to interpret | Label directly |
-| Decorative elements | Chartjunk distracts | Remove non-data ink |
-| Inconsistent scales | Misleading comparison | Match scales |
+| Mistake             | Problem                | Fix                 |
+| ------------------- | ---------------------- | ------------------- |
+| 3D charts           | Distorts perception    | Use flat 2D         |
+| Dual Y-axes         | Confusing comparisons  | Separate charts     |
+| Too many colors     | Visual noise           | Limit to 5-7        |
+| Missing zero        | Misleading differences | Start at zero       |
+| No labels           | Hard to interpret      | Label directly      |
+| Decorative elements | Chartjunk distracts    | Remove non-data ink |
+| Inconsistent scales | Misleading comparison  | Match scales        |
 
 ---
 
@@ -461,28 +487,31 @@ What do you want to show?
 
 ```css
 /* Axes */
-.axis line, .axis path {
-  stroke: #e5e7eb;
+.axis line,
+.axis path {
+    stroke: #e5e7eb;
 }
 .axis text {
-  fill: #6b7280;
-  font-size: 12px;
+    fill: #6b7280;
+    font-size: 12px;
 }
 
 /* Grid */
 .grid line {
-  stroke: #f3f4f6;
+    stroke: #f3f4f6;
 }
 
 /* Data */
-.bar, .line, .point {
-  fill: #3b82f6;
-  stroke: #3b82f6;
+.bar,
+.line,
+.point {
+    fill: #3b82f6;
+    stroke: #3b82f6;
 }
 
 /* Labels */
 .label {
-  fill: #374151;
-  font-size: 11px;
+    fill: #374151;
+    font-size: 11px;
 }
 ```

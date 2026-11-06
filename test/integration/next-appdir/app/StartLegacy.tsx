@@ -1,6 +1,6 @@
 "use client";
 
-import { startReactDsfr } from "@skygenesisenterprise/react-sds/next-appdir";
+import { startReactSds } from "@skygenesisenterprise/react-sds/next-appdir";
 import { defaultColorScheme } from "./defaultColorScheme";
 import { addAlertTranslations } from "@skygenesisenterprise/react-sds/Alert";
 import Link from "next/link";
@@ -11,13 +11,13 @@ declare module "@skygenesisenterprise/react-sds/next-appdir" {
     }
 }
 
-startReactDsfr({ 
+startReactSds({ 
 	defaultColorScheme, 
 	Link,
     "doCheckNonce": true
 });
 
-export function StartDsfr(){
+export function StartLegacy(){
 	return null;
 }
 

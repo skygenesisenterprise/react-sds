@@ -3,6 +3,7 @@
 Extended reference for complex scenarios. Load only when deeper guidance needed.
 
 ## Table of Contents
+
 1. [Empty States](#empty-states)
 2. [Form Design](#form-design)
 3. [Image Treatment](#image-treatment)
@@ -18,6 +19,7 @@ Extended reference for complex scenarios. Load only when deeper guidance needed.
 Empty states are opportunities, not afterthoughts.
 
 **Good empty states include:**
+
 - Illustration or icon (not generic)
 - Clear explanation of what goes here
 - Primary action to remedy emptiness
@@ -38,6 +40,7 @@ Empty states are opportunities, not afterthoughts.
 ### Input Sizing
 
 Match input width to expected content:
+
 - Email/URL: Full width or ~400px
 - Phone: ~200px
 - ZIP code: ~100px
@@ -50,6 +53,7 @@ Match input width to expected content:
 **Never use placeholder as the only label.** Placeholders disappear on focus. Always have a visible label.
 
 Placeholders work for:
+
 - Format hints: "MM/DD/YYYY"
 - Examples: "e.g., john@example.com"
 - Optional clarification
@@ -91,6 +95,7 @@ Danger:     Red but not screaming (bg-red-600 for confirm, text-red-600 for trig
 **Problem:** Text over images is often unreadable.
 
 **Solutions:**
+
 1. Semi-transparent overlay: `bg-black/50`
 2. Gradient overlay: `bg-gradient-to-t from-black/80 to-transparent`
 3. Text shadow: `text-shadow: 0 2px 4px rgba(0,0,0,0.5)`
@@ -117,8 +122,9 @@ Danger:     Red but not screaming (bg-red-600 for confirm, text-red-600 for trig
 ### Sizing
 
 Icons should feel balanced with adjacent text:
+
 - 12-14px text: 16px icon
-- 16px text: 20px icon  
+- 16px text: 20px icon
 - 18-20px text: 24px icon
 
 ### Icon + Text Pairing
@@ -127,8 +133,8 @@ Always align icon center with text baseline or center. Add consistent gap (8px t
 
 ```html
 <span class="flex items-center gap-2">
-  <IconSettings class="w-5 h-5" />
-  <span>Settings</span>
+    <IconSettings class="w-5 h-5" />
+    <span>Settings</span>
 </span>
 ```
 
@@ -152,21 +158,25 @@ Always align icon center with text baseline or center. Add consistent gap (8px t
 Every interactive element needs visible state changes:
 
 ### Hover
+
 - Subtle background change
 - Slight shadow increase
 - Color shift (darken primary by 10%)
 
 ### Active/Pressed
+
 - Darker than hover
 - Slight scale down (`scale-95`)
 - Reduce shadow
 
 ### Focus
+
 - Obvious ring (critical for accessibility)
 - Don't rely on color alone
 - `focus-visible` for keyboard-only focus
 
 ### Loading
+
 - Disable interaction
 - Show spinner or skeleton
 - Maintain layout size (prevent shift)
@@ -174,9 +184,9 @@ Every interactive element needs visible state changes:
 ```css
 /* Example button states */
 .btn {
-  @apply bg-blue-600 hover:bg-blue-700 active:bg-blue-800;
-  @apply focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
-  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-blue-600 hover:bg-blue-700 active:bg-blue-800;
+    @apply focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
 }
 ```
 
@@ -186,14 +196,14 @@ Every interactive element needs visible state changes:
 
 Use color purposefully:
 
-| Color | Association | Use for |
-|-------|-------------|---------|
-| Blue | Trust, calm, professional | Primary actions, links, corporate |
-| Green | Success, growth, go | Success states, positive actions |
-| Red | Error, danger, urgency | Errors, destructive actions, alerts |
-| Yellow/Orange | Warning, attention | Warnings, highlights |
-| Purple | Premium, creative | Premium features, creative apps |
-| Gray | Neutral, professional | Text, backgrounds, borders |
+| Color         | Association               | Use for                             |
+| ------------- | ------------------------- | ----------------------------------- |
+| Blue          | Trust, calm, professional | Primary actions, links, corporate   |
+| Green         | Success, growth, go       | Success states, positive actions    |
+| Red           | Error, danger, urgency    | Errors, destructive actions, alerts |
+| Yellow/Orange | Warning, attention        | Warnings, highlights                |
+| Purple        | Premium, creative         | Premium features, creative apps     |
+| Gray          | Neutral, professional     | Text, backgrounds, borders          |
 
 ### Avoid
 
@@ -209,6 +219,7 @@ Use color purposefully:
 Stay consistent. Pick a system:
 
 **Sharp/Modern:**
+
 ```
 none: 0
 sm: 2px
@@ -218,6 +229,7 @@ full: 9999px (pills/circles)
 ```
 
 **Soft/Friendly:**
+
 ```
 none: 0
 sm: 4px
@@ -246,9 +258,9 @@ full: 9999px
 
 ```css
 .truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 ```
 
@@ -263,10 +275,10 @@ full: 9999px
 
 ```css
 .line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 ```
 
@@ -298,12 +310,12 @@ xl:  1280px (desktops)
 
 ### Modal Sizing
 
-| Content Type | Width | Height |
-|--------------|-------|--------|
+| Content Type        | Width     | Height         |
+| ------------------- | --------- | -------------- |
 | Confirmation dialog | 400-500px | Auto (minimal) |
-| Form modal | 500-600px | Auto |
-| Content modal | 600-800px | 70-80vh max |
-| Full-screen modal | 100vw | 100vh |
+| Form modal          | 500-600px | Auto           |
+| Content modal       | 600-800px | 70-80vh max    |
+| Full-screen modal   | 100vw     | 100vh          |
 
 ### Modal Structure
 
@@ -323,9 +335,9 @@ xl:  1280px (desktops)
 
 ```css
 .backdrop {
-  background: rgba(0, 0, 0, 0.5);
-  /* Or with blur */
-  backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.5);
+    /* Or with blur */
+    backdrop-filter: blur(4px);
 }
 ```
 
@@ -334,13 +346,15 @@ xl:  1280px (desktops)
 ```css
 /* Fade + Scale */
 .modal {
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 200ms ease-out, transform 200ms ease-out;
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+        opacity 200ms ease-out,
+        transform 200ms ease-out;
 }
 .modal.open {
-  opacity: 1;
-  transform: scale(1);
+    opacity: 1;
+    transform: scale(1);
 }
 ```
 
@@ -356,10 +370,10 @@ xl:  1280px (desktops)
 
 ```css
 .dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
 }
 ```
 
@@ -367,40 +381,40 @@ xl:  1280px (desktops)
 
 ```css
 .menu {
-  min-width: 180px;
-  max-height: 300px;
-  overflow-y: auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    min-width: 180px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .menu-item {
-  padding: 8px 12px;
-  cursor: pointer;
+    padding: 8px 12px;
+    cursor: pointer;
 }
 
 .menu-item:hover {
-  background: #f3f4f6;
+    background: #f3f4f6;
 }
 
 .menu-divider {
-  height: 1px;
-  background: #e5e7eb;
-  margin: 4px 0;
+    height: 1px;
+    background: #e5e7eb;
+    margin: 4px 0;
 }
 ```
 
 ### Menu Item Types
 
-| Type | Visual |
-|------|--------|
-| Standard | Text label |
-| With icon | Icon + Label |
-| With shortcut | Label + Shortcut |
+| Type             | Visual              |
+| ---------------- | ------------------- |
+| Standard         | Text label          |
+| With icon        | Icon + Label        |
+| With shortcut    | Label + Shortcut    |
 | With description | Label + Description |
-| Destructive | Red text |
-| Disabled | Grayed out |
+| Destructive      | Red text            |
+| Disabled         | Grayed out          |
 
 ---
 
@@ -452,18 +466,18 @@ Home  >  Category  >  Subcategory  >  Current Page
 
 ```css
 .tabs {
-  display: flex;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .tab {
-  padding: 12px 16px;
-  border-bottom: 2px solid transparent;
+    padding: 12px 16px;
+    border-bottom: 2px solid transparent;
 }
 
 .tab.active {
-  border-bottom-color: #3b82f6;
-  color: #3b82f6;
+    border-bottom-color: #3b82f6;
+    color: #3b82f6;
 }
 ```
 

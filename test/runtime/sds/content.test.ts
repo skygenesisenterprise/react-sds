@@ -44,7 +44,12 @@ describe("SDS content components", () => {
 
     it("SDSArticleCard renders date, image and a read-more link", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSArticleCard, { "href": "/a", "title": "T", "date": "12 janv. 2026", "image": createElement("img", { "src": "/i.jpg", "alt": "" }) })
+            createElement(SDSArticleCard, {
+                "href": "/a",
+                "title": "T",
+                "date": "12 janv. 2026",
+                "image": createElement("img", { "src": "/i.jpg", "alt": "" })
+            })
         );
         expect(html).toContain('class="sds-article-card"');
         expect(html).toContain('class="sds-article-card__media"');
@@ -71,7 +76,11 @@ describe("SDS content components", () => {
             createElement(SDSLinkList, {
                 "title": "Liens utiles",
                 "items": [
-                    { "label": "Formulaires", "href": "/form", "description": "Accès aux démarches" }
+                    {
+                        "label": "Formulaires",
+                        "href": "/form",
+                        "description": "Accès aux démarches"
+                    }
                 ]
             })
         );
@@ -83,7 +92,12 @@ describe("SDS content components", () => {
 
     it("SDSDocument renders file meta line", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSDocument, { "href": "/r.pdf", "title": "Rapport", "fileType": "PDF", "fileSize": "1,2 Mo" })
+            createElement(SDSDocument, {
+                "href": "/r.pdf",
+                "title": "Rapport",
+                "fileType": "PDF",
+                "fileSize": "1,2 Mo"
+            })
         );
         expect(html).toContain('class="sds-document"');
         expect(html).toContain("PDF · 1,2 Mo");
@@ -92,17 +106,26 @@ describe("SDS content components", () => {
 
     it("SDSDownload renders a download link", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSDownload, { "href": "/r.pdf", "label": "Télécharger", "fileType": "PDF" })
+            createElement(SDSDownload, {
+                "href": "/r.pdf",
+                "label": "Télécharger",
+                "fileType": "PDF"
+            })
         );
         expect(html).toContain('class="sds-download"');
-        expect(html).toContain('download');
+        expect(html).toContain("download");
         expect(html).toContain("Télécharger");
         expect(html).toContain("PDF");
     });
 
     it("SDSEvent formats the date and renders location/time", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSEvent, { "date": "2026-01-12", "title": "Réunion", "location": "Paris", "time": "14h00" })
+            createElement(SDSEvent, {
+                "date": "2026-01-12",
+                "title": "Réunion",
+                "location": "Paris",
+                "time": "14h00"
+            })
         );
         expect(html).toContain('class="sds-event"');
         expect(html).toContain("12");
@@ -113,7 +136,11 @@ describe("SDS content components", () => {
 
     it("SDSMeetingCard renders an attendees line", () => {
         const html = renderToStaticMarkup(
-            createElement(SDSMeetingCard, { "date": "2026-02-01", "title": "Comité", "attendees": "25 inscrits" })
+            createElement(SDSMeetingCard, {
+                "date": "2026-02-01",
+                "title": "Comité",
+                "attendees": "25 inscrits"
+            })
         );
         expect(html).toContain('class="sds-meeting-card"');
         expect(html).toContain("25 inscrits");

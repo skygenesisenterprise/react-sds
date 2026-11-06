@@ -65,7 +65,10 @@ export function DocumentCard(props: DocumentCardProps) {
                 <View style={{ flex: 1, gap: tokens.spacing.xs }}>
                     <Text
                         numberOfLines={2}
-                        style={{ fontWeight: tokens.typography["fontWeight-medium"], color: colors.text }}
+                        style={{
+                            fontWeight: tokens.typography["fontWeight-medium"],
+                            color: colors.text
+                        }}
                     >
                         {title}
                     </Text>

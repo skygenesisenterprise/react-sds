@@ -2,14 +2,14 @@ import { it, expect, describe } from "vitest";
 import * as fs from "fs";
 import { join as pathJoin } from "path";
 import {
-    getReactDsfrImportedModuleIds,
-    resolveModuleIdToDsfrComponents
+    getReactLegacyImportedModuleIds,
+    resolveModuleIdToLegacyComponents
 } from "../../../../src/bin/only-include-css-of-used-components";
 
 /**
- * The component CSS optimizer maps every imported react-sds module to the DSFR CSS
- * components it renders. A module that is in neither REACT_DSFR_MODULE_TO_DSFR_COMPONENTS
- * nor NON_COMPONENT_MODULE_IDS makes resolveModuleIdToDsfrComponents() return undefined,
+ * The component CSS optimizer maps every imported react-sds module to the legacy CSS
+ * components it renders. A module that is in neither REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS
+ * nor NON_COMPONENT_MODULE_IDS makes resolveModuleIdToLegacyComponents() return undefined,
  * which trips the include-everything fail-safe: the script warns and exits 0, so a
  * consumer importing a component added after the map was written silently stops getting
  * any CSS trimmed at all. Nothing else in the test suite notices.
@@ -24,7 +24,7 @@ import {
  * excludes (read from the file, not hardcoded, so a future exclude stays in sync) and minus
  * the files tsc does not emit a module for.
  */
-describe("REACT_DSFR_MODULE_TO_DSFR_COMPONENTS exhaustiveness", () => {
+describe("REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS exhaustiveness", () => {
     const projectRootDirPath = process.cwd();
     const srcDirPath = pathJoin(projectRootDirPath, "src");
 
@@ -115,7 +115,7 @@ describe("REACT_DSFR_MODULE_TO_DSFR_COMPONENTS exhaustiveness", () => {
         new Map(
             getPublicSubpaths().map(subpath => [
                 subpath,
-                getReactDsfrImportedModuleIds({
+                getReactLegacyImportedModuleIds({
                     "rawFileContent": `import "@skygenesisenterprise/react-sds/${subpath}";`
                 })
             ])
@@ -139,7 +139,7 @@ describe("REACT_DSFR_MODULE_TO_DSFR_COMPONENTS exhaustiveness", () => {
 
             const [moduleId] = moduleIds;
 
-            if (resolveModuleIdToDsfrComponents({ moduleId }) === undefined) {
+            if (resolveModuleIdToLegacyComponents({ moduleId }) === undefined) {
                 problems.push(`${moduleId} (from src/${subpath}): resolves to undefined`);
             }
         }
@@ -147,13 +147,13 @@ describe("REACT_DSFR_MODULE_TO_DSFR_COMPONENTS exhaustiveness", () => {
         expect(
             problems,
             [
-                `The component CSS optimizer would fall back to including every DSFR`,
+                `The component CSS optimizer would fall back to including every legacy`,
                 `component because of:`,
                 ...problems.map(entry => `  - ${entry}`),
                 ``,
-                `Add each unresolved module to REACT_DSFR_MODULE_TO_DSFR_COMPONENTS (with the`,
-                `DSFR components its markup renders, transitive dependencies included) or to`,
-                `NON_COMPONENT_MODULE_IDS if it renders no DSFR markup, in`,
+                `Add each unresolved module to REACT_LEGACY_MODULE_TO_LEGACY_COMPONENTS (with the`,
+                `legacy components its markup renders, transitive dependencies included) or to`,
+                `NON_COMPONENT_MODULE_IDS if it renders no legacy markup, in`,
                 `src/bin/only-include-css-of-used-components.ts.`
             ].join("\n")
         ).toStrictEqual([]);

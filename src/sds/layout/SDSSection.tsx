@@ -28,8 +28,16 @@ export type SDSSectionProps = {
  * action) and a subtle background.
  */
 export const SDSSection = (props: SDSSectionProps) => {
-    const { className, style, tone = "default", title, subtitle, action, titleLevel = 2, children } =
-        props;
+    const {
+        className,
+        style,
+        tone = "default",
+        title,
+        subtitle,
+        action,
+        titleLevel = 2,
+        children
+    } = props;
 
     const HeadingTag = `h${titleLevel}` as "h2";
 

@@ -81,7 +81,7 @@ export function Button(props: ButtonProps) {
               ? { borderWidth: 1, borderColor: colors.border }
               : undefined;
 
-    const label: string = typeof children === "string" ? children : accessibilityLabel ?? "";
+    const label: string = typeof children === "string" ? children : (accessibilityLabel ?? "");
 
     return (
         <Pressable
@@ -111,11 +111,7 @@ export function Button(props: ButtonProps) {
             ]}
         >
             {loading ? (
-                <ActivityIndicator
-                    size="small"
-                    color={fg}
-                    accessibilityLabel="Chargement"
-                />
+                <ActivityIndicator size="small" color={fg} accessibilityLabel="Chargement" />
             ) : (
                 <>
                     {icon !== undefined && iconPosition === "left" && (

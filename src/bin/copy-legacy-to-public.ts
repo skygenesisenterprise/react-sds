@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * This script is ran with `npx react-sds copy-dsfr-to-public`
+ * This script is ran with `npx react-sds copy-legacy-to-public`
  * It takes one optional arguments (for NX monorepos):
  * - `--projectDir <path>` to specify the project directory. Default to the current working directory.
  *   This can be used in monorepos to specify the react project directory.
@@ -65,16 +65,16 @@ export async function main(args: string[]) {
         process.exit(-1);
     }
 
-    const dsfrDirPath = pathJoin(publicDirPath, "dsfr");
+    const legacyDirPath = pathJoin(publicDirPath, "legacy");
 
-    const gouvFrDsfrVersion: string = JSON.parse(
+    const gouvFrLegacyVersion: string = JSON.parse(
         fs.readFileSync(pathJoin(getProjectRoot(), "package.json")).toString("utf8")
     )["devDependencies"]["@gouvfr/dsfr"];
 
-    const versionFilePath = pathJoin(dsfrDirPath, "version.txt");
+    const versionFilePath = pathJoin(legacyDirPath, "version.txt");
 
     early_exit: {
-        if (!fs.existsSync(dsfrDirPath)) {
+        if (!fs.existsSync(legacyDirPath)) {
             break early_exit;
         }
 
@@ -84,51 +84,62 @@ export async function main(args: string[]) {
 
         const currentVersion = fs.readFileSync(versionFilePath).toString("utf8");
 
-        if (currentVersion !== gouvFrDsfrVersion) {
-            fs.rmSync(dsfrDirPath, { "recursive": true, "force": true });
+        if (currentVersion !== gouvFrLegacyVersion) {
+            fs.rmSync(legacyDirPath, { "recursive": true, "force": true });
             break early_exit;
         }
 
         return;
     }
 
-    fs.mkdirSync(dsfrDirPath, { "recursive": true });
+    fs.mkdirSync(legacyDirPath, { "recursive": true });
 
-    fs.writeFileSync(pathJoin(dsfrDirPath, ".gitignore"), Buffer.from("*", "utf8"));
+    fs.writeFileSync(pathJoin(legacyDirPath, ".gitignore"), Buffer.from("*", "utf8"));
 
-    const dsfrDistNodeModulesDirPath = (function dsfrDistNodeModulesDirPath(depth: number): string {
+    const legacyDistNodeModulesDirPath = (function legacyDistNodeModulesDirPath(
+        depth: number
+    ): string {
         const parentProjectDirPath = pathResolve(
             pathJoin(...[projectDirPath, ...new Array(depth).fill("..")])
         );
 
-        const dsfrDirPathInNodeModules = pathJoin(
-            ...[parentProjectDirPath, "node_modules", "@skygenesisenterprise", "react-sds", "dsfr"]
+        const legacyDirPathInNodeModules = pathJoin(
+            ...[
+                parentProjectDirPath,
+                "node_modules",
+                "@skygenesisenterprise",
+                "react-sds",
+                "dist",
+                "legacy"
+            ]
         );
 
-        if (!fs.existsSync(dsfrDirPathInNodeModules)) {
+        if (!fs.existsSync(legacyDirPathInNodeModules)) {
             if (parentProjectDirPath === "/") {
                 console.error(
                     [
-                        "Can't find dsfr directory",
+                        "Can't find legacy directory",
                         `please submit an issue about it here ${getRepoIssueUrl()}`
                     ].join(" ")
                 );
                 process.exit(-1);
             }
 
-            return dsfrDistNodeModulesDirPath(depth + 1);
+            return legacyDistNodeModulesDirPath(depth + 1);
         }
 
-        return dsfrDirPathInNodeModules;
+        return legacyDirPathInNodeModules;
     })(0);
 
     {
-        const dsfrMinCssFileRelativePath = "dsfr.min.css";
+        const legacyMinCssFileRelativePath = "legacy.min.css";
 
         const usedAssetsRelativeFilePaths = new Set(
-            readAssetsImportFromDsfrCss({
-                "dsfrSourceCode": fs
-                    .readFileSync(pathJoin(dsfrDistNodeModulesDirPath, dsfrMinCssFileRelativePath))
+            readAssetsImportFromLegacyCss({
+                "legacySourceCode": fs
+                    .readFileSync(
+                        pathJoin(legacyDistNodeModulesDirPath, legacyMinCssFileRelativePath)
+                    )
                     .toString("utf8")
             })
         );
@@ -139,12 +150,12 @@ export async function main(args: string[]) {
             pathJoin("favicon", "favicon.ico"),
             pathJoin("favicon", "manifest.webmanifest"),
             pathJoin("utility", "icons", "icons.min.css"),
-            dsfrMinCssFileRelativePath
+            legacyMinCssFileRelativePath
         ]);
 
         transformCodebase({
-            "srcDirPath": dsfrDistNodeModulesDirPath,
-            "destDirPath": dsfrDirPath,
+            "srcDirPath": legacyDistNodeModulesDirPath,
+            "destDirPath": legacyDirPath,
             "transformSourceCode": ({ fileRelativePath, sourceCode }) => {
                 if (
                     fileToKeepRelativePaths.has(fileRelativePath) ||
@@ -156,19 +167,19 @@ export async function main(args: string[]) {
         });
     }
 
-    fs.writeFileSync(versionFilePath, Buffer.from(gouvFrDsfrVersion, "utf8"));
+    fs.writeFileSync(versionFilePath, Buffer.from(gouvFrLegacyVersion, "utf8"));
 
     add_version_query_params_in_html_imports: {
         const { modifiedHtml } = modifyHtmlHrefs({
             "html": fs.readFileSync(htmlFilePath).toString("utf8"),
             "getModifiedHref": href => {
-                if (!href.includes("/dsfr/")) {
+                if (!href.includes("/legacy/")) {
                     return href;
                 }
 
                 const [urlWithoutQuery] = href.split("?");
 
-                return `${urlWithoutQuery}?v=${gouvFrDsfrVersion}`;
+                return `${urlWithoutQuery}?v=${gouvFrLegacyVersion}`;
             }
         });
 
@@ -180,14 +191,14 @@ export async function main(args: string[]) {
     }
 }
 
-function readAssetsImportFromDsfrCss(params: { dsfrSourceCode: string }): string[] {
-    const { dsfrSourceCode } = params;
+function readAssetsImportFromLegacyCss(params: { legacySourceCode: string }): string[] {
+    const { legacySourceCode } = params;
 
     const fileRelativePaths = [/url\("([^"]+)"\)/g, /url\('([^']+)'\)/g, /url\(([^)]+)\)/g]
         .map(regex => {
             const fileRelativePaths: string[] = [];
 
-            dsfrSourceCode.replace(regex, (...[, relativeFilePath]) => {
+            legacySourceCode.replace(regex, (...[, relativeFilePath]) => {
                 if (relativeFilePath.startsWith("data:")) {
                     return "";
                 }
@@ -207,13 +218,13 @@ function readAssetsImportFromDsfrCss(params: { dsfrSourceCode: string }): string
 }
 
 function getRepoIssueUrl() {
-    const reactDsfrRepoUrl = JSON.parse(
+    const reactLegacyRepoUrl = JSON.parse(
         fs.readFileSync(pathJoin(getProjectRoot(), "package.json")).toString("utf8")
     )
         ["repository"]["url"].replace(/^git/, "https:")
         .replace(/\.git$/, "");
 
-    return `${reactDsfrRepoUrl}/issues`;
+    return `${reactLegacyRepoUrl}/issues`;
 }
 
 if (require.main === module) {

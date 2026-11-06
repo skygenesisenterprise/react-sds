@@ -46,14 +46,7 @@ export { SDSProvider, useSDSTheme, defaultSDSTokens, SDSThemeContext } from "./t
 export type { SDSTheme, SDSColorScheme, SDSProviderProps } from "./theme";
 
 // Primitives
-export {
-    Text,
-    Heading,
-    Icon,
-    Divider,
-    Stack,
-    Container
-} from "./primitives";
+export { Text, Heading, Icon, Divider, Stack, Container } from "./primitives";
 export type {
     TextProps,
     TextVariant,
@@ -82,7 +75,13 @@ export type {
 
 // Components — actions
 export { Button, IconButton, Link } from "./components";
-export type { ButtonProps, ButtonPriority, ButtonSize, IconButtonProps, LinkProps } from "./components";
+export type {
+    ButtonProps,
+    ButtonPriority,
+    ButtonSize,
+    IconButtonProps,
+    LinkProps
+} from "./components";
 
 // Components — forms
 export { Input, TextArea, Checkbox, Radio, RadioGroup, Switch, Select } from "./components";

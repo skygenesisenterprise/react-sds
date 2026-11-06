@@ -54,7 +54,7 @@
     document.documentElement.setAttribute("data-fr-theme", isDark ? "dark" : "light");
 
     {
-        let element = document.getElementById("dsfr-root-color-scheme");
+        let element = document.getElementById("legacy-root-color-scheme");
 
         if (element !== null) {
             element.remove();
@@ -62,7 +62,7 @@
 
         element = document.createElement("style");
 
-        element.id = "dsfr-root-color-scheme";
+        element.id = "legacy-root-color-scheme";
 
         element.innerHTML = `:root { color-scheme: ${isDark ? "dark" : "light"}; }`;
 

@@ -14,7 +14,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/RadarChart.vue#L57
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/RadarChart.vue#L57
             "radar-chart": IntrinsicGraphType;
         }
     }

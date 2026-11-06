@@ -30,18 +30,35 @@ describe("SDS Discord — embeds", () => {
     });
 
     it("defaults the author to the provided default", () => {
-        const embed = buildNotificationEmbed({ "type": "status", "title": "Tout est opérationnel" });
+        const embed = buildNotificationEmbed({
+            "type": "status",
+            "title": "Tout est opérationnel"
+        });
         expect(embed.author?.name).toBe("Sky Genesis Enterprise");
     });
 
     it("has one distinct color per notification type", () => {
-        const types = ["publication", "incident", "maintenance", "event", "announcement", "status"] as const;
+        const types = [
+            "publication",
+            "incident",
+            "maintenance",
+            "event",
+            "announcement",
+            "status"
+        ] as const;
         const colors = new Set(types.map(t => SDSDiscordEmbedColor[t]));
         expect(colors.size).toBe(types.length);
     });
 
     it("provides a human label for every type", () => {
-        for (const type of ["publication", "incident", "maintenance", "event", "announcement", "status"] as const) {
+        for (const type of [
+            "publication",
+            "incident",
+            "maintenance",
+            "event",
+            "announcement",
+            "status"
+        ] as const) {
             expect(sdsDiscordTypeLabel(type).length).toBeGreaterThan(0);
         }
     });
@@ -54,7 +71,14 @@ describe("SDS Discord — server-only isolation", () => {
         expect(loader).toContain('require("discord.js")');
 
         // The whole discord folder must not statically import discord.js.
-        const discordFiles = ["loader.ts", "client.ts", "embeds.ts", "notifications.ts", "webhooks.ts", "commands.ts"];
+        const discordFiles = [
+            "loader.ts",
+            "client.ts",
+            "embeds.ts",
+            "notifications.ts",
+            "webhooks.ts",
+            "commands.ts"
+        ];
         for (const file of discordFiles) {
             const content = readSrcFile(`discord/${file}`);
             expect(

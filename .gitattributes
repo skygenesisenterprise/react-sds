@@ -1,4 +1,4 @@
 test/integration/**/* linguist-documentation
 .eslintrc.js linguist-documentation
-src/bin/copy-dsfr-to-public.ts -linguist-detectable
+src/bin/copy-legacy-to-public.ts -linguist-detectable
 src/bin/only-include-used-icons.ts -linguist-detectable

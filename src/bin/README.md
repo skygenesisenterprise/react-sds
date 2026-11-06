@@ -1,10 +1,10 @@
 Here are the scripts exposed as utility to the user of `react-sds`
 
-| Command                            | Standalone bin            | What it does                                                              |
-| ---------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| `npx react-sds copy-static-assets` | `copy-dsfr-to-public`     | Copies the DSFR assets into `public/dsfr` (SPA setups: Vite, CRA).        |
-| `npx react-sds optimize-css`       | —                         | Rebuilds the DSFR stylesheets with only the icons and components you use. |
-| `npx react-sds update-icons`       | `only-include-used-icons` | Deprecated. Rebuilds the icon stylesheet with only the icons you use.     |
+| Command                            | Standalone bin            | What it does                                                                |
+| ---------------------------------- | ------------------------- | --------------------------------------------------------------------------- |
+| `npx react-sds copy-static-assets` | `copy-legacy-to-public`   | Copies the legacy assets into `public/legacy` (SPA setups: Vite, CRA).      |
+| `npx react-sds optimize-css`       | —                         | Rebuilds the legacy stylesheets with only the icons and components you use. |
+| `npx react-sds update-icons`       | `only-include-used-icons` | Deprecated. Rebuilds the icon stylesheet with only the icons you use.       |
 
 Every script accepts `--projectDir <path>` to point at the react project (monorepos),
 defaulting to the current working directory. `optimize-css` and the deprecated
@@ -13,14 +13,14 @@ silenced). `optimize-css` additionally accepts `--strict`, as described below.
 
 # `optimize-css`
 
-Opt-in. `dsfr.min.css` weighs ~600 kB raw / ~76 kB gzip and is loaded render-blocking,
-while most apps use a small subset of the DSFR components.
+Opt-in. `legacy.min.css` weighs ~600 kB raw / ~76 kB gzip and is loaded render-blocking,
+while most apps use a small subset of the legacy components.
 
-This command first rebuilds `dsfr/utility/icons/icons.min.css` with only the icons used by
-the project. It then rebuilds `dsfr.css` and `dsfr.min.css` in `node_modules` (and
-`public/dsfr/dsfr.min.css` in SPA setups) by concatenating the granular stylesheets already
-shipped in the package (`dsfr/core/*`, `dsfr/scheme/*`, `dsfr/component/<name>/*`). **Whole
-components are included or excluded, never individual rules**, so everything the DSFR
+This command first rebuilds `dist/legacy/utility/icons/icons.min.css` with only the icons used by
+the project. It then rebuilds `legacy.css` and `legacy.min.css` in `node_modules` (and
+`public/legacy/legacy.min.css` in SPA setups) by concatenating the granular stylesheets already
+shipped in the package (`dist/legacy/core/*`, `dist/legacy/scheme/*`, `dist/legacy/component/<name>/*`). **Whole
+components are included or excluded, never individual rules**, so everything the legacy
 JavaScript toggles at runtime (`data-fr-js-*`, `fr-collapse--expanded`, ...) keeps working
 — unlike a PurgeCSS style pass.
 
@@ -48,10 +48,10 @@ In SPA setups (Vite, CRA), run `copy-static-assets` **before**
 "prebuild": "react-sds copy-static-assets && react-sds optimize-css"
 ```
 
-`copy-static-assets` builds its keep list from the `url()` of the `dsfr.min.css` it finds
+`copy-static-assets` builds its keep list from the `url()` of the `legacy.min.css` it finds
 in `node_modules`, then early returns on every later run as long as
-`public/dsfr/version.txt` matches the `@gouvfr/dsfr` version. Running it against an
-already trimmed stylesheet freezes `public/dsfr` on that asset subset. `optimize-css`
+`public/legacy/version.txt` matches the `@gouvfr/dsfr` version. Running it against an
+already trimmed stylesheet freezes `public/legacy` on that asset subset. `optimize-css`
 copies the assets its own output references, so a component added later still gets its
 icons — but keeping the order above avoids relying on it.
 
@@ -62,7 +62,7 @@ icons — but keeping the order above avoids relying on it.
     static table that includes transitive dependencies (a `Header` renders a navigation, a
     search bar and a modal).
 2.  **Raw class names**, e.g. `fr.cx("fr-table")` or a plain `class="fr-table"`, for when
-    you use DSFR classes without the React component.
+    you use legacy classes without the React component.
 
 Stylesheets (`.css`, `.scss`, ...) are **not** scanned: class name detection is substring
 based, so a single compiled bundle would mark every component as used. Use
@@ -81,7 +81,7 @@ components only referenced from a `@import`ed stylesheet), in your **`package.js
 }
 ```
 
-Values are DSFR CSS component names (the `dsfr/component/<name>` directories) or
+Values are legacy CSS component names (the `dist/legacy/component/<name>` directories) or
 react-sds component names. An unknown value is a hard warning, not a silent no-op.
 
 ## Fail-safe and `--strict`
@@ -103,10 +103,10 @@ the fail-safe, the static tables need to be updated.
 
 ## Known limitations
 
--   Detection is textual: a dynamically composed import path or class name is not seen.
-    That is what `additionalComponents` is for.
--   `utility/colors` and `utility/icons` are not part of `dsfr.css` upstream. Colors are
-    left untouched; icons are optimized by the first stage of `optimize-css`.
+- Detection is textual: a dynamically composed import path or class name is not seen.
+  That is what `additionalComponents` is for.
+- `utility/colors` and `utility/icons` are not part of `legacy.css` upstream. Colors are
+  left untouched; icons are optimized by the first stage of `optimize-css`.
 
 ## Deprecated `update-icons` command
 

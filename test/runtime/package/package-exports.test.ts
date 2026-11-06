@@ -38,7 +38,7 @@ const PUBLIC_SUBPATHS = [
     "/sds",
     "/fr",
     "/next-pagesdir",
-    "/next-app-router/DsfrHead",
+    "/next-app-router/SdsHead",
     "/discord",
     "/discord/server",
     "/main.css",
@@ -68,7 +68,16 @@ describe("published package: package.json exports", () => {
             const targets = typeof target === "string" ? [target] : Object.values(target);
 
             for (const filePath of targets) {
-                if (filePath === "./package.json" || filePath === "./dsfr/*") {
+                if (filePath === "./package.json") {
+                    continue;
+                }
+
+                // Wildcard subpaths (`./legacy/*`) are resolved by the runtime and the
+                // bundlers at request time, so only their base directory is checkable.
+                if (filePath.endsWith("/*")) {
+                    if (!fs.existsSync(pathJoin(projectRootDirPath, filePath.slice(0, -1)))) {
+                        missing.push(`${subpath} -> ${filePath}`);
+                    }
                     continue;
                 }
 
@@ -241,7 +250,12 @@ describe("published package: Node resolution", () => {
 function setupConsumerNode(): string {
     const consumerDirPath = fs.mkdtempSync(pathJoin(os.tmpdir(), "react-sds-consumer-node-"));
 
-    const packageDirPath = pathJoin(consumerDirPath, "node_modules", "@skygenesisenterprise", "react-sds");
+    const packageDirPath = pathJoin(
+        consumerDirPath,
+        "node_modules",
+        "@skygenesisenterprise",
+        "react-sds"
+    );
 
     fs.mkdirSync(packageDirPath, { "recursive": true });
 

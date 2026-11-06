@@ -51,10 +51,19 @@ export const SDSGovernmentFooterStory = footer.getStory(
     {
         "organization": "Sky Genesis Enterprise",
         "columns": [
-            { "title": "Sky Genesis Enterprise", "links": [{ "label": "Présentation", "href": "#" }, { "label": "Organisation", "href": "#" }] },
+            {
+                "title": "Sky Genesis Enterprise",
+                "links": [
+                    { "label": "Présentation", "href": "#" },
+                    { "label": "Organisation", "href": "#" }
+                ]
+            },
             { "title": "Démarches", "links": [{ "label": "Formulaires", "href": "#" }] }
         ],
-        "bottomLinks": [{ "label": "Mentions légales", "href": "#" }, { "label": "Confidentialité", "href": "#" }]
+        "bottomLinks": [
+            { "label": "Mentions légales", "href": "#" },
+            { "label": "Confidentialité", "href": "#" }
+        ]
     },
     { "description": "Pied de page institutionnel avec colonnes de liens et barre inférieure." }
 );
@@ -141,11 +150,20 @@ export const SDSMegaMenuStory = megaMenu.getStory(
     {
         "label": "Démarches",
         "columns": [
-            { "title": "Scolarité", "links": [{ "label": "Bourses", "href": "#" }, { "label": "Inscription", "href": "#" }] },
+            {
+                "title": "Scolarité",
+                "links": [
+                    { "label": "Bourses", "href": "#" },
+                    { "label": "Inscription", "href": "#" }
+                ]
+            },
             { "title": "Emploi", "links": [{ "label": "Offres", "href": "#" }] }
         ]
     },
-    { "description": "Menu déroulant large accessible au clavier (Enter/Échap), replié en statique sur mobile." }
+    {
+        "description":
+            "Menu déroulant large accessible au clavier (Enter/Échap), replié en statique sur mobile."
+    }
 );
 
 const search = getStoryFactory({
@@ -176,9 +194,15 @@ export const SDSPaginationStory = pagination.getStory(
 function SDSNavigationMock() {
     return (
         <nav aria-label="Navigation principale">
-            <a href="#" style={{ "marginInline": "0.5rem" }}>Accueil</a>
-            <a href="#" style={{ "marginInline": "0.5rem" }}>Démarches</a>
-            <a href="#" style={{ "marginInline": "0.5rem" }}>Actualités</a>
+            <a href="#" style={{ "marginInline": "0.5rem" }}>
+                Accueil
+            </a>
+            <a href="#" style={{ "marginInline": "0.5rem" }}>
+                Démarches
+            </a>
+            <a href="#" style={{ "marginInline": "0.5rem" }}>
+                Actualités
+            </a>
         </nav>
     );
 }

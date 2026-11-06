@@ -20,8 +20,7 @@ function host(type: string) {
                 continue;
             }
 
-            attrs[keyName] =
-                typeof value === "object" ? JSON.stringify(value) : String(value);
+            attrs[keyName] = typeof value === "object" ? JSON.stringify(value) : String(value);
         }
 
         return createElement(type.toLowerCase(), attrs, children);
@@ -51,7 +50,7 @@ export const Platform = {
 
 export const StyleSheet = {
     hairlineWidth: 1,
-    create: <T,>(styles: T) => styles
+    create: <T>(styles: T) => styles
 };
 
 export const useColorScheme = (): "light" | "dark" => "light";

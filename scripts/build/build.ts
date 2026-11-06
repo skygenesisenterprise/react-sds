@@ -5,7 +5,7 @@ import * as fs from "fs";
 import { getPatchedRawCssCodeForCompatWithRemixIcon, collectIcons } from "./icons";
 import { cssToTs } from "./cssToTs";
 import {
-    PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR,
+    PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy,
     PATH_OF_ICONS_JSON
 } from "../../src/bin/only-include-used-icons";
 import { updatePackageJsonExports } from "./list-exports";
@@ -24,25 +24,34 @@ function removeCharset(rawCssCode: string): string {
 
     const projectRootDirPath = getProjectRoot();
 
-    const dsfrDirPath = pathJoin(projectRootDirPath, "dsfr");
+    const distDirPath = pathJoin(projectRootDirPath, "dist");
 
-    if (fs.existsSync(dsfrDirPath)) {
-        fs.rmSync(dsfrDirPath, { "recursive": true, "force": true });
+    // Everything the build produces lives under `dist/`: the compiled sources, the
+    // `main.css` entry and the vendored stylesheet tree it imports through relative
+    // `./legacy/...` specifiers. Nothing is written at the package root, so the
+    // published tarball (`files`: `src/`, `dist/`) always contains every file that
+    // `dist/main.css` resolves at runtime.
+    if (fs.existsSync(distDirPath)) {
+        fs.rmSync(distDirPath, { "recursive": true, "force": true });
     }
+
+    fs.mkdirSync(distDirPath, { "recursive": true });
+
+    const legacyDirPath = pathJoin(distDirPath, "legacy");
 
     const nodeModuleDirPath = pathJoin(projectRootDirPath, "node_modules");
 
-    fs.cpSync(pathJoin(nodeModuleDirPath, "@gouvfr", "dsfr", "dist"), dsfrDirPath, {
+    fs.cpSync(pathJoin(nodeModuleDirPath, "@gouvfr", "dsfr", "dist"), legacyDirPath, {
         "recursive": true
     });
 
     fs.cpSync(
         pathJoin(__dirname, "marianne-index.css"),
-        pathJoin(dsfrDirPath, "fonts", "index.css")
+        pathJoin(legacyDirPath, "fonts", "index.css")
     );
 
     {
-        const iconsDirPath = pathJoin(dsfrDirPath, "utility", "icons");
+        const iconsDirPath = pathJoin(legacyDirPath, "utility", "icons");
 
         (
             [
@@ -57,62 +66,58 @@ function removeCharset(rawCssCode: string): string {
         );
     }
 
-    const rawDsfrCssCode = ["dsfr.main.css", "dsfr.print.css"]
+    const rawLegacyCssCode = ["dsfr.main.css", "dsfr.print.css"]
         .map(fileBasename =>
-            removeCharset(fs.readFileSync(pathJoin(dsfrDirPath, fileBasename)).toString("utf8"))
+            removeCharset(fs.readFileSync(pathJoin(legacyDirPath, fileBasename)).toString("utf8"))
         )
         .join("\n");
 
     fs.writeFileSync(
         pathJoin(
-            dsfrDirPath,
-            PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_DSFR
+            legacyDirPath,
+            PATH_OF_PATCHED_RAW_CSS_CODE_FOR_COMPAT_WITH_REMIXICON_RELATIVE_TO_legacy
         ),
         Buffer.from(
             getPatchedRawCssCodeForCompatWithRemixIcon({
-                "rawCssCode": rawDsfrCssCode
+                "rawCssCode": rawLegacyCssCode
             }),
             "utf8"
         )
     );
 
     {
-        const { rawDsfrCssCodePatchedForMui, rawDsfrCssCodePatchedForMuiMinified } = patchCssForMui(
-            { rawDsfrCssCode }
-        );
+        const { rawLegacyCssCodePatchedForMui, rawLegacyCssCodePatchedForMuiMinified } =
+            patchCssForMui({ rawLegacyCssCode });
 
         (
             [
-                [rawDsfrCssCodePatchedForMui, ".css"],
-                [rawDsfrCssCodePatchedForMuiMinified, ".min.css"]
+                [rawLegacyCssCodePatchedForMui, ".css"],
+                [rawLegacyCssCodePatchedForMuiMinified, ".min.css"]
             ] as const
         ).forEach(([rawCssCode, ext]) =>
-            fs.writeFileSync(pathJoin(dsfrDirPath, `dsfr${ext}`), Buffer.from(rawCssCode, "utf8"))
+            fs.writeFileSync(
+                pathJoin(legacyDirPath, `legacy${ext}`),
+                Buffer.from(rawCssCode, "utf8")
+            )
         );
     }
 
     const icons = await collectIcons({
         "remixiconDirPath": pathJoin(nodeModuleDirPath, "remixicon"),
         "iconsCssRawCode": fs
-            .readFileSync(pathJoin(dsfrDirPath, "utility", "icons", "icons.css"))
+            .readFileSync(pathJoin(legacyDirPath, "utility", "icons", "icons.css"))
             .toString("utf8")
     });
 
     fs.writeFileSync(
-        pathJoin(dsfrDirPath, PATH_OF_ICONS_JSON),
+        pathJoin(legacyDirPath, PATH_OF_ICONS_JSON),
         Buffer.from(JSON.stringify(icons, null, 2), "utf8")
     );
-
-    const distDirPath = pathJoin(projectRootDirPath, "dist");
-
-    if (fs.existsSync(distDirPath)) {
-        fs.rmSync(distDirPath, { "recursive": true, "force": true });
-    }
 
     cssToTs({
         icons,
         "generatedDirPath": pathJoin(projectRootDirPath, "src", "fr", "generatedFromCss"),
-        rawDsfrCssCode
+        rawLegacyCssCode
     });
 
     await tsc({
@@ -128,13 +133,11 @@ function removeCharset(rawCssCode: string): string {
 
     // SDS CSS foundation (src/styles/**) — published as `@skygenesisenterprise/react-sds/styles/*`
     // and consumed by `main.css` (relative @imports).
-    fs.cpSync(
-        pathJoin(projectRootDirPath, "src", "styles"),
-        pathJoin(distDirPath, "styles"),
-        { "recursive": true }
-    );
+    fs.cpSync(pathJoin(projectRootDirPath, "src", "styles"), pathJoin(distDirPath, "styles"), {
+        "recursive": true
+    });
 
-    fs.cpSync(pathJoin(dsfrDirPath, "favicon"), pathJoin(distDirPath, "favicon"), {
+    fs.cpSync(pathJoin(legacyDirPath, "favicon"), pathJoin(distDirPath, "favicon"), {
         "recursive": true
     });
 
@@ -207,8 +210,6 @@ function removeCharset(rawCssCode: string): string {
             );
         }
 
-        fs.cpSync(dsfrDirPath, pathJoin(distDirPath, "dsfr"), { "recursive": true });
-        fs.rmSync(dsfrDirPath, { "recursive": true });
         fs.cpSync(pathJoin(projectRootDirPath, "src"), pathJoin(distDirPath, "src"), {
             "recursive": true
         });

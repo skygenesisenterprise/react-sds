@@ -4,23 +4,33 @@ on:
         tags:
             - "v*"
 
-env:
-    PNPM_VERSION: 11.21.0
+concurrency:
+    group: publish-${{ github.ref }}
+    cancel-in-progress: false
 
 jobs:
     build_and_publish:
-        name: Build and publish (npm + GitHub Packages)
+        name: Build, verify and publish (npm + GitHub Packages)
         if: github.repository == 'skygenesisenterprise/react-sds'
         runs-on: ubuntu-latest
         permissions:
-            contents: read
-            id-token: write
-            packages: write
+            contents: write # GitHub release
+            id-token: write # npm provenance
+            packages: write # GitHub Packages
         steps:
             - uses: actions/checkout@v4
+            # pnpm is pinned once, in package.json (`packageManager`): deriving it here
+            # means the publish job can never install the lockfile with another major
+            # than the one CI and the maintainers use.
+            - name: Read the pnpm version pinned in package.json
+              id: pnpm
+              run: |
+                  VERSION="$(node -p "require('./package.json').packageManager.replace(/^pnpm@/, '')")"
+                  echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+                  echo "Using pnpm ${VERSION}"
             - uses: pnpm/action-setup@v4
               with:
-                  version: ${{ env.PNPM_VERSION }}
+                  version: ${{ steps.pnpm.outputs.version }}
             - uses: actions/setup-node@v4
               with:
                   node-version: 22
@@ -28,6 +38,12 @@ jobs:
                   cache: pnpm
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
+            # These run on the untouched checkout: the version bump below rewrites
+            # package.json, after which a formatting check would no longer mean much.
+            - name: Format check
+              run: pnpm format:check
+            - name: ESLint check
+              run: pnpm lint:check
             - name: Align package.json version with tag
               run: |
                   VERSION="${GITHUB_REF_NAME#v}"
@@ -37,12 +53,52 @@ jobs:
                   fi
                   node -e "const fs=require('fs'); const p='package.json'; const pkg=JSON.parse(fs.readFileSync(p,'utf8')); pkg.version=process.argv[1]; fs.writeFileSync(p, JSON.stringify(pkg, null, 4) + '\n');" "$VERSION"
                   echo "Publishing version $VERSION (from tag $GITHUB_REF_NAME)"
-            - name: Build for publish
+            # `--prePublish` emits the published layout only: no `dist/package.json`
+            # and no `dist/src` copy, which exist solely for local linking.
+            - name: Build (published layout)
               run: pnpm build --prePublish
-            - name: Enable short npm import paths (subpath exports)
-              run: npx -y -p denoify@1.5.1 enable_short_npm_import_path
-              env:
-                  DRY_RUN: "0"
+            - name: Unit tests (including the packaging assertions on dist/)
+              run: pnpm test
+            - name: Assert the build only emitted dist/ and is self-contained
+              run: |
+                  set -euo pipefail
+                  VERSION="$(node -p "require('./package.json').version")"
+                  if [ "$VERSION" != "${GITHUB_REF_NAME#v}" ]; then
+                    echo "package.json is at $VERSION but the tag is $GITHUB_REF_NAME." >&2
+                    exit 1
+                  fi
+                  for artifact in legacy dist/package.json dist/src; do
+                    if [ -e "$artifact" ]; then
+                      echo "The published build must only emit dist/, found: $artifact" >&2
+                      exit 1
+                    fi
+                  done
+                  for file in \
+                    dist/index.js \
+                    dist/index.d.ts \
+                    dist/main.css \
+                    dist/styles/index.css \
+                    dist/legacy/legacy.css \
+                    dist/legacy/utility/icons/icons.min.css \
+                    dist/legacy/favicon/favicon.svg; do
+                    if [ ! -f "$file" ]; then
+                      echo "Missing from the published layout: $file" >&2
+                      exit 1
+                    fi
+                  done
+                  # Every relative @import of the entry stylesheet must resolve inside
+                  # dist/, otherwise consumers get a broken `@.../react-sds/main.css`.
+                  node -e '
+                    const fs = require("fs"), path = require("path");
+                    const css = fs.readFileSync("dist/main.css", "utf8");
+                    const imports = [...css.matchAll(/@import\s+url\((?:"|\x27)?(\.\/[^"\x27)]+)/g)].map(m => m[1]);
+                    const missing = imports.filter(relative => !fs.existsSync(path.join("dist", relative)));
+                    if (missing.length) {
+                      console.error("dist/main.css imports missing files:", missing);
+                      process.exit(1);
+                    }
+                    console.log("dist/main.css imports resolved:", imports.length);
+                  '
             - name: Determine npm dist-tag (next for pre-releases)
               id: dist-tag
               run: |
@@ -56,6 +112,18 @@ jobs:
               run: npm publish --provenance --access public --tag ${{ steps.dist-tag.outputs.dist_tag }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            # The release is only created once npm accepted the tarball, so a failed
+            # publish never leaves a release pointing at a version nobody can install.
+            - name: Create GitHub release
+              uses: softprops/action-gh-release@v2
+              with:
+                  name: Release ${{ github.ref_name }}
+                  tag_name: ${{ github.ref_name }}
+                  generate_release_notes: true
+                  draft: false
+                  prerelease: ${{ steps.dist-tag.outputs.dist_tag == 'next' }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             # Re-run setup-node so that $HOME/.npmrc points at GitHub Packages:
             # npm binds NODE_AUTH_TOKEN to the registry configured in .npmrc, and the
             # job is currently configured for registry.npmjs.org (npmjs publish above).

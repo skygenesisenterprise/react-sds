@@ -2,12 +2,12 @@ import { it, expect, describe } from "vitest";
 import * as fs from "fs";
 import { join as pathJoin } from "path";
 import {
-    DSFR_COMPONENT_DETECTION_CLASS_PREFIXES,
-    DSFR_COMPONENT_CSS_FILE_EXTENSIONS
+    LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES,
+    LEGACY_COMPONENT_CSS_FILE_EXTENSIONS
 } from "../../../../src/bin/only-include-css-of-used-components";
 
 /**
- * DSFR_COMPONENT_DETECTION_CLASS_PREFIXES is hand written, and a wrong entry is invisible:
+ * LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES is hand written, and a wrong entry is invisible:
  * it does not break a build, it just quietly includes a component's CSS in every project
  * that happens to use the class. This test re-derives it from the installed @gouvfr/dsfr.
  *
@@ -19,10 +19,10 @@ import {
  * minified CSS for nothing, in every project using that core utility class.
  *
  * This is intentionally the one direction that is safe to assert. The opposite check, that
- * every DSFR class maps back to a component, would be a fail-safe over-inclusion, and the
- * union of the prefixes is deliberately not exhaustive over the DSFR class vocabulary.
+ * every legacy class maps back to a component, would be a fail-safe over-inclusion, and the
+ * union of the prefixes is deliberately not exhaustive over the legacy class vocabulary.
  */
-describe("DSFR_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
+describe("LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
     const componentsDirPath = pathJoin(
         process.cwd(),
         "node_modules",
@@ -32,9 +32,9 @@ describe("DSFR_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
         "component"
     );
 
-    /** Same extension list, in the same order, as the availableDsfrComponents filter. */
+    /** Same extension list, in the same order, as the availableLegacyComponents filter. */
     const getComponentCssFilePath = (componentName: string): string | undefined =>
-        DSFR_COMPONENT_CSS_FILE_EXTENSIONS.map(ext =>
+        LEGACY_COMPONENT_CSS_FILE_EXTENSIONS.map(ext =>
             pathJoin(componentsDirPath, componentName, `${componentName}.${ext}`)
         ).find(filePath => fs.existsSync(filePath));
 
@@ -65,7 +65,7 @@ describe("DSFR_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
         const problems: string[] = [];
 
         for (const [componentName, classPrefixes] of Object.entries(
-            DSFR_COMPONENT_DETECTION_CLASS_PREFIXES
+            LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES
         )) {
             const cssFilePath = getComponentCssFilePath(componentName);
 
@@ -96,7 +96,7 @@ describe("DSFR_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
                 ``,
                 `Either the prefix belongs to another component (or to the always included`,
                 `core), or it is only styled as a descendant. Drop it from`,
-                `DSFR_COMPONENT_DETECTION_CLASS_PREFIXES in`,
+                `LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES in`,
                 `src/bin/only-include-css-of-used-components.ts.`
             ].join("\n")
         ).toStrictEqual([]);
@@ -105,12 +105,12 @@ describe("DSFR_COMPONENT_DETECTION_CLASS_PREFIXES", () => {
     it("checks a meaningful number of prefixes", () => {
         // Guards the loop above: a wrong componentsDirPath, or an upstream rename, would
         // otherwise leave it iterating over stylesheets it never actually reads.
-        const classPrefixes = Object.values(DSFR_COMPONENT_DETECTION_CLASS_PREFIXES).flat();
+        const classPrefixes = Object.values(LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES).flat();
 
         expect(classPrefixes.length).toBeGreaterThan(40);
 
         expect(
-            Object.keys(DSFR_COMPONENT_DETECTION_CLASS_PREFIXES).filter(
+            Object.keys(LEGACY_COMPONENT_DETECTION_CLASS_PREFIXES).filter(
                 componentName => getComponentCssFilePath(componentName) === undefined
             )
         ).toStrictEqual([]);

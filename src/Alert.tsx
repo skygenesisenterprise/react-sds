@@ -84,8 +84,8 @@ export const Alert = memo(
             "role" in props
                 ? roleFromProps
                 : severity === "success" || severity === "info"
-                ? ("status" as const)
-                : ("alert" as const);
+                  ? ("status" as const)
+                  : ("alert" as const);
 
         assert<Equals<keyof typeof rest, never>>();
 

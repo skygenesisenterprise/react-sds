@@ -4,12 +4,7 @@
 
 /** Types de notifications institutionnelles supportés par `notify()`. */
 export type SDSDiscordNotificationType =
-    | "publication"
-    | "incident"
-    | "maintenance"
-    | "event"
-    | "announcement"
-    | "status";
+    "publication" | "incident" | "maintenance" | "event" | "announcement" | "status";
 
 export type SDSDiscordField = {
     name: string;

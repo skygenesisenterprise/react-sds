@@ -9,6 +9,66 @@ project adheres to [Semantic Versioning](https://semver.org).
 > `codegouvfr/react-dsfr` project (see [PROVENANCE.md](PROVENANCE.md)). From `0.1.0`
 > onwards this changelog tracks the independent SGE Design System release line.
 
+## [1.1.0] - 2026-11-06
+
+Consolidation of the design system: one institutional foundation, one identity across
+platforms, and the tests that keep it true.
+
+### Added
+
+- **Token coherence infrastructure** (`scripts/tokens/`): a reader for the `--sge-*` custom
+  properties, OKLCH → sRGB conversion, WCAG contrast math, and a generator for the React
+  Native palette. `pnpm tokens:sync` rewrites `src/native/tokens/colors.ts` from the CSS;
+  `test/runtime/lib/token-sync.test.ts` fails when it is stale, when the typed `sdsTokens`
+  contract drifts from the CSS light theme, or when a stylesheet consumes an undeclared
+  `--sge-*` property.
+- **`src/styles/foundation/dimensions.css`** and the `SDSDimensionTokens` contract: breakpoints,
+  containers, content widths, control heights, icon sizes and the focus ring, separated from
+  the spacing scale. Layout rules now consume these tokens instead of hard-coded widths.
+- **`/tokens` public entry** (`import "@skygenesisenterprise/react-sds/tokens"`): the tokens and
+  the default theme, with no reset and no element styling.
+- **Tests**: cross-platform token sync, measured WCAG 2.2 contrast in both themes, CSS
+  foundation integrity (no Tailwind directive, no `fr-*` class, adapters opt-in, tokens entry
+  side-effect free, reduced-motion coverage), and the enriched packaging tests.
+- [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md): the architecture reference (layers, token contract,
+  entry points, themes, component conventions, platform scope, Tailwind limits, migration).
+
+### Changed
+
+- **Typography strategy**: the foundation no longer requests `Marianne` (a French State
+  typeface inherited from the legacy lineage, never part of the SGE identity and not
+  redistributed by this package). The institutional stack is the platform UI stack; products
+  that load an official SGE webfont override `--sge-font-family-sans`.
+- **React Native colors are generated** from the CSS foundation instead of being maintained by
+  hand. The palette is unchanged (the generated values are byte-identical to the previous
+  ones) but it can no longer drift. The native token set gains `card`, `popover`,
+  `primary/secondary/muted/accent-foreground` and `destructive(-foreground)`.
+- The `exports` map is regenerated: `./tokens`, `./tailwind-preset` and
+  `./assets/tailwind-preset` are now declared (the v3 preset file shipped without an export).
+- `react` is declared as a peer dependency (`^18.0.0`) instead of being absent from the
+  manifest.
+- **The build only writes to `dist/`**: the vendored stylesheet is staged in `dist/legacy/`
+  instead of a package-root `legacy/` directory, so every relative import of `dist/main.css`
+  resolves inside the published tarball. `files` no longer lists `legacy/`, and the
+  `./legacy/*` export now points at `./dist/legacy/*`.
+
+### Fixed
+
+- **Dark theme destructive label contrast**: white on `#ef4444` measured 3.76:1, below the
+  WCAG AA floor for a button label. The red is unchanged; `--sge-color-destructive-foreground`
+  now resolves to the deep neutral in the dark scheme (4.99:1).
+- **legacy cascade order drift**: `display` was missing from `LEGACY_COMPONENTS_CASCADE_ORDER`, so
+  `react-sds optimize-css` ordered the rebuilt stylesheet against an outdated index. Detection
+  has no class prefix for it (it only styles a descendant of `.fr-fieldset__element`).
+- **CI never ran on the default branch**: the workflow was triggered on `main` while the
+  repository default branch is `master`; both are now covered.
+- **`publish-on-tag` shipped an inconsistent package**: the local-linking artifacts were
+  supposed to be skipped through `-- --prePublish`, but `--` turned the flag into a
+  positional argument, so the job published the local-linking layout while `main.css`
+  pointed at stylesheets that were not in the tarball. It also ran denoify's
+  `enable_short_npm_import_path`, which rewrote the generated `exports` map. The job now
+  builds the published layout, asserts it and runs the test suite before publishing.
+
 ## [1.0.10] - 2026-09-15
 
 ### Fixed
@@ -28,7 +88,7 @@ project adheres to [Semantic Versioning](https://semver.org).
   - The map covers every emitted module (root entry, flat components, directory
     components with an index, deep subpaths such as `MainNavigation/MegaMenu`, the
     `native`/`sds`/`fr` namespaces, CSS/asset entries, the Discord isolation subpaths and
-    the legacy `dsfr/*` tree), so the previously working imports keep working and the
+    the legacy `legacy/*` tree), so the previously working imports keep working and the
     reported ones now resolve under `moduleResolution: node`, `node16` and `bundler`.
 
 ### Added
@@ -51,7 +111,10 @@ project adheres to [Semantic Versioning](https://semver.org).
   `scripts/build/list-exports.ts`), keeping the map in sync with the emitted files and
   deriving the local-linking `dist/package.json` from it.
 
-## [Unreleased]
+## [0.1.0 – 1.0.9]
+
+> Entries accumulated during the rebranding and native-foundation stages of the fork, before
+the `1.0.10` packaging fix. Kept as history, newest first below.
 
 ### Added
 
@@ -92,7 +155,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 
 - Package version bumped to `1.0.7`.
 - The component CSS optimizer module map now treats `native` and `styles` as
-  non-DSFR modules (neither renders DSFR component markup).
+  non-legacy modules (neither renders legacy component markup).
 - **Breaking — `Header` reworked into the institutional header of Sky Genesis Enterprise of
   Sky Genesis Enterprise.** The `brandTop` and `operatorLogo` props are replaced by a single `identity`
   prop describing the corporate identity (official brand lockup as an image, with
@@ -104,7 +167,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 - **Breaking — `Footer`** mirrors the same institutional identity: the `brandTop` prop is
   replaced by an optional `identity` prop that falls back to the one of the `<Header />`
   when the Footer is rendered after it.
-- The Header/Footer brand zone no longer renders the legacy DSFR tricolor block
+- The Header/Footer brand zone no longer renders the legacy tricolor block
   (`.fr-logo`): it displays the Sky Genesis Enterprise lockup via the new companion stylesheet
   `src/assets/sge-identity.css` (provisional until the SDS stylesheet lands —
   [MIGRATION.md](MIGRATION.md)).
@@ -113,7 +176,7 @@ project adheres to [Semantic Versioning](https://semver.org).
 - New root entry: generic components (`Button`, `Alert`, `Card`, …) can now be imported
   from the package root; per-component subpath imports remain available and recommended
   for granular bundles.
-- CLI renamed: `react-dsfr` → `react-sds` (`react-sds optimize-css`, …).
+- CLI renamed: `French design-system` → `react-sds` (`react-sds optimize-css`, …).
 - Repository migrated from Yarn to pnpm (`pnpm-lock.yaml`).
 - Documentation (README, Storybook, publiccode.yml, contribution and governance docs)
   rewritten for the SGE Design System.
@@ -147,12 +210,12 @@ project adheres to [Semantic Versioning](https://semver.org).
   empty list (previously French government domains) and no licence mention is rendered when
   the `license` prop is not provided (previously an Etalab licence-ouverte notice).
   Consumers migrating from the fork must provide these props explicitly.
-- Removed French demo/DSFR doc URLs and references from Storybook stories, code comments
+- Removed French demo/legacy doc URLs and references from Storybook stories, code comments
   and default copy (consent management is now phrased around a generic data-protection
   policy).
 
 ### Deprecated
 
-- The legacy DSFR layer (`dsfr/` assets, `fr-*` class names, `fr` namespace, `Dsfr*`
+- The legacy layer (`legacy/` assets, `fr-*` class names, `fr` namespace, `Legacy*`
   helpers) is kept as an isolated, documented implementation layer. It will be removed in
   a single coordinated breaking release — see [MIGRATION.md](MIGRATION.md).

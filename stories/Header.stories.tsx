@@ -74,9 +74,9 @@ See also [\\\\<MainNavigation \\\\/\\\\>](https://skygenesisenterprise.github.io
         "identity": {
             "control": { "type": null },
             "description": `The institutional identity of the site, made of:
-- \\`imgUrl\\`: URL of the official Sky Genesis Enterprise brand lockup (SVG preferred),
-- \\`alt\\`: accessible alternative of the image, the name of Sky Genesis Enterprise must appear,
-- \\`institution\\`: the organizational unit, e.g. "Sky Genesis Enterprise" or "SGE Labs".`
+- \`imgUrl\`: URL of the official Sky Genesis Enterprise brand lockup (SVG preferred),
+- \`alt\`: accessible alternative of the image, the name of Sky Genesis Enterprise must appear,
+- \`institution\`: the organizational unit, e.g. "Sky Genesis Enterprise" or "SGE Labs".`
         },
         "homeLinkProps": {
             "control": { "type": null },

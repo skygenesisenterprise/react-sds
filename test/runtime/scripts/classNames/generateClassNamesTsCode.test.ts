@@ -56,7 +56,7 @@ export type FrClassName = FrCoreClassName | FrIconClassName | RiIconClassName;
 
     const got = generateClassNamesTsCode({
         "rawCssCode": input,
-        "dsfrIconClassNames": ["fr-icon-ancient-gate-fill"],
+        "legacyIconClassNames": ["fr-icon-ancient-gate-fill"],
         "remixiconClassNames": ["ri-airplay-fill", "ri-airplay-line"]
     });
 

@@ -1,7 +1,7 @@
 {
     "name": "@skygenesisenterprise/react-sds",
     "version": "1.1.0",
-    "packageManager": "pnpm@11.21.0",
+    "packageManager": "pnpm@12.18.0",
     "description": "The SGE Design system React toolkit.",
     "repository": {
         "type": "git",
@@ -21,6 +21,7 @@
         "start-next-pagesdir": "pnpm build && pnpm _link && ((tsc -w -p src) & (cd test/integration/next-pagesdir && pnpm dev))",
         "start-next-appdir": "pnpm build && pnpm _link && ((tsc -w -p src) & (cd test/integration/next-appdir && pnpm dev))",
         "test": "vitest",
+        "tokens:sync": "ts-node -T scripts/tokens/sync-native-colors.ts",
         "lint:check": "eslint . --ext .ts,.tsx",
         "lint": "pnpm lint:check --fix",
         "_format": "prettier '**/*.{ts,tsx,json,md}'",
@@ -33,7 +34,7 @@
     },
     "bin": {
         "react-sds": "dist/bin/react-sds.js",
-        "copy-dsfr-to-public": "dist/bin/copy-dsfr-to-public.js",
+        "copy-legacy-to-public": "dist/bin/copy-legacy-to-public.js",
         "only-include-used-icons": "dist/bin/only-include-used-icons.js"
     },
     "lint-staged": {
@@ -58,8 +59,7 @@
         "src/",
         "dist/",
         "!dist/tsconfig.tsbuildinfo",
-        "!dist/bin/tsconfig.tsbuildinfo",
-        "dsfr/"
+        "!dist/bin/tsconfig.tsbuildinfo"
     ],
     "keywords": [
         "sge design system",
@@ -83,6 +83,7 @@
     "peerDependencies": {
         "@gouvfr/dsfr-chart": "^1.0.0",
         "discord.js": "^14.0.0",
+        "react": "^18.0.0",
         "react-native": "^0.72.0"
     },
     "peerDependenciesMeta": {
@@ -170,7 +171,10 @@
         "./main.css": "./dist/main.css",
         "./early-color-scheme.js": "./dist/early-color-scheme.js",
         "./package.json": "./package.json",
-        "./dsfr/*": "./dsfr/*",
+        "./legacy/*": "./dist/legacy/*",
+        "./styles": "./dist/styles/index.css",
+        "./tokens": "./dist/styles/tokens.css",
+        "./tailwind-preset": "./dist/assets/tailwind-preset.cjs",
         "./Accordion": {
             "types": "./dist/Accordion.d.ts",
             "default": "./dist/Accordion.js"
@@ -443,170 +447,15 @@
             "types": "./dist/Upload.d.ts",
             "default": "./dist/Upload.js"
         },
-        "./sds": {
-            "types": "./dist/sds/index.d.ts",
-            "default": "./dist/sds/index.js"
-        },
-        "./sds/content": {
-            "types": "./dist/sds/content/index.d.ts",
-            "default": "./dist/sds/content/index.js"
-        },
-        "./sds/content/SDSArticleCard": {
-            "types": "./dist/sds/content/SDSArticleCard.d.ts",
-            "default": "./dist/sds/content/SDSArticleCard.js"
-        },
-        "./sds/content/SDSCard": {
-            "types": "./dist/sds/content/SDSCard.d.ts",
-            "default": "./dist/sds/content/SDSCard.js"
-        },
-        "./sds/content/SDSDocument": {
-            "types": "./dist/sds/content/SDSDocument.d.ts",
-            "default": "./dist/sds/content/SDSDocument.js"
-        },
-        "./sds/content/SDSDownload": {
-            "types": "./dist/sds/content/SDSDownload.d.ts",
-            "default": "./dist/sds/content/SDSDownload.js"
-        },
-        "./sds/content/SDSEvent": {
-            "types": "./dist/sds/content/SDSEvent.d.ts",
-            "default": "./dist/sds/content/SDSEvent.js"
-        },
-        "./sds/content/SDSLinkList": {
-            "types": "./dist/sds/content/SDSLinkList.d.ts",
-            "default": "./dist/sds/content/SDSLinkList.js"
-        },
-        "./sds/content/SDSMeetingCard": {
-            "types": "./dist/sds/content/SDSMeetingCard.d.ts",
-            "default": "./dist/sds/content/SDSMeetingCard.js"
-        },
-        "./sds/content/SDSNewsList": {
-            "types": "./dist/sds/content/SDSNewsList.d.ts",
-            "default": "./dist/sds/content/SDSNewsList.js"
-        },
-        "./sds/content/SDSTeaserCard": {
-            "types": "./dist/sds/content/SDSTeaserCard.d.ts",
-            "default": "./dist/sds/content/SDSTeaserCard.js"
-        },
-        "./sds/layout": {
-            "types": "./dist/sds/layout/index.d.ts",
-            "default": "./dist/sds/layout/index.js"
-        },
-        "./sds/layout/SDSColumns": {
-            "types": "./dist/sds/layout/SDSColumns.d.ts",
-            "default": "./dist/sds/layout/SDSColumns.js"
-        },
-        "./sds/layout/SDSContainer": {
-            "types": "./dist/sds/layout/SDSContainer.d.ts",
-            "default": "./dist/sds/layout/SDSContainer.js"
-        },
-        "./sds/layout/SDSGrid": {
-            "types": "./dist/sds/layout/SDSGrid.d.ts",
-            "default": "./dist/sds/layout/SDSGrid.js"
-        },
-        "./sds/layout/SDSMain": {
-            "types": "./dist/sds/layout/SDSMain.d.ts",
-            "default": "./dist/sds/layout/SDSMain.js"
-        },
-        "./sds/layout/SDSPage": {
-            "types": "./dist/sds/layout/SDSPage.d.ts",
-            "default": "./dist/sds/layout/SDSPage.js"
-        },
-        "./sds/layout/SDSSection": {
-            "types": "./dist/sds/layout/SDSSection.d.ts",
-            "default": "./dist/sds/layout/SDSSection.js"
-        },
-        "./sds/layout/SDSStack": {
-            "types": "./dist/sds/layout/SDSStack.d.ts",
-            "default": "./dist/sds/layout/SDSStack.js"
-        },
-        "./sds/portal": {
-            "types": "./dist/sds/portal/index.d.ts",
-            "default": "./dist/sds/portal/index.js"
-        },
-        "./sds/portal/SDSBreadcrumb": {
-            "types": "./dist/sds/portal/SDSBreadcrumb.d.ts",
-            "default": "./dist/sds/portal/SDSBreadcrumb.js"
-        },
-        "./sds/portal/SDSGovernmentFooter": {
-            "types": "./dist/sds/portal/SDSGovernmentFooter.d.ts",
-            "default": "./dist/sds/portal/SDSGovernmentFooter.js"
-        },
-        "./sds/portal/SDSGovernmentHeader": {
-            "types": "./dist/sds/portal/SDSGovernmentHeader.d.ts",
-            "default": "./dist/sds/portal/SDSGovernmentHeader.js"
-        },
-        "./sds/portal/SDSHero": {
-            "types": "./dist/sds/portal/SDSHero.d.ts",
-            "default": "./dist/sds/portal/SDSHero.js"
-        },
-        "./sds/portal/SDSMegaMenu": {
-            "types": "./dist/sds/portal/SDSMegaMenu.d.ts",
-            "default": "./dist/sds/portal/SDSMegaMenu.js"
-        },
-        "./sds/portal/SDSMinistryHeader": {
-            "types": "./dist/sds/portal/SDSMinistryHeader.d.ts",
-            "default": "./dist/sds/portal/SDSMinistryHeader.js"
-        },
-        "./sds/portal/SDSNavigation": {
-            "types": "./dist/sds/portal/SDSNavigation.d.ts",
-            "default": "./dist/sds/portal/SDSNavigation.js"
-        },
-        "./sds/portal/SDSOfficialNotice": {
-            "types": "./dist/sds/portal/SDSOfficialNotice.d.ts",
-            "default": "./dist/sds/portal/SDSOfficialNotice.js"
-        },
-        "./sds/portal/SDSPagination": {
-            "types": "./dist/sds/portal/SDSPagination.d.ts",
-            "default": "./dist/sds/portal/SDSPagination.js"
-        },
-        "./sds/portal/SDSPortal": {
-            "types": "./dist/sds/portal/SDSPortal.d.ts",
-            "default": "./dist/sds/portal/SDSPortal.js"
-        },
-        "./sds/portal/SDSSearch": {
-            "types": "./dist/sds/portal/SDSSearch.d.ts",
-            "default": "./dist/sds/portal/SDSSearch.js"
-        },
-        "./sds/portal/SDSServiceBanner": {
-            "types": "./dist/sds/portal/SDSServiceBanner.d.ts",
-            "default": "./dist/sds/portal/SDSServiceBanner.js"
-        },
-        "./sds/portal/context": {
-            "types": "./dist/sds/portal/context.d.ts",
-            "default": "./dist/sds/portal/context.js"
-        },
-        "./sds/tokens": {
-            "types": "./dist/sds/tokens.d.ts",
-            "default": "./dist/sds/tokens.js"
-        },
-        "./sds/typography": {
-            "types": "./dist/sds/typography/index.d.ts",
-            "default": "./dist/sds/typography/index.js"
-        },
-        "./sds/typography/SDSHeading": {
-            "types": "./dist/sds/typography/SDSHeading.d.ts",
-            "default": "./dist/sds/typography/SDSHeading.js"
-        },
-        "./sds/typography/SDSLead": {
-            "types": "./dist/sds/typography/SDSLead.d.ts",
-            "default": "./dist/sds/typography/SDSLead.js"
-        },
-        "./sds/typography/SDSLink": {
-            "types": "./dist/sds/typography/SDSLink.d.ts",
-            "default": "./dist/sds/typography/SDSLink.js"
-        },
-        "./sds/typography/SDSText": {
-            "types": "./dist/sds/typography/SDSText.d.ts",
-            "default": "./dist/sds/typography/SDSText.js"
-        },
-        "./assets/sds/tokens.css": "./dist/assets/sds/tokens.css",
-        "./assets/sge-identity.svg": "./dist/assets/sge-identity.svg",
-        "./assets/sge-identity.css": "./dist/assets/sge-identity.css",
         "./assets/blank-favicon.svg": "./dist/assets/blank-favicon.svg",
-        "./assets/dsfr_plus_icons.css": "./dist/assets/dsfr_plus_icons.css",
-        "./assets/dsfr_plus_icons.scss": "./dist/assets/dsfr_plus_icons.scss",
         "./assets/language-select.css": "./dist/assets/language-select.css",
+        "./assets/legacy_plus_icons.css": "./dist/assets/legacy_plus_icons.css",
+        "./assets/legacy_plus_icons.scss": "./dist/assets/legacy_plus_icons.scss",
+        "./assets/sds/tokens.css": "./dist/assets/sds/tokens.css",
         "./assets/search-bar.css": "./dist/assets/search-bar.css",
+        "./assets/sge-identity.css": "./dist/assets/sge-identity.css",
+        "./assets/sge-identity.svg": "./dist/assets/sge-identity.svg",
+        "./assets/tailwind-preset.cjs": "./dist/assets/tailwind-preset.cjs",
         "./blocks/PasswordInput": {
             "types": "./dist/blocks/PasswordInput.d.ts",
             "default": "./dist/blocks/PasswordInput.js"
@@ -991,13 +840,13 @@
             "types": "./dist/next-app-router/index.d.ts",
             "default": "./dist/next-app-router/index.js"
         },
-        "./next-app-router/DsfrHead": {
-            "types": "./dist/next-app-router/DsfrHead.d.ts",
-            "default": "./dist/next-app-router/DsfrHead.js"
+        "./next-app-router/SdsHead": {
+            "types": "./dist/next-app-router/SdsHead.d.ts",
+            "default": "./dist/next-app-router/SdsHead.js"
         },
-        "./next-app-router/DsfrProvider": {
-            "types": "./dist/next-app-router/DsfrProvider.d.ts",
-            "default": "./dist/next-app-router/DsfrProvider.js"
+        "./next-app-router/SdsProvider": {
+            "types": "./dist/next-app-router/SdsProvider.d.ts",
+            "default": "./dist/next-app-router/SdsProvider.js"
         },
         "./next-app-router/getHtmlAttributes": {
             "types": "./dist/next-app-router/getHtmlAttributes.d.ts",
@@ -1431,6 +1280,162 @@
             "types": "./dist/picto/utils/PictoWrapper.d.ts",
             "default": "./dist/picto/utils/PictoWrapper.js"
         },
+        "./sds": {
+            "types": "./dist/sds/index.d.ts",
+            "default": "./dist/sds/index.js"
+        },
+        "./sds/content": {
+            "types": "./dist/sds/content/index.d.ts",
+            "default": "./dist/sds/content/index.js"
+        },
+        "./sds/content/SDSArticleCard": {
+            "types": "./dist/sds/content/SDSArticleCard.d.ts",
+            "default": "./dist/sds/content/SDSArticleCard.js"
+        },
+        "./sds/content/SDSCard": {
+            "types": "./dist/sds/content/SDSCard.d.ts",
+            "default": "./dist/sds/content/SDSCard.js"
+        },
+        "./sds/content/SDSDocument": {
+            "types": "./dist/sds/content/SDSDocument.d.ts",
+            "default": "./dist/sds/content/SDSDocument.js"
+        },
+        "./sds/content/SDSDownload": {
+            "types": "./dist/sds/content/SDSDownload.d.ts",
+            "default": "./dist/sds/content/SDSDownload.js"
+        },
+        "./sds/content/SDSEvent": {
+            "types": "./dist/sds/content/SDSEvent.d.ts",
+            "default": "./dist/sds/content/SDSEvent.js"
+        },
+        "./sds/content/SDSLinkList": {
+            "types": "./dist/sds/content/SDSLinkList.d.ts",
+            "default": "./dist/sds/content/SDSLinkList.js"
+        },
+        "./sds/content/SDSMeetingCard": {
+            "types": "./dist/sds/content/SDSMeetingCard.d.ts",
+            "default": "./dist/sds/content/SDSMeetingCard.js"
+        },
+        "./sds/content/SDSNewsList": {
+            "types": "./dist/sds/content/SDSNewsList.d.ts",
+            "default": "./dist/sds/content/SDSNewsList.js"
+        },
+        "./sds/content/SDSTeaserCard": {
+            "types": "./dist/sds/content/SDSTeaserCard.d.ts",
+            "default": "./dist/sds/content/SDSTeaserCard.js"
+        },
+        "./sds/layout": {
+            "types": "./dist/sds/layout/index.d.ts",
+            "default": "./dist/sds/layout/index.js"
+        },
+        "./sds/layout/SDSColumns": {
+            "types": "./dist/sds/layout/SDSColumns.d.ts",
+            "default": "./dist/sds/layout/SDSColumns.js"
+        },
+        "./sds/layout/SDSContainer": {
+            "types": "./dist/sds/layout/SDSContainer.d.ts",
+            "default": "./dist/sds/layout/SDSContainer.js"
+        },
+        "./sds/layout/SDSGrid": {
+            "types": "./dist/sds/layout/SDSGrid.d.ts",
+            "default": "./dist/sds/layout/SDSGrid.js"
+        },
+        "./sds/layout/SDSMain": {
+            "types": "./dist/sds/layout/SDSMain.d.ts",
+            "default": "./dist/sds/layout/SDSMain.js"
+        },
+        "./sds/layout/SDSPage": {
+            "types": "./dist/sds/layout/SDSPage.d.ts",
+            "default": "./dist/sds/layout/SDSPage.js"
+        },
+        "./sds/layout/SDSSection": {
+            "types": "./dist/sds/layout/SDSSection.d.ts",
+            "default": "./dist/sds/layout/SDSSection.js"
+        },
+        "./sds/layout/SDSStack": {
+            "types": "./dist/sds/layout/SDSStack.d.ts",
+            "default": "./dist/sds/layout/SDSStack.js"
+        },
+        "./sds/portal": {
+            "types": "./dist/sds/portal/index.d.ts",
+            "default": "./dist/sds/portal/index.js"
+        },
+        "./sds/portal/SDSBreadcrumb": {
+            "types": "./dist/sds/portal/SDSBreadcrumb.d.ts",
+            "default": "./dist/sds/portal/SDSBreadcrumb.js"
+        },
+        "./sds/portal/SDSGovernmentFooter": {
+            "types": "./dist/sds/portal/SDSGovernmentFooter.d.ts",
+            "default": "./dist/sds/portal/SDSGovernmentFooter.js"
+        },
+        "./sds/portal/SDSGovernmentHeader": {
+            "types": "./dist/sds/portal/SDSGovernmentHeader.d.ts",
+            "default": "./dist/sds/portal/SDSGovernmentHeader.js"
+        },
+        "./sds/portal/SDSHero": {
+            "types": "./dist/sds/portal/SDSHero.d.ts",
+            "default": "./dist/sds/portal/SDSHero.js"
+        },
+        "./sds/portal/SDSMegaMenu": {
+            "types": "./dist/sds/portal/SDSMegaMenu.d.ts",
+            "default": "./dist/sds/portal/SDSMegaMenu.js"
+        },
+        "./sds/portal/SDSMinistryHeader": {
+            "types": "./dist/sds/portal/SDSMinistryHeader.d.ts",
+            "default": "./dist/sds/portal/SDSMinistryHeader.js"
+        },
+        "./sds/portal/SDSNavigation": {
+            "types": "./dist/sds/portal/SDSNavigation.d.ts",
+            "default": "./dist/sds/portal/SDSNavigation.js"
+        },
+        "./sds/portal/SDSOfficialNotice": {
+            "types": "./dist/sds/portal/SDSOfficialNotice.d.ts",
+            "default": "./dist/sds/portal/SDSOfficialNotice.js"
+        },
+        "./sds/portal/SDSPagination": {
+            "types": "./dist/sds/portal/SDSPagination.d.ts",
+            "default": "./dist/sds/portal/SDSPagination.js"
+        },
+        "./sds/portal/SDSPortal": {
+            "types": "./dist/sds/portal/SDSPortal.d.ts",
+            "default": "./dist/sds/portal/SDSPortal.js"
+        },
+        "./sds/portal/SDSSearch": {
+            "types": "./dist/sds/portal/SDSSearch.d.ts",
+            "default": "./dist/sds/portal/SDSSearch.js"
+        },
+        "./sds/portal/SDSServiceBanner": {
+            "types": "./dist/sds/portal/SDSServiceBanner.d.ts",
+            "default": "./dist/sds/portal/SDSServiceBanner.js"
+        },
+        "./sds/portal/context": {
+            "types": "./dist/sds/portal/context.d.ts",
+            "default": "./dist/sds/portal/context.js"
+        },
+        "./sds/tokens": {
+            "types": "./dist/sds/tokens.d.ts",
+            "default": "./dist/sds/tokens.js"
+        },
+        "./sds/typography": {
+            "types": "./dist/sds/typography/index.d.ts",
+            "default": "./dist/sds/typography/index.js"
+        },
+        "./sds/typography/SDSHeading": {
+            "types": "./dist/sds/typography/SDSHeading.d.ts",
+            "default": "./dist/sds/typography/SDSHeading.js"
+        },
+        "./sds/typography/SDSLead": {
+            "types": "./dist/sds/typography/SDSLead.d.ts",
+            "default": "./dist/sds/typography/SDSLead.js"
+        },
+        "./sds/typography/SDSLink": {
+            "types": "./dist/sds/typography/SDSLink.d.ts",
+            "default": "./dist/sds/typography/SDSLink.js"
+        },
+        "./sds/typography/SDSText": {
+            "types": "./dist/sds/typography/SDSText.d.ts",
+            "default": "./dist/sds/typography/SDSText.js"
+        },
         "./shared/Fieldset": {
             "types": "./dist/shared/Fieldset.d.ts",
             "default": "./dist/shared/Fieldset.js"
@@ -1444,23 +1449,41 @@
             "default": "./dist/start.js"
         },
         "./styles/accessibility.css": "./dist/styles/accessibility.css",
+        "./styles/adapters/tailwind-v4.css": "./dist/styles/adapters/tailwind-v4.css",
+        "./styles/adapters/tailwind.css": "./dist/styles/adapters/tailwind.css",
         "./styles/base.css": "./dist/styles/base.css",
+        "./styles/base/accessibility.css": "./dist/styles/base/accessibility.css",
+        "./styles/base/global.css": "./dist/styles/base/global.css",
+        "./styles/base/reset.css": "./dist/styles/base/reset.css",
+        "./styles/base/typography.css": "./dist/styles/base/typography.css",
+        "./styles/components/back-to-top.css": "./dist/styles/components/back-to-top.css",
+        "./styles/components/form.css": "./dist/styles/components/form.css",
+        "./styles/components/header.css": "./dist/styles/components/header.css",
+        "./styles/components/prose.css": "./dist/styles/components/prose.css",
         "./styles/components/sds-card.css": "./dist/styles/components/sds-card.css",
         "./styles/components/sds-layout.css": "./dist/styles/components/sds-layout.css",
         "./styles/components/sds-portal.css": "./dist/styles/components/sds-portal.css",
         "./styles/components/sds-search.css": "./dist/styles/components/sds-search.css",
         "./styles/components/sds-typography.css": "./dist/styles/components/sds-typography.css",
-        "./styles/components/back-to-top.css": "./dist/styles/components/back-to-top.css",
-        "./styles/components/form.css": "./dist/styles/components/form.css",
-        "./styles/components/header.css": "./dist/styles/components/header.css",
-        "./styles/components/prose.css": "./dist/styles/components/prose.css",
         "./styles/components/table.css": "./dist/styles/components/table.css",
+        "./styles/foundation/colors.css": "./dist/styles/foundation/colors.css",
+        "./styles/foundation/dimensions.css": "./dist/styles/foundation/dimensions.css",
+        "./styles/foundation/motion.css": "./dist/styles/foundation/motion.css",
+        "./styles/foundation/radius.css": "./dist/styles/foundation/radius.css",
+        "./styles/foundation/shadows.css": "./dist/styles/foundation/shadows.css",
+        "./styles/foundation/spacing.css": "./dist/styles/foundation/spacing.css",
+        "./styles/foundation/tokens.css": "./dist/styles/foundation/tokens.css",
+        "./styles/foundation/typography.css": "./dist/styles/foundation/typography.css",
+        "./styles/index.css": "./dist/styles/index.css",
         "./styles/layout.css": "./dist/styles/layout.css",
         "./styles/reset.css": "./dist/styles/reset.css",
         "./styles/themes.css": "./dist/styles/themes.css",
+        "./styles/themes/dark.css": "./dist/styles/themes/dark.css",
+        "./styles/themes/light.css": "./dist/styles/themes/light.css",
         "./styles/tokens.css": "./dist/styles/tokens.css",
         "./styles/typography.css": "./dist/styles/typography.css",
         "./styles/utilities.css": "./dist/styles/utilities.css",
+        "./styles/utilities/index.css": "./dist/styles/utilities/index.css",
         "./tools/Deferred": {
             "types": "./dist/tools/Deferred.d.ts",
             "default": "./dist/tools/Deferred.js"

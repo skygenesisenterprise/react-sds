@@ -1,4 +1,12 @@
-import { SDSPage, SDSMain, SDSContainer, SDSSection, SDSStack, SDSGrid, SDSColumns } from "../dist/sds/layout";
+import {
+    SDSPage,
+    SDSMain,
+    SDSContainer,
+    SDSSection,
+    SDSStack,
+    SDSGrid,
+    SDSColumns
+} from "../dist/sds/layout";
 import { getStoryFactory } from "./getStory";
 
 const sectionName = "SDS";
@@ -24,7 +32,10 @@ export const SDSPageStory = page.getStory(
             </SDSStack>
         )
     },
-    { "description": "Coquille pleine hauteur d'une page : colonne flex avec contenu qui pousse le footer en bas." }
+    {
+        "description":
+            "Coquille pleine hauteur d'une page : colonne flex avec contenu qui pousse le footer en bas."
+    }
 );
 
 const container = getStoryFactory({
@@ -41,7 +52,10 @@ export const SDSContainerStory = container.getStory(
             </div>
         )
     },
-    { "description": "Colonne centrée et bornée en largeur. `size` : default (75rem), wide (80rem), narrow (52rem)." }
+    {
+        "description":
+            "Colonne centrée et bornée en largeur. `size` : default (75rem), wide (80rem), narrow (52rem)."
+    }
 );
 
 const section = getStoryFactory({
@@ -56,7 +70,10 @@ export const SDSSectionStory = section.getStory(
         "action": <button>Voir tout</button>,
         "children": "Contenu de la section."
     },
-    { "description": "Section verticale avec en-tête (titre + sous-titre + action) et fond optionnel." }
+    {
+        "description":
+            "Section verticale avec en-tête (titre + sous-titre + action) et fond optionnel."
+    }
 );
 
 const stack = getStoryFactory({
@@ -119,8 +136,16 @@ export const SDSColumnsStory = columns.getStory(
 );
 
 function SDSGovernmentHeaderMock() {
-    return <header style={{ "borderBottom": "1px solid var(--sge-color-border)", "padding": "1rem" }}>En-tête</header>;
+    return (
+        <header style={{ "borderBottom": "1px solid var(--sge-color-border)", "padding": "1rem" }}>
+            En-tête
+        </header>
+    );
 }
 function SDSGovernmentFooterMock() {
-    return <footer style={{ "borderTop": "1px solid var(--sge-color-border)", "padding": "1rem" }}>Pied de page</footer>;
+    return (
+        <footer style={{ "borderTop": "1px solid var(--sge-color-border)", "padding": "1rem" }}>
+            Pied de page
+        </footer>
+    );
 }

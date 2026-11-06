@@ -81,6 +81,7 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+legacy/
 
 # Gatsby files
 .cache/
@@ -152,14 +153,14 @@ yarn.lock
 
 /dist
 /.yarn_home
-/dsfr
+/legacy
 /src/fr/generatedFromCss
 /storybook-static
 
 /docs/
 
-/react-dsfr-vite-demo/
-/react-dsfr-next-appdir-demo/
-/react-dsfr-next-demo/
-/react-dsfr-cra-demo/
-/keycloak-theme-dsfr/
+/react-legacy-vite-demo/
+/react-legacy-next-appdir-demo/
+/react-legacy-next-demo/
+/react-legacy-cra-demo/
+/keycloak-theme-legacy/

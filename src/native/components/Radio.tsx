@@ -39,7 +39,7 @@ export function Radio(props: RadioProps) {
 
     const size = tokens.dimensions.controlSm;
 
-    const textLabel: string = typeof label === "string" ? label : accessibilityLabel ?? "";
+    const textLabel: string = typeof label === "string" ? label : (accessibilityLabel ?? "");
 
     return (
         <Pressable
@@ -67,7 +67,11 @@ export function Radio(props: RadioProps) {
                     height: size,
                     borderRadius: tokens.radius.full,
                     borderWidth: 2,
-                    borderColor: selected ? colors.primary : isDisabled ? colors.disabled : colors.input,
+                    borderColor: selected
+                        ? colors.primary
+                        : isDisabled
+                          ? colors.disabled
+                          : colors.input,
                     alignItems: "center",
                     justifyContent: "center"
                 }}

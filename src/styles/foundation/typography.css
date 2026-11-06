@@ -4,16 +4,33 @@
  * Font stacks, scale, weights, line heights and tracking shared by every SGE
  * product. Applications may override these custom properties to load their own
  * fonts without changing the token names.
+ *
+ * Typeface strategy
+ * -----------------
+ * SGE does not distribute a webfont: the package ships no font binary, so it can
+ * not (and must not) tie the identity to a font whose redistribution terms are
+ * unverified. The institutional stack is therefore the platform UI stack, which
+ * renders immediately, costs no download and exists on every target.
+ *
+ * Products that load an official SGE typeface override the family tokens in their
+ * own stylesheet — no component change, no fork:
+ *
+ *     :root { --sge-font-family-sans: "SGE Sans", var(--sge-font-family-sans); }
+ *
+ * The former `Marianne` stack (inherited from the legacy lineage) has been dropped
+ * from the foundation: it is a French State typeface, it was never shipped by the
+ * SGE identity, and keeping it first meant every product fell back to it whenever
+ * the font happened to be installed. The `fr` legacy layer may still request it.
  */
 
 :root {
     /* ---- Families ---------------------------------------------------------- */
 
-    --sge-font-family-base: "Marianne", "Public Sans", system-ui, -apple-system,
-        "Segoe UI", sans-serif;
-    --sge-font-family-heading: var(--sge-font-family-base);
-    --sge-font-family-display: var(--sge-font-family-base);
-    --sge-font-family-sans: var(--sge-font-family-base);
+    --sge-font-family-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+        "Noto Sans", Arial, sans-serif;
+    --sge-font-family-base: var(--sge-font-family-sans);
+    --sge-font-family-heading: var(--sge-font-family-sans);
+    --sge-font-family-display: var(--sge-font-family-sans);
     --sge-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
 

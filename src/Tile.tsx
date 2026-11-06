@@ -145,8 +145,8 @@ export const Tile = memo(
                             (linkProps
                                 ? "fr-enlarge-link"
                                 : buttonProps
-                                ? "fr-enlarge-button"
-                                : null),
+                                  ? "fr-enlarge-button"
+                                  : null),
                         orientation && `fr-tile--${orientation}`,
                         noIcon && "fr-tile--no-icon",
                         noBorder && "fr-tile--no-border",

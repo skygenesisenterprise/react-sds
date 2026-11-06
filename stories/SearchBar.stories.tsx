@@ -169,7 +169,7 @@ make sure you provide an overlay with the search results in the the \`renderSear
 As, to this day, no component is provided to help you with that, you are on your own for implementing the overlay.  
 You can achieve great result by using [MUI's autocomplete](https://mui.com/material-ui/react-autocomplete/) component.  
 [Implementation example](https://github.com/mui/material-ui/issues/37838).  
-If you go with MUI make sure to use the [\`<MuiDsfrProvider />\`](https://skygenesisenterprise.github.io/react-sds/mui).  
+If you go with MUI make sure to use the [\`<MuiSdsProvider />\`](https://skygenesisenterprise.github.io/react-sds/mui).  
         
 \`\`\`tsx
         

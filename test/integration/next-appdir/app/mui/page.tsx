@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { MuiDsfrThemeProvider } from "@skygenesisenterprise/react-sds/mui";
+import { MuiSdsThemeProvider } from "@skygenesisenterprise/react-sds/mui";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
 import TextField from '@mui/material/TextField';
@@ -114,9 +114,9 @@ export default function Mui() {
 
 	return (
 		isProviderEnabled ? (
-			<MuiDsfrThemeProvider>
+			<MuiSdsThemeProvider>
 				<Children />
-			</MuiDsfrThemeProvider>
+			</MuiSdsThemeProvider>
 		) : (
 			<ThemeProvider theme={isDark ? muiDefaultDarkTheme : muiDefaultLightTheme}>
 				<Children />

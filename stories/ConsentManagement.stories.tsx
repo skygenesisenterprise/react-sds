@@ -141,7 +141,7 @@ function RootLayout(){
             <head></head>
             <body>
                 {/* This component must be the first thing in the body of your app.
-                If you're in Next App Router it should be wrapped within <DsfrProvider> */}
+                If you're in Next App Router it should be wrapped within <SdsProvider> */}
                 <ConsentBannerAndConsentManagement /> 
                 {/* ... */}
 				<Footer

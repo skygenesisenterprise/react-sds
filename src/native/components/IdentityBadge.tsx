@@ -29,7 +29,9 @@ export function IdentityBadge(props: IdentityBadgeProps) {
             testID={testID}
             accessible
             accessibilityRole="text"
-            accessibilityLabel={accessibilityLabel ?? (typeof children === "string" ? children : undefined)}
+            accessibilityLabel={
+                accessibilityLabel ?? (typeof children === "string" ? children : undefined)
+            }
             style={[
                 {
                     flexDirection: "row",
@@ -46,7 +48,9 @@ export function IdentityBadge(props: IdentityBadgeProps) {
                 style
             ]}
         >
-            {icon !== undefined && <Icon name={icon} size={tokens.dimensions.iconSm} color={colors.primary} />}
+            {icon !== undefined && (
+                <Icon name={icon} size={tokens.dimensions.iconSm} color={colors.primary} />
+            )}
             <Text
                 style={{
                     color: colors.text,

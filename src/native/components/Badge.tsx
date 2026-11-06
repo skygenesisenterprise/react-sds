@@ -46,14 +46,17 @@ export function Badge(props: BadgeProps) {
     const accent = colors[toneColor];
 
     const bg = variant === "solid" ? accent : colors.surfaceMuted;
-    const fg = variant === "solid" ? (tone === "neutral" ? colors.onPrimary : colors.surface) : accent;
+    const fg =
+        variant === "solid" ? (tone === "neutral" ? colors.onPrimary : colors.surface) : accent;
 
     return (
         <View
             testID={testID}
             accessible
             accessibilityRole="text"
-            accessibilityLabel={accessibilityLabel ?? (typeof children === "string" ? children : undefined)}
+            accessibilityLabel={
+                accessibilityLabel ?? (typeof children === "string" ? children : undefined)
+            }
             style={[
                 {
                     alignSelf: "flex-start",

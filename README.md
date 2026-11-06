@@ -1,8 +1,8 @@
-# SDS React
+# SDS React Toolkit Project
 
 [![License: MIT](https://img.shields.io/github/license/skygenesisenterprise/react-sds)](LICENSE)
 [![Node.js 22](https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
-[![pnpm 11](https://img.shields.io/badge/pnpm-11-F69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![pnpm 12](https://img.shields.io/badge/pnpm-12-F69220?logo=pnpm&logoColor=white)](https://pnpm.io)
 [![TypeScript 4.9](https://img.shields.io/badge/TypeScript-4.9-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
 [![React 18](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![React Native 0.72+](https://img.shields.io/badge/React_Native-0.72%2B-61DAFB?logo=react&logoColor=black)](https://reactnative.dev)
@@ -10,50 +10,52 @@
 
 > The official React implementation of the Sky Genesis Enterprise Design System.
 
+> **Architecture reference:** [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) — the institutional layers, the token contract and its cross-platform guarantees, the CSS entry points, the theme contract, the component conventions, the React Native scope, the Tailwind limits and the migration strategy.
+
 **SDS React** (`@skygenesisenterprise/react-sds`) is the React and React Native toolkit for building the digital products of Sky Genesis Enterprise. It ships accessible, typed, tree-shakable components, the official `--sge-*` CSS foundation, light and dark themes, layout and editorial primitives, and a native foundation that shares the same token contract.
 
 **Perfect for:** product teams, design-system maintainers, internal tools, customer portals, marketing sites and mobile applications that need a consistent SGE identity without rebuilding a component library.
 
 ## Contents
 
-- [SDS React](#sds-react)
-  - [Contents](#contents)
-  - [Why SDS matters](#why-sds-matters)
-  - [What you can do](#what-you-can-do)
-    - [Build](#build)
-    - [Style](#style)
-    - [Theme](#theme)
-    - [Extend](#extend)
-  - [Quick start](#quick-start)
-    - [Install](#install)
-    - [Use the CSS foundation](#use-the-css-foundation)
-    - [Use components](#use-components)
-    - [Use the native foundation](#use-the-native-foundation)
-  - [How SDS React is built](#how-sds-react-is-built)
-    - [Repository layout](#repository-layout)
-    - [Core layers](#core-layers)
-    - [Component families](#component-families)
-    - [Native foundation](#native-foundation)
-    - [Build and tooling](#build-and-tooling)
-  - [Development](#development)
-    - [Root commands](#root-commands)
-    - [CSS foundation development](#css-foundation-development)
-    - [Storybook and integration demos](#storybook-and-integration-demos)
-  - [FAQ](#faq)
-    - [Is SDS free?](#is-sds-free)
-    - [Do I need Next.js?](#do-i-need-nextjs)
-    - [What do I need to run it?](#what-do-i-need-to-run-it)
-    - [Does SDS work with React Native?](#does-sds-work-with-react-native)
-    - [Where is the documentation?](#where-is-the-documentation)
-    - [How do I get help or report a bug?](#how-do-i-get-help-or-report-a-bug)
-  - [Related resources](#related-resources)
-    - [Official](#official)
-    - [Community](#community)
-    - [Commercial](#commercial)
-  - [Contributing](#contributing)
-  - [Security](#security)
-  - [License](#license)
-  - [Note](#note)
+- [SDS React Toolkit Project](#sds-react-toolkit-project)
+    - [Contents](#contents)
+    - [Why SDS matters](#why-sds-matters)
+    - [What you can do](#what-you-can-do)
+        - [Build](#build)
+        - [Style](#style)
+        - [Theme](#theme)
+        - [Extend](#extend)
+    - [Quick start](#quick-start)
+        - [Install](#install)
+        - [Use the CSS foundation](#use-the-css-foundation)
+        - [Use components](#use-components)
+        - [Use the native foundation](#use-the-native-foundation)
+    - [How SDS React is built](#how-sds-react-is-built)
+        - [Repository layout](#repository-layout)
+        - [Core layers](#core-layers)
+        - [Component families](#component-families)
+        - [Native foundation](#native-foundation)
+        - [Build and tooling](#build-and-tooling)
+    - [Development](#development)
+        - [Root commands](#root-commands)
+        - [CSS foundation development](#css-foundation-development)
+        - [Storybook and integration demos](#storybook-and-integration-demos)
+    - [FAQ](#faq)
+        - [Is SDS free?](#is-sds-free)
+        - [Do I need Next.js?](#do-i-need-nextjs)
+        - [What do I need to run it?](#what-do-i-need-to-run-it)
+        - [Does SDS work with React Native?](#does-sds-work-with-react-native)
+        - [Where is the documentation?](#where-is-the-documentation)
+        - [How do I get help or report a bug?](#how-do-i-get-help-or-report-a-bug)
+    - [Related resources](#related-resources)
+        - [Official](#official)
+        - [Community](#community)
+        - [Commercial](#commercial)
+    - [Contributing](#contributing)
+    - [Security](#security)
+    - [License](#license)
+    - [Note](#note)
 
 ## Why SDS matters
 
@@ -122,6 +124,17 @@ import "@skygenesisenterprise/react-sds/main.css";
 
 The foundation is plain standalone CSS. It can be consumed with Next.js, Vite, Create React App or any other bundler.
 
+If your application already applies its own reset and only needs the SGE identity, import the
+tokens alone — they expose the `--sge-*` variables and never touch an HTML element:
+
+```tsx
+import "@skygenesisenterprise/react-sds/tokens";
+```
+
+`main.css` adds the legacy `fr-*` stylesheet on top of the foundation; `styles` gives you the
+SGE foundation alone. See [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md#5-css-entry-points) for the exact
+contents of each entry.
+
 ### Use components
 
 ```tsx
@@ -188,7 +201,7 @@ react-sds/
 │   │   ├── portal/              # SDSPortal, headers, footer, navigation, …
 │   │   └── content/             # Cards, documents, events, news, …
 │   ├── native/                  # SDS Native Foundation (React Native / Expo)
-│   ├── fr/                      # Legacy DSFR token helpers
+│   ├── fr/                      # Legacy legacy token helpers
 │   ├── assets/                  # Static assets and public token re-exports
 │   ├── bin/                     # CLI tools (react-sds)
 │   └── <Component>.tsx          # Historic generic components
@@ -208,7 +221,7 @@ react-sds/
 | `src/sds`          | Token contract and SDS component families: layout, typography, portal and content |
 | `src/styles`       | Official CSS foundation imported by `main.css`; canonical `--sge-*` namespace     |
 | `src/native`       | Native foundation with the same token names and no DOM/CSS dependency             |
-| `src/fr`           | Legacy DSFR token helpers kept while historic `fr-*` components remain            |
+| `src/fr`           | Legacy legacy token helpers kept while historic `fr-*` components remain          |
 | `scripts/build`    | Generates `dist/`, the exports map, CSS assets and native declarations            |
 | `src/bin`          | `react-sds` CLI for CSS optimization and static asset helpers                     |
 | `test/integration` | Next.js App Router, Next.js Pages Router, Vite and Create React App demos         |
@@ -243,7 +256,7 @@ The native foundation provides graphics and primitives, not a router. Routing st
 
 ### Build and tooling
 
-The build pipeline compiles TypeScript, copies the CSS foundation and static assets, regenerates the package exports map and prepares the published native declarations. The root `main.css` entry loads the SDS foundation first, then the DSFR stylesheet that still styles the historic `fr-*` component classes.
+The build pipeline compiles TypeScript, copies the CSS foundation and static assets, regenerates the package exports map and prepares the published native declarations. The root `main.css` entry loads the SDS foundation first, then the legacy stylesheet that still styles the historic `fr-*` component classes.
 
 The repository also contains the `react-sds` CLI (`src/bin`), the Storybook documentation, the Vitest runtime tests and the integration applications used to validate consumption in real frameworks.
 

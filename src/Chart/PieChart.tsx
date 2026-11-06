@@ -15,7 +15,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/PieChart.vue#L59
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/PieChart.vue#L59
             "pie-chart": {
                 fill?: string;
             } & IntrinsicGraphType;

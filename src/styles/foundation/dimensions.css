@@ -1,0 +1,61 @@
+/**
+ * SGE layout & interaction dimensions.
+ *
+ * These tokens answer "how big / how wide", which is a different question from
+ * "how much space is there around it" (that is `./spacing.css`). Keeping the two
+ * apart is what stops an application from inventing its own container width or
+ * control height.
+ *
+ * Three families:
+ *   - breakpoints      — when a layout changes shape;
+ *   - containers & content widths — how wide a column may grow;
+ *   - control heights, icon sizes and the focus ring — how big an interactive
+ *     element is and how its focus is drawn.
+ *
+ * Nothing here depends on a framework or on the active theme.
+ */
+
+:root {
+    /* ---- Breakpoints -------------------------------------------------------- */
+
+    --sge-breakpoint-xs: 0rem; /* 0px */
+    --sge-breakpoint-sm: 36rem; /* 576px */
+    --sge-breakpoint-md: 48rem; /* 768px */
+    --sge-breakpoint-lg: 62rem; /* 992px */
+    --sge-breakpoint-xl: 75rem; /* 1200px */
+
+    /* ---- Containers --------------------------------------------------------- */
+
+    /* Centered page column. `default` lines up with the `xl` breakpoint. */
+    --sge-container-narrow: 45rem; /* 720px  — forms, single column flows */
+    --sge-container-default: 75rem; /* 1200px — the standard page shell */
+    --sge-container-wide: 80rem; /* 1280px — dashboards, dense tables */
+
+    /* ---- Content widths ----------------------------------------------------- */
+
+    /* Measure of a running text block (editorial width). */
+    --sge-content-prose: 52rem; /* 832px */
+    /* Wider reading width for mixed content (text + media). */
+    --sge-content-wide: 72rem; /* 1152px */
+
+    /* ---- Interaction heights ------------------------------------------------- */
+
+    /* Minimum height of a form control / button, per size. */
+    --sge-control-height-sm: 2rem; /* 32px */
+    --sge-control-height-md: 2.5rem; /* 40px — default */
+    --sge-control-height-lg: 3rem; /* 48px */
+
+    /* Minimum touch target (WCAG 2.2 — target size). */
+    --sge-touch-target: 2.5rem; /* 40px */
+
+    /* ---- Icons --------------------------------------------------------------- */
+
+    --sge-icon-size-sm: 1rem;
+    --sge-icon-size-md: 1.25rem;
+    --sge-icon-size-lg: 1.5rem;
+
+    /* ---- Focus --------------------------------------------------------------- */
+
+    --sge-focus-ring-width: 2px;
+    --sge-focus-ring-offset: 2px;
+}

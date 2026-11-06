@@ -83,7 +83,15 @@ export function Icon(props: IconProps) {
                 accessible={accessible ?? true}
                 accessibilityRole="image"
                 accessibilityLabel={accessibilityLabel ?? humanize(name)}
-                style={[{ width: iconSize, height: iconSize, alignItems: "center", justifyContent: "center" }, style]}
+                style={[
+                    {
+                        width: iconSize,
+                        height: iconSize,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    },
+                    style
+                ]}
             >
                 {node}
             </Text>

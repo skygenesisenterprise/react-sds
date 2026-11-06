@@ -10,13 +10,13 @@ import { setUseLang } from "../i18n";
 import { setLink } from "../link";
 import { start } from "../start";
 
-export type DsfrProviderProps = {
+export type SdsProviderProps = {
     children: ReactNode;
     lang: string | undefined;
     /** Default: false */
     verbose?: boolean;
     /**
-     * When true, the nonce of the script tag will be checked, fetched from {@link DsfrHead} component and injected in react-sds scripts.
+     * When true, the nonce of the script tag will be checked, fetched from {@link SdsHead} component and injected in react-sds scripts.
      *
      * @see https://developer.mozilla.org/fr/docs/Web/HTML/Global_attributes/nonce
      * @default false
@@ -25,7 +25,7 @@ export type DsfrProviderProps = {
     /**
      * Enable Trusted Types with a custom policy name.
      *
-     * Don't forget to also add the policy name in {@link DsfrHead} component.
+     * Don't forget to also add the policy name in {@link SdsHead} component.
      *
      * `<trustedTypesPolicyName>` and `<trustedTypesPolicyName>-asap` should be set in your Content-Security-Policy header.
      *
@@ -44,8 +44,8 @@ export type DsfrProviderProps = {
     trustedTypesPolicyName?: string;
 };
 
-export function DsfrProviderBase(
-    props: DsfrProviderProps & {
+export function SdsProviderBase(
+    props: SdsProviderProps & {
         Link: Function;
         defaultColorScheme: DefaultColorScheme;
     }
@@ -62,7 +62,7 @@ export function DsfrProviderBase(
 
     /*
     useEffect(() => {
-        dsfrEffect();
+        legacyEffect();
     }, []);
     */
 
@@ -112,7 +112,7 @@ export function DsfrProviderBase(
 let isAfterFirstEffect = false;
 const actions: (() => void)[] = [];
 
-function dsfrEffect(): void {
+function legacyEffect(): void {
     if (isAfterFirstEffect) {
         return;
     }
@@ -122,9 +122,9 @@ function dsfrEffect(): void {
     });
 }
 
-export function StartDsfrOnHydration() {
+export function StartLegacyOnHydration() {
     useEffect(() => {
-        dsfrEffect();
+        legacyEffect();
     }, []);
 
     return null;

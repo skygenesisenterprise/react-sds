@@ -47,11 +47,7 @@ export const SDSCard = (props: SDSCardProps) => {
     } = props;
 
     const titleNode =
-        href !== undefined && title !== undefined ? (
-            <a href={href}>{title}</a>
-        ) : (
-            title
-        );
+        href !== undefined && title !== undefined ? <a href={href}>{title}</a> : title;
 
     return (
         <article
@@ -63,9 +59,7 @@ export const SDSCard = (props: SDSCardProps) => {
             {media !== undefined && <div className="sds-card__media">{media}</div>}
             {tag !== undefined && <span className="sds-card__tag">{tag}</span>}
             {title !== undefined && <h3 className="sds-card__title">{titleNode}</h3>}
-            {description !== undefined && (
-                <p className="sds-card__description">{description}</p>
-            )}
+            {description !== undefined && <p className="sds-card__description">{description}</p>}
             {children}
             {footer !== undefined && <div className="sds-card__footer">{footer}</div>}
         </article>

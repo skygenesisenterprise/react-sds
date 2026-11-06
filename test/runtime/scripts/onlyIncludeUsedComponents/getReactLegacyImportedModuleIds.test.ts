@@ -1,17 +1,17 @@
 import { it, expect, describe } from "vitest";
 import {
-    getReactDsfrImportedModuleIds,
+    getReactLegacyImportedModuleIds,
     ROOT_IMPORT_MODULE_ID
 } from "../../../../src/bin/only-include-css-of-used-components";
 
-describe("getReactDsfrImportedModuleIds", () => {
+describe("getReactLegacyImportedModuleIds", () => {
     it("detects default and named imports from a component subpath", () => {
         const rawFileContent = `
             import { Button } from "@skygenesisenterprise/react-sds/Button";
             import Badge from "@skygenesisenterprise/react-sds/Badge";
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
+        expect(getReactLegacyImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
             "Badge",
             "Button"
         ]);
@@ -27,7 +27,7 @@ describe("getReactDsfrImportedModuleIds", () => {
 
         // A root import can pull any component: it must be reported (so that the caller
         // can fall back to including every component), not silently dropped.
-        expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual([
+        expect(getReactLegacyImportedModuleIds({ rawFileContent })).toStrictEqual([
             ROOT_IMPORT_MODULE_ID
         ]);
     });
@@ -40,24 +40,24 @@ describe("getReactDsfrImportedModuleIds", () => {
             const x = require("@skygenesisenterprise/react-sds/Tabs.js");
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
+        expect(getReactLegacyImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
             "Header",
             "Modal",
             "Tabs"
         ]);
     });
 
-    it("keeps two segments for blocks and three for dsfr asset paths", () => {
+    it("keeps two segments for blocks and three for legacy asset paths", () => {
         const rawFileContent = `
             import { PasswordInput } from "@skygenesisenterprise/react-sds/blocks/PasswordInput";
-            import "@skygenesisenterprise/react-sds/dsfr/component/table/table.min.css";
-            import "@skygenesisenterprise/react-sds/dsfr/utility/colors/colors.min.css";
+            import "@skygenesisenterprise/react-sds/legacy/component/table/table.min.css";
+            import "@skygenesisenterprise/react-sds/legacy/utility/colors/colors.min.css";
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
+        expect(getReactLegacyImportedModuleIds({ rawFileContent }).sort()).toStrictEqual([
             "blocks/PasswordInput",
-            "dsfr/component/table",
-            "dsfr/utility/colors"
+            "legacy/component/table",
+            "legacy/utility/colors"
         ]);
     });
 
@@ -67,19 +67,19 @@ describe("getReactDsfrImportedModuleIds", () => {
             import { z } from "zod";
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual([]);
+        expect(getReactLegacyImportedModuleIds({ rawFileContent })).toStrictEqual([]);
     });
 });
 
-describe("getReactDsfrImportedModuleIds, non import occurrences", () => {
+describe("getReactLegacyImportedModuleIds, non import occurrences", () => {
     it("ignores urls and comments that merely mention the package", () => {
         const rawFileContent = `
             // see https://www.npmjs.com/package/@skygenesisenterprise/react-sds/v/1.32.5
-            <link rel="stylesheet" href="https://unpkg.com/@skygenesisenterprise/react-sds/dist/dsfr/dsfr.min.css" />
+            <link rel="stylesheet" href="https://unpkg.com/@skygenesisenterprise/react-sds/dist/legacy/legacy.min.css" />
             /* @skygenesisenterprise/react-sds/Header is not imported here */
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual([]);
+        expect(getReactLegacyImportedModuleIds({ rawFileContent })).toStrictEqual([]);
     });
 
     it("still detects the import when it sits next to a mention", () => {
@@ -88,14 +88,14 @@ describe("getReactDsfrImportedModuleIds, non import occurrences", () => {
             import { Button } from "@skygenesisenterprise/react-sds/Button";
         `;
 
-        expect(getReactDsfrImportedModuleIds({ rawFileContent })).toStrictEqual(["Button"]);
+        expect(getReactLegacyImportedModuleIds({ rawFileContent })).toStrictEqual(["Button"]);
     });
 
     it("detects @import of a stylesheet", () => {
         expect(
-            getReactDsfrImportedModuleIds({
-                "rawFileContent": `@import "@skygenesisenterprise/react-sds/dsfr/component/table/table.min.css";`
+            getReactLegacyImportedModuleIds({
+                "rawFileContent": `@import "@skygenesisenterprise/react-sds/legacy/component/table/table.min.css";`
             })
-        ).toStrictEqual(["dsfr/component/table"]);
+        ).toStrictEqual(["legacy/component/table"]);
     });
 });

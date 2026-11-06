@@ -29,7 +29,12 @@ export const SDSServiceBanner = (props: SDSServiceBannerProps) => {
     const { className, style, tone = "info", title, children } = props;
 
     return (
-        <div className={cx("sds-service-banner", className)} data-tone={tone} style={style} role="status">
+        <div
+            className={cx("sds-service-banner", className)}
+            data-tone={tone}
+            style={style}
+            role="status"
+        >
             <i className={cx(ICON_BY_TONE[tone], "sds-service-banner__icon")} aria-hidden="true" />
             <div>
                 {title !== undefined && <p className="sds-service-banner__title">{title}</p>}

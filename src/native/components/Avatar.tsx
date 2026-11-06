@@ -30,15 +30,7 @@ const SIZE: Record<AvatarSize, number> = {
 };
 
 export function Avatar(props: AvatarProps) {
-    const {
-        source,
-        name,
-        size = "md",
-        accessibilityLabel,
-        style,
-        imageStyle,
-        testID
-    } = props;
+    const { source, name, size = "md", accessibilityLabel, style, imageStyle, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 
@@ -70,7 +62,10 @@ export function Avatar(props: AvatarProps) {
             {source !== undefined ? (
                 <Image
                     source={source}
-                    style={[{ width: px, height: px, borderRadius: tokens.radius.full }, imageStyle]}
+                    style={[
+                        { width: px, height: px, borderRadius: tokens.radius.full },
+                        imageStyle
+                    ]}
                 />
             ) : (
                 <Text

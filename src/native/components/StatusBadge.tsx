@@ -7,7 +7,8 @@
 import * as React from "react";
 import { Badge, type BadgeTone } from "./Badge";
 
-export type StatusKey = "available" | "unavailable" | "pending" | "inProgress" | "done" | "draft" | "error";
+export type StatusKey =
+    "available" | "unavailable" | "pending" | "inProgress" | "done" | "draft" | "error";
 
 export type StatusBadgeProps = {
     children: React.ReactNode;

@@ -13,9 +13,7 @@ async function crawlRec(params: {
     const recursiveCallResults: string[][] = [];
 
     await Promise.all(
-        (
-            await readdir(await fsRealpath(dirPath))
-        ).map(async fileOrDirectoryBasename => {
+        (await readdir(await fsRealpath(dirPath))).map(async fileOrDirectoryBasename => {
             const fileOrDirectoryPath = pathJoin(dirPath, fileOrDirectoryBasename);
 
             const fileOrDirectoryPath_realpath = await fsRealpath(fileOrDirectoryPath).catch(

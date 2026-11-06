@@ -1,8 +1,8 @@
 import React from "react";
 import { fr } from "../../fr";
-import ArtworkLightSvg from "../../dsfr/artwork/light.svg";
-import ArtworkDarkSvg from "../../dsfr/artwork/dark.svg";
-import ArtworkSystemSvg from "../../dsfr/artwork/system.svg";
+import ArtworkLightSvg from "../../legacy/artwork/light.svg";
+import ArtworkDarkSvg from "../../legacy/artwork/dark.svg";
+import ArtworkSystemSvg from "../../legacy/artwork/system.svg";
 import { getAssetUrl } from "../../tools/getAssetUrl";
 
 export function ArtworkGov(props: { theme: "light" | "dark" | "system"; className?: string }) {

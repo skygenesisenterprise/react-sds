@@ -231,7 +231,7 @@ export const Footer = memo(
                             <div
                                 className={fr.cx(
                                     "fr-grid-row",
-                                    // "fr-grid-row--start", // why is this class used in dsfr doc?
+                                    // "fr-grid-row--start", // why is this class used in legacy doc?
                                     "fr-grid-row--gutters"
                                 )}
                             >
@@ -288,10 +288,7 @@ export const Footer = memo(
                                 const children =
                                     identity === undefined ? null : (
                                         <div
-                                            className={cx(
-                                                "sds-identity__footer",
-                                                classes.identity
-                                            )}
+                                            className={cx("sds-identity__footer", classes.identity)}
                                         >
                                             <img
                                                 className={cx(

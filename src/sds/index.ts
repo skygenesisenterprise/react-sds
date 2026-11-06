@@ -14,7 +14,7 @@
  * ```
  *
  * Values are provisional working defaults — see ./tokens.ts. This module is independent
- * from the legacy (DSFR-derived) token layer (`src/fr`) and will become the single source
+ * from the legacy (legacy-derived) token layer (`src/fr`) and will become the single source
  * of truth once the SDS stylesheet lands (MIGRATION.md).
  */
 export { sdsTokens, cssCustomPropertyPrefix } from "./tokens";
@@ -23,6 +23,7 @@ export type {
     SDSColorTokens,
     SDSTypographyTokens,
     SDSSpacingTokens,
+    SDSDimensionTokens,
     SDSRadiusTokens,
     SDSElevationTokens,
     SDSMotionTokens,

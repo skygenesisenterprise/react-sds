@@ -12,7 +12,7 @@ import { threeDigitColorHexToSixDigitsColorHex } from "../../tools/threeDigitCol
 
 export type ColorScheme = "light" | "dark";
 
-// Color palette parsed from the (legacy) DSFR stylesheet. See PROVENANCE.md / MIGRATION.md.
+// Color palette parsed from the (legacy) legacy stylesheet. See PROVENANCE.md / MIGRATION.md.
 
 export type Variant = "main" | "sun" | "moon";
 
@@ -25,8 +25,7 @@ export type BrightnessIndex = {
 };
 
 export type ParsedColorOptionName =
-    | ParsedColorOptionName.Invariant
-    | ParsedColorOptionName.Variadic;
+    ParsedColorOptionName.Invariant | ParsedColorOptionName.Variadic;
 
 export declare namespace ParsedColorOptionName {
     type Common = {
@@ -399,9 +398,8 @@ export function generateGetColorOptionsHexTsCode(rawCssCode: string) {
                 .update(colorOption.themePath.join(""))
                 .digest("hex");
 
-            keyValues[
-                `"${hash}"`
-            ] = `isDark ? "${colorOption.color.dark}" : "${colorOption.color.light}"`;
+            keyValues[`"${hash}"`] =
+                `isDark ? "${colorOption.color.dark}" : "${colorOption.color.light}"`;
 
             return hash;
         })();

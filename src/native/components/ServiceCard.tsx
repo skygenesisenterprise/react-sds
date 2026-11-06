@@ -49,7 +49,13 @@ export function ServiceCard(props: ServiceCardProps) {
             style={style}
         >
             <View style={{ gap: tokens.spacing.sm }}>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start"
+                    }}
+                >
                     <View
                         style={{
                             width: tokens.dimensions.controlMd,
@@ -66,13 +72,14 @@ export function ServiceCard(props: ServiceCardProps) {
                 </View>
                 <View style={{ gap: tokens.spacing.xs }}>
                     <Text
-                        style={{ fontWeight: tokens.typography["fontWeight-semibold"], color: colors.text }}
+                        style={{
+                            fontWeight: tokens.typography["fontWeight-semibold"],
+                            color: colors.text
+                        }}
                     >
                         {title}
                     </Text>
-                    {description !== undefined && (
-                        <Text variant="bodySmall">{description}</Text>
-                    )}
+                    {description !== undefined && <Text variant="bodySmall">{description}</Text>}
                 </View>
             </View>
         </Card>

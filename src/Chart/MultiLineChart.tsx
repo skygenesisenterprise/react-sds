@@ -16,7 +16,7 @@ import {
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            // https://github.com/GouvernementFR/dsfr-chart/blob/v1.0.0/src/components/MultiLineChart.vue#L74
+            // https://github.com/GouvernementFR/legacy-chart/blob/v1.0.0/src/components/MultiLineChart.vue#L74
             "multiline-chart": IntrinsicGraphType & IntrinsicGraphLineType;
         }
     }

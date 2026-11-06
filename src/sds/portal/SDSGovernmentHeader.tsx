@@ -35,9 +35,7 @@ export const SDSGovernmentHeader = (props: SDSGovernmentHeaderProps) => {
         <header className={cx("sds-gov-header", className)} style={style}>
             <div className="sds-gov-header__inner sds-container">
                 <a className="sds-gov-header__brand" href={effectiveHref}>
-                    {logo !== undefined && (
-                        <span className="sds-gov-header__logo">{logo}</span>
-                    )}
+                    {logo !== undefined && <span className="sds-gov-header__logo">{logo}</span>}
                     <span className="sds-gov-header__title">
                         <span className="sds-gov-header__name">{effectiveOrg}</span>
                         {portal?.organizationShort !== undefined && (

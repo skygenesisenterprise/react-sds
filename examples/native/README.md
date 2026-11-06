@@ -17,26 +17,26 @@ SDS Native
 
 ```tsx
 import {
-  SDSProvider,
-  Button,
-  Card,
-  Heading,
-  Text,
-  Stack,
+    SDSProvider,
+    Button,
+    Card,
+    Heading,
+    Text,
+    Stack
 } from "@skygenesisenterprise/react-sds/native";
 
 export function ExampleScreen() {
-  return (
-    <SDSProvider colorScheme="system">
-      <Stack spacing="lg" style={{ padding: 16 }}>
-        <Heading>Mon espace SGE</Heading>
-        <Card elevated>
-          <Text>Retrouvez vos services et démarches administratives.</Text>
-          <Button>Continuer</Button>
-        </Card>
-      </Stack>
-    </SDSProvider>
-  );
+    return (
+        <SDSProvider colorScheme="system">
+            <Stack spacing="lg" style={{ padding: 16 }}>
+                <Heading>Mon espace SGE</Heading>
+                <Card elevated>
+                    <Text>Retrouvez vos services et démarches administratives.</Text>
+                    <Button>Continuer</Button>
+                </Card>
+            </Stack>
+        </SDSProvider>
+    );
 }
 ```
 

@@ -5,7 +5,8 @@
  * Weights use the React Native `FontWeight` string union.
  */
 
-export type SDSFontWeight = "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+export type SDSFontWeight =
+    "normal" | "bold" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
 export type SDSTypographyTokens = {
     "fontFamily-sans": string;

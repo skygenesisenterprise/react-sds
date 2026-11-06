@@ -33,7 +33,7 @@ const tagsWithProps = (props?: Omit<TagProps, "children">) =>
             ({
                 ...props,
                 "children": `Libellé tag ${i + 1}`
-            } as TagProps)
+            }) as TagProps
     ) as TagsGroupProps["tags"];
 
 export const Default = getStory({

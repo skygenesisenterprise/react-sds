@@ -99,7 +99,7 @@ export function Select(props: SelectProps) {
                         flexShrink: 1
                     }}
                 >
-                    {selected ? selected.label : placeholder ?? "Sélectionner…"}
+                    {selected ? selected.label : (placeholder ?? "Sélectionner…")}
                 </Text>
                 <Icon name="chevron-down" size={tokens.dimensions.iconSm} color={colors.muted} />
             </Pressable>
@@ -111,7 +111,11 @@ export function Select(props: SelectProps) {
                 onRequestClose={() => setOpen(false)}
             >
                 <Pressable
-                    style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.4)", justifyContent: "center" }}
+                    style={{
+                        flex: 1,
+                        backgroundColor: "rgba(0,0,0,0.4)",
+                        justifyContent: "center"
+                    }}
                     onPress={() => setOpen(false)}
                 >
                     <Pressable
@@ -147,7 +151,10 @@ export function Select(props: SelectProps) {
                                             setOpen(false);
                                         }}
                                         accessibilityRole="button"
-                                        accessibilityState={{ selected: isSelected, disabled: item.disabled === true }}
+                                        accessibilityState={{
+                                            selected: isSelected,
+                                            disabled: item.disabled === true
+                                        }}
                                         style={{
                                             flexDirection: "row",
                                             alignItems: "center",
@@ -155,7 +162,9 @@ export function Select(props: SelectProps) {
                                             paddingHorizontal: tokens.spacing.md,
                                             paddingVertical: tokens.spacing.md,
                                             minHeight: tokens.dimensions.controlMd,
-                                            backgroundColor: isSelected ? colors.surfaceMuted : "transparent",
+                                            backgroundColor: isSelected
+                                                ? colors.surfaceMuted
+                                                : "transparent",
                                             opacity: item.disabled ? 0.5 : 1
                                         }}
                                     >
@@ -163,14 +172,20 @@ export function Select(props: SelectProps) {
                                             style={{
                                                 color: colors.text,
                                                 fontSize: tokens.typography["fontSize-md"],
-                                                fontWeight: isSelected ? tokens.typography["fontWeight-semibold"] : "400",
+                                                fontWeight: isSelected
+                                                    ? tokens.typography["fontWeight-semibold"]
+                                                    : "400",
                                                 flexShrink: 1
                                             }}
                                         >
                                             {item.label}
                                         </Text>
                                         {isSelected && (
-                                            <Icon name="check" size={tokens.dimensions.iconSm} color={colors.primary} />
+                                            <Icon
+                                                name="check"
+                                                size={tokens.dimensions.iconSm}
+                                                color={colors.primary}
+                                            />
                                         )}
                                     </TouchableOpacity>
                                 );

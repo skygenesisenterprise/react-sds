@@ -7,7 +7,7 @@ import { assert } from "tsafe/assert";
 
 export type { RegisterLink, RegisteredLinkProps };
 
-export function startReactDsfr(params: {
+export function startReactSds(params: {
     defaultColorScheme: ColorScheme | "system";
     /** Default: false */
     verbose?: boolean;

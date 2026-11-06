@@ -25,15 +25,7 @@ export type RadioGroupProps<T extends string = string> = {
 };
 
 export function RadioGroup<T extends string = string>(props: RadioGroupProps<T>) {
-    const {
-        options,
-        value,
-        onChange,
-        disabled,
-        accessibilityLabel,
-        style,
-        testID
-    } = props;
+    const { options, value, onChange, disabled, accessibilityLabel, style, testID } = props;
 
     const { tokens } = useSDSTheme();
 

@@ -145,8 +145,8 @@ export const getScriptToRunAsap: GetScriptToRunAsap = ({
             element.content = isDark ? "${
                 fr.colors.getHex({ "isDark": true }).decisions.background.default.grey.default
             }" : "${
-    fr.colors.getHex({ "isDark": false }).decisions.background.default.grey.default
-}";
+                fr.colors.getHex({ "isDark": false }).decisions.background.default.grey.default
+            }";
 
             document.head.appendChild(element);
 

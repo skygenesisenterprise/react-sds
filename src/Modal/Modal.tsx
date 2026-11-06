@@ -62,8 +62,8 @@ const Modal = memo(
             buttons_props === undefined
                 ? undefined
                 : buttons_props instanceof Array
-                ? buttons_props
-                : [buttons_props];
+                  ? buttons_props
+                  : [buttons_props];
 
         const { t } = useTranslation();
         const titleId = `fr-modal-title-${id}`;
@@ -150,18 +150,18 @@ const Modal = memo(
                                                                 {...(!doClosesModal
                                                                     ? {}
                                                                     : "linkProps" in buttonProps
-                                                                    ? {
-                                                                          "linkProps": {
-                                                                              ...buttonProps.linkProps,
-                                                                              "aria-controls": id
-                                                                          } as any
-                                                                      }
-                                                                    : {
-                                                                          "nativeButtonProps": {
-                                                                              ...buttonProps.nativeButtonProps,
-                                                                              "aria-controls": id
-                                                                          } as any
-                                                                      })}
+                                                                      ? {
+                                                                            "linkProps": {
+                                                                                ...buttonProps.linkProps,
+                                                                                "aria-controls": id
+                                                                            } as any
+                                                                        }
+                                                                      : {
+                                                                            "nativeButtonProps": {
+                                                                                ...buttonProps.nativeButtonProps,
+                                                                                "aria-controls": id
+                                                                            } as any
+                                                                        })}
                                                             />
                                                         </li>
                                                     )
@@ -256,15 +256,15 @@ export function createModal(params: { isOpenedByDefault: boolean; id: string }):
     function open() {
         const modalElement = document.getElementById(id);
 
-        // @ts-expect-error: Property 'dsfr' does not exist on type 'Window & typeof globalThis'.ts(2339)
-        window.dsfr(modalElement).modal.disclose();
+        // @ts-expect-error: Property 'legacy' does not exist on type 'Window & typeof globalThis'.ts(2339)
+        window.legacy(modalElement).modal.disclose();
     }
 
     function close() {
         const modalElement = document.getElementById(id);
 
-        // @ts-expect-error: Property 'dsfr' does not exist on type 'Window & typeof globalThis'.ts(2339)
-        window.dsfr(modalElement).modal.conceal();
+        // @ts-expect-error: Property 'legacy' does not exist on type 'Window & typeof globalThis'.ts(2339)
+        window.legacy(modalElement).modal.conceal();
     }
 
     return {

@@ -33,7 +33,12 @@ export const SDSHeading = (props: SDSHeadingProps) => {
     const effectiveSize = size ?? level;
 
     return (
-        <Tag className={cx("sds-heading", className)} data-level={level} data-size={effectiveSize} style={style}>
+        <Tag
+            className={cx("sds-heading", className)}
+            data-level={level}
+            data-size={effectiveSize}
+            style={style}
+        >
             {children}
         </Tag>
     );

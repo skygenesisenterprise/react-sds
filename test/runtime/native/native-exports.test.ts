@@ -19,10 +19,10 @@ describe("SDS Native public API (exports)", () => {
         const indexSource = fs.readFileSync(indexPath).toString("utf8");
 
         // The entry is a thin aggregator of the token/theme/primitives/components layers.
-        expect(indexSource).toContain('./tokens');
-        expect(indexSource).toContain('./theme');
-        expect(indexSource).toContain('./primitives');
-        expect(indexSource).toContain('./components');
+        expect(indexSource).toContain("./tokens");
+        expect(indexSource).toContain("./theme");
+        expect(indexSource).toContain("./primitives");
+        expect(indexSource).toContain("./components");
     });
 
     it("exposes foundation primitives", () => {
@@ -38,7 +38,15 @@ describe("SDS Native public API (exports)", () => {
     });
 
     it("exposes form components", () => {
-        for (const name of ["Input", "TextArea", "Checkbox", "Radio", "RadioGroup", "Switch", "Select"]) {
+        for (const name of [
+            "Input",
+            "TextArea",
+            "Checkbox",
+            "Radio",
+            "RadioGroup",
+            "Switch",
+            "Select"
+        ]) {
             expect(native[name], `missing export ${name}`).toBeDefined();
         }
     });

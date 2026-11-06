@@ -14,6 +14,7 @@ const readSrcFile = (relativeFilePath: string): string =>
 const foundationCssContent = [
     "styles/foundation/typography.css",
     "styles/foundation/spacing.css",
+    "styles/foundation/dimensions.css",
     "styles/foundation/radius.css",
     "styles/foundation/shadows.css",
     "styles/foundation/motion.css"
@@ -22,7 +23,9 @@ const foundationCssContent = [
     .join("\n");
 const lightThemeCssContent = readSrcFile("styles/themes/light.css");
 const darkThemeCssContent = readSrcFile("styles/themes/dark.css");
-const tokensCssContent = [foundationCssContent, lightThemeCssContent, darkThemeCssContent].join("\n");
+const tokensCssContent = [foundationCssContent, lightThemeCssContent, darkThemeCssContent].join(
+    "\n"
+);
 const mainCssContent = readSrcFile("../scripts/build/main.css");
 
 /**
@@ -30,6 +33,7 @@ const mainCssContent = readSrcFile("../scripts/build/main.css");
  *   colors    → --sge-color-<key>
  *   typography→ --sge-<key>       (keys already carry their font/line-height prefix)
  *   spacing   → --sge-space-<key>
+ *   dimensions→ --sge-<key>       (keys already carry their container/control prefix)
  *   radius    → --sge-radius-<key>
  *   elevation → --sge-elevation-<key>
  *   motion    → --sge-<key>       (duration/easing/transition prefixes)
@@ -58,6 +62,7 @@ const getExpectedCssVariableNames = (): Set<string> => {
                     break;
                 case "typography":
                 case "motion":
+                case "dimensions":
                     variableNames.add(`--sge-${key}`);
                     break;
                 default:
@@ -110,7 +115,7 @@ describe("SDS CSS foundation", () => {
         }
     });
 
-    it("honors both dark-mode conventions (.dark and [data-fr-theme=\"dark\"])", () => {
+    it('honors both dark-mode conventions (.dark and [data-fr-theme="dark"])', () => {
         expect(darkThemeCssContent).toMatch(/^\s*\.dark,/m);
         expect(darkThemeCssContent).toMatch(/\[data-fr-theme="dark"\]\s*\{/);
     });
@@ -123,8 +128,8 @@ describe("SDS CSS foundation", () => {
 
         expect(importedFiles).toStrictEqual([
             "./styles/index.css",
-            "./dsfr/utility/icons/icons.min.css",
-            "./dsfr/dsfr.css"
+            "./legacy/utility/icons/icons.min.css",
+            "./legacy/legacy.css"
         ]);
     });
 

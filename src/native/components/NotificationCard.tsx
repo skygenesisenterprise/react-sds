@@ -65,7 +65,9 @@ export function NotificationCard(props: NotificationCardProps) {
             accessibilityHint={accessibilityHint}
             style={style}
         >
-            <View style={{ flexDirection: "row", alignItems: "flex-start", gap: tokens.spacing.md }}>
+            <View
+                style={{ flexDirection: "row", alignItems: "flex-start", gap: tokens.spacing.md }}
+            >
                 <View
                     style={{
                         width: tokens.dimensions.controlMd,
@@ -79,7 +81,13 @@ export function NotificationCard(props: NotificationCardProps) {
                     <Icon name={icon} size={tokens.dimensions.iconMd} color={accent} />
                 </View>
                 <View style={{ flex: 1, gap: tokens.spacing.xs }}>
-                    <View style={{ flexDirection: "row", alignItems: "center", gap: tokens.spacing.xs }}>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            gap: tokens.spacing.xs
+                        }}
+                    >
                         {unread && (
                             <View
                                 style={{
@@ -92,7 +100,11 @@ export function NotificationCard(props: NotificationCardProps) {
                         )}
                         <Text
                             numberOfLines={2}
-                            style={{ flex: 1, fontWeight: tokens.typography["fontWeight-semibold"], color: colors.text }}
+                            style={{
+                                flex: 1,
+                                fontWeight: tokens.typography["fontWeight-semibold"],
+                                color: colors.text
+                            }}
                         >
                             {title}
                         </Text>

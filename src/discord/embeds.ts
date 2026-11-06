@@ -4,11 +4,7 @@
  * sérialisables, transmis à discord.js par le client.
  */
 import { SDSDiscordEmbedColor } from "./types";
-import type {
-    SDSDiscordNotifyParams,
-    SDSDiscordNotificationType,
-    SDSDiscordField
-} from "./types";
+import type { SDSDiscordNotifyParams, SDSDiscordNotificationType, SDSDiscordField } from "./types";
 
 export type SDSDiscordEmbed = {
     title: string;
@@ -67,7 +63,10 @@ export function buildNotificationEmbed(
             ...(avatarUrl ? { icon_url: avatarUrl } : {})
         },
         fields,
-        timestamp: timestamp instanceof Date ? timestamp.toISOString() : new Date(timestamp ?? Date.now()).toISOString()
+        timestamp:
+            timestamp instanceof Date
+                ? timestamp.toISOString()
+                : new Date(timestamp ?? Date.now()).toISOString()
     };
 }
 

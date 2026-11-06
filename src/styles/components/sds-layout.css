@@ -36,11 +36,11 @@
 }
 
 .sds-container[data-size="default"] {
-    max-width: var(--sge-breakpoint-xl); /* 75rem */
+    max-width: var(--sge-container-default);
 }
 
 .sds-container[data-size="wide"] {
-    max-width: 80rem;
+    max-width: var(--sge-container-wide);
 }
 
 .sds-container[data-size="narrow"] {

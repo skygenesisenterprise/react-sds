@@ -3,6 +3,6 @@ node_modules/
 /CHANGELOG.md
 /.yarn_home/
 /test/integration/
-/dsfr/
+/legacy/
 /src/fr/generatedFromCss/
 /storybook-static/

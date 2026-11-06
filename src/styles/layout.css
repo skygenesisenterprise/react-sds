@@ -38,7 +38,7 @@
 
 .gov-container {
     width: 100%;
-    max-width: var(--sge-breakpoint-xl); /* 75rem — coherent with the SDS xl breakpoint */
+    max-width: var(--sge-container-default);
     margin-inline: auto;
     padding-inline: var(--sge-space-4);
 }
@@ -69,7 +69,7 @@
    so a section can host its own centered column). */
 .gov-section__container {
     width: 100%;
-    max-width: 80rem;
+    max-width: var(--sge-container-wide);
     margin-inline: auto;
     padding-inline: var(--sge-space-4);
 }
@@ -109,7 +109,7 @@
 /* Generic readable content column (editorial width without the prose typography). */
 .gov-content {
     width: 100%;
-    max-width: 52rem;
+    max-width: var(--sge-content-prose);
 }
 
 /* ---- Page header ----------------------------------------------------------- */
@@ -129,7 +129,7 @@
 
 .gov-page-description {
     margin: var(--sge-space-3) 0 0;
-    max-width: 52rem;
+    max-width: var(--sge-content-prose);
     font-size: var(--sge-font-size-lg);
     line-height: var(--sge-line-height-normal);
     color: var(--sge-color-text-muted);
@@ -140,7 +140,7 @@
 /* Section introduction paragraph, larger than body text. */
 .gov-lead {
     margin: 0 0 var(--sge-space-5);
-    max-width: 52rem;
+    max-width: var(--sge-content-prose);
     font-size: 1.1875rem;
     line-height: var(--sge-line-height-body);
 }

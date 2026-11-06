@@ -11,9 +11,9 @@ import type { ColorScheme } from "./useIsDark";
 import { isBrowser } from "./tools/isBrowser";
 import { objectKeys } from "tsafe/objectKeys";
 import { fontUrlByFileBasename } from "./next-app-router/zz_internal/fontUrlByFileBasename";
-import AppleTouchIcon from "./dsfr/favicon/apple-touch-icon.png";
-import FaviconSvg from "./dsfr/favicon/favicon.svg";
-import FaviconIco from "./dsfr/favicon/favicon.ico";
+import AppleTouchIcon from "./legacy/favicon/apple-touch-icon.png";
+import FaviconSvg from "./legacy/favicon/favicon.svg";
+import FaviconIco from "./legacy/favicon/favicon.ico";
 import { getAssetUrl } from "./tools/getAssetUrl";
 import { fr } from "./fr";
 import { start } from "./start";
@@ -21,13 +21,13 @@ import type { RegisterLink, RegisteredLinkProps } from "./link";
 import { setLink } from "./link";
 import { setUseLang } from "./i18n";
 import { assert } from "tsafe/assert";
-import "./assets/dsfr_plus_icons.css";
+import "./assets/legacy_plus_icons.css";
 
 const isProduction = process.env.NODE_ENV !== "development";
 
 export type { RegisterLink, RegisteredLinkProps };
 
-export type CreateNextDsfrIntegrationApiParams = {
+export type CreateNextLegacyIntegrationApiParams = {
     defaultColorScheme: ColorScheme | "system";
     /** Default: false */
     verbose?: boolean;
@@ -89,12 +89,12 @@ function readIsDarkInCookie(cookie: string) {
     }
 }
 
-export type NextDsfrIntegrationApi = {
-    withDsfr: <AppComponent extends NextComponentType<any, any, any>>(
+export type NextLegacyIntegrationApi = {
+    withLegacy: <AppComponent extends NextComponentType<any, any, any>>(
         App: AppComponent
     ) => AppComponent;
-    dsfrDocumentApi: {
-        augmentDocumentForDsfr: (Document: NextComponentType<any, any, any>) => void;
+    legacyDocumentApi: {
+        augmentDocumentForLegacy: (Document: NextComponentType<any, any, any>) => void;
         getColorSchemeHtmlAttributes: (
             props: DocumentProps
         ) =>
@@ -103,9 +103,9 @@ export type NextDsfrIntegrationApi = {
     };
 };
 
-export function createNextDsfrIntegrationApi(
-    params: CreateNextDsfrIntegrationApiParams
-): NextDsfrIntegrationApi {
+export function createNextSdsIntegrationApi(
+    params: CreateNextLegacyIntegrationApiParams
+): NextLegacyIntegrationApi {
     const {
         defaultColorScheme,
         verbose = false,
@@ -147,12 +147,12 @@ export function createNextDsfrIntegrationApi(
         });
     }
 
-    const isDarkPropKey = "dsfrIsDark";
+    const isDarkPropKey = "legacyIsDark";
 
-    function withDsfr<AppComponent extends NextComponentType<any, any, any>>(
+    function withLegacy<AppComponent extends NextComponentType<any, any, any>>(
         App: AppComponent
     ): AppComponent {
-        function AppWithDsfr({
+        function AppWithSds({
             [isDarkPropKey]: isDark,
             ...props
         }: AppProps & Record<typeof isDarkPropKey, boolean | undefined>) {
@@ -242,13 +242,13 @@ export function createNextDsfrIntegrationApi(
             );
         }
 
-        Object.keys(App).forEach(key => ((AppWithDsfr as any)[key] = (App as any)[key]));
+        Object.keys(App).forEach(key => ((AppWithSds as any)[key] = (App as any)[key]));
 
         if (doPersistDarkModePreferenceWithCookie) {
             const super_getInitialProps =
                 App.getInitialProps?.bind(App) ?? DefaultApp.getInitialProps.bind(DefaultApp);
 
-            (AppWithDsfr as any).getInitialProps = async (appContext: AppContext) => {
+            (AppWithSds as any).getInitialProps = async (appContext: AppContext) => {
                 const initialProps = await super_getInitialProps(appContext);
 
                 let isDark: boolean | undefined = undefined;
@@ -276,12 +276,12 @@ export function createNextDsfrIntegrationApi(
             };
         }
 
-        AppWithDsfr.displayName = AppWithDsfr.name;
+        AppWithSds.displayName = AppWithSds.name;
 
-        return AppWithDsfr as any;
+        return AppWithSds as any;
     }
 
-    function augmentDocumentForDsfr(Document: NextComponentType<any, any, any>): void {
+    function augmentDocumentForLegacy(Document: NextComponentType<any, any, any>): void {
         let super_getInitialProps = Document.getInitialProps?.bind(Document);
 
         if (super_getInitialProps === undefined) {
@@ -359,9 +359,9 @@ export function createNextDsfrIntegrationApi(
     }
 
     return {
-        withDsfr,
-        "dsfrDocumentApi": {
-            augmentDocumentForDsfr,
+        withLegacy,
+        "legacyDocumentApi": {
+            augmentDocumentForLegacy,
             getColorSchemeHtmlAttributes
         }
     };

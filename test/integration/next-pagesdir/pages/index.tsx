@@ -5,7 +5,7 @@ import { Tabs } from "@skygenesisenterprise/react-sds/Tabs";
 import { Table } from "@skygenesisenterprise/react-sds/Table";
 import { fr } from "@skygenesisenterprise/react-sds";
 import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
-import { useStyles } from "tss-react/dsfr";
+import { useStyles } from "tss-react/legacy";
 
 export default function App() {
     const { isDark, setIsDark } = useIsDark();

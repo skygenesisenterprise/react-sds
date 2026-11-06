@@ -50,7 +50,9 @@ describe("SDS portal components", () => {
         const html = renderToStaticMarkup(
             createElement(SDSGovernmentFooter, {
                 "organization": "Défense",
-                "columns": [{ "title": "Formulaires", "links": [{ "label": "Demande", "href": "/d" }] }],
+                "columns": [
+                    { "title": "Formulaires", "links": [{ "label": "Demande", "href": "/d" }] }
+                ],
                 "bottomLinks": [{ "label": "Mentions légales", "href": "/leg" }]
             })
         );
@@ -81,17 +83,16 @@ describe("SDS portal components", () => {
     });
 
     it("SDSOfficialNotice renders the legal strip", () => {
-        const html = renderToStaticMarkup(createElement(SDSOfficialNotice, null, "Sky Genesis Enterprise"));
+        const html = renderToStaticMarkup(
+            createElement(SDSOfficialNotice, null, "Sky Genesis Enterprise")
+        );
         expect(html).toContain('class="sds-official-notice"');
     });
 
     it("SDSBreadcrumb marks the last item as current", () => {
         const html = renderToStaticMarkup(
             createElement(SDSBreadcrumb, {
-                "items": [
-                    { "label": "Accueil", "href": "/" },
-                    { "label": "Page actuelle" }
-                ]
+                "items": [{ "label": "Accueil", "href": "/" }, { "label": "Page actuelle" }]
             })
         );
         expect(html).toContain('aria-label="Fil d');
@@ -117,7 +118,9 @@ describe("SDS portal components", () => {
         const html = renderToStaticMarkup(
             createElement(SDSMegaMenu, {
                 "label": "Démarches",
-                "columns": [{ "title": "Scolarité", "links": [{ "label": "Bourse", "href": "/bourse" }] }]
+                "columns": [
+                    { "title": "Scolarité", "links": [{ "label": "Bourse", "href": "/bourse" }] }
+                ]
             })
         );
         expect(html).toContain('class="sds-mega-menu__trigger"');

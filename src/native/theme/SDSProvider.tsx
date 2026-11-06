@@ -48,9 +48,7 @@ export function SDSProvider(props: SDSProviderProps) {
     }, [tokens]);
 
     const resolvedScheme: "light" | "dark" =
-        colorSchemeState === "system"
-            ? systemScheme
-            : colorSchemeState;
+        colorSchemeState === "system" ? systemScheme : colorSchemeState;
 
     const resolvedTokens: SDSTokens = React.useMemo(
         () => deepMergeTokens(defaultTokens, tokenOverride),

@@ -44,22 +44,22 @@ export async function start(params: Params) {
     });
 
     // @ts-expect-error
-    window.dsfr = {
+    window.legacy = {
         verbose,
         "mode": "react"
     };
 
     // @ts-expect-error
-    await import("./dsfr/dsfr.module");
+    await import("./legacy/legacy.module");
 
-    dDsfrLoaded.resolve();
+    dLegacyLoaded.resolve();
 
     registerEffectAction(() => {
         // @ts-expect-error
-        window.dsfr.start();
+        window.legacy.start();
     });
 }
 
-const dDsfrLoaded = new Deferred<void>();
+const dLegacyLoaded = new Deferred<void>();
 
-export const prDsfrLoaded = dDsfrLoaded.pr;
+export const prLegacyLoaded = dLegacyLoaded.pr;

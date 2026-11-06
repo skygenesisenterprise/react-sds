@@ -16,7 +16,7 @@
  *   5. components — shared component styles
  *   6. utilities  — the few system-wide helpers
  *
- * The legacy `main.css` entry additionally loads the DSFR `fr-*` stylesheet
+ * The legacy `main.css` entry additionally loads the legacy `fr-*` stylesheet
  * used by the historic components. New applications can depend on this file
  * alone for the SGE identity.
  */

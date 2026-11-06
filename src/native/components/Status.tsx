@@ -28,13 +28,7 @@ const TONE_COLOR: Record<StatusTone, SDSColorToken> = {
 };
 
 export function Status(props: StatusProps) {
-    const {
-        children,
-        tone = "neutral",
-        accessibilityLabel,
-        style,
-        testID
-    } = props;
+    const { children, tone = "neutral", accessibilityLabel, style, testID } = props;
 
     const { colors, tokens } = useSDSTheme();
 
@@ -45,7 +39,9 @@ export function Status(props: StatusProps) {
             testID={testID}
             accessible
             accessibilityRole="text"
-            accessibilityLabel={accessibilityLabel ?? (typeof children === "string" ? children : undefined)}
+            accessibilityLabel={
+                accessibilityLabel ?? (typeof children === "string" ? children : undefined)
+            }
             style={[
                 {
                     flexDirection: "row",

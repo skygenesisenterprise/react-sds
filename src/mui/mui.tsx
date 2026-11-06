@@ -17,10 +17,10 @@ import { Global, css } from "@emotion/react";
 import { getAssetUrl } from "../tools/getAssetUrl";
 import { IsGovProvider } from "./useIsGov";
 import { DisplayArtworkWhiteLabelProvider } from "../Display/Artwork/ArtworkWhiteLabel/DisplayArtworkWhiteLabelProvider";
-import marianneFaviconSvgUrl from "../dsfr/favicon/favicon.svg";
+import marianneFaviconSvgUrl from "../legacy/favicon/favicon.svg";
 import blankFaviconSvgUrl from "../assets/blank-favicon.svg";
 
-export function getMuiDsfrThemeOptions(params: {
+export function getMuiLegacyThemeOptions(params: {
     isDark: boolean;
     breakpointsValues: BreakpointsValues;
 }): mui.ThemeOptions {
@@ -138,11 +138,11 @@ export function getMuiDsfrThemeOptions(params: {
                 typeof abs === "string"
                     ? abs
                     : abs === 0
-                    ? 0
-                    : (() => {
-                          const value = values[abs - 1];
-                          return value === undefined ? abs : value;
-                      })();
+                      ? 0
+                      : (() => {
+                            const value = values[abs - 1];
+                            return value === undefined ? abs : value;
+                        })();
         })(),
         "shadows": (() => {
             const [, , , , , , , , ...rest] = mui.createTheme().shadows;
@@ -339,16 +339,16 @@ export function getMuiDsfrThemeOptions(params: {
  *
  * @returns — A complete, ready-to-use mui theme object.
  */
-export function createMuiDsfrTheme(
+export function createMuiLegacyTheme(
     params: { isDark: boolean; breakpointsValues: BreakpointsValues },
     ...args: object[]
 ): mui.Theme {
-    const muiTheme = mui.createTheme(getMuiDsfrThemeOptions(params), ...args);
+    const muiTheme = mui.createTheme(getMuiLegacyThemeOptions(params), ...args);
 
     return muiTheme;
 }
 
-export function createMuiDsfrThemeProvider(params: {
+export function createMuiSdsThemeProvider(params: {
     useIsDark?: () => { isDark: boolean };
     augmentMuiTheme?: (params: {
         /** WARNING: The types is lying here.
@@ -366,7 +366,7 @@ export function createMuiDsfrThemeProvider(params: {
         /** If you have implemented theme augmentation */
     };
 
-    function MuiDsfrThemeProvider(props: Props) {
+    function MuiSdsThemeProvider(props: Props) {
         const { children } = props;
 
         const { isDark } = useIsDark_props();
@@ -374,7 +374,7 @@ export function createMuiDsfrThemeProvider(params: {
         const { breakpointsValues } = useBreakpointsValuesPx();
 
         const theme = useMemo(() => {
-            const nonAugmentedMuiTheme = createMuiDsfrTheme({ isDark, breakpointsValues });
+            const nonAugmentedMuiTheme = createMuiLegacyTheme({ isDark, breakpointsValues });
 
             return augmentMuiTheme === undefined
                 ? nonAugmentedMuiTheme
@@ -387,14 +387,14 @@ export function createMuiDsfrThemeProvider(params: {
         return <mui.ThemeProvider theme={theme}>{children}</mui.ThemeProvider>;
     }
 
-    return { MuiDsfrThemeProvider };
+    return { MuiSdsThemeProvider };
 }
 
-export const { MuiDsfrThemeProvider } = createMuiDsfrThemeProvider({});
+export const { MuiSdsThemeProvider } = createMuiSdsThemeProvider({});
 
-export default MuiDsfrThemeProvider;
+export default MuiSdsThemeProvider;
 
-export function createDsfrCustomBrandingProvider(params: {
+export function createLegacyCustomBrandingProvider(params: {
     createMuiTheme: (params: {
         isDark: boolean;
         /**
@@ -413,7 +413,7 @@ export function createDsfrCustomBrandingProvider(params: {
         const { breakpointsValues } = useBreakpointsValuesPx();
 
         const { theme, isGov, faviconUrl_userProvided } = useMemo(() => {
-            const theme_gov = createMuiDsfrTheme({ isDark, breakpointsValues });
+            const theme_gov = createMuiLegacyTheme({ isDark, breakpointsValues });
 
             // @ts-expect-error: Technic to detect if user is using the institutional theme
             theme_gov.palette.isGov = true;
@@ -496,7 +496,7 @@ export function createDsfrCustomBrandingProvider(params: {
         }, [faviconUrl]);
     }
 
-    function DsfrCustomBrandingProvider(props: { children: ReactNode }) {
+    function LegacyCustomBrandingProvider(props: { children: ReactNode }) {
         const { children } = props;
 
         const { theme, isGov, faviconUrl_userProvided } = useMuiTheme();
@@ -601,5 +601,5 @@ export function createDsfrCustomBrandingProvider(params: {
         );
     }
 
-    return { DsfrCustomBrandingProvider };
+    return { LegacyCustomBrandingProvider };
 }

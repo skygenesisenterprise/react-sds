@@ -1,5 +1,5 @@
 import React, { memo, forwardRef, type CSSProperties, useEffect, useState } from "react";
-import { prDsfrLoaded } from "../start";
+import { prLegacyLoaded } from "../start";
 import { useAnalyticsId } from "../tools/useAnalyticsId";
 import { cx } from "../tools/cx";
 
@@ -93,12 +93,12 @@ export const chartWrapper = <T extends {}>(ChartComponent: React.FC<T>, idPrefix
     return memo(
         forwardRef<HTMLDivElement, React.ComponentProps<typeof ChartComponent> & BaseChartProps>(
             (props, ref) => {
-                const [isDsfrLoaded, setIsDsfrLoaded] = useState(false);
+                const [isLegacyLoaded, setIsLegacyLoaded] = useState(false);
                 const { className, style, classes = {}, id: props_id, ...rest } = props;
                 const graphProps = rest as T;
 
                 useEffect(() => {
-                    prDsfrLoaded.then(() => setIsDsfrLoaded(true));
+                    prLegacyLoaded.then(() => setIsLegacyLoaded(true));
                 });
 
                 const id = useAnalyticsId({
@@ -106,7 +106,7 @@ export const chartWrapper = <T extends {}>(ChartComponent: React.FC<T>, idPrefix
                     "explicitlyProvidedId": props_id
                 });
 
-                if (!isDsfrLoaded) {
+                if (!isLegacyLoaded) {
                     return null;
                 }
 

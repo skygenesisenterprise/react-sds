@@ -47,7 +47,12 @@ const cssVariableNames: Record<string, string[]> = {
     "breakpoints": ["sm", "md", "lg", "xl"]
 };
 
-const fontFamilyVariableNames = ["font-family-base", "font-family-heading", "font-family-sans", "font-family-mono"];
+const fontFamilyVariableNames = [
+    "font-family-base",
+    "font-family-heading",
+    "font-family-sans",
+    "font-family-mono"
+];
 
 const fontSizeVariableNames = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -60,21 +65,26 @@ function getCssVariable(variable: string): string {
         return "";
     }
 
-    const value = getComputedStyle(document.documentElement)
-        .getPropertyValue(variable)
-        .trim();
+    const value = getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
 
     return value === "" ? `var(${variable})` : value;
 }
 
-export function FoundationsSection(params: { title: string; description?: ReactNode; children: ReactNode }) {
+export function FoundationsSection(params: {
+    title: string;
+    description?: ReactNode;
+    children: ReactNode;
+}) {
     const { title, description, children } = params;
 
     return (
         <section style={{ "marginBlock": "3rem" }}>
             <h2
                 id={title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
-                style={{ "borderBottom": "1px solid var(--sge-color-border)", "paddingBottom": "0.5rem" }}
+                style={{
+                    "borderBottom": "1px solid var(--sge-color-border)",
+                    "paddingBottom": "0.5rem"
+                }}
             >
                 {title}
             </h2>
@@ -98,7 +108,11 @@ export function FoundationsSwatchGrid(params: { children: ReactNode }) {
     );
 }
 
-export function FoundationsSwatch(params: { variable: string; style?: React.CSSProperties; children?: ReactNode }) {
+export function FoundationsSwatch(params: {
+    variable: string;
+    style?: React.CSSProperties;
+    children?: ReactNode;
+}) {
     const { variable, style, children } = params;
     const value = getCssVariable(variable);
 
@@ -119,7 +133,9 @@ export function FoundationsSwatch(params: { variable: string; style?: React.CSSP
             />
             <div style={{ "padding": "0.75rem", "fontSize": "0.8rem" }}>
                 <div style={{ "fontWeight": 600 }}>{variable}</div>
-                <div style={{ "color": "var(--sge-color-text-muted)", "wordBreak": "break-all" }}>{value}</div>
+                <div style={{ "color": "var(--sge-color-text-muted)", "wordBreak": "break-all" }}>
+                    {value}
+                </div>
                 {children}
             </div>
         </div>
@@ -144,7 +160,9 @@ export function TypographyTokens() {
 
                 return (
                     <div key={variable} style={{ "marginBlock": "1rem" }}>
-                        <div style={{ "fontSize": "0.8rem", "color": "var(--sge-color-text-muted)" }}>
+                        <div
+                            style={{ "fontSize": "0.8rem", "color": "var(--sge-color-text-muted)" }}
+                        >
                             {cssVariable} — {getCssVariable(cssVariable)}
                         </div>
                         <div style={{ "fontFamily": `var(${cssVariable})`, "fontSize": "1.25rem" }}>
@@ -170,7 +188,9 @@ export function TypographyTokens() {
                             <tr key={variable}>
                                 <td style={tdStyle}>{cssVariable}</td>
                                 <td style={tdStyle}>{getCssVariable(cssVariable)}</td>
-                                <td style={{ ...tdStyle, "fontSize": `var(${cssVariable})` }}>Aa</td>
+                                <td style={{ ...tdStyle, "fontSize": `var(${cssVariable})` }}>
+                                    Aa
+                                </td>
                             </tr>
                         );
                     })}
@@ -181,7 +201,9 @@ export function TypographyTokens() {
                             <tr key={variable}>
                                 <td style={tdStyle}>{cssVariable}</td>
                                 <td style={tdStyle}>{getCssVariable(cssVariable)}</td>
-                                <td style={{ ...tdStyle, "fontWeight": `var(${cssVariable})` }}>Aa</td>
+                                <td style={{ ...tdStyle, "fontWeight": `var(${cssVariable})` }}>
+                                    Aa
+                                </td>
                             </tr>
                         );
                     })}
@@ -223,14 +245,42 @@ export function SpacingTokens() {
                 const cssVariable = `--sge-space-${step}`;
 
                 return (
-                    <div key={step} style={{ "display": "flex", "alignItems": "center", "gap": "1rem", "marginBlock": "0.5rem" }}>
-                        <div style={{ "width": "10rem", "fontSize": "0.8rem", "color": "var(--sge-color-text-muted)" }}>
+                    <div
+                        key={step}
+                        style={{
+                            "display": "flex",
+                            "alignItems": "center",
+                            "gap": "1rem",
+                            "marginBlock": "0.5rem"
+                        }}
+                    >
+                        <div
+                            style={{
+                                "width": "10rem",
+                                "fontSize": "0.8rem",
+                                "color": "var(--sge-color-text-muted)"
+                            }}
+                        >
                             {cssVariable}
                             <br />
                             {getCssVariable(cssVariable)}
                         </div>
-                        <div style={{ "flex": 1, "display": "flex", "alignItems": "center", "gap": "0.5rem" }}>
-                            <div style={{ "width": `var(${cssVariable})`, "maxWidth": "100%", "height": "1.5rem", "background": "var(--sge-color-primary)" }} />
+                        <div
+                            style={{
+                                "flex": 1,
+                                "display": "flex",
+                                "alignItems": "center",
+                                "gap": "0.5rem"
+                            }}
+                        >
+                            <div
+                                style={{
+                                    "width": `var(${cssVariable})`,
+                                    "maxWidth": "100%",
+                                    "height": "1.5rem",
+                                    "background": "var(--sge-color-primary)"
+                                }}
+                            />
                         </div>
                     </div>
                 );
@@ -254,7 +304,9 @@ export function RadiusTokens() {
                             "borderRadius": `var(--sge-radius-${variable})`
                         }}
                     />
-                    <div style={{ "fontSize": "0.8rem", "fontWeight": 600 }}>--sge-radius-{variable}</div>
+                    <div style={{ "fontSize": "0.8rem", "fontWeight": 600 }}>
+                        --sge-radius-{variable}
+                    </div>
                     <div style={{ "fontSize": "0.8rem", "color": "var(--sge-color-text-muted)" }}>
                         {getCssVariable(`--sge-radius-${variable}`)}
                     </div>
@@ -278,7 +330,9 @@ export function ElevationTokens() {
                             "boxShadow": `var(--sge-elevation-${variable})`
                         }}
                     />
-                    <div style={{ "padding": "0.75rem 0", "fontSize": "0.8rem", "fontWeight": 600 }}>
+                    <div
+                        style={{ "padding": "0.75rem 0", "fontSize": "0.8rem", "fontWeight": 600 }}
+                    >
                         --sge-elevation-{variable}
                     </div>
                 </div>

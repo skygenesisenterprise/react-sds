@@ -29,14 +29,7 @@ export type SDSGovernmentFooterProps = {
  * wrapped by it.
  */
 export const SDSGovernmentFooter = (props: SDSGovernmentFooterProps) => {
-    const {
-        className,
-        style,
-        organization,
-        columns = [],
-        bottomLinks = [],
-        copyright
-    } = props;
+    const { className, style, organization, columns = [], bottomLinks = [], copyright } = props;
 
     const portal = useOptionalSDSPortal();
     const effectiveOrg = organization ?? portal?.organization ?? "";

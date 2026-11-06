@@ -65,7 +65,11 @@ export const SDSPagination = (props: SDSPaginationProps) => {
         return withEllipsis;
     }, [currentPage, pageCount, siblings]);
 
-    const renderLink = (page: number, content: React.ReactNode, extra?: Record<string, unknown>) => {
+    const renderLink = (
+        page: number,
+        content: React.ReactNode,
+        extra?: Record<string, unknown>
+    ) => {
         const href = hrefBuilder?.(page);
         const isDisabled = page === currentPage;
 

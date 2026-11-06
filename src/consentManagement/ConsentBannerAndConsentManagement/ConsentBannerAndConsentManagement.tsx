@@ -23,8 +23,7 @@ export function createConsentBannerAndConsentManagement<
 >(params: {
     finalityDescription: ((params: { lang: string }) => FinalityDescription) | FinalityDescription;
     useFinalityConsent: () =>
-        | FinalityConsent<ExtractFinalityFromFinalityDescription<FinalityDescription>>
-        | undefined;
+        FinalityConsent<ExtractFinalityFromFinalityDescription<FinalityDescription>> | undefined;
     processConsentChanges: ProcessConsentChanges<
         ExtractFinalityFromFinalityDescription<FinalityDescription>
     >;

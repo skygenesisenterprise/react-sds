@@ -25,10 +25,7 @@ export type TagProps = TagProps.Common &
     (TagProps.AsAnchor | TagProps.AsButton | TagProps.AsParagraph | TagProps.AsSpan);
 export namespace TagProps {
     export type HTMLElement =
-        | HTMLButtonElement
-        | HTMLAnchorElement
-        | HTMLParagraphElement
-        | HTMLSpanElement;
+        HTMLButtonElement | HTMLAnchorElement | HTMLParagraphElement | HTMLSpanElement;
 
     export type Common = {
         id?: string;

@@ -143,7 +143,10 @@ export const WithCustomLicense = getStory({
     "license": (
         <>
             Unless stated otherwise all content of this website are under{" "}
-            <a href="https://github.com/skygenesisenterprise/react-sds/blob/main/LICENSE" target="_blank">
+            <a
+                href="https://github.com/skygenesisenterprise/react-sds/blob/main/LICENSE"
+                target="_blank"
+            >
                 licence MIT
             </a>{" "}
         </>

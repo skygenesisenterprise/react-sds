@@ -20,24 +20,14 @@ export type SectionProps = {
 };
 
 export function Section(props: SectionProps) {
-    const {
-        children,
-        title,
-        headingLevel = 2,
-        spacing = "md",
-        style,
-        testID
-    } = props;
+    const { children, title, headingLevel = 2, spacing = "md", style, testID } = props;
 
     const { tokens } = useSDSTheme();
 
     return (
         <View
             testID={testID}
-            style={[
-                { width: "100%", marginVertical: tokens.spacing[spacing] },
-                style
-            ]}
+            style={[{ width: "100%", marginVertical: tokens.spacing[spacing] }, style]}
         >
             {title !== undefined && (
                 <Heading level={headingLevel} style={{ marginBottom: tokens.spacing.sm }}>

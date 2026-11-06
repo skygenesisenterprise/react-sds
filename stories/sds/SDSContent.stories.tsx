@@ -70,9 +70,24 @@ export const SDSNewsListStory = newsList.getStory(
     {
         "horizontal": true,
         "items": [
-            { "href": "#", "date": "12 janv. 2026", "title": "Actualité 1", "description": "Description." },
-            { "href": "#", "date": "11 janv. 2026", "title": "Actualité 2", "description": "Description." },
-            { "href": "#", "date": "10 janv. 2026", "title": "Actualité 3", "description": "Description." }
+            {
+                "href": "#",
+                "date": "12 janv. 2026",
+                "title": "Actualité 1",
+                "description": "Description."
+            },
+            {
+                "href": "#",
+                "date": "11 janv. 2026",
+                "title": "Actualité 2",
+                "description": "Description."
+            },
+            {
+                "href": "#",
+                "date": "10 janv. 2026",
+                "title": "Actualité 3",
+                "description": "Description."
+            }
         ]
     },
     { "description": "Liste d'actualités, verticale ou en grille horizontale." }
@@ -156,7 +171,10 @@ export const SDSMeetingCardStory = meeting.getStory(
         "location": "En ligne",
         "attendees": "25 inscrits"
     },
-    { "description": "Carte de réunion (comité, consultation publique) avec ligne de participants." }
+    {
+        "description":
+            "Carte de réunion (comité, consultation publique) avec ligne de participants."
+    }
 );
 
 function SDSLinkMock({ children }: { children: React.ReactNode }) {

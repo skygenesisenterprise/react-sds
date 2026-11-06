@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { startReactDsfr } from "@skygenesisenterprise/react-sds/spa";
+import { startReactSds } from "@skygenesisenterprise/react-sds/spa";
 import { Home } from "./Home";
 import { Mui } from "./Mui";
 import { Picto } from "./Picto";
@@ -11,7 +11,7 @@ import { routes } from "./router";
 import { headerFooterDisplayItem } from "@skygenesisenterprise/react-sds/Display";
 
 
-startReactDsfr({
+startReactSds({
     "defaultColorScheme": "system"
 });
 

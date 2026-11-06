@@ -10,9 +10,8 @@ const [, , commandName, ...args] = process.argv;
 
                 await updateIcons(args);
 
-                const { main: onlyIncludeCssOfUsedComponents } = await import(
-                    "./only-include-css-of-used-components"
-                );
+                const { main: onlyIncludeCssOfUsedComponents } =
+                    await import("./only-include-css-of-used-components");
 
                 await onlyIncludeCssOfUsedComponents(args);
             }
@@ -26,7 +25,7 @@ const [, , commandName, ...args] = process.argv;
             break;
         case "copy-static-assets":
             {
-                const { main } = await import("./copy-dsfr-to-public");
+                const { main } = await import("./copy-legacy-to-public");
 
                 await main(args);
             }

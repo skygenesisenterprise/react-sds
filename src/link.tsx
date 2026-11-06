@@ -13,11 +13,10 @@ type HTMLAnchorProps = DetailedHTMLProps<
 export interface RegisterLink {}
 
 export type RegisteredLinkProps = RegisterLink extends { Link: infer Link }
-    ?
-          | Omit<UnpackProps<Link>, "children">
-          | (Omit<HTMLAnchorProps, "children" | "href"> & {
-                href: string;
-            })
+    ? | Omit<UnpackProps<Link>, "children">
+      | (Omit<HTMLAnchorProps, "children" | "href"> & {
+            href: string;
+        })
     : Omit<HTMLAnchorProps, "children">;
 
 let Link: React.ComponentType<RegisteredLinkProps & { children: ReactNode }> = props => {

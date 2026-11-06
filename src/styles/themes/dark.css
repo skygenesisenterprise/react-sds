@@ -46,7 +46,14 @@
     --sge-color-accent-foreground: var(--sge-palette-primary-300);
 
     --sge-color-destructive: var(--sge-palette-destructive-500);
-    --sge-color-destructive-foreground: var(--sge-palette-neutral-0);
+    /*
+     * Accessibility decision (measured, WCAG 2.2): white on the dark-scheme
+     * destructive red is 3.76:1 — below the 4.5:1 floor for a button label.
+     * The red itself is the SGE identity and stays untouched; the label switches
+     * to the deep neutral, which reaches 4.99:1 on the same red.
+     * Asserted by test/runtime/lib/theme-contrast.test.ts.
+     */
+    --sge-color-destructive-foreground: var(--sge-palette-neutral-950);
     --sge-color-danger: var(--sge-color-destructive);
 
     --sge-color-success: var(--sge-palette-success-500);

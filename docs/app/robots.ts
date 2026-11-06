@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_DOCS_URL ?? "https://skygenesisenterprise.github.io/react-sds";
+
 export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: {
 			userAgent: "*",
 			allow: "/",
 		},
-		sitemap: "https://docs.notploy.com/sitemap.xml",
+		sitemap: `${siteUrl}/sitemap.xml`,
 	};
 }
-
-// Required by `output: "export"` so the route is emitted as a static file.
-export const dynamic = "force-static";

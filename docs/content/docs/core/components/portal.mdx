@@ -1,0 +1,67 @@
+---
+title: Portal
+description: "Institutional chrome: portal context, government and ministry headers, footer, hero, breadcrumb, navigation, search and pagination."
+---
+
+import { SDSHero, SDSLink } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+The portal family provides the institutional shell of a public service: identity header and
+footer, hero, breadcrumb, navigation and search.
+
+<Demo label="SDSHero" direction="column">
+  <SDSHero
+    kicker="Sky Genesis Enterprise"
+    title="Service portal"
+    subtitle="Request certificates and follow your requests online."
+    actions={<SDSLink href="#" variant="action">Start a request</SDSLink>}
+    tone="subtle"
+  />
+</Demo>
+
+```tsx
+<SDSHero
+  kicker="Sky Genesis Enterprise"
+  title="Service portal"
+  subtitle="Request certificates and follow your requests online."
+  actions={<SDSLink href="/requests/new" variant="action">Start a request</SDSLink>}
+/>
+```
+
+## Components
+
+| Component | Role |
+| --- | --- |
+| `SDSPortal` | Provider for the portal context (identity, home link, organisation) |
+| `SDSGovernmentHeader` | Institutional header with the operator identity and navigation |
+| `SDSMinistryHeader` | Ministry-level header variant |
+| `SDSGovernmentFooter` | Institutional footer with link columns and legal content |
+| `SDSHero` | Page headline with kicker, title, subtitle and actions |
+| `SDSServiceBanner` | Service-level banner (tone-driven) |
+| `SDSOfficialNotice` | Official announcement block |
+| `SDSBreadcrumb` | Breadcrumb trail |
+| `SDSNavigation` | Horizontal navigation with active state |
+| `SDSMegaMenu` | Multi-column mega menu |
+| `SDSSearch` | Portal search field |
+| `SDSPagination` | Page navigation for result lists |
+
+`SDSPortal` exposes `useSDSPortal()` (throws outside a provider) and
+`useOptionalSDSPortal()` (returns the context or `undefined`). Wrap the application once:
+
+```tsx
+import { SDSPortal } from "@skygenesisenterprise/react-sds";
+
+<SDSPortal>{/* header, main, footer */}</SDSPortal>;
+```
+
+## Guidance
+
+- One institutional header and footer per page, at the page shell level — not inside a section.
+- The hero is the only `<h1>` block on the page; do not stack two heroes.
+- Breadcrumbs describe the hierarchy, not the history; the current page is not a link.
+- Portal navigation and the standard `MainNavigation` are alternatives, not complements.
+
+## Related
+
+[API: SDSHero](/docs/api/sds/sdshero) · [API: SDSPortal](/docs/api/sds/sdsportal) ·
+[Recipe: Navigation](/docs/core/recipes/navigation)

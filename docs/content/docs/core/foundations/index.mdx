@@ -1,0 +1,53 @@
+---
+title: Foundations
+description: "How the SDS foundations are structured: one token contract, two consumption surfaces (TypeScript and CSS custom properties)."
+---
+
+Every SDS component and stylesheet is built from a single token layer. The same values are
+exposed twice:
+
+- **CSS custom properties** — `--sge-*` variables, defined in the stylesheet, so any CSS
+  (including your application's) can consume them.
+- **TypeScript object** — `sdsTokens`, exported by the package, for CSS-in-JS, native targets
+  and calculations.
+
+Because components consume variables and never hard-coded values, overriding a token restyles
+everything that depends on it — including in the dark scheme.
+
+## Groups
+
+| Group | CSS namespace | TypeScript |
+| --- | --- | --- |
+| Colours | `--sge-color-*` | `sdsTokens.colors` |
+| Typography | `--sge-font-*`, `--sge-line-height-*`, `--sge-tracking-*` | `sdsTokens.typography` |
+| Spacing | `--sge-space-*` | `sdsTokens.spacing` |
+| Dimensions | `--sge-container-*`, `--sge-control-*`, `--sge-icon-size-*` | `sdsTokens.dimensions` |
+| Radius | `--sge-radius-*` | `sdsTokens.radius` |
+| Elevation | `--sge-shadow-*`, `--sge-elevation-*` | `sdsTokens.elevation` |
+| Motion | `--sge-duration-*`, `--sge-ease-*`, `--sge-transition-*` | `sdsTokens.motion` |
+| Breakpoints | — | `sdsTokens.breakpoints` |
+
+## Where the values live
+
+```text
+src/styles/foundation/tokens.css   theme-independent primitives (palette, scale)
+src/styles/themes/light.css        default scheme
+src/styles/themes/dark.css         dark scheme
+```
+
+The stylesheet exposes them through `@skygenesisenterprise/react-sds/styles` (foundation) or
+`main.css` (foundation + legacy component layer).
+
+## Consumption rules
+
+1. Prefer a token over a literal value.
+2. Prefer a component prop (`size`, `priority`, `tone`, `gap`…) over a raw token.
+3. Override `--sge-*` at the application root to theme; never patch a component's CSS.
+4. Do not treat the current token *values* as frozen identity: the structure is the contract,
+   the values are maintained by the Sky Genesis Enterprise design owners.
+
+<Callout type="info">
+  The palette below is read live from the installed package, so this documentation always
+  matches the version you are using. See [Design tokens](/docs/core/foundations/design-tokens)
+  for the full table.
+</Callout>

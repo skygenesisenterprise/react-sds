@@ -17,20 +17,24 @@ import {
 } from "fumadocs-ui/components/dialog/search";
 import { useState } from "react";
 
+/**
+ * Inherited docs-client search dialog, kept with its module filter.
+ *
+ * The tag is the first segment of the page slug (core, api or cli), produced by
+ * app/api/search/route.ts. Under a static export there is no server to query, so
+ * the prebuilt index is downloaded and searched in the browser.
+ */
 export default function CustomSearchDialog(props: SharedProps) {
 	const [tag, setTag] = useState<string | undefined>("all");
-	// When tag is "all", don't filter by tag (pass undefined)
 	const tagFilter = tag === "all" ? undefined : tag;
-	// `NEXT_PUBLIC_*` because this is a client component: the flag is inlined at
-	// build time. Under `output: "export"` there is no server to query, so the
-	// prebuilt index at /api/search is downloaded and searched in
-	// the browser. See app/api/search/route.ts for the matching route handler.
+	const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 	const { search, setSearch, query } = useDocsSearch(
-		process.env.NEXT_PUBLIC_NOTPLOY_OUTPUT === "export"
+		process.env.NEXT_PUBLIC_DOCS_OUTPUT === "export"
 			? {
 					type: "static",
 					tag: tagFilter,
-					from: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/search`,
+					from: `${basePath}/api/search`,
 				}
 			: { type: "fetch", tag: tagFilter },
 	);
@@ -54,9 +58,8 @@ export default function CustomSearchDialog(props: SharedProps) {
 					<TagsList tag={tag} onTagChange={setTag}>
 						<TagsListItem value="all">All</TagsListItem>
 						<TagsListItem value="core">Core</TagsListItem>
-						<TagsListItem value="cli">CLI</TagsListItem>
 						<TagsListItem value="api">API</TagsListItem>
-						<TagsListItem value="templates">Templates</TagsListItem>
+						<TagsListItem value="cli">CLI</TagsListItem>
 					</TagsList>
 				</SearchDialogFooter>
 			</SearchDialogContent>

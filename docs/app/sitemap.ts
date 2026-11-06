@@ -1,26 +1,23 @@
 import { source } from "@/lib/source";
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://docs.notploy.com";
+const siteUrl = process.env.NEXT_PUBLIC_DOCS_URL ?? "https://skygenesisenterprise.github.io/react-sds";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const pages = source.getPages().map((page) => ({
-		url: `${baseUrl}${page.url}`,
+		url: `${siteUrl}${page.url}`,
 		lastModified: new Date(),
 		changeFrequency: "weekly" as const,
-		priority: 0.7,
+		priority: page.slugs.length === 1 ? 0.8 : 0.6,
 	}));
 
 	return [
 		{
-			url: baseUrl,
+			url: siteUrl,
 			lastModified: new Date(),
-			changeFrequency: "monthly",
+			changeFrequency: "weekly",
 			priority: 1,
 		},
 		...pages,
 	];
 }
-
-// Required by `output: "export"` so the route is emitted as a static file.
-export const dynamic = "force-static";

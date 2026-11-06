@@ -1,0 +1,65 @@
+---
+title: Migration
+description: "Move from the historic fr-* layer to the SDS primitives without breaking existing screens."
+---
+
+The package contains two generations of components:
+
+- the **historic** `fr-*` component set (Button, Alert, Table, Tabs, Accordion, Modal, Header…),
+  still public and still shipped with its stylesheet;
+- the **SDS** families (layout, typography, portal, content), built on the SDS tokens.
+
+Nothing is deprecated at the package level. Migration is therefore incremental.
+
+## 1. Stay on `main.css` while both generations are rendered
+
+`main.css` loads the foundation and the legacy component layer. Switching to `/styles` before
+the last historic component is replaced leaves those components unstyled.
+
+## 2. Move styling decisions to tokens
+
+| Before | After |
+| --- | --- |
+| Hard-coded hex colours | `var(--sge-color-*)` |
+| Pixel spacing | `--sge-space-*` / component `gap` props |
+| Custom font stacks | `--sge-font-family-*` |
+| Ad-hoc shadows | `--sge-elevation-*` |
+
+## 3. Move token imports from `fr` to `sdsTokens`
+
+The `fr` export remains available for compatibility. New code should read `sdsTokens`:
+
+```tsx
+// keep working, but not for new code
+import { fr } from "@skygenesisenterprise/react-sds";
+
+// preferred
+import { sdsTokens } from "@skygenesisenterprise/react-sds";
+```
+
+`fr` and `sdsTokens` share the same structure for spacing, breakpoints, colours and typography,
+but they are separate objects with separate lifecycles.
+
+## 4. Adopt SDS primitives for new screens
+
+| Need | Prefer |
+| --- | --- |
+| Page shell | `SDSPage`, `SDSMain`, `SDSContainer` |
+| Section with a title | `SDSSection` |
+| Vertical / grid layout | `SDSStack`, `SDSGrid`, `SDSColumns` |
+| Headings and body copy | `SDSHeading`, `SDSText`, `SDSLead`, `SDSLink` |
+| Content cards | `SDSCard`, `SDSTeaserCard`, `SDSArticleCard` |
+| Portal chrome | `SDSPortal`, `SDSGovernmentHeader`, `SDSHero`, `SDSBreadcrumb` |
+
+## 5. Check the accessibility contract
+
+When replacing a historic component, re-check the page with keyboard navigation: the SDS
+families cover semantics and focus, but the labelling remains your responsibility. See
+[Accessibility](/docs/core/accessibility).
+
+## Compatibility guarantees
+
+- Subpath imports (`…/Button`) are stable and tree-shakable.
+- Optional layers (`/native`, `/mui`, `/Chart/*`, `/discord`) are never pulled by the root entry.
+- TypeScript declarations ship with the package; the API reference is generated from them, so
+  it always reflects the installed version.

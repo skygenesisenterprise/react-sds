@@ -1,0 +1,84 @@
+---
+title: Forms
+description: "Build an accessible SDS form: sections, labelled inputs, select, validation states and actions."
+---
+
+import { Button, Input, SDSStack, Select } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Form" direction="column">
+  <form
+    style={{ display: "flex", flexDirection: "column", gap: "var(--sge-space-4)", width: "100%" }}
+    onSubmit={(event) => event.preventDefault()}
+  >
+    <Input
+      label="Full name"
+      hintText="As written on your identity document."
+      nativeInputProps={{ name: "fullName", autoComplete: "name", required: true }}
+    />
+    <Input
+      label="Email address"
+      state="error"
+      stateRelatedMessage="Enter a valid email address."
+      nativeInputProps={{ name: "email", type: "email", defaultValue: "alex@" }}
+    />
+    <Select label="Service" nativeSelectProps={{ name: "service" }}>
+      <option value="">Choose a service</option>
+      <option value="certificate">Certificate</option>
+      <option value="address">Address change</option>
+    </Select>
+    <div>
+      <Button type="submit">Submit request</Button>
+    </div>
+  </form>
+</Demo>
+
+```tsx
+import { Button, Input, SDSStack, Select } from "@skygenesisenterprise/react-sds";
+
+export function RequestForm() {
+  return (
+    <form action="/requests" method="post">
+      <SDSStack gap={4}>
+        <Input
+          label="Full name"
+          hintText="As written on your identity document."
+          nativeInputProps={{ name: "fullName", autoComplete: "name", required: true }}
+        />
+        <Input
+          label="Email address"
+          state="error"
+          stateRelatedMessage="Enter a valid email address."
+          nativeInputProps={{ name: "email", type: "email" }}
+        />
+        <Select label="Service" nativeSelectProps={{ name: "service" }}>
+          <option value="">Choose a service</option>
+          <option value="certificate">Certificate</option>
+        </Select>
+        <div>
+          <Button type="submit">Submit request</Button>
+        </div>
+      </SDSStack>
+    </form>
+  );
+}
+```
+
+## What makes this accessible
+
+- Every control has a visible `label`; `hintText` adds guidance tied to the control.
+- Validation is expressed with `state` + `stateRelatedMessage`, not colour alone.
+- The submit action is a real `type="submit"` button inside the `<form>`.
+- `autoComplete` and `name` are provided so browsers and password managers can help.
+
+## Variants
+
+- **Textarea**: pass `textArea` and `nativeTextAreaProps` to `Input`.
+- **Side-by-side fields**: wrap fields in `SDSGrid columns={{ mobile: 1, tablet: 2 }}`.
+- **Disabled form**: `disabled` on each control; keep a visible explanation nearby.
+
+## Related
+
+- [Input](/docs/core/components/input) · [Select](/docs/core/components/select) ·
+  [Button](/docs/core/components/button) ·
+  [API: Input](/docs/api/components/input)

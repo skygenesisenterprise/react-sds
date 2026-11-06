@@ -1,0 +1,66 @@
+---
+title: optimize-css
+description: "Trim the legacy stylesheet and icon CSS down to the components and icons your project actually uses."
+---
+
+```bash
+npx react-sds optimize-css
+```
+
+The command rebuilds the legacy stylesheets from the granular files already shipped in the
+package (`dist/legacy/core/*`, `dist/legacy/scheme/*`, `dist/legacy/component/<name>/*`):
+
+1. it rebuilds `dist/legacy/utility/icons/icons.min.css` with only the icons used by the
+   project;
+2. it rebuilds `legacy.css` and `legacy.min.css` in `node_modules` (and
+   `public/legacy/legacy.min.css` in single-page setups) by concatenating the stylesheets of the
+   components your project imports.
+
+Whole components are included or excluded, never individual rules, so everything the legacy
+JavaScript toggles at runtime (`data-fr-js-*`, `fr-collapse--expanded`, …) keeps working.
+
+## Options
+
+| Option | Effect |
+| --- | --- |
+| `--projectDir <path>` | Project to analyse (default: current directory) |
+| `--silent` | Disable `console.log` (warnings are never silenced) |
+| `--strict` | Exit with a non-zero code instead of falling back to the untrimmed stylesheet |
+
+`--strict` is recommended in CI: without it, a detection failure silently ships the full
+~600 kB stylesheet instead of failing the build.
+
+## Detection
+
+The command inspects your sources for:
+
+- imports of `@skygenesisenterprise/react-sds/<Module>`;
+- usage of the corresponding class names in JSX, HTML and CSS.
+
+If no usage is found, it falls back to the untrimmed stylesheet (unless `--strict`).
+
+## Ordering with copy-static-assets
+
+In single-page setups, run `copy-static-assets` **before** `optimize-css`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "prebuild": "react-sds copy-static-assets && react-sds optimize-css"
+  }
+}
+```
+
+`copy-static-assets` builds its keep list from the `url()` references of the
+`legacy.min.css` it finds in `node_modules`, then no-ops while `public/legacy/version.txt`
+matches the packaged asset version. Running it against an already-trimmed stylesheet freezes
+`public/legacy` on that subset.
+
+## Notes
+
+- The command mutates the installed package assets in `node_modules`; re-run it after every
+  install and after a version bump.
+- It is opt-in: the package works without it. Use `/styles` instead of `main.css` if you do not
+  render historic components at all.
+- There is no dry-run mode. Use `--strict` in CI and keep the build output to detect an
+  unexpected fallback.

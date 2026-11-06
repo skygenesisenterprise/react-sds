@@ -1,0 +1,48 @@
+---
+title: copy-static-assets
+description: "Copy the legacy icons and fonts into public/legacy for single-page applications."
+---
+
+```bash
+npx react-sds copy-static-assets
+# or the standalone binary
+npx copy-legacy-to-public
+```
+
+Single-page bundlers (Vite, CRA) serve static files from `public/`. The legacy stylesheet
+references icons and fonts by URL, so those files must be copied out of the package before the
+app runs.
+
+The command copies the assets into `public/legacy` and writes
+`public/legacy/version.txt` with the packaged asset version. Later runs are no-ops until that
+version changes.
+
+## Options
+
+| Option | Effect |
+| --- | --- |
+| `--projectDir <path>` | Project to write into (default: current directory) |
+
+## Usage
+
+```json title="package.json"
+{
+  "scripts": {
+    "predev": "react-sds copy-static-assets",
+    "prebuild": "react-sds copy-static-assets && react-sds optimize-css"
+  }
+}
+```
+
+## When it is not needed
+
+- **Next.js**: assets under `public/` are not the consumption path taken by the packaged
+  stylesheet; this command targets single-page setups.
+- **Applications that only import `/styles`**: the foundation stylesheet does not reference the
+  legacy assets, so there is nothing to copy.
+
+## Notes
+
+- Run it before [`optimize-css`](/docs/cli/optimize-css), never after.
+- Commit or ignore `public/legacy` consistently across the team; the generated `version.txt`
+  makes the no-op detection work per machine.

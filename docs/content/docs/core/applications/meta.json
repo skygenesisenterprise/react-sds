@@ -1,4 +1,0 @@
-{
-	"title": "Applications",
-	"pages": ["index", "build-type", "advanced", "rollbacks", "zero-downtime", "preview-deployments", "going-production"]
-}

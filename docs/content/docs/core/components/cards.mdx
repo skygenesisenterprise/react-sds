@@ -1,0 +1,79 @@
+---
+title: Cards and content
+description: "SDSCard and the content family: teasers, articles, documents, downloads, events and link lists."
+---
+
+import { SDSCard, SDSGrid } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+## SDSCard
+
+The base content card: optional link, tag, media, description and footer.
+
+<Demo label="SDSCard" direction="column">
+  <SDSGrid columns={{ mobile: 1, tablet: 2 }} gap={4}>
+    <SDSCard
+      href="#"
+      tag="Service"
+      title="Request a certificate"
+      description="Obtain an official certificate in five minutes."
+      footer={<span>Online · Free</span>}
+    />
+    <SDSCard
+      title="Address change"
+      description="Update your registered address."
+      variant="flat"
+      tone="subtle"
+    />
+  </SDSGrid>
+</Demo>
+
+```tsx
+<SDSCard
+  href="/services/certificate"
+  tag="Service"
+  title="Request a certificate"
+  description="Obtain an official certificate in five minutes."
+  footer={<span>Online · Free</span>}
+/>
+```
+
+| Prop | Values | Note |
+| --- | --- | --- |
+| `title`, `description` | `ReactNode` | The title becomes a link when `href` is set |
+| `href` | `string` | Whole-card link target |
+| `tag` | `ReactNode` | Kicker above the title |
+| `media` | `ReactNode` | Image or figure above the body |
+| `footer` | `ReactNode` | Slot below the description |
+| `variant` | `default`, `flat` | `flat` removes elevation |
+| `tone` | `default`, `subtle` | `subtle` uses the muted surface |
+| `children` | `ReactNode` | Free content between description and footer |
+
+The whole card receives focus styling when its link is focused, so a card is one tab stop.
+
+## The content family
+
+| Component | Use |
+| --- | --- |
+| `SDSCard` | Generic service or information card |
+| `SDSTeaserCard` | Highlighted entry point with an action |
+| `SDSArticleCard` | News or article preview (date, category) |
+| `SDSNewsList` | A list of articles |
+| `SDSLinkList` | A list of links with an optional title |
+| `SDSDocument` | Document reference (type, size, date) |
+| `SDSDownload` | Downloadable file with metadata |
+| `SDSEvent` | Event entry (date, location, registration) |
+| `SDSMeetingCard` | Meeting or appointment entry |
+
+Their exhaustive props are in the [API reference](/docs/api/sds).
+
+## Guidance
+
+- One card, one idea. Put the action in `footer` (or use `href`), not in both.
+- Keep descriptions to one or two lines; long copy belongs to a detail page.
+- Do not nest a card inside a card; use `SDSSection` for grouping.
+
+## Related
+
+[API: SDSCard](/docs/api/sds/sdscard) · [Layout](/docs/core/components/layout) ·
+[Recipe: Dashboard](/docs/core/recipes/dashboard)

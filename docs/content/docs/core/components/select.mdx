@@ -1,0 +1,56 @@
+---
+title: Select
+description: "Labelled native select with hint text and validation states."
+---
+
+import { SDSStack, Select } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Select" direction="column">
+  <SDSStack gap={4}>
+    <Select label="Service" hint="Choose the service you need." nativeSelectProps={{ name: "service" }}>
+      <option value="">Choose a service</option>
+      <option value="certificate">Certificate</option>
+      <option value="address">Address change</option>
+    </Select>
+    <Select
+      label="Region"
+      state="error"
+      stateRelatedMessage="Select a region."
+      nativeSelectProps={{ name: "region" }}
+    >
+      <option value="">Choose a region</option>
+      <option value="north">North</option>
+      <option value="south">South</option>
+    </Select>
+  </SDSStack>
+</Demo>
+
+```tsx
+<Select label="Service" nativeSelectProps={{ name: "service" }}>
+  <option value="">Choose a service</option>
+  <option value="certificate">Certificate</option>
+</Select>
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `label` | `ReactNode` | required |
+| `hint` | `ReactNode` | — |
+| `nativeSelectProps` | native `<select>` props | required |
+| `children` | `<option>` elements | required |
+| `state` | `success`, `error`, `info`, `default` | `default` |
+| `stateRelatedMessage` | `ReactNode` | — |
+| `disabled`, `id`, `className`, `style` | — | — |
+
+## Guidance
+
+- The placeholder option must have an empty `value` so "nothing selected" is detectable.
+- For more than ~15 options, use a searchable pattern built on `Input` + a result list.
+- For 2–5 mutually exclusive options, `SegmentedControl` or `RadioButtons` is easier to scan.
+
+## Related
+
+[API: Select](/docs/api/components/select) · [Recipe: Forms](/docs/core/recipes/forms)

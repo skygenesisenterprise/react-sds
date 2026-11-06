@@ -1,0 +1,49 @@
+---
+title: CSS entry points
+description: "Every stylesheet exposed by the package, what each one loads, and when to use it."
+---
+
+The package is framework-independent plain CSS. Import the entry that matches your usage.
+
+| Entry | Loads | Use when |
+| --- | --- | --- |
+| `@skygenesisenterprise/react-sds/main.css` | Foundation + legacy `fr-*` component layer + icons | You render any historic component (Button, Alert, Table…) |
+| `@skygenesisenterprise/react-sds/styles` | Foundation only: tokens, themes, reset, typography, layout, shared components, utilities | You only use the SDS families |
+| `@skygenesisenterprise/react-sds/tokens` | Token custom properties only | You need the variables without any reset |
+| `@skygenesisenterprise/react-sds/assets/sds/tokens.css` | Same token sheet under the assets path | Compatibility with existing asset pipelines |
+
+Individual files are also exported, for example
+`@skygenesisenterprise/react-sds/styles/themes`, `…/styles/foundation/colors`,
+`…/styles/components/sds-card.css`, `…/styles/base/reset.css` and
+`…/styles/utilities`. The exhaustive list is on the [exports reference](/docs/api/exports).
+
+## Order
+
+Load the package stylesheet before your application styles so your overrides win:
+
+```tsx title="app/layout.tsx"
+import "@skygenesisenterprise/react-sds/main.css";
+import "./app.css";
+```
+
+## What the foundation contains
+
+```text
+foundation/   palette, typography, spacing, radius, shadows, motion, dimensions
+themes/       light.css (default) and dark.css
+base/         reset, global defaults, type scale, accessibility
+layout.css    page-shell primitives
+components/   shared component styles (header, form, table, prose, SDS families)
+utilities/    system-wide helpers
+```
+
+## What the legacy layer adds
+
+`main.css` additionally loads the icon stylesheet and `legacy.css`, which styles the `fr-*`
+classes emitted by the historic components. Without it those components render unstyled even
+though their JavaScript works, so keep `main.css` as long as you use them.
+
+## No build step required
+
+There is no Sass, PostCSS plugin or Tailwind requirement. If you use Tailwind, see
+[Customization](/docs/core/styling/customization) for the optional preset and adapters.

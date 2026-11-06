@@ -1,0 +1,59 @@
+---
+title: Sizing
+description: "Container widths, control heights, icon sizes and focus-ring dimensions."
+---
+
+import { SDSContainer } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+Dimensions are separate from the spacing scale: they describe the size of a box, not the
+distance between boxes.
+
+## Containers
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--sge-container-narrow` | `45rem` | Short form, confirmation |
+| `--sge-container-default` | `75rem` | Standard page content |
+| `--sge-container-wide` | `80rem` | Data-dense pages |
+| `--sge-content-prose` | `52rem` | Long-form reading |
+| `--sge-content-wide` | `72rem` | Wide content blocks |
+
+`SDSContainer` exposes three of them through `size`:
+
+<Demo label="SDSContainer" direction="column">
+  <SDSContainer size="narrow" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>
+    narrow
+  </SDSContainer>
+  <SDSContainer size="default" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>
+    default
+  </SDSContainer>
+  <SDSContainer size="wide" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>
+    wide
+  </SDSContainer>
+</Demo>
+
+## Controls and icons
+
+| Token | Value |
+| --- | --- |
+| `--sge-control-height-sm` | `2rem` |
+| `--sge-control-height-md` | `2.5rem` |
+| `--sge-control-height-lg` | `3rem` |
+| `--sge-touch-target` | `2.5rem` |
+| `--sge-icon-size-sm` | `1rem` |
+| `--sge-icon-size-md` | `1.25rem` |
+| `--sge-icon-size-lg` | `1.5rem` |
+
+`--sge-touch-target` is the minimum interactive size for pointer targets on touch screens;
+icon-only buttons must respect it even when the visual icon is smaller.
+
+## Focus ring
+
+| Token | Value |
+| --- | --- |
+| `--sge-focus-ring-width` | `2px` |
+| `--sge-focus-ring-offset` | `2px` |
+
+Focus styling is part of the foundation: do not remove outlines without providing an
+equivalent visible focus indicator.

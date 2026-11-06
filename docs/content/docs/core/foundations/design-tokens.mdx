@@ -1,0 +1,60 @@
+---
+title: Design tokens
+description: "The complete SDS token set, read live from the exported sdsTokens object of the installed package."
+---
+
+import { sdsTokens } from "@/components/sds-preview";
+
+The tokens below are rendered from `sdsTokens`, the object exported by the installed package.
+Nothing on this page is copied by hand.
+
+```tsx
+import { sdsTokens } from "@skygenesisenterprise/react-sds";
+
+sdsTokens.colors.primary;        // "oklch(0.42 0.033 100.6306)"
+sdsTokens.spacing[6];            // "2rem"
+sdsTokens.breakpoints.md;        // "48rem"
+```
+
+## Token object
+
+<TokenTable />
+
+## CSS custom properties
+
+Each token is also a CSS variable named `--sge-<group>-<key>`. The prefix is exported as
+`cssCustomPropertyPrefix`:
+
+```tsx
+import { cssCustomPropertyPrefix } from "@skygenesisenterprise/react-sds";
+
+cssCustomPropertyPrefix; // "sge"
+```
+
+```css
+.card {
+  background: var(--sge-color-surface);
+  border: 1px solid var(--sge-color-border);
+  border-radius: var(--sge-radius-medium);
+  padding: var(--sge-space-4);
+  font-family: var(--sge-font-family-base);
+  font-size: var(--sge-font-size-md);
+  box-shadow: var(--sge-shadow-sm);
+}
+```
+
+<Callout type="warn">
+  The colour values in the `sdsTokens` object are the light-scheme reference values. The
+  active scheme resolves at runtime through the CSS variables (see
+  [Themes](/docs/core/foundations/themes)), so read `var(--sge-color-*)` in styles rather than
+  hard-coding a value from this table.
+</Callout>
+
+## Token groups
+
+- [Colour](/docs/core/foundations/colors)
+- [Typography](/docs/core/foundations/typography)
+- [Spacing](/docs/core/foundations/spacing)
+- [Sizing](/docs/core/foundations/sizing)
+- [Borders](/docs/core/foundations/borders)
+- [Shadows](/docs/core/foundations/shadows)

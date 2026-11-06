@@ -1,0 +1,52 @@
+---
+title: Colours
+description: "Semantic colour tokens: intent, surfaces, text, lines and state colours, with their CSS variables."
+---
+
+import { TokenTable } from "@/components/TokenTable";
+
+The colour layer is semantic, not a raw palette. Components reference intent tokens
+(`primary`, `surface`, `border`, `danger`…) so a scheme switch or a brand override changes
+every component at once.
+
+<TokenTable group="colors" />
+
+## Intent
+
+| Token | Use |
+| --- | --- |
+| `--sge-color-primary` / `primary-foreground` | Main action, active state, brand emphasis |
+| `--sge-color-secondary` / `secondary-foreground` | Secondary action on a raised surface |
+| `--sge-color-accent` / `accent-foreground` | Highlight and selected surfaces |
+| `--sge-color-success`, `warning`, `danger`, `info` | Feedback states |
+
+`--sge-color-destructive` is an alias used by destructive actions; `--sge-color-danger` is the
+SDS name. Both are maintained.
+
+## Surfaces and text
+
+| Token | Use |
+| --- | --- |
+| `--sge-color-background` | Page background |
+| `--sge-color-surface` | Raised block (card, popover) |
+| `--sge-color-surface-muted` | Muted block, table stripe, subtle section |
+| `--sge-color-text` | Body text |
+| `--sge-color-text-muted` | Secondary text, captions |
+| `--sge-color-on-primary` | Text placed on `primary` |
+
+## Lines and focus
+
+| Token | Use |
+| --- | --- |
+| `--sge-color-border` | Hairline separators, card outlines |
+| `--sge-color-input` | Form control outline |
+| `--sge-color-ring`, `--sge-color-focus` | Focus ring and outline |
+| `--sge-color-link`, `--sge-color-link-hover` | Links |
+
+## Accessibility rules
+
+- Body text must reach 4.5:1 against its surface; the theme files carry measured contrast
+  decisions (for example the dark-scheme destructive label uses the deep neutral, not white).
+- Never communicate a state with colour alone: pair it with an icon or text
+  (`Alert` and `Badge` do this for you).
+- Do not use `--sge-color-danger` as a decoration; it denotes an error or a destructive action.

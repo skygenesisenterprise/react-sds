@@ -1,0 +1,61 @@
+---
+title: React Native
+description: "The native implementation of the SDS: provider, primitives, components, tokens and hooks."
+---
+
+The package ships a React Native implementation under the `/native` entry. It has no DOM
+dependency and is never imported by the web entry.
+
+```bash
+pnpm add @skygenesisenterprise/react-sds react-native
+```
+
+`react-native ^0.72.0` is an optional peer dependency: install it only if you use this entry.
+
+## Entry points
+
+| Entry | Contents |
+| --- | --- |
+| `/native` | Everything below, re-exported |
+| `/native/theme` | `SDSProvider`, `useSDSTheme`, context |
+| `/native/tokens` | `colors`, `dimensions`, `elevation`, `motion`, `radius`, `spacing`, `typography` |
+| `/native/primitives` | `Container`, `Divider`, `Heading`, `Icon`, `Stack`, `Text` |
+| `/native/components` | `Alert`, `Avatar`, `Badge`, `Button`, `Card`, `Checkbox`, `DocumentCard`, `GovernmentBanner`, `Header`, `IconButton`, `IdentityBadge`, `Input`, `Link`, `List`, `ListItem`, `Loading`, `NavItem`, `NotificationCard`, `ProcedureCard`, `Progress`, `Radio`, `RadioGroup`, `Section`, `Select`, `ServiceCard`, `Status`, `StatusBadge`, `Switch`, `TabBar`, `TextArea` |
+| `/native/hooks` | Native hooks |
+| `/native/utils` | Native utilities |
+
+## Usage
+
+```tsx title="App.tsx"
+import {
+  SDSProvider,
+  Button,
+  Card,
+  Heading,
+  Stack,
+  Text,
+} from "@skygenesisenterprise/react-sds/native";
+
+export default function App() {
+  return (
+    <SDSProvider>
+      <Stack gap="4">
+        <Heading level={1}>Service portal</Heading>
+        <Card title="Certificate" description="Request a certificate." />
+        <Text>Signed in as Alex.</Text>
+        <Button onPress={() => {}}>Continue</Button>
+      </Stack>
+    </SDSProvider>
+  );
+}
+```
+
+The native layer shares the SDS semantic tokens and conventions with the web implementation,
+but uses native primitives. The exact props of each native component are listed in the
+[API reference](/docs/api/sds).
+
+## Scope
+
+The native layer is a graphical foundation: routing, data fetching and business logic stay in
+your application. Do not import `/native` from a web bundle — it would pull React Native into
+the browser build.

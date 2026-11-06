@@ -1,0 +1,59 @@
+---
+title: Token reference
+description: "sdsTokens and the --sge-* CSS custom properties, read live from the installed package."
+---
+
+import { TokenTable } from "@/components/TokenTable";
+
+## `sdsTokens`
+
+```ts
+import { sdsTokens, cssCustomPropertyPrefix } from "@skygenesisenterprise/react-sds";
+
+cssCustomPropertyPrefix; // "sge"
+```
+
+The object is typed by `SDSTokens`, with one exported type per group:
+
+| Type | Group |
+| --- | --- |
+| `SDSColorTokens` | `colors` |
+| `SDSTypographyTokens` | `typography` |
+| `SDSSpacingTokens` | `spacing` |
+| `SDSDimensionTokens` | `dimensions` |
+| `SDSRadiusTokens` | `radius` |
+| `SDSElevationTokens` | `elevation` |
+| `SDSMotionTokens` | `motion` |
+| `SDSBreakpointTokens` | `breakpoints` |
+
+<TokenTable />
+
+## CSS custom properties
+
+Every token is available as `--sge-<group>-<key>` when a package stylesheet is loaded. The
+active theme determines the resolved value.
+
+```css
+.example {
+  color: var(--sge-color-text);
+  background: var(--sge-color-surface);
+  border: 1px solid var(--sge-color-border);
+  border-radius: var(--sge-radius-medium);
+  padding: var(--sge-space-4);
+  font: var(--sge-font-weight-regular) var(--sge-font-size-md) / var(--sge-line-height-body)
+    var(--sge-font-family-base);
+}
+```
+
+## Native tokens
+
+The `/native` entry re-exports the same token groups as plain objects for React Native
+(`colors`, `dimensions`, `elevation`, `motion`, `radius`, `spacing`, `typography`). Native themes
+are provided by `SDSProvider` / `useSDSTheme`, not by CSS.
+
+## Notes
+
+- `sdsTokens.colors` carries the light-scheme reference values; it is data, not the active
+  scheme.
+- Palette primitives (`--sge-palette-*`) are an implementation detail of the themes. Override
+  semantic tokens in application code.

@@ -1,0 +1,44 @@
+---
+title: Borders
+description: "Border radius tokens, the two naming scales and how components apply borders."
+---
+
+import { Demo } from "@/components/Demo";
+
+Borders use `--sge-color-border` (or `--sge-color-input` for form controls). Radius uses a
+small token set with two compatible names: descriptive names (the SDS contract) and
+Tailwind-style aliases.
+
+| Descriptive token | Alias | Value |
+| --- | --- | --- |
+| `--sge-radius-none` | — | `0` |
+| `--sge-radius-small` | `--sge-radius-sm` | `0.375rem` |
+| `--sge-radius-medium` | `--sge-radius-md` | `0.5rem` |
+| `--sge-radius-large` | `--sge-radius-lg` | `0.625rem` |
+| — | `--sge-radius-xl` | `0.875rem` |
+| `--sge-radius-full` | — | `9999px` |
+
+<Demo label="Radius scale" direction="column">
+  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+    <div style={{ width: 96, height: 48, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-none)" }}>none</div>
+    <div style={{ width: 96, height: 48, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-small)" }}>small</div>
+    <div style={{ width: 96, height: 48, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-medium)" }}>medium</div>
+    <div style={{ width: 96, height: 48, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-large)" }}>large</div>
+    <div style={{ width: 96, height: 48, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-full)" }}>full</div>
+  </div>
+</Demo>
+
+## Usage
+
+- Card and panel surfaces: `--sge-radius-large`.
+- Inputs, buttons and low-elevation blocks: `--sge-radius-small` or `--sge-radius-medium`.
+- Pills, badges and avatars: `--sge-radius-full`.
+- Never nest two different radii on a surface and its inner content; use the same or one step
+  smaller.
+
+## Rules
+
+1. Hairlines are `1px` and use `--sge-color-border`.
+2. A border and a shadow are not combined on the same surface unless the component defines it
+   (cards do: border + `--sge-shadow-sm`).
+3. Focus rings are not borders — they use `--sge-color-ring` and the focus-ring dimensions.

@@ -1,0 +1,54 @@
+---
+title: Accordion
+description: "Collapsible section with controlled or uncontrolled expansion."
+---
+
+import { Accordion } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Accordion" direction="column">
+  <Accordion label="What documents do I need?" defaultExpanded>
+    <p>An identity document and proof of address.</p>
+  </Accordion>
+</Demo>
+
+```tsx
+<Accordion label="What documents do I need?" defaultExpanded>
+  <p>An identity document and proof of address.</p>
+</Accordion>
+```
+
+## Props
+
+| Prop | Values | Note |
+| --- | --- | --- |
+| `label` | `ReactNode` | Required; the clickable title |
+| `children` | `ReactNode` | Required; the panel |
+| `defaultExpanded` | `boolean` | Uncontrolled initial state |
+| `expanded` + `onExpandedChange` | controlled | Both together |
+| `titleAs` | `h2`–`h6` | Heading level of the title |
+| `classes` | `root`, `accordion`, `title`, `collapse` | — |
+
+## Controlled usage
+
+```tsx
+const [expanded, setExpanded] = useState(false);
+
+<Accordion
+  label="Details"
+  expanded={expanded}
+  onExpandedChange={(next) => setExpanded(next)}
+>
+  <p>Panel content.</p>
+</Accordion>;
+```
+
+## Guidance
+
+- Use an accordion for secondary detail, not for the main content of the page.
+- Set `titleAs` to the level that follows the surrounding outline.
+- Avoid one-item accordions; use a plain heading and paragraph instead.
+
+## Related
+
+[API: Accordion](/docs/api/components/accordion) · [Tabs](/docs/core/components/tabs)

@@ -1,0 +1,77 @@
+---
+title: Modal
+description: "Dialog created with createModal: trigger props, imperative open/close and action buttons."
+---
+
+`Modal` is not a component you render directly. `createModal` returns a component and the props
+for its trigger, so the dialog state lives in one place.
+
+```tsx title="ConfirmDelete.tsx"
+"use client";
+
+import { createModal } from "@skygenesisenterprise/react-sds/Modal";
+import { Button } from "@skygenesisenterprise/react-sds";
+
+const modal = createModal({ id: "confirm-delete", isOpenedByDefault: false });
+
+export function ConfirmDelete() {
+  return (
+    <>
+      <Button {...modal.buttonProps}>Delete</Button>
+      <modal.Component
+        title="Delete this request?"
+        buttons={[
+          { children: "Cancel", priority: "secondary", doClosesModal: true },
+          {
+            children: "Delete",
+            priority: "primary",
+            onClick: () => {
+              /* perform the deletion */
+            },
+            doClosesModal: true,
+          },
+        ]}
+      >
+        <p>This action cannot be undone.</p>
+      </modal.Component>
+    </>
+  );
+}
+```
+
+## Factory
+
+```ts
+const modal = createModal({ id: "my-modal", isOpenedByDefault: false });
+```
+
+| Returned | Use |
+| --- | --- |
+| `Component` | The dialog component |
+| `buttonProps` | `id`, `aria-controls`, `data-fr-opened` for the trigger |
+| `open()` / `close()` | Imperative control |
+| `id`, `isOpenedByDefault` | The values passed in |
+
+## Dialog props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `title` | `ReactNode` | required |
+| `titleAs` | `h1`–`h6`, `p`, `div` | — |
+| `size` | `small`, `medium`, `large` | `medium` |
+| `concealingBackdrop` | `boolean` | `true` |
+| `topAnchor` | `boolean` | — |
+| `iconId` | icon class name | — |
+| `buttons` | one or more `ButtonProps & { doClosesModal?: boolean }` | — |
+| `children` | `ReactNode` | required |
+
+## Accessibility
+
+- The dialog traps focus and closes on `Escape` (provided by the stylesheet/runtime).
+- `title` is the accessible name: make it a question or a short statement.
+- Always provide at least one action to close the dialog (Cancel or Close).
+- Do not open a modal on page load unless the user triggered the flow.
+
+## Related
+
+[API: Modal](/docs/api/components/modal) · [Button](/docs/core/components/button)

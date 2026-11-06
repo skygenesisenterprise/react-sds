@@ -1,0 +1,68 @@
+---
+title: Spacing
+description: "The 0.25rem-based spacing scale and the SDSStack / SDSGrid primitives that consume it."
+---
+
+import { SDSCard, SDSGrid, SDSStack } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+All spacing is a multiple of `--sge-space-1` (`0.25rem`). Components accept a **step number**,
+not a CSS value, so spacing stays consistent across the design system.
+
+| Step | CSS variable | Value |
+| --- | --- | --- |
+| 1 | `--sge-space-1` | `0.25rem` |
+| 2 | `--sge-space-2` | `0.5rem` |
+| 3 | `--sge-space-3` | `0.75rem` |
+| 4 | `--sge-space-4` | `1rem` |
+| 5 | `--sge-space-5` | `1.5rem` |
+| 6 | `--sge-space-6` | `2rem` |
+| 7 | `--sge-space-7` | `2.5rem` |
+| 8 | `--sge-space-8` | `3rem` |
+| 9 | `--sge-space-9` | `4rem` |
+| 10 | `--sge-space-10` | `5rem` |
+| 11 | `--sge-space-11` | `6rem` |
+| 12 | `--sge-space-12` | `8rem` |
+
+`--sge-space-base` is the base unit itself.
+
+## SDSStack
+
+Vertical rhythm between blocks.
+
+<Demo label="SDSStack gap=4" direction="column">
+  <SDSStack gap={4}>
+    <div style={{ background: "var(--sge-color-surface-muted)", padding: 12 }}>Block one</div>
+    <div style={{ background: "var(--sge-color-surface-muted)", padding: 12 }}>Block two</div>
+    <div style={{ background: "var(--sge-color-surface-muted)", padding: 12 }}>Block three</div>
+  </SDSStack>
+</Demo>
+
+```tsx
+<SDSStack gap={4}>…</SDSStack>
+```
+
+## SDSGrid
+
+Responsive columns, cascading upward from mobile.
+
+<Demo label="SDSGrid 1 / 2 / 3" direction="column">
+  <SDSGrid columns={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+    <SDSCard title="One" description="Cell" variant="flat" />
+    <SDSCard title="Two" description="Cell" variant="flat" />
+    <SDSCard title="Three" description="Cell" variant="flat" />
+  </SDSGrid>
+</Demo>
+
+```tsx
+<SDSGrid columns={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>…</SDSGrid>
+```
+
+Breakpoints used by the grid: mobile `< 36rem`, tablet `≥ 36rem`, desktop `≥ 62rem`.
+
+## Rules
+
+- Choose the step from the layout meaning (2 = tight, 4 = default, 6 = block, 9+ = page
+  section), not from a pixel target.
+- Do not add margins between stacked items; put the gap on the stack.
+- Section-level spacing belongs to the page (`SDSSection`), not to the last child.

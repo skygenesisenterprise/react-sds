@@ -1,0 +1,57 @@
+---
+title: Accessibility
+description: "The accessibility contract of React SDS: semantics, focus, skip links, contrast and motion."
+---
+
+React SDS targets WCAG 2.2 AA for its components. This page lists what the library provides and
+what your application remains responsible for.
+
+## Provided by the library
+
+- **Semantic elements.** Layout primitives render `main`, `section`, `nav`, `header`, `footer`
+  and headings with the level you pass. `SDSHeading` derives the tag from `level`.
+- **Landmarks and skip links.** `SDSMain` renders `<main id="contenu">`; `SkipLinks` renders the
+  keyboard skip navigation.
+- **Keyboard interaction.** Accordion, Tabs, Modal, SideMenu and the header menus implement
+  keyboard navigation and `aria-*` wiring.
+- **Focus visibility.** The stylesheet defines `:focus-visible` rings through
+  `--sge-color-ring`, `--sge-focus-ring-width` and `--sge-focus-ring-offset`.
+- **Measured contrast.** Theme values include documented contrast decisions; asserts exist in the
+  library test suite.
+- **Reduced motion.** Motion tokens are used with `prefers-reduced-motion` guards in the
+  stylesheet.
+
+## Skip links
+
+```tsx
+import { SkipLinks, SDSMain } from "@skygenesisenterprise/react-sds";
+
+<SkipLinks
+  links={[
+    { label: "Skip to content", anchor: "#contenu" },
+    { label: "Skip to menu", anchor: "#menu" },
+  ]}
+/>
+<SDSMain>{/* page content */}</SDSMain>;
+```
+
+## Your responsibilities
+
+1. **One `<h1>` per page**, and no skipped heading levels. Use `size` to adjust the visual size
+   without breaking the outline.
+2. **Labels on every control.** `Input`, `Select` and `Upload` require `label`; icon-only
+   buttons require `title`.
+3. **Do not remove focus outlines.** If you restyle focus, keep a visible indicator with at
+   least 3:1 contrast against the adjacent colours.
+4. **Announce dynamic changes.** `Alert` accepts `role="alert"` or `role="status"`; use
+   `status` for non-urgent updates.
+5. **Do not encode meaning in colour alone.** Pair state colours with text or an icon.
+6. **Respect language.** Set `lang` on the document; component translations follow the i18n
+   layer (see [React integration](/docs/core/integrations/react#language)).
+7. **Test with assistive technology** and keyboard only; automated checks do not cover
+   interaction quality.
+
+## Motion
+
+The SDS stylesheet honours `prefers-reduced-motion` for transitions it defines. If you add
+animated content, reuse `--sge-duration-*` and `--sge-ease-*` and guard it the same way.

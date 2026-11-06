@@ -1,0 +1,75 @@
+---
+title: React
+description: "Use React SDS in a plain React application: stylesheet, theme startup, link registration and i18n."
+---
+
+## Stylesheet
+
+```tsx title="src/main.tsx"
+import "@skygenesisenterprise/react-sds/main.css";
+```
+
+Use `/styles` instead if you only render the SDS families (see
+[CSS entry points](/docs/core/styling/css)).
+
+## Optional runtime startup
+
+`/spa` exposes `startReactSds`, which starts the colour-scheme logic and wires the library
+runtime. It is optional: components work without it, but the theme is not persisted and the
+legacy runtime is not initialised.
+
+```tsx title="src/main.tsx"
+import { startReactSds } from "@skygenesisenterprise/react-sds/spa";
+import { createRoot } from "react-dom/client";
+import { App } from "./App";
+
+startReactSds({
+  defaultColorScheme: "system", // "light" | "dark" | "system"
+  verbose: false,
+});
+
+createRoot(document.getElementById("root")!).render(<App />);
+```
+
+`startReactSds` also accepts `Link` (your router link component) and `useLang` (a hook
+returning the current language tag).
+
+## Router links
+
+Historic components that render links (Button as a link, Breadcrumb, SideMenu, Tile…) accept
+`linkProps`. By default they render an `<a>`. To route through your router, either pass a
+custom `Link` to `startReactSds`, or augment the `RegisterLink` interface:
+
+```tsx
+import type { Link as RouterLink } from "react-router-dom";
+
+declare module "@skygenesisenterprise/react-sds/link" {
+  interface RegisterLink {
+    Link: typeof RouterLink;
+  }
+}
+```
+
+Once registered, `linkProps` is typed with your router's props and the library's own links use
+your component.
+
+## Language
+
+Components with built-in labels (Alert close button, Pagination, Stepper, Breadcrumb…) resolve
+their strings through the package i18n layer. Provide the current language with
+`startReactSds({ useLang })`, defaulting to `"fr"` if none is provided. Per-component
+translations can be added without touching the source:
+
+```tsx
+import { addPaginationTranslations } from "@skygenesisenterprise/react-sds/Pagination";
+
+addPaginationTranslations({
+  lang: "en",
+  messages: { "next page": "Next page" },
+});
+```
+
+## Dark mode
+
+`startReactSds` handles the initial scheme and persistence. To read the active scheme in a
+component, use `useIsDark` from `@skygenesisenterprise/react-sds/useIsDark`.

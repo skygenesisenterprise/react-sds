@@ -1,0 +1,33 @@
+---
+title: update-icons
+description: "Deprecated icon-trimming command, superseded by optimize-css."
+---
+
+<Callout type="warn">
+  `update-icons` is deprecated. Use [`optimize-css`](/docs/cli/optimize-css), which rebuilds the
+  icons **and** the component stylesheets in one pass.
+</Callout>
+
+```bash
+npx react-sds update-icons
+# or the standalone binary
+npx only-include-used-icons
+```
+
+It rebuilds `dist/legacy/utility/icons/icons.min.css` with only the icons used by the project.
+
+## Options
+
+| Option | Effect |
+| --- | --- |
+| `--projectDir <path>` | Project to analyse (default: current directory) |
+| `--silent` | Disable `console.log` |
+
+## Why it is deprecated
+
+Trimming icons without trimming the component stylesheets leaves most of the ~600 kB legacy
+stylesheet in place. `optimize-css` performs the same icon step and then includes only the
+component stylesheets your project imports.
+
+The command remains available so existing `prebuild` scripts keep working, but it will not
+receive new behaviour.

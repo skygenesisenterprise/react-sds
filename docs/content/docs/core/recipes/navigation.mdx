@@ -1,0 +1,98 @@
+---
+title: Navigation
+description: "Compose a page shell with breadcrumb, side navigation, main navigation and pagination."
+---
+
+import {
+  Breadcrumb,
+  MainNavigation,
+  Pagination,
+  SDSContainer,
+  SDSStack,
+  SideMenu,
+} from "@/components/sds-preview";
+
+Navigation in React SDS is data-driven: you pass the items and their `linkProps`, so the same
+component works with `<a>`, React Router or Next.js links.
+
+## Breadcrumb
+
+```tsx
+<Breadcrumb
+  homeLinkProps={{ href: "/" }}
+  segments={[
+    { label: "Services", linkProps: { href: "/services" } },
+    { label: "Certificates", linkProps: { href: "/services/certificates" } },
+  ]}
+  currentPageLabel="Apply"
+/>
+```
+
+## Main navigation
+
+```tsx
+<MainNavigation
+  items={[
+    { text: "Home", linkProps: { href: "/" }, isActive: true },
+    { text: "Services", linkProps: { href: "/services" } },
+    {
+      text: "Help",
+      menuLinks: [
+        { text: "FAQ", linkProps: { href: "/help/faq" } },
+        { text: "Contact", linkProps: { href: "/help/contact" } },
+      ],
+    },
+  ]}
+/>
+```
+
+## Side menu
+
+`SideMenu` handles nested items, the active state and the mobile burger.
+
+```tsx
+<SideMenu
+  title="Settings"
+  burgerMenuButtonText="Settings menu"
+  items={[
+    { text: "Profile", linkProps: { href: "/settings/profile" }, isActive: true },
+    {
+      text: "Security",
+      items: [
+        { text: "Password", linkProps: { href: "/settings/security/password" } },
+        { text: "Sessions", linkProps: { href: "/settings/security/sessions" } },
+      ],
+    },
+  ]}
+/>
+```
+
+## Pagination
+
+```tsx
+<Pagination
+  count={12}
+  defaultPage={3}
+  getPageLinkProps={(page) => ({ href: `/results?page=${page}` })}
+/>
+```
+
+## Page shell
+
+<Demo label="Container + breadcrumb" direction="column">
+  <SDSContainer size="narrow">
+    <SDSStack gap={4}>
+      <Breadcrumb
+        homeLinkProps={{ href: "/" }}
+        segments={[{ label: "Services", linkProps: { href: "/services" } }]}
+        currentPageLabel="Certificates"
+      />
+    </SDSStack>
+  </SDSContainer>
+</Demo>
+
+## Rules
+
+1. Keep the label of the current page as text, never as a link (`currentPageLabel`).
+2. Do not use `SideMenu` and `MainNavigation` to show the same items at the same level.
+3. Pagination is 1-based in `getPageLinkProps`; `defaultPage` is a page number, not an index.

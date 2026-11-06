@@ -1,0 +1,92 @@
+---
+title: Layout
+description: "Page shell, width control, sections, stacks and responsive grids: the SDS layout primitives."
+---
+
+import {
+  SDSCard,
+  SDSContainer,
+  SDSGrid,
+  SDSMain,
+  SDSPage,
+  SDSSection,
+  SDSStack,
+} from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+## Page shell
+
+`SDSPage` is a full-height flex column: content grows, the footer stays at the bottom.
+`SDSMain` is the semantic `<main>` landmark and the skip-link target.
+
+```tsx
+<SDSPage>
+  <SDSMain>{/* page content */}</SDSMain>
+</SDSPage>
+```
+
+| Component | Prop | Values |
+| --- | --- | --- |
+| `SDSPage` | `className`, `style`, `children` | — |
+| `SDSMain` | `id` | default `"contenu"` |
+
+## Width
+
+`SDSContainer` centers content and caps its width.
+
+<Demo label="Container sizes" direction="column">
+  <SDSContainer size="narrow" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>narrow</SDSContainer>
+  <SDSContainer size="default" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>default</SDSContainer>
+  <SDSContainer size="wide" style={{ background: "var(--sge-color-surface-muted)", padding: 8 }}>wide</SDSContainer>
+</Demo>
+
+| `size` | Max width token |
+| --- | --- |
+| `narrow` | `--sge-container-narrow` (45rem) |
+| `default` | `--sge-container-default` (75rem) |
+| `wide` | `--sge-container-wide` (80rem) |
+
+## Sections
+
+`SDSSection` adds a vertical rhythm block with an optional header.
+
+<Demo label="SDSSection" direction="column">
+  <SDSSection
+    title="Available services"
+    subtitle="Three services are open today."
+  >
+    <SDSStack gap={3}>
+      <SDSCard title="Certificate" description="Request a certificate." variant="flat" />
+    </SDSStack>
+  </SDSSection>
+</Demo>
+
+Props: `title`, `subtitle`, `action`, `titleLevel` (1–6, default 2), `tone`
+(`default` | `subtle`).
+
+## Stacks and grids
+
+<Demo label="SDSGrid" direction="column">
+  <SDSGrid columns={{ mobile: 1, tablet: 2, desktop: 3 }} gap={4}>
+    <SDSCard title="One" variant="flat" />
+    <SDSCard title="Two" variant="flat" />
+    <SDSCard title="Three" variant="flat" />
+  </SDSGrid>
+</Demo>
+
+- `SDSStack` — vertical flex; `gap` is a spacing step (1–12), `align` is
+  `start` | `center` | `end` | `stretch`.
+- `SDSGrid` — `columns` per breakpoint (`mobile`, `tablet`, `desktop`) and a `gap` step.
+- `SDSColumns` — fixed equal columns (`cols`: 2–4), wrapping to full width on small screens.
+
+## Accessibility
+
+- Use one `SDSMain` per page; its `id` must match the `SkipLinks` anchor.
+- `SDSSection` renders a `<section>` with a heading derived from `titleLevel`; do not skip
+  levels in the page outline.
+- Layout components add structure only — they do not announce anything.
+
+## Related
+
+[API: SDSContainer](/docs/api/sds/sdscontainer) · [API: SDSGrid](/docs/api/sds/sdsgrid) ·
+[API: SDSPage](/docs/api/sds/sdspage) · [Spacing](/docs/core/foundations/spacing)

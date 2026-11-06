@@ -1,0 +1,60 @@
+---
+title: Components
+description: "The component catalogue: SDS families for new interfaces, historic components for existing screens, and the exhaustive API behind both."
+---
+
+Components are grouped by role, not by implementation. The guides below cover usage,
+variants and accessibility; the [API reference](/docs/api) carries the exhaustive props for
+**every** public component, generated from the package declarations.
+
+## SDS families
+
+These are built on the SDS tokens and are the recommended choice for new screens.
+
+| Family | Components | Guide |
+| --- | --- | --- |
+| Layout | `SDSPage`, `SDSMain`, `SDSContainer`, `SDSSection`, `SDSStack`, `SDSGrid`, `SDSColumns` | [Layout](/docs/core/components/layout) |
+| Typography | `SDSHeading`, `SDSText`, `SDSLead`, `SDSLink` | [Typography](/docs/core/components/typography) |
+| Content | `SDSCard`, `SDSTeaserCard`, `SDSArticleCard`, `SDSNewsList`, `SDSLinkList`, `SDSDocument`, `SDSDownload`, `SDSEvent`, `SDSMeetingCard` | [Cards and content](/docs/core/components/cards) |
+| Portal | `SDSPortal`, `SDSGovernmentHeader`, `SDSMinistryHeader`, `SDSGovernmentFooter`, `SDSHero`, `SDSServiceBanner`, `SDSOfficialNotice`, `SDSBreadcrumb`, `SDSNavigation`, `SDSMegaMenu`, `SDSSearch`, `SDSPagination` | [Portal](/docs/core/components/portal) |
+
+## Historic components
+
+The `fr-*` component set remains public and is still shipped with its stylesheet. It is not
+deprecated; the guides cover the most used ones and the API reference covers all of them.
+
+| Component | Guide | API |
+| --- | --- | --- |
+| `Button` | [Button](/docs/core/components/button) | [API](/docs/api/components/button) |
+| `Input` | [Input](/docs/core/components/input) | [API](/docs/api/components/input) |
+| `Select` | [Select](/docs/core/components/select) | [API](/docs/api/components/select) |
+| `Alert` | [Alert](/docs/core/components/alert) | [API](/docs/api/components/alert) |
+| `Badge` | [Badge](/docs/core/components/badge) | [API](/docs/api/components/badge) |
+| `Tag` | [Tag](/docs/core/components/tag) | [API](/docs/api/components/tag) |
+| `Table` | [Table](/docs/core/components/table) | [API](/docs/api/components/table) |
+| `Tabs` | [Tabs](/docs/core/components/tabs) | [API](/docs/api/components/tabs) |
+| `Accordion` | [Accordion](/docs/core/components/accordion) | [API](/docs/api/components/accordion) |
+| `Modal` | [Modal](/docs/core/components/modal) | [API](/docs/api/components/modal) |
+
+Other public components (`Accordion`, `BackToTop`, `Breadcrumb`, `ButtonsGroup`, `CallOut`,
+`Card`, `Checkbox`, `Chart/*`, `Download`, `Follow`, `Footer`, `Header`, `Highlight`,
+`LanguageSelect`, `MainNavigation`, `Notice`, `Pagination`, `Quote`, `RadioButtons`, `Range`,
+`SearchBar`, `SegmentedControl`, `SideMenu`, `SkipLinks`, `Stepper`, `Summary`, `TagsGroup`,
+`Tile`, `ToggleSwitch`, `ToggleSwitchGroup`, `Tooltip`, `Upload`, pictograms…) are documented
+in the [API reference](/docs/api/components).
+
+## Choosing a stylesheet
+
+Historic components require `main.css`. The SDS families work with either entry; `main.css` is
+the safe default while both generations are on the page. See
+[CSS entry points](/docs/core/styling/css).
+
+## Choosing between generations
+
+| Need | Prefer |
+| --- | --- |
+| Page structure, sections, grids | SDS layout |
+| Content card for a service, an article or a document | `SDSCard`, `SDSArticleCard`, `SDSDocument` |
+| Form control | Historic `Input`, `Select`, `Checkbox`, `Upload` |
+| Feedback message | Historic `Alert`, `Notice`, `Badge` |
+| Data table | Historic `Table` |

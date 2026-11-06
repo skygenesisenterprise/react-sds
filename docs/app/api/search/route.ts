@@ -7,33 +7,27 @@ import type { InferPageType } from "fumadocs-core/source";
 
 type Page = InferPageType<typeof source>;
 
-// Configure tag filter based on the first slug (core, cli, api)
+// The first slug segment is the documentation module (core, api or cli); it is
+// exposed as a search tag so the dialog can filter by module.
 function buildIndex(page: Page) {
-	const tag = page.slugs[0] || "all";
 	return {
 		id: page.url,
 		title: page.data.title,
 		description: page.data.description,
 		url: page.url,
 		structuredData: page.data.structuredData,
-		tag,
+		tag: page.slugs[0] ?? "all",
 	} as any;
 }
 
-// All data comes from the filesystem MDX source at build time.
-// "force-static" lets static exports emit this build-time search index and is
-// a no-op change for the standalone server.
 export const dynamic = "force-static";
 
 const isStaticExport = process.env.NEXT_OUTPUT === "export";
 
-// Under `output: "export"` there is no server to run a query against, so the
-// Orama index is exported once at build time and the browser searches it
-// locally. Paired with `useDocsSearch({ type: "static" })` in
-// components/SearchDialog.tsx. The standalone server keeps the runtime handler,
-// which only ships the query parameters instead of the whole index.
+// Under `output: "export"` there is no server, so the index is emitted at build
+// time and searched in the browser. The standalone server keeps the runtime
+// handler.
 const staticSearch = initAdvancedSearch({
-	// https://docs.orama.com/docs/orama-js/supported-languages
 	language: "english",
 	indexes: source.getPages().map(buildIndex),
 });
@@ -41,7 +35,6 @@ const staticSearch = initAdvancedSearch({
 const staticHandler = async () => Response.json(await staticSearch.export());
 
 const { GET: runtimeHandler } = createFromSource(source, {
-	// https://docs.orama.com/docs/orama-js/supported-languages
 	language: "english",
 	buildIndex,
 });

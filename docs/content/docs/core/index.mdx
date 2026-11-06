@@ -1,82 +1,60 @@
 ---
-title: Get Started
-description: "Notploy is an open-source, self-hostable platform for deploying and operating applications on infrastructure you own."
+title: Introduction
+description: "What React SDS provides, how the package is organised, and how to choose between the root entry and the subpath exports."
 ---
 
-import { Card, Cards } from 'fumadocs-ui/components/card';
-import { Callout } from 'fumadocs-ui/components/callout';
+React SDS is the React implementation of the Sky Genesis Enterprise Design System. It is
+distributed as a single package, `@skygenesisenterprise/react-sds`, with three layers:
 
-**Notploy** is an open-source platform that gives you a web control plane for deploying and operating applications, databases and Docker Compose stacks on servers you control. You connect a machine, and Notploy builds, ships, routes and monitors your workloads using standard primitives — **Docker**, **Docker Swarm** and **Traefik**.
+1. **Foundations** — design tokens exposed as TypeScript values (`sdsTokens`) and as CSS custom
+   properties (`--sge-*`), plus the institutional stylesheet.
+2. **SDS components** — the design-system families: layout primitives, typography, portal
+   chrome and content cards.
+3. **Historic components** — the `fr-*` component set (Button, Alert, Table, Tabs, …) that
+   remains part of the public API and is still styled by the legacy stylesheet shipped in the
+   package.
 
-It brings the developer experience of a managed Platform-as-a-Service to your own infrastructure: `git push`, a build, a running container behind a domain with TLS — without handing over your servers, your data or your bill.
+## What you get
 
-## What problem does it solve?
+- A tree-shakable package with one module per component, so you can import from the root entry
+  or from a dedicated subpath.
+- Semantic tokens for colour, typography, spacing, dimensions, radius, elevation, motion and
+  breakpoints (see [Design tokens](/docs/core/foundations/design-tokens)).
+- Light and dark themes driven by `data-sge-theme`, with the legacy `.dark` and
+  `[data-fr-theme="dark"]` selectors honoured.
+- TypeScript declarations for every public export; the [API reference](/docs/api) is generated
+  from them.
+- Optional environment layers that are **not** re-exported by the root entry (Next.js helpers,
+  MUI adapter, React Native implementation, Discord tooling), so importing the root never pulls
+  an optional dependency.
 
-Deploying a real application normally means stitching together a build pipeline, an image registry, a reverse proxy, TLS certificates, DNS records, databases, backups and monitoring. Each of those is a separate tool with its own configuration, and keeping them consistent across environments is where most of the work — and most of the outages — come from.
+## Package layout
 
-Notploy consolidates that surface into one control plane:
+```text
+@skygenesisenterprise/react-sds        root entry (foundations + web components)
+@skygenesisenterprise/react-sds/Button  one module per component
+@skygenesisenterprise/react-sds/sds     SDS foundations and families
+@skygenesisenterprise/react-sds/styles  foundation stylesheet (plain CSS)
+@skygenesisenterprise/react-sds/main.css foundation + legacy component styles
+@skygenesisenterprise/react-sds/tokens  token custom properties only
+@skygenesisenterprise/react-sds/native  React Native implementation (optional peer)
+@skygenesisenterprise/react-sds/mui     MUI adapter (optional)
+@skygenesisenterprise/react-sds/next-app-router  Next.js App Router helpers
+```
 
-- **One model** for applications, databases and Compose stacks that share projects, environments, secrets, domains and backups.
-- **One place** to see deployment status, logs, resource usage and failures.
-- **A consistent contract** — the same deployment engine whether you run on the local server, on remote servers over SSH, or on a Swarm cluster.
-- **Interfaces for automation** — an API, CLI, TypeScript SDK, MCP server and VS Code extension so deployments fit into existing pipelines instead of replacing them.
+The complete list is generated on the [exports reference](/docs/api/exports).
 
-## Where does it run?
+## Requirements
 
-Notploy is designed around a single, explicit place to run things: your **server**. That can be:
+| Requirement | Version |
+| --- | --- |
+| React | `^18.0.0` (peer dependency declared by the package) |
+| Node.js | 18+ for the build tooling and the CLI |
+| Optional | `react-native ^0.72.0`, `discord.js ^14.0.0`, `@gouvfr/dsfr-chart ^1.0.0` |
 
-- the **same machine** where the Notploy control plane is installed (the default — start here),
-- **independent remote servers** reached over SSH, or
-- **nodes of a Docker Swarm cluster** for replicated workloads.
+## Where to go next
 
-See [Deployment Options](/docs/core/deployment-options) for how to choose, and [Architecture](/docs/core/architecture) for how the pieces fit together.
-
-## What can you do with it?
-
-- **Deploy** from Git providers (GitHub, GitLab, Bitbucket, Gitea), any Git URL, a container image or a raw Compose file, using Docker, Nixpacks, Railpack or buildpacks.
-- **Operate** PostgreSQL, MySQL, MariaDB, MongoDB and Redis with scheduled backups.
-- **Route** traffic through Traefik with managed domains and automatic TLS.
-- **Scale** from one server to remote servers or a Swarm cluster.
-- **Automate** everything through the API, CLI, SDK and MCP server.
-
-The full list lives in [Capabilities](/docs/core/features).
-
-## Which edition am I reading about?
-
-Notploy ships in several editions that share one deployment engine. The documentation marks edition-specific behavior explicitly; when a page has no label, it applies to **Self-Hosted** and **Cloud** alike.
-
-<Cards>
-  <Card
-    href="/docs/core/differences"
-    title="Editions & scope"
-    description="Self-Hosted, Cloud, Enterprise and the Console boundary."
-  />
-  <Card
-    href="/docs/core/get-started"
-    title="Get started"
-    description="From prerequisites to a first successful deployment."
-  />
-  <Card
-    href="/docs/core/concepts"
-    title="Core concepts"
-    description="Organization, project, environment, service, deployment, server."
-  />
-  <Card
-    href="/docs/core/architecture"
-    title="Architecture"
-    description="How the control plane and the data plane work together."
-  />
-</Cards>
-
-<Callout type="info" title="About these docs">
-This documentation describes Notploy as its own product. It is grounded in the current
-repository and verified behavior, and it distinguishes features that are **available and
-verified**, **experimental**, **planned** and **unsupported**. When something is not yet
-true of the implementation, the docs say so instead of describing a roadmap as if it shipped.
-</Callout>
-
-## Next steps
-
-1. Read [Product philosophy](/docs/core/philosophy) to understand the design principles.
-2. Learn the [core concepts](/docs/core/concepts) that every other page builds on.
-3. Follow the [Get started](/docs/core/get-started) path to deploy your first application.
+- [Installation](/docs/core/installation) — add the package and load the stylesheet.
+- [Getting started](/docs/core/getting-started) — render your first SDS interface.
+- [Foundations](/docs/core/foundations) — tokens, colour, typography and themes.
+- [Components](/docs/core/components) — the component catalogue.

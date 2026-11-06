@@ -1,0 +1,20 @@
+{
+	"title": "Components",
+	"pages": [
+		"index",
+		"layout",
+		"typography",
+		"cards",
+		"portal",
+		"button",
+		"input",
+		"select",
+		"alert",
+		"badge",
+		"tag",
+		"table",
+		"tabs",
+		"accordion",
+		"modal"
+	]
+}

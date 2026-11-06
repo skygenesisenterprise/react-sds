@@ -1,0 +1,67 @@
+---
+title: Tabs
+description: "Tabbed panels with uncontrolled or controlled selection."
+---
+
+import { Tabs } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Tabs" direction="column">
+  <Tabs
+    label="Request details"
+    tabs={[
+      { label: "Summary", content: <p>Request summary.</p>, isDefault: true },
+      { label: "Documents", content: <p>Attached documents.</p> },
+      { label: "History", content: <p>Request history.</p> },
+    ]}
+  />
+</Demo>
+
+```tsx
+<Tabs
+  label="Request details"
+  tabs={[
+    { label: "Summary", content: <p>Request summary.</p>, isDefault: true },
+    { label: "Documents", content: <p>Attached documents.</p> },
+    { label: "History", content: <p>Request history.</p> },
+  ]}
+/>
+```
+
+## Props
+
+| Prop | Values | Note |
+| --- | --- | --- |
+| `tabs` | array | Uncontrolled: `label`, `content`, `iconId`, `isDefault`, `disabled` |
+| `tabs` | array | Controlled: `tabId`, `label`, `iconId`, `disabled` |
+| `selectedTabId` + `onTabChange` | controlled selection | Both required together |
+| `label` | `string` | Accessible name of the tab list |
+| `classes` | `root`, `tab`, `panel` | — |
+
+## Controlled usage
+
+```tsx
+const [tabId, setTabId] = useState("summary");
+
+<Tabs
+  label="Request details"
+  selectedTabId={tabId}
+  onTabChange={setTabId}
+  tabs={[
+    { tabId: "summary", label: "Summary" },
+    { tabId: "documents", label: "Documents" },
+  ]}
+>
+  {tabId === "summary" ? <p>Summary</p> : <p>Documents</p>}
+</Tabs>;
+```
+
+## Guidance
+
+- Keep labels to one or two words; the tab list must not wrap on mobile.
+- Never hide essential content behind a tab: a screen reader user still has to discover it.
+- Prefer `Accordion` when the panels are long and read sequentially.
+
+## Related
+
+[API: Tabs](/docs/api/components/tabs) · [Accordion](/docs/core/components/accordion)

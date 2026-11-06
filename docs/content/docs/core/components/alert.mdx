@@ -1,0 +1,60 @@
+---
+title: Alert
+description: "Inline feedback message with severity, optional description and dismiss action."
+---
+
+import { Alert, SDSStack } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Severities" direction="column">
+  <SDSStack gap={4}>
+    <Alert severity="info" title="Information" description="Your request is being processed." />
+    <Alert severity="success" title="Saved" description="Your changes have been saved." />
+    <Alert severity="warning" title="Attention" description="This document expires soon." />
+    <Alert severity="error" title="Error" description="The request could not be completed." />
+    <Alert severity="info" small description="Compact variant for tight layouts." />
+  </SDSStack>
+</Demo>
+
+```tsx
+<Alert severity="success" title="Saved" description="Your changes have been saved." />
+<Alert severity="error" title="Error" description="The request could not be completed." />
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `severity` | `info`, `success`, `warning`, `error` | required |
+| `title` | `ReactNode` | required (except `small`) |
+| `description` | `ReactNode` | — |
+| `small` | `boolean` | `false` (then `description` is required) |
+| `as` | `h2`–`h6` | `h3` |
+| `closable` | `boolean` | `false` |
+| `isClosed`, `onClose` | controlled closing | — |
+| `role` | `alert`, `status` | — |
+
+## Closing
+
+```tsx
+<Alert
+  severity="info"
+  title="Draft saved"
+  description="You can close this message."
+  closable
+  onClose={() => {}}
+/>
+```
+
+For controlled usage, pass `isClosed` and `onClose` together. The close button label is
+translated through the package i18n layer (`addAlertTranslations`).
+
+## Accessibility
+
+- Use `role="alert"` for errors that must interrupt, `role="status"` for soft updates.
+- Do not rely on the colour alone: severity icons and titles carry the meaning.
+- Place the alert next to the content it describes, not at the top of the page.
+
+## Related
+
+[API: Alert](/docs/api/components/alert) · [Notice (API)](/docs/api/components/notice)

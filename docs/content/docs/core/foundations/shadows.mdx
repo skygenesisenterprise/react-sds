@@ -1,0 +1,35 @@
+---
+title: Shadows
+description: "Elevation tokens for raised surfaces, overlays and sticky chrome."
+---
+
+import { Demo } from "@/components/Demo";
+
+Elevation is expressed as a small, intentional scale. Each scheme defines its own values, so
+a surface keeps the same meaning in light and dark mode.
+
+| Token | CSS variables | Use |
+| --- | --- | --- |
+| none | `--sge-elevation-none`, `--sge-shadow-none` | Flat content inside a section |
+| small | `--sge-elevation-small`, `--sge-shadow-xs`, `--sge-shadow-sm` | Cards, inputs on hover |
+| medium | `--sge-elevation-medium`, `--sge-shadow-md` | Dropdowns, popovers, sticky header |
+| large | `--sge-elevation-large`, `--sge-shadow-lg`, `--sge-shadow-xl` | Modals and dialogs |
+
+Additional raw steps (`--sge-shadow-2xs`, `--sge-shadow-default`, `--sge-shadow-2xl`) exist for
+components with intermediate needs; prefer the semantic `--sge-elevation-*` names in
+application code.
+
+<Demo label="Elevation" direction="column">
+  <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+    <div style={{ padding: 16, background: "var(--sge-color-card)", borderRadius: "var(--sge-radius-medium)", boxShadow: "var(--sge-elevation-small)" }}>small</div>
+    <div style={{ padding: 16, background: "var(--sge-color-card)", borderRadius: "var(--sge-radius-medium)", boxShadow: "var(--sge-elevation-medium)" }}>medium</div>
+    <div style={{ padding: 16, background: "var(--sge-color-card)", borderRadius: "var(--sge-radius-medium)", boxShadow: "var(--sge-elevation-large)" }}>large</div>
+  </div>
+</Demo>
+
+## Rules
+
+- Use elevation to describe layering, not decoration: content on the page is flat, chrome above
+  the page is raised.
+- A modal backdrop uses `--sge-color-overlay`, not a shadow.
+- Do not add a shadow to a component that already has one (cards, popovers, modals).

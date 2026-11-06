@@ -1,0 +1,65 @@
+---
+title: Theming
+description: "Apply the SDS schemes, scope a theme to a region, and override identity through tokens."
+---
+
+Theming is variable overriding. The package defines two schemes; an application can scope a
+scheme to a subtree or replace token values.
+
+## Scheme on the document
+
+```html
+<html data-sge-theme="light">
+```
+
+```tsx
+"use client";
+import { useEffect } from "react";
+
+export function ThemeToggle() {
+  useEffect(() => {
+    document.documentElement.dataset.sgeTheme = "dark";
+  }, []);
+  return null;
+}
+```
+
+See [Themes](/docs/core/foundations/themes) for the full token behaviour.
+
+## Scoped theme
+
+`data-sge-theme` also works on any element, so a dark block can live inside a light page:
+
+```tsx
+<section data-sge-theme="dark">
+  <SDSCard title="Dark block" description="Inherits the dark tokens." />
+</section>
+```
+
+## Overriding tokens
+
+```css
+:root {
+  --sge-color-primary: oklch(0.45 0.09 260);
+  --sge-radius-medium: 0.25rem;
+}
+```
+
+- Override **semantic** tokens (`--sge-color-*`, `--sge-radius-*`, `--sge-font-family-*`).
+- Keep the names; do not add parallel variables for components.
+- Overrides must be loaded after the package entry.
+
+## Dark-scheme overrides
+
+Declare the dark values on the same selectors the package uses, so the runtime scheme applies:
+
+```css
+[data-sge-theme="dark"] {
+  --sge-color-primary: oklch(0.8 0.06 260);
+}
+```
+
+<Callout type="warn">
+  Contrast is part of the contract. Any override of a text or control colour must keep at least
+  4.5:1 for body text and 3:1 for large text and UI boundaries.
+</Callout>

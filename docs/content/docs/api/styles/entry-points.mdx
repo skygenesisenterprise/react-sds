@@ -1,0 +1,40 @@
+---
+title: CSS entry points
+description: "Reference of the stylesheet entry points exported by the package, with what each one loads."
+---
+
+| Import specifier | Kind | Loads |
+| --- | --- | --- |
+| `@skygenesisenterprise/react-sds/main.css` | CSS | foundation + legacy `fr-*` layer + icons |
+| `@skygenesisenterprise/react-sds/styles` | CSS | foundation only |
+| `@skygenesisenterprise/react-sds/tokens` | CSS | token custom properties |
+| `@skygenesisenterprise/react-sds/assets/sds/tokens.css` | CSS | token custom properties (assets path) |
+| `@skygenesisenterprise/react-sds/styles/base` | CSS | reset + global + typography + accessibility |
+| `@skygenesisenterprise/react-sds/styles/reset.css` | CSS | reset only |
+| `@skygenesisenterprise/react-sds/styles/themes` | CSS | light + dark schemes |
+| `@skygenesisenterprise/react-sds/styles/themes/light.css` | CSS | light scheme |
+| `@skygenesisenterprise/react-sds/styles/themes/dark.css` | CSS | dark scheme |
+| `@skygenesisenterprise/react-sds/styles/foundation/*` | CSS | one token group (colors, typography, spacing, radius, shadows, motion, dimensions, tokens) |
+| `@skygenesisenterprise/react-sds/styles/components/*` | CSS | one component stylesheet (header, form, table, prose, sds-layout, sds-card, sds-portal, sds-search, sds-typography, back-to-top) |
+| `@skygenesisenterprise/react-sds/styles/utilities` | CSS | system utilities |
+| `@skygenesisenterprise/react-sds/styles/adapters/tailwind.css` | CSS | Tailwind-compatible variable aliases |
+| `@skygenesisenterprise/react-sds/styles/adapters/tailwind-v4.css` | CSS | Tailwind v4 adapter |
+| `@skygenesisenterprise/react-sds/assets/language-select.css` | CSS | `LanguageSelect` component styles |
+| `@skygenesisenterprise/react-sds/assets/search-bar.css` | CSS | `SearchBar` component styles |
+| `@skygenesisenterprise/react-sds/assets/sge-identity.css` | CSS | identity header styles |
+| `@skygenesisenterprise/react-sds/assets/legacy_plus_icons.css` | CSS | legacy icon classes |
+| `@skygenesisenterprise/react-sds/assets/legacy_plus_icons.scss` | SCSS | legacy icon classes (source) |
+| `@skygenesisenterprise/react-sds/tailwind-preset` | CommonJS | Tailwind v3 preset |
+| `@skygenesisenterprise/react-sds/legacy/*` | assets | legacy stylesheets, fonts and icons |
+
+The machine-readable list is the `exports` map of the package manifest, reproduced on the
+[exports page](/docs/api/exports).
+
+## Notes
+
+- Component modules also import their own stylesheet, so importing the component works even
+  when you compose your own CSS entry — but the foundation variables must still be present.
+- `./legacy/*` is the historic asset tree; it is required by `main.css` and by the
+  `copy-static-assets` command for single-page setups.
+- No entry requires a preprocessor: all CSS files are plain, standard CSS except the explicitly
+  named `.scss` source.

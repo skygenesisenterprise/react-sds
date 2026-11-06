@@ -1,0 +1,32 @@
+{
+	"title": "Utilities",
+	"pages": [
+		"index",
+		"cx",
+		"deep-assign",
+		"deep-copy",
+		"deferred",
+		"generate-valid-html-id",
+		"get-asset-url",
+		"get-base-font-size-px",
+		"hooks",
+		"is-browser",
+		"jsx",
+		"memoize",
+		"observe-input-value",
+		"partition",
+		"signal",
+		"stateful-observable",
+		"stateful-observable-stateful-observable",
+		"structured-clone-but-functions",
+		"unpack-props",
+		"use-analytics-id",
+		"use-callback-factory",
+		"use-const",
+		"use-const-callback",
+		"use-named-state",
+		"use-observable",
+		"use-rerender-on-change",
+		"use-window-inner-size"
+	]
+}

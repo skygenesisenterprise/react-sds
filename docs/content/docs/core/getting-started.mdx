@@ -1,0 +1,98 @@
+---
+title: Getting started
+description: "Render your first React SDS interface: page shell, hero, layout primitives and a component."
+---
+
+This guide builds a small page with the SDS families and one historic component. Every import
+below is a public export of the installed package.
+
+## 1. Load the stylesheet once
+
+```tsx title="app/layout.tsx"
+import "@skygenesisenterprise/react-sds/main.css";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+## 2. Compose a page
+
+The SDS layout primitives provide the page shell (`SDSPage`, `SDSMain`), width control
+(`SDSContainer`), vertical rhythm (`SDSStack`), responsive grids (`SDSGrid`) and sections
+(`SDSSection`).
+
+```tsx title="app/page.tsx"
+import {
+  Button,
+  SDSContainer,
+  SDSGrid,
+  SDSCard,
+  SDSHero,
+  SDSMain,
+  SDSPage,
+  SDSSection,
+  SDSStack,
+} from "@skygenesisenterprise/react-sds";
+
+export default function Page() {
+  return (
+    <SDSPage>
+      <SDSMain>
+        <SDSHero
+          kicker="Sky Genesis Enterprise"
+          title="Service portal"
+          subtitle="Built with React SDS."
+          actions={<Button>Start a request</Button>}
+        />
+
+        <SDSSection title="Available services" subtitle="Three services are open today.">
+          <SDSContainer>
+            <SDSStack gap={5}>
+              <SDSGrid columns={{ mobile: 1, tablet: 2, desktop: 3 }} gap={5}>
+                <SDSCard title="Certificate" description="Request a certificate." href="#" />
+                <SDSCard title="Address change" description="Update your address." href="#" />
+                <SDSCard title="Appointment" description="Book an appointment." href="#" />
+              </SDSGrid>
+            </SDSStack>
+          </SDSContainer>
+        </SDSSection>
+      </SDSMain>
+    </SDSPage>
+  );
+}
+```
+
+## 3. What each piece does
+
+| Piece | Role |
+| --- | --- |
+| `SDSPage` | Full-height page shell; keeps the footer at the bottom |
+| `SDSMain` | Semantic `<main>` landmark and skip-link target (`id="contenu"`) |
+| `SDSContainer` | Centered, width-capped column (`default`, `wide`, `narrow`) |
+| `SDSSection` | Vertical section with optional title, subtitle and action slot |
+| `SDSStack` | Vertical flex stack with a spacing-token gap |
+| `SDSGrid` | Responsive grid with per-breakpoint column counts |
+| `SDSHero` | Page headline block (kicker, title, subtitle, actions) |
+| `SDSCard` | Content card with optional link, tag, media and footer |
+| `Button` | Historic action component, styled by the legacy layer of `main.css` |
+
+## 4. Import granularity
+
+Import from the root entry for convenience, or from a subpath to keep the module graph small:
+
+```tsx
+import { Button } from "@skygenesisenterprise/react-sds";
+import { SDSHero } from "@skygenesisenterprise/react-sds/sds/portal/SDSHero";
+import { Button as ButtonOnly } from "@skygenesisenterprise/react-sds/Button";
+```
+
+## Next steps
+
+- [Foundations](/docs/core/foundations) — understand the token contract before styling.
+- [Components](/docs/core/components) — the catalogue with live previews.
+- [Recipes](/docs/core/recipes/forms) — complete interface patterns.

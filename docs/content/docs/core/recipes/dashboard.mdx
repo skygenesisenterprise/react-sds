@@ -1,0 +1,68 @@
+---
+title: Dashboard
+description: "Assemble a status dashboard from SDS cards, grids, badges and tables."
+---
+
+import { Badge, SDSGrid, SDSStack, Table, Tag } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Status cards" direction="column">
+  <SDSGrid columns={{ mobile: 1, tablet: 3 }} gap={4}>
+    <div style={{ padding: 16, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-large)" }}>
+      <p style={{ margin: 0, color: "var(--sge-color-text-muted)", fontSize: 14 }}>Open requests</p>
+      <p style={{ margin: 0, fontSize: 28, fontWeight: 600 }}>128</p>
+      <Badge severity="info">12 new today</Badge>
+    </div>
+    <div style={{ padding: 16, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-large)" }}>
+      <p style={{ margin: 0, color: "var(--sge-color-text-muted)", fontSize: 14 }}>Processed</p>
+      <p style={{ margin: 0, fontSize: 28, fontWeight: 600 }}>1 043</p>
+      <Badge severity="success">On target</Badge>
+    </div>
+    <div style={{ padding: 16, border: "1px solid var(--sge-color-border)", borderRadius: "var(--sge-radius-large)" }}>
+      <p style={{ margin: 0, color: "var(--sge-color-text-muted)", fontSize: 14 }}>Overdue</p>
+      <p style={{ margin: 0, fontSize: 28, fontWeight: 600 }}>6</p>
+      <Badge severity="error">Needs review</Badge>
+    </div>
+  </SDSGrid>
+</Demo>
+
+```tsx
+import { Badge, SDSGrid, SDSStack, Table, Tag } from "@skygenesisenterprise/react-sds";
+
+export function Dashboard({ requests }: { requests: RequestRow[] }) {
+  return (
+    <SDSStack gap={6}>
+      <SDSGrid columns={{ mobile: 1, tablet: 3 }} gap={4}>
+        <StatCard label="Open requests" value={128} />
+        <StatCard label="Processed" value={1043} />
+        <StatCard label="Overdue" value={6} />
+      </SDSStack>
+
+      <Table
+        caption="Latest requests"
+        headers={["Reference", "Applicant", "Status", "Tags"]}
+        data={requests.map((row) => [
+          row.reference,
+          row.applicant,
+          <Badge severity={row.severity}>{row.status}</Badge>,
+          <Tag small>{row.type}</Tag>,
+        ])}
+      />
+    </SDSStack>
+  );
+}
+```
+
+## Guidance
+
+- **Cards carry one message each.** A metric, a label and a state; no action buttons inside.
+- **Tables are for comparison.** Keep the column count low and put the status in a `Badge` so
+  it is not conveyed by colour alone.
+- **Grid before flex.** `SDSGrid` reflows on mobile without custom media queries.
+- **Numbers** should be formatted by your application; the library does not format data.
+
+## Related
+
+- [Table](/docs/core/components/table) · [Badge](/docs/core/components/badge) ·
+  [Tag](/docs/core/components/tag) ·
+  [API: SDSGrid](/docs/api/sds/sdsgrid)

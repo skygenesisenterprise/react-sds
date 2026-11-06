@@ -1,0 +1,49 @@
+---
+title: Tag
+description: "Keyword tag with paragraph, span, link and dismissible button variants."
+---
+
+import { Tag, TagsGroup } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Tags">
+  <Tag>Category</Tag>
+  <Tag small>Small</Tag>
+  <Tag as="button" dismissible>
+    Removable
+  </Tag>
+  <Tag as="a" linkProps={{ href: "#" }}>
+    Linked tag
+  </Tag>
+</Demo>
+
+```tsx
+<Tag>Category</Tag>
+<Tag small>Small</Tag>
+<Tag as="button" dismissible onDismiss={() => {}}>Removable</Tag>
+<Tag as="a" linkProps={{ href: "/services" }}>Linked tag</Tag>
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `children` | `ReactNode` | required |
+| `small` | `boolean` | `false` |
+| `as` | `p`, `span`, `button`, `a` | `p` |
+| `iconId` | icon class name | — |
+| `as="a"` | `linkProps` | — |
+| `as="button"` | `dismissible`, `pressed`, `onClick` | — |
+| `nativeParagraphProps` | native `<p>` props | — |
+
+`TagsGroup` renders a list of tags: `tags` (at least one `TagProps`), `smallTags`.
+
+## Guidance
+
+- A non-interactive tag is a `<p>` by default; use `as="span"` inside a paragraph or a cell.
+- Only tags that remove a filter should be `as="button"` with `dismissible`.
+- Keep tag labels short; a tag is not a sentence.
+
+## Related
+
+[API: Tag](/docs/api/components/tag) · [Badge](/docs/core/components/badge)

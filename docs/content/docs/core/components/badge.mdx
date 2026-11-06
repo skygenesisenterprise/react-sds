@@ -1,0 +1,48 @@
+---
+title: Badge
+description: "Compact status or count indicator with severity and icon variants."
+---
+
+import { Badge } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Badges">
+  <Badge>Default</Badge>
+  <Badge severity="info">Info</Badge>
+  <Badge severity="success">Success</Badge>
+  <Badge severity="warning">Warning</Badge>
+  <Badge severity="error">Error</Badge>
+  <Badge severity="new">New</Badge>
+  <Badge severity="success" small>
+    Small
+  </Badge>
+  <Badge severity="info" noIcon>
+    No icon
+  </Badge>
+</Demo>
+
+```tsx
+<Badge severity="success">Validated</Badge>
+<Badge severity="new" small>New</Badge>
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `children` | `ReactNode` | required |
+| `severity` | `info`, `success`, `warning`, `error`, `new` | neutral |
+| `small` | `boolean` | `false` |
+| `noIcon` | `boolean` | `false` |
+| `as` | `p`, `span` | `p` |
+
+## Guidance
+
+- A badge is a label, not an action: do not attach `onClick`.
+- Keep the label to one or two words ("Validated", "Needs review").
+- In a table, use `as="span"` to avoid a paragraph inside a cell.
+
+## Related
+
+[API: Badge](/docs/api/components/badge) · [Tag](/docs/core/components/tag) ·
+[Recipe: Dashboard](/docs/core/recipes/dashboard)

@@ -1,0 +1,68 @@
+---
+title: Input
+description: "Labelled text input and textarea with hint text and validation states."
+---
+
+import { Input, SDSStack } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Input states" direction="column">
+  <SDSStack gap={4}>
+    <Input
+      label="Email address"
+      hintText="We only use it to confirm your request."
+      nativeInputProps={{ name: "email", type: "email", autoComplete: "email" }}
+    />
+    <Input
+      label="Reference"
+      state="error"
+      stateRelatedMessage="This reference is unknown."
+      nativeInputProps={{ name: "reference", defaultValue: "AB-12" }}
+    />
+    <Input
+      label="Note"
+      textArea
+      nativeTextAreaProps={{ name: "note", rows: 3 }}
+    />
+  </SDSStack>
+</Demo>
+
+```tsx
+<Input label="Email address" nativeInputProps={{ name: "email", type: "email" }} />
+
+<Input
+  label="Reference"
+  state="error"
+  stateRelatedMessage="This reference is unknown."
+  nativeInputProps={{ name: "reference" }}
+/>
+
+<Input label="Note" textArea nativeTextAreaProps={{ name: "note", rows: 3 }} />
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `label` | `ReactNode` | required |
+| `hintText` | `ReactNode` | — |
+| `hideLabel` | `boolean` | `false` |
+| `state` | `success`, `error`, `info`, `default` | `default` |
+| `stateRelatedMessage` | `ReactNode` | shown unless state is `default` |
+| `textArea` | `boolean` | `false` |
+| `nativeInputProps` | native `<input>` props | — |
+| `nativeTextAreaProps` | native `<textarea>` props (with `textArea`) | — |
+| `disabled`, `iconId`, `classes`, `className`, `style` | — | — |
+
+`addon` and `action` render content after the field (unit, button).
+
+## Guidance
+
+- Always provide `label`; `hideLabel` keeps it for assistive technologies.
+- Use `stateRelatedMessage` for the error, not a separate paragraph: it is wired to the field.
+- Reserve `state="info"` for neutral guidance and keep `hintText` for instructions.
+- `nativeInputProps.type` drives the mobile keyboard (`email`, `tel`, `number`…).
+
+## Related
+
+[API: Input](/docs/api/components/input) · [Recipe: Forms](/docs/core/recipes/forms)

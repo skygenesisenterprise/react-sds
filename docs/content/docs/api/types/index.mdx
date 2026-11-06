@@ -1,0 +1,60 @@
+---
+title: Types
+description: "Shared public types: component props, link props, token types and colour scheme."
+---
+
+Every component module exports its props type. This page covers the types that are shared
+across modules; per-component props are listed on each component page.
+
+## Component props
+
+| Type | Module |
+| --- | --- |
+| `<Name>Props` | The component's own module (e.g. `ButtonProps`) |
+| `ButtonProps.Common`, `ButtonProps.WithIcon`, `ButtonProps.AsAnchor`, … | `…/Button` |
+| `AlertProps.Severity` | `…/Alert` |
+| `TableProps.ColorVariant` | `…/Table` |
+| `TabsProps.Controlled`, `TabsProps.Uncontrolled` | `…/Tabs` |
+| `AccordionProps.Controlled`, `AccordionProps.Uncontrolled` | `…/Accordion` |
+| `ModalProps.ActionAreaButtonProps` | `…/Modal/Modal` |
+
+Union-shaped props are namespaced so each variant can be typed independently. When a component
+accepts a union, the variants are mutually exclusive (for example `linkProps` **or**
+`nativeButtonProps`).
+
+## Links
+
+`RegisteredLinkProps` is the link prop type used by every component that renders a link.
+
+```ts
+import type { RegisteredLinkProps } from "@skygenesisenterprise/react-sds/link";
+
+<Button linkProps={{ href: "/requests" }}>Open</Button>;
+```
+
+By default it accepts an anchor prop set (`href` required). Augment the `RegisterLink`
+interface to replace it with your router's link props (see
+[React integration](/docs/core/integrations/react#router-links)).
+
+## Theming
+
+| Type | Module |
+| --- | --- |
+| `ColorScheme` | `…/useIsDark` |
+| `SDSTokens` and one type per group | `…/sds` |
+| `DefaultColorScheme` | `…/next-app-router` |
+
+`ColorScheme` is `"light" | "dark"`; `DefaultColorScheme` adds `"system"`.
+
+## Native
+
+The `/native` entry exports its own props types (`TextProps`, `HeadingProps`, `StackProps`,
+`ContainerProps`, `DividerProps`, `IconProps`, `SDSProviderProps`, `SDSTheme`, `SDSColorScheme`,
+and one per native component). They are distinct from the web props: do not share them across
+platforms.
+
+## Reading the declarations
+
+The declaration block on each generated page is the authoritative source. The tables are a
+convenience rendering of the same declarations; when they disagree, the declaration and the
+package types win.

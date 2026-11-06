@@ -1,0 +1,14 @@
+{
+	"title": "Foundations",
+	"pages": [
+		"index",
+		"design-tokens",
+		"colors",
+		"typography",
+		"spacing",
+		"sizing",
+		"borders",
+		"shadows",
+		"themes"
+	]
+}

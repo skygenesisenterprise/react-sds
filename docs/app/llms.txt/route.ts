@@ -1,38 +1,39 @@
 import { source } from "@/lib/source";
+import { libraryVersion } from "@/lib/library-version";
 
-// All data comes from the filesystem MDX source at build time.
-// "force-static" lets static exports emit this build-time content and is a
-// no-op change for the standalone server.
 export const dynamic = "force-static";
 
-const baseUrl = "https://docs.notploy.com";
-
-export function GET() {
+/**
+ * `/llms.txt` — a compact map of the documentation for language models and
+ * agents. Generated from the MDX tree so it cannot go stale.
+ */
+export async function GET() {
 	const pages = source.getPages();
-	const docsPages = pages.filter(
-		(page) => !page.url.startsWith("/docs/api/"),
+
+	const sections = ["core", "api", "cli"].map((module) => {
+		const modulePages = pages.filter((page) => page.slugs[0] === module);
+		const lines = modulePages
+			.map((page) => `- [${page.data.title}](${page.url}): ${page.data.description ?? ""}`)
+			.join("\n");
+		return `## ${module.toUpperCase()}\n\n${lines}`;
+	});
+
+	return new Response(
+		`# React SDS documentation
+
+> Official developer documentation for @skygenesisenterprise/react-sds, the Sky Genesis Enterprise React design system (package v${libraryVersion}).
+
+This documentation is organised in three modules: Core (usage), API (exhaustive reference generated from the package TypeScript declarations) and CLI (commands shipped with the package).
+
+${sections.join("\n\n")}
+
+## Sources
+
+- Repository: https://github.com/skygenesisenterprise/react-sds
+- Package: https://www.npmjs.com/package/@skygenesisenterprise/react-sds
+`,
+		{
+			headers: { "Content-Type": "text/plain; charset=utf-8" },
+		},
 	);
-
-	const lines = [
-		"# Notploy Documentation",
-		"",
-		"> Notploy is an open-source, self-hostable Platform as a Service (PaaS) that simplifies the deployment and management of applications, databases, and services.",
-		"",
-		"## Docs",
-		"",
-		...docsPages.map(
-			(page) =>
-				`- [${page.data.title}](${baseUrl}${page.url})${page.data.description ? `: ${page.data.description}` : ""}`,
-		),
-		"",
-		"## API Reference",
-		"",
-		`- [OpenAPI Specification](${baseUrl}/openapi.json): Complete API reference in OpenAPI format`,
-		"",
-		"## Full Documentation",
-		"",
-		`- [llms-full.txt](${baseUrl}/llms-full.txt): All documentation pages as plain text`,
-	];
-
-	return new Response(lines.join("\n"));
 }

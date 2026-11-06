@@ -1,26 +1,30 @@
-import { APIPage } from "@/lib/source";
 import { Callout } from "fumadocs-ui/components/callout";
-import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Steps, Step } from "fumadocs-ui/components/steps";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { MDXComponents } from "mdx/types";
+import { Demo } from "@/components/Demo";
+import { TokenTable } from "@/components/TokenTable";
 
+/**
+ * MDX component map.
+ *
+ * Prose (headings, paragraphs, lists, tables) keeps the Fumadocs MDX components
+ * because they carry the heading anchors the table of contents depends on; they
+ * are restyled by the SDS typography foundation loaded in app/layout.tsx.
+ * Everything added here is either generic MDX sugar (Callout, Tabs, Steps) or a
+ * documentation-only helper (Demo, TokenTable).
+ */
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
 	return {
 		...defaultMdxComponents,
-		ImageZoom,
 		Callout,
 		Tab,
 		Tabs,
-		APIPage,
+		Steps,
+		Step,
+		Demo,
+		TokenTable,
 		...components,
-		p: ({ children }) => (
-			<p className="text-[#3E4342] dark:text-muted-foreground">{children}</p>
-		),
-		li: ({ children, id }) => (
-			<li {...{ id }} className="text-[#3E4342] dark:text-muted-foreground">
-				{children}
-			</li>
-		),
 	};
 }

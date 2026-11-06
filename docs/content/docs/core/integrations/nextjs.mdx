@@ -1,0 +1,75 @@
+---
+title: Next.js
+description: "Next.js App Router and Pages Router integration: provider, hydration helper, head and stylesheet."
+---
+
+The Next.js helpers are separate entry points so the root entry never depends on `next`.
+
+## App Router
+
+```text
+@skygenesisenterprise/react-sds/next-app-router
+├── SdsProviderBase          client provider (link + colour scheme + i18n)
+└── StartLegacyOnHydration   starts the legacy runtime after hydration
+
+@skygenesisenterprise/react-sds/next-app-router/SdsHead
+└── SdsHeadBase              <head> helpers (nonce, trusted types)
+```
+
+```tsx title="app/layout.tsx"
+import "@skygenesisenterprise/react-sds/main.css";
+import { SdsProviderBase } from "@skygenesisenterprise/react-sds/next-app-router";
+import Link from "next/link";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <SdsProviderBase lang="en" Link={Link} defaultColorScheme="system">
+          {children}
+        </SdsProviderBase>
+      </body>
+    </html>
+  );
+}
+```
+
+`SdsProviderBase` takes the shared provider props (`children`, `lang`, `verbose`,
+`doCheckNonce`, `trustedTypesPolicyName`) plus `Link` and `defaultColorScheme`.
+
+### Hydration
+
+Render `StartLegacyOnHydration` inside the provider so the historic runtime (collapses, modals,
+tooltips, header menus) initialises after hydration:
+
+```tsx
+import { StartLegacyOnHydration } from "@skygenesisenterprise/react-sds/next-app-router";
+
+<SdsProviderBase lang="en" …>
+  {children}
+  <StartLegacyOnHydration />
+</SdsProviderBase>
+```
+
+### Head and Content-Security-Policy
+
+`SdsHeadBase` (from the `…/next-app-router/SdsHead` subpath) emits the theme bootstrap script
+and honours a nonce and a Trusted Types policy name. If you enable Trusted Types, add the policy (`react-sds` by default) and its
+`-asap` variant to your `Content-Security-Policy` header.
+
+## Pages Router
+
+`@skygenesisenterprise/react-sds/next-pagesdir` is available for the Pages Router; it is not
+re-exported by the root entry. Register your `Link` in `_app` and import the stylesheet from
+`_app` as well.
+
+## Which stylesheet?
+
+- `main.css` when you render historic components (Header, Footer, Button, Table…).
+- `/styles` when you only use the SDS families.
+
+## Caveats
+
+- Import the CSS from a layout/page module (App Router) or `_app` (Pages Router), not from a
+  component that may render on the client only.
+- The helpers are client components where they use hooks; keep them out of server-only code.

@@ -1,0 +1,76 @@
+---
+title: Themes
+description: "Light and dark schemes: how to activate them, how tokens switch, and the useIsDark helper."
+---
+
+The package ships two schemes. Both redefine the same semantic variables, so components need
+no theme-specific code.
+
+## Activate a scheme
+
+```html
+<!-- default (light) -->
+<html data-sge-theme="light">
+
+<!-- dark -->
+<html data-sge-theme="dark">
+```
+
+Omitting `data-sge-theme` yields the light scheme; SDS never forces dark mode. The legacy
+selectors `.dark` and `[data-fr-theme="dark"]` are also honoured, so applications that already
+drive a scheme through a class keep working.
+
+```css
+/* activate the dark scheme from your own runtime */
+document.documentElement.classList.add("dark");
+```
+
+## What switches
+
+Every `--sge-color-*` variable changes; spacing, radius and typography do not. Elevation
+values also change so raised surfaces stay legible on dark backgrounds.
+
+<Callout type="info">
+  `sdsTokens` exposes the light-scheme reference values (they are plain data). For the active
+  scheme, read the CSS variables — `--sge-color-background` returns the dark value when the
+  dark scheme is active.
+</Callout>
+
+## Reading the scheme in React
+
+```tsx
+import { useIsDark } from "@skygenesisenterprise/react-sds/useIsDark";
+
+function Logo() {
+  const isDark = useIsDark();
+  return <img src={isDark ? "/logo-dark.svg" : "/logo-light.svg"} alt="" />;
+}
+```
+
+`useIsDark` is safe to call during server rendering: the package exports a server and a client
+implementation behind the same name. `getIsDark()` is client-only.
+
+## Avoiding a flash of the wrong scheme
+
+- Next.js App Router: render `StartLegacyOnHydration` (exported from
+  `@skygenesisenterprise/react-sds/next-app-router`) after the provider.
+- SPA (Vite, CRA): call `startReactSds({ defaultColorScheme: "system" })` from
+  `@skygenesisenterprise/react-sds/spa` before rendering your app.
+
+Both are documented in [Integrations](/docs/core/integrations/react).
+
+## Overriding identity
+
+Override variables on `:root` (or on a scoped container) **after** the package stylesheet:
+
+```css
+:root {
+  --sge-palette-primary-700: oklch(0.45 0.09 260);
+}
+```
+
+<Callout type="warn">
+  `--sge-palette-*` primitives are the raw scale; most applications should override the
+  semantic `--sge-color-*` aliases instead, so the dark scheme can still adapt. Purely brand
+  overrides (logo, fonts) belong to the product, not to this package.
+</Callout>

@@ -1,0 +1,82 @@
+---
+title: Button
+description: "Action button with priority, size, icon and link modes."
+---
+
+import { Button, SDSStack } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+## Priorities
+
+<Demo label="Priority" direction="column">
+  <SDSStack gap={3}>
+    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <Button priority="primary">Primary</Button>
+      <Button priority="secondary">Secondary</Button>
+      <Button priority="tertiary">Tertiary</Button>
+      <Button priority="tertiary no outline">Tertiary, no outline</Button>
+    </div>
+  </SDSStack>
+</Demo>
+
+```tsx
+<Button priority="primary">Primary</Button>
+<Button priority="secondary">Secondary</Button>
+<Button priority="tertiary">Tertiary</Button>
+<Button priority="tertiary no outline">Tertiary, no outline</Button>
+```
+
+## Sizes
+
+<Demo label="Size">
+  <Button size="small">Small</Button>
+  <Button size="medium">Medium</Button>
+  <Button size="large">Large</Button>
+</Demo>
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `priority` | `primary`, `secondary`, `tertiary`, `tertiary no outline` | `primary` |
+| `size` | `small`, `medium`, `large` | `medium` |
+| `iconId` | icon class name | — |
+| `iconPosition` | `left`, `right` | `left` |
+| `children` | label | required unless icon-only |
+| `title` | accessible label | required when icon-only |
+| `linkProps` | your link props | renders an `<a>` |
+| `onClick`, `type`, `disabled`, `value` | native button props | — |
+| `nativeButtonProps` | extra button attributes | — |
+
+The component is a union: an anchor (`linkProps`) and a button (`onClick`) are mutually
+exclusive, and an icon-only button requires `title` instead of `children`.
+
+## Link buttons
+
+```tsx
+<Button linkProps={{ href: "/requests/new" }}>Start a request</Button>
+```
+
+`linkProps` accepts either an `<a>` prop set or the props of the router link you registered
+(see [React integration](/docs/core/integrations/react#router-links)).
+
+## Icon-only
+
+```tsx
+<Button
+  iconId="fr-icon-close-line"
+  title="Close"
+  priority="tertiary"
+/>
+```
+
+## Accessibility
+
+- An icon-only button must have a `title`; it becomes the accessible name.
+- Keep one `priority="primary"` per visual group.
+- A disabled button is not focusable by assistive technologies; if the action is unavailable,
+  explain why in nearby text.
+
+## Related
+
+[API: Button](/docs/api/components/button) · [Recipe: Forms](/docs/core/recipes/forms)

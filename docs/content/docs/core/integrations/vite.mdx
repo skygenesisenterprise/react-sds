@@ -1,0 +1,59 @@
+---
+title: Vite and CRA
+description: "Single-page setups: stylesheet, static assets, CSS optimization and runtime startup."
+---
+
+Single-page bundlers need two extra steps because the historic stylesheet references legacy
+assets (icons, fonts) by URL.
+
+## 1. Copy the static assets
+
+```bash
+npx react-sds copy-static-assets
+```
+
+This copies the legacy assets into `public/legacy` and writes `public/legacy/version.txt` so
+subsequent runs are no-ops until the packaged asset version changes. Accepts
+`--projectDir <path>` for monorepos.
+
+## 2. Import the stylesheet
+
+```tsx title="src/main.tsx"
+import "@skygenesisenterprise/react-sds/main.css";
+```
+
+## 3. Optional: trim the CSS
+
+```bash
+npx react-sds optimize-css
+```
+
+Rebuilds the legacy stylesheet from the granular files shipped in the package, keeping only
+the components and icons your source imports. Run it **after** `copy-static-assets`.
+
+```json title="package.json"
+{
+  "scripts": {
+    "predev": "react-sds copy-static-assets && react-sds optimize-css",
+    "prebuild": "react-sds copy-static-assets && react-sds optimize-css"
+  }
+}
+```
+
+See the [CLI reference](/docs/cli) for every option.
+
+## 4. Start the runtime
+
+```tsx title="src/main.tsx"
+import { startReactSds } from "@skygenesisenterprise/react-sds/spa";
+
+startReactSds({ defaultColorScheme: "system" });
+```
+
+## Vite specifics
+
+- No plugin is required: the package ships pre-compiled ESM and plain CSS.
+- If your `base` is not `/`, the legacy assets are still resolved from `/legacy`; set
+  `public/legacy` accordingly or use an absolute `base`.
+- For React 18 `StrictMode`, the historic runtime start is idempotent (`startReactSds` guards
+  against double initialisation).

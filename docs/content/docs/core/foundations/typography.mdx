@@ -1,0 +1,124 @@
+---
+title: Typography
+description: "Type scale, weights and line heights, plus the SDSHeading, SDSText, SDSLead and SDSLink components."
+---
+
+import {
+  SDSHeading,
+  SDSLead,
+  SDSLink,
+  SDSStack,
+  SDSText,
+} from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+## Font stacks
+
+The package ships no webfont. It uses the platform UI stack by default and exposes the family
+as a token, so a product that loads an official typeface only overrides one variable.
+
+| Token | Value |
+| --- | --- |
+| `--sge-font-family-base` | `system-ui, -apple-system, "Segoe UI", Roboto, …` |
+| `--sge-font-family-heading` | Same institutional stack |
+| `--sge-font-family-mono` | `ui-monospace, SFMono-Regular, Menlo, …` |
+
+```css
+:root {
+  --sge-font-family-base: "Your Corporate Typeface", system-ui, sans-serif;
+}
+```
+
+## Scale
+
+| Token | Size |
+| --- | --- |
+| `--sge-font-size-xs` | `0.75rem` |
+| `--sge-font-size-sm` | `0.875rem` |
+| `--sge-font-size-md` | `1rem` (body default) |
+| `--sge-font-size-lg` | `1.25rem` |
+| `--sge-font-size-xl` | `1.5rem` |
+| `--sge-font-size-2xl` | `1.75rem` |
+| `--sge-font-size-3xl` | `2.25rem` |
+
+Weights: `regular` 400, `medium` 500, `semibold` 600, `bold` 700. Line heights: body `1.6`,
+heading `1.2`, tight `1.2`, normal `1.5`, relaxed `1.7`.
+
+## Text components
+
+### SDSHeading
+
+Renders the semantic tag matching `level` (1–6) and the matching size. Use `size` only to
+decouple the visual size from the outline level.
+
+<Demo label="SDSHeading">
+  <SDSStack gap={2}>
+    <SDSHeading level={1}>Level 1</SDSHeading>
+    <SDSHeading level={2}>Level 2</SDSHeading>
+    <SDSHeading level={3}>Level 3</SDSHeading>
+    <SDSHeading level={4} size={3}>
+      Level 4, size 3
+    </SDSHeading>
+  </SDSStack>
+</Demo>
+
+```tsx
+import { SDSHeading } from "@skygenesisenterprise/react-sds";
+
+<SDSHeading level={2}>Section title</SDSHeading>
+<SDSHeading level={4} size={3}>Visually smaller, still an h4</SDSHeading>
+```
+
+### SDSText
+
+Controls size, weight, colour, margin and alignment without inline styles.
+
+<Demo label="SDSText">
+  <SDSStack gap={2}>
+    <SDSText size="lg">Large body text</SDSText>
+    <SDSText size="md">Default body text</SDSText>
+    <SDSText size="sm" color="muted">
+      Small muted text
+    </SDSText>
+    <SDSText weight="semibold">Semibold emphasis</SDSText>
+  </SDSStack>
+</Demo>
+
+```tsx
+import { SDSText } from "@skygenesisenterprise/react-sds";
+
+<SDSText size="sm" color="muted">Updated 12 minutes ago</SDSText>
+<SDSText as="span" weight="semibold">In progress</SDSText>
+```
+
+### SDSLead
+
+A width-capped introduction paragraph, larger and muted.
+
+<Demo label="SDSLead">
+  <SDSLead>This paragraph introduces the section that follows.</SDSLead>
+</Demo>
+
+### SDSLink
+
+<Demo label="SDSLink">
+  <SDSStack gap={2}>
+    <SDSLink href="#">Inline link</SDSLink>
+    <SDSLink href="#" variant="muted">
+      Muted link
+    </SDSLink>
+    <SDSLink href="#" variant="action">
+      Standalone action
+    </SDSLink>
+  </SDSStack>
+</Demo>
+
+`variant="action"` renders a standalone call-to-action; `external` adds
+`target="_blank"` and `rel="noreferrer noopener"`; `disabled` removes `href` and sets
+`aria-disabled`.
+
+## Rules
+
+- One `<h1>` per page; do not skip levels for visual reasons — use `size`.
+- Keep body copy at `md`; `sm` is for metadata, not for long paragraphs.
+- Prefer `SDSText` over ad-hoc CSS so the type scale stays coherent.

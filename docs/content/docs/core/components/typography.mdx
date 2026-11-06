@@ -1,0 +1,74 @@
+---
+title: Typography components
+description: "SDSHeading, SDSText, SDSLead and SDSLink: semantic text with the SDS type scale."
+---
+
+import {
+  SDSHeading,
+  SDSLead,
+  SDSLink,
+  SDSStack,
+  SDSText,
+} from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+The scale itself (families, sizes, weights, line heights) is documented in
+[Foundations / Typography](/docs/core/foundations/typography).
+
+<Demo label="Page header block" direction="column">
+  <SDSStack gap={2}>
+    <SDSHeading level={1}>Request a certificate</SDSHeading>
+    <SDSLead>This request takes about five minutes and requires an identity document.</SDSLead>
+    <SDSText size="sm" color="muted">Last updated 6 November 2026</SDSText>
+  </SDSStack>
+</Demo>
+
+```tsx
+<SDSStack gap={2}>
+  <SDSHeading level={1}>Request a certificate</SDSHeading>
+  <SDSLead>This request takes about five minutes…</SDSLead>
+  <SDSText size="sm" color="muted">Last updated 6 November 2026</SDSText>
+</SDSStack>
+```
+
+## SDSHeading
+
+| Prop | Values | Note |
+| --- | --- | --- |
+| `level` | 1–6 (required) | Sets the tag and the default size |
+| `size` | 1–6 | Overrides the visual size only |
+
+## SDSText
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `as` | `p`, `span`, `div`, `small`, `strong`, `label` | `p` |
+| `size` | `xs`, `sm`, `md`, `lg`, `xl` | scale default |
+| `weight` | `regular`, `medium`, `semibold`, `bold` | regular |
+| `color` | `default`, `muted`, `primary` | `default` |
+| `margin` | `none`, `top`, `bottom`, `both` | `none` |
+| `align` | `start`, `center`, `end` | inherited |
+
+## SDSLink
+
+- `variant`: `default` (inline), `muted`, `action` (standalone call-to-action with underline).
+- `external`: opens in a new tab and sets `rel="noreferrer noopener"`.
+- `disabled`: removes `href` and sets `aria-disabled`.
+- `iconId`: optional trailing icon for the `action` variant.
+
+```tsx
+<SDSLink href="/requests/new" variant="action">Start a request</SDSLink>
+<SDSLink href="https://example.com" external>External resource</SDSLink>
+```
+
+## Accessibility
+
+- Keep one `<h1>` per page; use `size` instead of skipping a level.
+- A link must describe its destination; avoid "click here".
+- `SDSText as="label"` does not associate itself with a control — use the form components
+  (`Input`, `Select`) which render their own labels.
+
+## Related
+
+[API: SDSHeading](/docs/api/sds/sdsheading) · [API: SDSText](/docs/api/sds/sdstext) ·
+[API: SDSLink](/docs/api/sds/sdslink)

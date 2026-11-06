@@ -1,121 +1,73 @@
-# Notploy Documentation (New)
+# React SDS documentation
 
-This is a fresh Fumadocs project with the complete Notploy documentation migrated from the old docs project.
+Official developer documentation for
+[`@skygenesisenterprise/react-sds`](https://www.npmjs.com/package/@skygenesisenterprise/react-sds),
+the Sky Genesis Enterprise React design system.
 
-## Features
+This app is a private pnpm workspace package. It is **not** published to npm and
+has no independent design system: it imports the library through its public
+exports and loads the library stylesheet.
 
-- ✨ **Modern Fumadocs Setup** - Built with the latest Fumadocs version
-- 🎨 **Ocean Theme** - Beautiful ocean-themed UI
-- 📱 **Responsive Design** - Works perfectly on all devices
-- 🔍 **Advanced Search** - Built-in search functionality
-- 🌙 **Dark Mode** - Full dark mode support
-- 📚 **Complete Documentation** - All docs migrated including:
-  - Core documentation
-  - API references
-  - CLI documentation
-  - Remote Servers section
-  - Examples and tutorials
+## Requirements
 
-## Getting Started
+- Node.js 22
+- pnpm 12
 
-### Development
+## Commands
 
-Run the development server:
+From the repository root:
 
 ```bash
-# From workspace root
-pnpm docs-new:dev
-
-# Or from this directory
-pnpm dev
+pnpm docs:dev     # build the library, then run the docs on http://localhost:3001
+pnpm docs:build   # build the library, regenerate the API reference, build the docs
+pnpm docs:check   # content checks + API reference freshness + TypeScript
 ```
 
-The site will be available at `http://localhost:3000`
-
-### Build
-
-Build the documentation for production:
+From `docs/`:
 
 ```bash
-# From workspace root
-pnpm docs-new:build
-
-# Or from this directory
-pnpm build
+pnpm dev            # next dev --port 3001
+pnpm build          # next build
+pnpm generate       # regenerate the API reference from the package declarations
+pnpm generate:check # fail if the generated reference is stale
+pnpm check          # links, metadata, empty pages, residual references
+pnpm types:check    # fumadocs-mdx + tsc --noEmit
 ```
 
-### Type Checking
+## How the library is consumed
 
-Run type checking:
+`docs/package.json` declares `"@skygenesisenterprise/react-sds": "workspace:*"`.
+The documentation therefore compiles against the **local** source build:
 
-```bash
-# From workspace root
-pnpm docs-new:typecheck
+1. `pnpm build` at the repository root produces `dist/` (JS + `.d.ts` + CSS).
+2. The docs resolve `@skygenesisenterprise/react-sds` to that package through the
+   pnpm workspace, exactly as an external consumer would after `npm install`.
+3. The API reference is generated from `dist/**/*.d.ts`, i.e. from the public
+   declarations that ship in the tarball — never from internal `src/` paths.
 
-# Or from this directory
-pnpm run types:check
-```
+Because imports go through the package entry points, the docs catch packaging
+regressions (missing export, missing declaration, broken CSS entry) at build
+time. No import may reach into `../src`.
 
 ## Structure
 
-```
-apps/docs-new/
-├── app/                    # Next.js app directory
-│   ├── (home)/            # Home page
-│   ├── docs/              # Documentation pages
-│   │   ├── [[...slug]]/   # Dynamic doc pages
-│   │   └── layout.tsx     # Docs layout
-│   ├── api/               # API routes
-│   └── layout.tsx         # Root layout
-├── content/               # MDX documentation content
-│   └── docs/              # All documentation files
-├── lib/                   # Utilities
-│   ├── source.ts          # Content source configuration
-│   └── layout.shared.tsx  # Shared layout options
-├── public/                # Static assets
-└── source.config.ts       # Fumadocs configuration
+```text
+docs/
+├── app/                 Next.js App Router shell (landing, docs layout, search, SEO)
+├── components/          Documentation-only chrome (demo frame, logo, token table)
+├── content/docs/
+│   ├── core/            Usage documentation: install, foundations, components, recipes
+│   ├── api/             Generated reference: components, hooks, tokens, styles
+│   └── cli/             Commands shipped with the package
+├── lib/                 MDX source loader, version helper, layout options
+├── scripts/
+│   ├── generate-api.mjs Generated API reference (TypeScript compiler API)
+│   └── check-docs.mjs   Documentation validation
+└── source.config.ts     Fumadocs MDX collection
 ```
 
-## Customization
+## Generated files
 
-### Theme
-
-The project uses the **Ocean theme**. To change it, edit `app/global.css`:
-
-```css
-@import 'fumadocs-ui/css/ocean.css'; /* Change this to another theme */
-```
-
-Available themes: `neutral`, `black`, `vitepress`, `dusk`, `catppuccin`, `ocean`, `purple`
-
-### Layout Configuration
-
-Edit `lib/layout.shared.tsx` to customize:
-- Navigation title
-- Links
-- GitHub URL
-- Other layout options
-
-### Content
-
-Add or edit documentation in the `content/docs/` directory. The structure follows Fumadocs conventions with `meta.json` files for navigation.
-
-## Key Differences from Old Docs
-
-1. **Modern API** - Uses `fumadocs-mdx:collections/server` instead of legacy approach
-2. **Better Type Safety** - Full TypeScript support with proper types
-3. **Simpler Configuration** - Less boilerplate, more conventions
-4. **Built-in Features** - Search, OG images, and more work out of the box
-5. **No Build Errors** - Clean slate without legacy issues
-
-## Documentation
-
-- [Fumadocs Documentation](https://fumadocs.dev)
-- [Fumadocs Themes](https://fumadocs.dev/docs/ui/theme)
-- [Fumadocs Layouts](https://fumadocs.dev/docs/ui/blocks/layout)
-
-## Notes
-
-- The `.source` directory is auto-generated - don't edit it manually
-- Run `pnpm run postinstall` after making changes to content structure
-- Restart dev server after adding new MDX files
+`content/docs/api/components/**`, `content/docs/api/sds/**` and their `meta.json`
+files are generated. Do not edit them by hand: change the library source (and its
+TSDoc) or the generator, then run `pnpm generate`.

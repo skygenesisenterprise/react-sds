@@ -1,3 +1,4 @@
 {
-	"pages": ["core", "cli", "api", "templates"]
+	"title": "React SDS",
+	"pages": ["core", "api", "cli"]
 }

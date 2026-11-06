@@ -1,0 +1,58 @@
+---
+title: Table
+description: "Data table with caption, headers, scroll behaviour and colour variants."
+---
+
+import { Badge, Table } from "@/components/sds-preview";
+import { Demo } from "@/components/Demo";
+
+<Demo label="Table" direction="column">
+  <Table
+    caption="Latest requests"
+    headers={["Reference", "Applicant", "Status"]}
+    data={[
+      ["REQ-1042", "Alex Martin", <Badge severity="success">Validated</Badge>],
+      ["REQ-1043", "Sam Bernard", <Badge severity="warning">Pending</Badge>],
+      ["REQ-1044", "Camille Dubois", <Badge severity="error">Rejected</Badge>],
+    ]}
+  />
+</Demo>
+
+```tsx
+<Table
+  caption="Latest requests"
+  headers={["Reference", "Applicant", "Status"]}
+  data={[
+    ["REQ-1042", "Alex Martin", <Badge severity="success">Validated</Badge>],
+    ["REQ-1043", "Sam Bernard", <Badge severity="warning">Pending</Badge>],
+  ]}
+/>
+```
+
+## Props
+
+| Prop | Values | Default |
+| --- | --- | --- |
+| `data` | `ReactNode[][]` | required |
+| `headers` | `ReactNode[]` | — |
+| `caption` | `ReactNode` | — |
+| `noCaption` | `boolean` | `false` |
+| `bottomCaption` | `boolean` | `false` |
+| `fixed` | `boolean` | `false` |
+| `noScroll` | `boolean` | `false` |
+| `bordered` | `boolean` | `false` |
+| `colorVariant` | colour variant from the stylesheet | — |
+
+## Guidance
+
+- Always provide a `caption`, even if you hide it: it names the table for assistive
+  technologies.
+- `headers` becomes the `<thead>` row; the same column count must be used in every row.
+- Use `fixed` only when the columns have comparable content; otherwise let the table size
+  itself.
+- On narrow screens, prefer fewer columns over horizontal scrolling (`noScroll` disables the
+  wrapper, it does not fix overflow).
+
+## Related
+
+[API: Table](/docs/api/components/table) · [Recipe: Dashboard](/docs/core/recipes/dashboard)

@@ -1,0 +1,21 @@
+{
+	"title": "Hooks",
+	"pages": [
+		"index",
+		"consent-banner",
+		"consent-banner-and-consent-management",
+		"consent-banner-and-consent-management-consent-banner-and-consent-management",
+		"consent-management",
+		"consent-banner-and-consent-management-consent-management",
+		"create-consent-management",
+		"placeholder",
+		"process-consent-changes",
+		"translation",
+		"types",
+		"use-breakpoints-values",
+		"use-breakpoints-values-px",
+		"use-colors",
+		"use-consent",
+		"use-is-dark"
+	]
+}

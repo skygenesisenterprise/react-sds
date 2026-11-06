@@ -3,9 +3,6 @@ import { generate as DefaultImage } from "fumadocs-ui/og";
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 
-// All data comes from the filesystem MDX source at build time.
-// "force-static" lets static exports emit these build-time images and is a
-// no-op change for the standalone server.
 export const dynamic = "force-static";
 
 export async function GET(
@@ -20,7 +17,7 @@ export async function GET(
 		<DefaultImage
 			title={page.data.title}
 			description={page.data.description}
-			site="My App"
+			site="React SDS"
 		/>,
 		{
 			width: 1200,

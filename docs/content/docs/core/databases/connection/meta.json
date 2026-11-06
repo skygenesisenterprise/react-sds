@@ -1,4 +1,0 @@
-{
-	"title": "Connection",
-	"pages": ["index", "mariadb", "mysql", "redis", "mongo-atlas", "pg-admin"]
-}

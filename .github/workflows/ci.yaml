@@ -78,6 +78,34 @@ jobs:
           '
       - name: Package validation (dry-run content of the npm tarball)
         run: pnpm pack --dry-run
+
+  docs:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies (workspace)
+        run: pnpm install --frozen-lockfile
+      - name: Build the library the documentation consumes
+        run: pnpm build
+      - name: Documentation checks (links, metadata, generated reference, types)
+        run: pnpm docs:check
+      - name: Build the documentation site
+        run: pnpm --filter @skygenesisenterprise/react-sds-docs build
+      - name: Assert documentation output
+        run: |
+          set -euo pipefail
+          test -d docs/.next
+          echo "documentation build output present"
       - name: Upload build output for runtime tests
         uses: actions/upload-artifact@v4
         with:

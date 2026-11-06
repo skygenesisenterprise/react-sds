@@ -283,10 +283,23 @@ jobs:
         run: |
           set -Eeuo pipefail
           cd "$RUNNER_TEMP"
-          set +e
-          output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online 2>&1)"
-          result=$?
-          set -e
+          result=1
+          output=""
+          for attempt in $(seq 1 6); do
+            set +e
+            output="$(npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "${NPMJS_REGISTRY}" --prefer-online --fetch-retries=0 2>&1)"
+            result=$?
+            set -e
+            [[ "$result" -eq 0 ]] && break
+            if grep -qE 'E404|404 Not Found' <<< "$output"; then
+              break
+            fi
+            if [[ "$attempt" -lt 6 ]]; then
+              delay=$((attempt * 5))
+              echo "npmjs pre-check temporarily unavailable (attempt $attempt/6); retrying in ${delay}s."
+              sleep "$delay"
+            fi
+          done
           if [[ "$result" -eq 0 ]]; then
             verified_version="$(printf '%s' "$output" | tr -d '"[:space:]')"
             if [[ "$verified_version" != "$VERSION" ]]; then
@@ -330,10 +343,23 @@ jobs:
           trap 'rm -f "$npmrc"' EXIT
           printf '@skygenesisenterprise:registry=%s\n//npm.pkg.github.com/:_authToken=%s\nalways-auth=true\n' "$GH_REGISTRY" "$GH_PACKAGES_TOKEN" > "$npmrc"
           chmod 600 "$npmrc"
-          set +e
-          output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online 2>&1)"
-          result=$?
-          set -e
+          result=1
+          output=""
+          for attempt in $(seq 1 6); do
+            set +e
+            output="$(NPM_CONFIG_USERCONFIG="$npmrc" npm view "@skygenesisenterprise/react-sds@${VERSION}" version --registry "$GH_REGISTRY" --prefer-online --fetch-retries=0 2>&1)"
+            result=$?
+            set -e
+            [[ "$result" -eq 0 ]] && break
+            if grep -qE 'E404|404 Not Found' <<< "$output"; then
+              break
+            fi
+            if [[ "$attempt" -lt 6 ]]; then
+              delay=$((attempt * 5))
+              echo "GitHub Packages pre-check temporarily unavailable (attempt $attempt/6); retrying in ${delay}s."
+              sleep "$delay"
+            fi
+          done
           if [[ "$result" -eq 0 ]]; then
             verified_version="$(printf '%s' "$output" | tr -d '"[:space:]')"
             if [[ "$verified_version" != "$VERSION" ]]; then

@@ -5,7 +5,8 @@ PACKAGE="${1:?Usage: verify-registry-integrity.sh <package> <version> <tarball> 
 VERSION="${2:?Missing package version}"
 TARBALL="${3:?Missing tarball path}"
 REGISTRY="${4:?Missing registry URL}"
-MAX_ATTEMPTS="${REGISTRY_VERIFY_ATTEMPTS:-20}"
+MAX_ATTEMPTS="${REGISTRY_VERIFY_ATTEMPTS:-12}"
+FETCH_TIMEOUT_MS="${REGISTRY_VERIFY_FETCH_TIMEOUT_MS:-10000}"
 BASE_DELAY="${REGISTRY_VERIFY_BASE_DELAY_SECONDS:-5}"
 MAX_DELAY="${REGISTRY_VERIFY_MAX_DELAY_SECONDS:-20}"
 NPM_BIN="${NPM_BIN:-npm}"
@@ -24,7 +25,7 @@ for attempt in $(seq 1 "$MAX_ATTEMPTS"); do
   error_file="$(mktemp)"
   set +e
   raw_output="$("$NPM_BIN" view "${PACKAGE}@${VERSION}" dist.integrity --json \
-    --registry "$REGISTRY" --prefer-online --fetch-retries=0 --cache "$cache_dir" 2>"$error_file")"
+    --registry "$REGISTRY" --prefer-online --fetch-retries=0 --fetch-timeout="$FETCH_TIMEOUT_MS" --cache "$cache_dir" 2>"$error_file")"
   query_status=$?
   set -e
   last_error="$(cat "$error_file")"
